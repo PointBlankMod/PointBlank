@@ -20,7 +20,7 @@ namespace PointBlank.API.Unturned.Server
         /// <summary>
         /// The currently online players
         /// </summary>
-        public static UnturnedPlayer[] Players { get { return _Players.ToArray(); } }
+        public static UnturnedPlayer[] Players => _Players.ToArray();
 
         /// <summary>
         /// Current game time
@@ -29,7 +29,7 @@ namespace PointBlank.API.Unturned.Server
         /// <summary>
         /// Is it day time on the server
         /// </summary>
-        public static bool IsDay { get { return LightingManager.isDaytime; } }
+        public static bool IsDay => LightingManager.isDaytime;
         /// <summary>
         /// Is it currently full moon on the server
         /// </summary>
@@ -37,7 +37,7 @@ namespace PointBlank.API.Unturned.Server
         /// <summary>
         /// Is it currently raining/snowing
         /// </summary>
-        public static bool IsRaining { get { return LightingManager.hasRain; } }
+        public static bool IsRaining => LightingManager.hasRain;
         #endregion
     }
 }

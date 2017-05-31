@@ -7,6 +7,7 @@ using SDG.Unturned;
 using UPlayer = SDG.Unturned.Player;
 using SPlayer = SDG.Unturned.SteamPlayer;
 using Steamworks;
+using UnityEngine;
 
 namespace PointBlank.API.Unturned.Player
 {
@@ -20,7 +21,7 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// The unturned player instance
         /// </summary>
-        public UPlayer Player { get { return SteamPlayer.player; } }
+        public UPlayer Player =>  SteamPlayer.player;
         /// <summary>
         /// The steam player instance
         /// </summary>
@@ -28,39 +29,39 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// The steam player ID instance
         /// </summary>
-        public SteamPlayerID SteamPlayerID { get { return SteamPlayer.playerID; } }
+        public SteamPlayerID SteamPlayerID => SteamPlayer.playerID;
 
         // Steam player ID information
         /// <summary>
         /// The player's name
         /// </summary>
-        public string PlayerName { get { return SteamPlayerID.playerName; } }
+        public string PlayerName => SteamPlayerID.playerName;
         /// <summary>
         /// The character's name
         /// </summary>
-        public string CharacterName { get { return SteamPlayerID.characterName; } }
+        public string CharacterName => SteamPlayerID.characterName;
         /// <summary>
         /// The player's steam ID
         /// </summary>
-        public CSteamID SteamID { get { return SteamPlayerID.steamID; } }
+        public CSteamID SteamID => SteamPlayerID.steamID;
         /// <summary>
         /// The character's ID
         /// </summary>
-        public byte CharacterID { get { return SteamPlayerID.characterID; } }
+        public byte CharacterID => SteamPlayerID.characterID;
 
         // Steam player information
         /// <summary>
         /// Is the player an admin
         /// </summary>
-        public bool IsAdmin { get { return SteamPlayer.isAdmin; } }
+        public bool IsAdmin => SteamPlayer.isAdmin;
         /// <summary>
         /// Is the player a pro buyer
         /// </summary>
-        public bool IsPro { get { return SteamPlayer.isPro; } }
+        public bool IsPro => SteamPlayer.isPro;
         /// <summary>
         /// The player skillset
         /// </summary>
-        public EPlayerSkillset Skillset { get { return SteamPlayer.skillset; } }
+        public EPlayerSkillset Skillset => SteamPlayer.skillset;
         /// <summary>
         /// Is the player muted
         /// </summary>
@@ -97,13 +98,7 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// The player's stamina
         /// </summary>
-        public byte Stamina
-        {
-            get
-            {
-                return Player.life.stamina;
-            }
-        }
+        public byte Stamina => Player.life.stamina;
         /// <summary>
         /// The player's food/hunger
         /// </summary>
@@ -309,27 +304,27 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// The player's skills
         /// </summary>
-        public Skill[][] Skills { get { return Player.skills.skills; } }
+        public Skill[][] Skills => Player.skills.skills;
         /// <summary>
         /// Has the player got anything equipped
         /// </summary>
-        public bool HasAnythingEquipped { get { return (Player.equipment.isEquipped && Player.equipment.asset != null && Player.equipment.useable != null); } }
+        public bool HasAnythingEquipped => (Player.equipment.isEquipped && Player.equipment.asset != null && Player.equipment.useable != null);
         /// <summary>
         /// The currently equipped asset
         /// </summary>
-        public ItemAsset EquippedAsset { get { return Player.equipment.asset; } }
+        public ItemAsset EquippedAsset => Player.equipment.asset;
         /// <summary>
         /// The currently equpped useable
         /// </summary>
-        public Useable EquippedUseable { get { return Player.equipment.useable; } }
+        public Useable EquippedUseable => Player.equipment.useable; 
         /// <summary>
         /// The currently equipped item ID
         /// </summary>
-        public ushort EquippedItemID { get { return Player.equipment.itemID; } }
+        public ushort EquippedItemID => Player.equipment.itemID; 
         /// <summary>
         /// Is the currently equpped item a primary
         /// </summary>
-        public bool IsEquippedPrimary { get { return Player.equipment.primary; } }
+        public bool IsEquippedPrimary => Player.equipment.primary; 
         /// <summary>
         /// Is the current equipment busy
         /// </summary>
@@ -337,11 +332,15 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// Can the equipped item be inspected
         /// </summary>
-        public bool CanInspectEquipped { get { return Player.equipment.canInspect; } }
+        public bool CanInspectEquipped => Player.equipment.canInspect; 
         /// <summary>
         /// Is the player currently inspecting the equipped item
         /// </summary>
-        public bool IsInspectingEqupped { get { return Player.equipment.isInspecting; } }
+        public bool IsInspectingEquipped => Player.equipment.isInspecting; 
+        /// <summary>
+        ///Current position of the player
+        ///
+        public Vector3 Position => Player.transform.position;
         #endregion
     }
 }
