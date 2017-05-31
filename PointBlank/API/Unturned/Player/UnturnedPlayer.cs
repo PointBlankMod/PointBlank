@@ -21,7 +21,7 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// The unturned player instance
         /// </summary>
-        public UPlayer Player =>  SteamPlayer.player;
+        public UPlayer Player => SteamPlayer.player;
         /// <summary>
         /// The steam player instance
         /// </summary>
@@ -316,15 +316,15 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// The currently equpped useable
         /// </summary>
-        public Useable EquippedUseable => Player.equipment.useable; 
+        public Useable EquippedUseable => Player.equipment.useable;
         /// <summary>
         /// The currently equipped item ID
         /// </summary>
-        public ushort EquippedItemID => Player.equipment.itemID; 
+        public ushort EquippedItemID => Player.equipment.itemID;
         /// <summary>
         /// Is the currently equpped item a primary
         /// </summary>
-        public bool IsEquippedPrimary => Player.equipment.primary; 
+        public bool IsEquippedPrimary => Player.equipment.primary;
         /// <summary>
         /// Is the current equipment busy
         /// </summary>
@@ -332,11 +332,11 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// Can the equipped item be inspected
         /// </summary>
-        public bool CanInspectEquipped => Player.equipment.canInspect; 
+        public bool CanInspectEquipped => Player.equipment.canInspect;
         /// <summary>
         /// Is the player currently inspecting the equipped item
         /// </summary>
-        public bool IsInspectingEquipped => Player.equipment.isInspecting; 
+        public bool IsInspectingEquipped => Player.equipment.isInspecting;
         /// <summary>
         /// Current position of the player
         ///
@@ -357,6 +357,84 @@ namespace PointBlank.API.Unturned.Player
         /// Is the player safe
         ///
         public bool IsSafe => Player.movement.isSafe;
+        /// <summary>
+        /// Is the player loading (Thanks Trojaner)
+        ///
+        public bool IsLoading => Provider.pending.Contains(Provider.pending.Find((c) => c.playerID.steamID == SteamID));
+        /// <summary>
+        /// Does the player have an item?
+        ///
+        public bool HasItem(ushort ID)
+        {
+            if (EquippedItemID == ID) return true;
+
+            for (byte page = 0; page < (PlayerInventory.PAGES - 1); page++)
+            {
+                byte count = Player.inventory.getItemCount(page);
+                if (count > 0)
+                {
+                    for (byte index = 0; index < count; index++)
+                        if (Player.inventory.getItem(page, index).item.id == ID) return true;
+                }
+            }
+            return false;
+        }
+
+        public bool HasItem(Item Item)
+        {
+            return HasItem(Item.id);
+        }
+
+        public bool HasItem(string Name)
+        {
+            return HasItem(((ItemAsset)Assets.find(EAssetType.ITEM, Name)).id);
+        }
+        /// <summary>
+        /// Give the player an item
+        ///
+        public bool GiveItem(ushort ID)
+        {
+            return ItemTool.tryForceGiveItem(Player, ID, 1);
+        }
+        public bool GiveItem(Item Item)
+        {
+            return GiveItem(Item.id);
+        }
+        public bool GiveItem(String Name)
+        {
+            return GiveItem((Assets.find(EAssetType.ITEM, Name) as ItemAsset).id);
+        }
+        /// <summary>
+        /// Remove an item for the player's inventory
+        ///
+        public bool RemoveItem(ushort ID)
+        {
+            if (EquippedItemID == ID)
+                Player.equipment.dequip();
+
+            for (byte page = 0; page < (PlayerInventory.PAGES - 1); page++)
+            {
+                byte count = Player.inventory.getItemCount(page);
+                if (count > 0)
+                {
+                    for (byte index = 0; index < count; index++)
+                        if (Player.inventory.getItem(page, index).item.id == ID)
+                        {
+                            Player.inventory.removeItem(page, index);
+                            return true;
+                        }
+                }
+            }
+            return false;
+        }
+        public bool RemoveItem(Item Item)
+        {
+            return RemoveItem(Item.id);
+        }
+        public bool RemoveItem(String Name)
+        {
+            return RemoveItem((Assets.find(EAssetType.ITEM, Name) as ItemAsset).id);
+        }
         #endregion
     }
 }
