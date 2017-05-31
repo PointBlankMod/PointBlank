@@ -435,6 +435,42 @@ namespace PointBlank.API.Unturned.Player
         {
             return RemoveItem((Assets.find(EAssetType.ITEM, Name) as ItemAsset).id);
         }
+        /// <summary>
+        /// Dequip the player's equipped item
+        ///
+        public void DequipItem() => Player.equipment.dequip();
+        /// <summary>
+        /// Array of items in the player's inventory
+        ///
+        public Item[] Items
+        {
+            get
+            {
+                List<Item> retval = new List<Item>();
+                for (byte page = 0; page < (PlayerInventory.PAGES - 1); page++)
+                {
+                    byte count = Player.inventory.getItemCount(page);
+                    if (count > 0)
+                    {
+                        for (byte index = 0; index < count; index++)
+                            retval.Add(Player.inventory.getItem(page, index).item);
+                    }
+                }
+                return retval.ToArray();
+            }
+        }
+        /// <summary>
+        /// IP of the player
+        ///
+        public string IP
+        {
+            get
+            {
+                P2PSessionState_t State;
+                SteamGameServerNetworking.GetP2PSessionState(SteamID, out State);
+                return Parser.getIPFromUInt32(State.m_nRemoteIP);
+            }
+        }
         #endregion
     }
 }
