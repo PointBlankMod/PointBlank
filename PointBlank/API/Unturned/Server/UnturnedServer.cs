@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SDG.Unturned;
 using PointBlank.API.Unturned.Player;
+using PointBlank.API.Unturned.Structure;
 
 namespace PointBlank.API.Unturned.Server
 {
@@ -14,7 +15,7 @@ namespace PointBlank.API.Unturned.Server
     {
         #region Variables
         private static List<UnturnedPlayer> _Players = new List<UnturnedPlayer>();
-        private static List<Structure> _Structures = new List<Structure>();
+        private static List<UnturnedStructure> _Structures = new List<UnturnedStructure>();
         private static List<Item> _Items = new List<Item>();
         #endregion
 
@@ -26,7 +27,7 @@ namespace PointBlank.API.Unturned.Server
         /// <summary>
         /// Structures within the server
         /// </summary>
-        public static Structure[] Structures => _Structures.ToArray();
+        public static UnturnedStructure[] Structures => _Structures.ToArray();
         /// <summary>
         /// Items within the server
         /// </summary>
@@ -55,7 +56,7 @@ namespace PointBlank.API.Unturned.Server
         /// </summary>
         public static void UpdateStructures()
         {
-            List<Structure> Structures = new List<Structure>();
+            List<UnturnedStructure> Structures = new List<UnturnedStructure>();
             for (int i = 0; i < Regions.WORLD_SIZE; i++)
             {
                 for (int o = 0; o < Regions.WORLD_SIZE; o++)
@@ -63,7 +64,7 @@ namespace PointBlank.API.Unturned.Server
                     StructureRegion region = StructureManager.regions[i, o];
                     StructureData[] data = region.structures.ToArray();
                     for (int z = 0; z < data.Length; z++)
-                        Structures.Add(data[z].structure);
+                        Structures.Add(new UnturnedStructure(data[z]));
                 }
             }
             _Structures = Structures;
