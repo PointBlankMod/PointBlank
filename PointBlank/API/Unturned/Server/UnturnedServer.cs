@@ -14,6 +14,8 @@ namespace PointBlank.API.Unturned.Server
     {
         #region Variables
         private static List<UnturnedPlayer> _Players = new List<UnturnedPlayer>();
+
+        private static List<Structure> _Structures = new List<Structure>();
         #endregion
 
         #region Properties
@@ -21,7 +23,10 @@ namespace PointBlank.API.Unturned.Server
         /// The currently online players
         /// </summary>
         public static UnturnedPlayer[] Players => _Players.ToArray();
-
+        /// <summary>
+        /// Structures within the server
+        /// </summary>
+        public static Structure[] Structures => _Structures.ToArray();
         /// <summary>
         /// Current game time
         /// </summary>
@@ -38,6 +43,27 @@ namespace PointBlank.API.Unturned.Server
         /// Is it currently raining/snowing
         /// </summary>
         public static bool IsRaining => LightingManager.hasRain;
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Updates Structures within the server
+        /// </summary>
+        public static void UpdateStructures()
+        {
+            List<Structure> Structures = new List<Structure>();
+            for (int i = 0; i < Regions.WORLD_SIZE; i++)
+            {
+                for (int o = 0; o < Regions.WORLD_SIZE; o++)
+                {
+                    StructureRegion region = StructureManager.regions[i, o];
+                    StructureData[] data = region.structures.ToArray();
+                    for(int z = 0; z < data.Length; z++)
+                        Structures.Add(data[z].structure);
+                }
+            }
+            _Structures = Structures;
+        }
         #endregion
     }
 }

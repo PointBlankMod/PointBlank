@@ -339,31 +339,31 @@ namespace PointBlank.API.Unturned.Player
         public bool IsInspectingEquipped => Player.equipment.isInspecting;
         /// <summary>
         /// Current position of the player
-        ///
+        ///</summary>
         public Vector3 Position => Player.transform.position;
         /// <summary>
         /// Current rotation of the player
-        ///
+        ///</summary>
         public Quaternion Rotation => Player.transform.rotation;
         /// <summary>
         /// Is the player moving
-        ///
+        ///</summary>
         public bool IsMoving => Player.movement.isMoving;
         /// <summary>
         /// Is the player grounded
-        ///
+        ///</summary>
         public bool IsGrounded => Player.movement.isGrounded;
         /// <summary>
         /// Is the player safe
-        ///
+        ///</summary>
         public bool IsSafe => Player.movement.isSafe;
         /// <summary>
         /// Is the player loading (Thanks Trojaner)
-        ///
+        ///</summary>
         public bool IsLoading => Provider.pending.Contains(Provider.pending.Find((c) => c.playerID.steamID == SteamID));
         /// <summary>
         /// Does the player have an item?
-        ///
+        ///</summary>
         public bool HasItem(ushort ID)
         {
             if (EquippedItemID == ID) return true;
@@ -391,7 +391,7 @@ namespace PointBlank.API.Unturned.Player
         }
         /// <summary>
         /// Give the player an item
-        ///
+        ///</summary>
         public bool GiveItem(ushort ID)
         {
             return ItemTool.tryForceGiveItem(Player, ID, 1);
@@ -406,7 +406,7 @@ namespace PointBlank.API.Unturned.Player
         }
         /// <summary>
         /// Remove an item for the player's inventory
-        ///
+        ///</summary>
         public bool RemoveItem(ushort ID)
         {
             if (EquippedItemID == ID)
@@ -437,11 +437,11 @@ namespace PointBlank.API.Unturned.Player
         }
         /// <summary>
         /// Dequip the player's equipped item
-        ///
+        ///</summary>
         public void DequipItem() => Player.equipment.dequip();
         /// <summary>
         /// Array of items in the player's inventory
-        ///
+        ///</summary>
         public Item[] Items
         {
             get
@@ -461,7 +461,7 @@ namespace PointBlank.API.Unturned.Player
         }
         /// <summary>
         /// IP of the player
-        ///
+        ///</summary>
         public string IP
         {
             get
