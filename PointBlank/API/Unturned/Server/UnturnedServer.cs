@@ -14,8 +14,8 @@ namespace PointBlank.API.Unturned.Server
     {
         #region Variables
         private static List<UnturnedPlayer> _Players = new List<UnturnedPlayer>();
-
         private static List<Structure> _Structures = new List<Structure>();
+        private static List<Item> _Items = new List<Item>();
         #endregion
 
         #region Properties
@@ -27,6 +27,10 @@ namespace PointBlank.API.Unturned.Server
         /// Structures within the server
         /// </summary>
         public static Structure[] Structures => _Structures.ToArray();
+        /// <summary>
+        /// Items within the server
+        /// </summary>
+        public static Item[] Items => _Items.ToArray();
         /// <summary>
         /// Current game time
         /// </summary>
@@ -58,11 +62,29 @@ namespace PointBlank.API.Unturned.Server
                 {
                     StructureRegion region = StructureManager.regions[i, o];
                     StructureData[] data = region.structures.ToArray();
-                    for(int z = 0; z < data.Length; z++)
+                    for (int z = 0; z < data.Length; z++)
                         Structures.Add(data[z].structure);
                 }
             }
             _Structures = Structures;
+        }
+        /// <summary>
+        /// Updates Items within the server
+        /// </summary>
+        public static void UpdateItems()
+        {
+            List<Item> Items = new List<Item>();
+            for (int i = 0; i < Regions.WORLD_SIZE; i++)
+            {
+                for (int o = 0; o < Regions.WORLD_SIZE; o++)
+                {
+                    ItemRegion region = ItemManager.regions[i, o];
+                    ItemData[] data = region.items.ToArray();
+                    for (int z = 0; z < data.Length; z++)
+                        Items.Add(data[z].item);
+                }
+            }
+            _Items = Items;
         }
         #endregion
     }
