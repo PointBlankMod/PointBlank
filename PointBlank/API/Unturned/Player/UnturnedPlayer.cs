@@ -338,9 +338,25 @@ namespace PointBlank.API.Unturned.Player
         /// </summary>
         public bool IsInspectingEquipped => Player.equipment.isInspecting; 
         /// <summary>
-        ///Current position of the player
+        /// Current position of the player
         ///
         public Vector3 Position => Player.transform.position;
+        /// <summary>
+        /// Current rotation of the player
+        ///
+        public Quaternion Rotation => Player.transform.rotation;
+        /// <summary>
+        /// Is the player moving
+        ///
+        public bool IsMoving => Player.movement.isMoving;
+        /// <summary>
+        /// Is the player grounded
+        ///
+        public bool IsGrounded => Player.movement.isGrounded;
+        /// <summary>
+        /// Is the player safe
+        ///
+        public bool IsSafe => Player.movement.isSafe;
         #endregion
     }
 }
