@@ -1,0 +1,35 @@
+{
+	"IsEnabled": true,
+	"Name": "PointBlank",
+	"Version": "1.0.0.0",
+	"Assemblies":
+	[
+		{
+			"Path": "/PointBlank.dll",
+			"Role": "Server"
+		},
+		{
+			"Path": "/PointBlankExtra.dll",
+			"Role": "Server"
+		},
+		{
+			"Path": "/I18N.dll",
+			"Role": "Server"
+		},
+		{
+			"Path": "/I18N.West.dll",
+			"Role": "Server"
+		}
+	],
+	"Dependencies":
+	[
+		{
+			"Name": "Framework",
+			"Version": "3.18.4.1"
+		},
+		{
+			"Name": "Unturned",
+			"Version": "3.18.4.1"
+		}
+	]
+}
