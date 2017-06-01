@@ -33,6 +33,9 @@ namespace PointBlank.API.Unturned.Structure
         public String Name => Data.structure.asset.itemName;
 
         public ushort ID => Data.structure.asset.id;
+        
+        public bool IsBed => (Data.structure.GetType() == typeof(InteractableBed));
+        
         #endregion
     }
 }
