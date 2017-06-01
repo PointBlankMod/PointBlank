@@ -112,6 +112,7 @@
     <Compile Include="PointBlank.cs" />
     <Compile Include="PointBlankInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\APIManager\APIManager.cs" />
     <Compile Include="Services\CommandManager\CommandManager.cs" />
     <Compile Include="Services\CommandManager\CommandWrapper.cs" />
     <Compile Include="Services\DetourManager\DetourManager.cs" />

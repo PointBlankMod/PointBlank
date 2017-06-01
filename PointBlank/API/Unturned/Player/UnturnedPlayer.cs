@@ -502,5 +502,11 @@ namespace PointBlank.API.Unturned.Player
         ///</summary>
         public void DequipItem() => Player.equipment.dequip();
         #endregion
+
+        public UnturnedPlayer(SPlayer steamplayer)
+        {
+            // Set the variables
+            this.SteamPlayer = steamplayer;
+        }
     }
 }
