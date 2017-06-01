@@ -49,44 +49,5 @@ namespace PointBlank.API.Unturned.Server
         /// </summary>
         public static bool IsRaining => LightingManager.hasRain;
         #endregion
-
-        #region Methods
-        /// <summary>
-        /// Updates Structures within the server
-        /// </summary>
-        public static void UpdateStructures()
-        {
-            List<UnturnedStructure> Structures = new List<UnturnedStructure>();
-            for (int i = 0; i < Regions.WORLD_SIZE; i++)
-            {
-                for (int o = 0; o < Regions.WORLD_SIZE; o++)
-                {
-                    StructureRegion region = StructureManager.regions[i, o];
-                    StructureData[] data = region.structures.ToArray();
-                    for (int z = 0; z < data.Length; z++)
-                        Structures.Add(new UnturnedStructure(data[z]));
-                }
-            }
-            _Structures = Structures;
-        }
-        /// <summary>
-        /// Updates Items within the server
-        /// </summary>
-        public static void UpdateItems()
-        {
-            List<Item> Items = new List<Item>();
-            for (int i = 0; i < Regions.WORLD_SIZE; i++)
-            {
-                for (int o = 0; o < Regions.WORLD_SIZE; o++)
-                {
-                    ItemRegion region = ItemManager.regions[i, o];
-                    ItemData[] data = region.items.ToArray();
-                    for (int z = 0; z < data.Length; z++)
-                        Items.Add(data[z].item);
-                }
-            }
-            _Items = Items;
-        }
-        #endregion
     }
 }

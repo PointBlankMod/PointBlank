@@ -362,83 +362,17 @@ namespace PointBlank.API.Unturned.Player
         ///</summary>
         public bool IsLoading => Provider.pending.Contains(Provider.pending.Find((c) => c.playerID.steamID == SteamID));
         /// <summary>
-        /// Does the player have an item?
+        /// IP of the player
         ///</summary>
-        public bool HasItem(ushort ID)
+        public string IP
         {
-            if (EquippedItemID == ID) return true;
-
-            for (byte page = 0; page < (PlayerInventory.PAGES - 1); page++)
+            get
             {
-                byte count = Player.inventory.getItemCount(page);
-                if (count > 0)
-                {
-                    for (byte index = 0; index < count; index++)
-                        if (Player.inventory.getItem(page, index).item.id == ID) return true;
-                }
+                P2PSessionState_t State;
+                SteamGameServerNetworking.GetP2PSessionState(SteamID, out State);
+                return Parser.getIPFromUInt32(State.m_nRemoteIP);
             }
-            return false;
         }
-
-        public bool HasItem(Item Item)
-        {
-            return HasItem(Item.id);
-        }
-
-        public bool HasItem(string Name)
-        {
-            return HasItem(((ItemAsset)Assets.find(EAssetType.ITEM, Name)).id);
-        }
-        /// <summary>
-        /// Give the player an item
-        ///</summary>
-        public bool GiveItem(ushort ID)
-        {
-            return ItemTool.tryForceGiveItem(Player, ID, 1);
-        }
-        public bool GiveItem(Item Item)
-        {
-            return GiveItem(Item.id);
-        }
-        public bool GiveItem(String Name)
-        {
-            return GiveItem((Assets.find(EAssetType.ITEM, Name) as ItemAsset).id);
-        }
-        /// <summary>
-        /// Remove an item for the player's inventory
-        ///</summary>
-        public bool RemoveItem(ushort ID)
-        {
-            if (EquippedItemID == ID)
-                Player.equipment.dequip();
-
-            for (byte page = 0; page < (PlayerInventory.PAGES - 1); page++)
-            {
-                byte count = Player.inventory.getItemCount(page);
-                if (count > 0)
-                {
-                    for (byte index = 0; index < count; index++)
-                        if (Player.inventory.getItem(page, index).item.id == ID)
-                        {
-                            Player.inventory.removeItem(page, index);
-                            return true;
-                        }
-                }
-            }
-            return false;
-        }
-        public bool RemoveItem(Item Item)
-        {
-            return RemoveItem(Item.id);
-        }
-        public bool RemoveItem(String Name)
-        {
-            return RemoveItem((Assets.find(EAssetType.ITEM, Name) as ItemAsset).id);
-        }
-        /// <summary>
-        /// Dequip the player's equipped item
-        ///</summary>
-        public void DequipItem() => Player.equipment.dequip();
         /// <summary>
         /// Array of items in the player's inventory
         ///</summary>
@@ -459,18 +393,114 @@ namespace PointBlank.API.Unturned.Player
                 return retval.ToArray();
             }
         }
+        #endregion
+
+        #region Functions
         /// <summary>
-        /// IP of the player
-        ///</summary>
-        public string IP
+        /// Checks if the player has a specific item
+        /// </summary>
+        /// <param name="ID">The item ID to find</param>
+        /// <returns>If the player has the specific item in their inventory</returns>
+        public bool HasItem(ushort ID)
         {
-            get
-            {
-                P2PSessionState_t State;
-                SteamGameServerNetworking.GetP2PSessionState(SteamID, out State);
-                return Parser.getIPFromUInt32(State.m_nRemoteIP);
-            }
+            if (EquippedItemID == ID) return true;
+
+            return (Player.inventory.search(ID, true, true).Count > 0); // The easy way
         }
+
+        /// <summary>
+        /// Checks if the player has a specific item
+        /// </summary>
+        /// <param name="Item">The item to find</param>
+        /// <returns>If the player has the item in the inventory</returns>
+        public bool HasItem(Item Item)
+        {
+            return HasItem(Item.id);
+        }
+
+        /// <summary>
+        /// Checks if the player has a specific item
+        /// </summary>
+        /// <param name="Name">The item to find</param>
+        /// <returns>If the player has the item in the inventory</returns>
+        public bool HasItem(string Name)
+        {
+            return HasItem(((ItemAsset)Assets.find(EAssetType.ITEM, Name)).id);
+        }
+
+        /// <summary>
+        /// Gives the player an item
+        /// </summary>
+        /// <param name="ID">The ID of the item</param>
+        /// <returns>If the item was given to the player</returns>
+        public bool GiveItem(ushort ID)
+        {
+            return ItemTool.tryForceGiveItem(Player, ID, 1);
+        }
+
+        /// <summary>
+        /// Gives the player an item
+        /// </summary>
+        /// <param name="ID">The item instance to give to the player</param>
+        /// <returns>If the item was given to the player</returns>
+        public bool GiveItem(Item Item)
+        {
+            return GiveItem(Item.id);
+        }
+
+        /// <summary>
+        /// Gives the player an item
+        /// </summary>
+        /// <param name="ID">The name of the item to give to the player</param>
+        /// <returns>If the item was given to the player</returns>
+        public bool GiveItem(String Name)
+        {
+            return GiveItem((Assets.find(EAssetType.ITEM, Name) as ItemAsset).id);
+        }
+
+        /// <summary>
+        /// Removes an item from the player's inventory
+        /// </summary>
+        /// <param name="ID">The ID of the item to remove</param>
+        /// <returns>If the item was removed</returns>
+        public bool RemoveItem(ushort ID)
+        {
+            if (EquippedItemID == ID)
+                Player.equipment.dequip();
+            InventorySearch search = Player.inventory.search(ID, true, true).FirstOrDefault();
+
+            if (search == null)
+                return false;
+            Items items = Player.inventory.items[search.page];
+
+            items.removeItem(items.getIndex(search.jar.x, search.jar.y));
+            return true;
+        }
+
+        /// <summary>
+        /// Removes an item from the player's inventory
+        /// </summary>
+        /// <param name="Item">The item instance to remove</param>
+        /// <returns>If the item was removed</returns>
+        public bool RemoveItem(Item Item)
+        {
+            return RemoveItem(Item.id);
+        }
+
+        /// <summary>
+        /// Removes an item from the player's inventory
+        /// </summary>
+        /// <param name="Name">The item's name to remove</param>
+        /// <returns>If the item was removed</returns>
+        public bool RemoveItem(string Name)
+        {
+            return RemoveItem((Assets.find(EAssetType.ITEM, Name) as ItemAsset).id);
+        }
+
+        /// <summary>
+        /// Dequip the player's equipped item
+        ///</summary>
+        public void DequipItem() => Player.equipment.dequip();
         #endregion
     }
 }
