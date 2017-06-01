@@ -49,5 +49,39 @@ namespace PointBlank.API.Unturned.Server
         /// </summary>
         public static bool IsRaining => LightingManager.hasRain;
         #endregion
+
+        #region Functions
+        /// <summary>
+        /// Add a player to the server
+        /// </summary>
+        /// <param name="player">The player instance</param>
+        /// <returns>The player instance</returns>
+        public static UnturnedPlayer AddPlayer(UnturnedPlayer player)
+        {
+            UnturnedPlayer ply = Players.FirstOrDefault(a => a.SteamPlayer == player.SteamPlayer);
+
+            if (ply != null)
+                return ply;
+
+            _Players.Add(player);
+            return player;
+        }
+
+        /// <summary>
+        /// Removes a player from the server
+        /// </summary>
+        /// <param name="player">The player instance</param>
+        /// <returns>If the player was removed successfully</returns>
+        public static bool RemovePlayer(UnturnedPlayer player)
+        {
+            UnturnedPlayer ply = Players.FirstOrDefault(a => a.SteamPlayer == player.SteamPlayer);
+
+            if (ply == null)
+                return false;
+
+            _Players.Remove(ply);
+            return true;
+        }
+        #endregion
     }
 }

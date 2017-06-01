@@ -8,6 +8,7 @@ using UPlayer = SDG.Unturned.Player;
 using SPlayer = SDG.Unturned.SteamPlayer;
 using Steamworks;
 using UnityEngine;
+using PointBlank.API.Unturned.Server;
 
 namespace PointBlank.API.Unturned.Player
 {
@@ -503,10 +504,30 @@ namespace PointBlank.API.Unturned.Player
         public void DequipItem() => Player.equipment.dequip();
         #endregion
 
-        public UnturnedPlayer(SPlayer steamplayer)
+        private UnturnedPlayer(SPlayer steamplayer)
         {
             // Set the variables
             this.SteamPlayer = steamplayer;
+
+            // Run code
+            UnturnedServer.AddPlayer(this);
         }
+
+        #region Static Functions
+        /// <summary>
+        /// Creates the unturned player instance or returns an existing one
+        /// </summary>
+        /// <param name="steamplayer">The steam player to build from</param>
+        /// <returns>An unturned player instance</returns>
+        public static UnturnedPlayer Create(SPlayer steamplayer)
+        {
+            // Checks
+            UnturnedPlayer ply = UnturnedServer.Players.FirstOrDefault(a => a.SteamPlayer == steamplayer);
+
+            if (ply != null)
+                return ply;
+            return new UnturnedPlayer(steamplayer);
+        }
+        #endregion
     }
 }
