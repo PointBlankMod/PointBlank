@@ -94,6 +94,7 @@
     <Compile Include="API\Steam\SteamPlayer.cs" />
     <Compile Include="API\Unturned\Chat\ChatEvents.cs" />
     <Compile Include="API\Unturned\Chat\ChatManager.cs" />
+    <Compile Include="API\Unturned\Structure\StructureEvents.cs" />
     <Compile Include="API\Unturned\Structure\UnturnedStructure.cs" />
     <Compile Include="API\Unturned\Player\UnturnedPlayer.cs" />
     <Compile Include="API\Unturned\Server\ServerEvents.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="Framework\Configuration.cs" />
     <Compile Include="Framework\Objects\RuntimeObject.cs" />
     <Compile Include="Framework\Overrides\_ChatManager.cs" />
+    <Compile Include="Framework\Overrides\_Structure.cs" />
     <Compile Include="Framework\Permissions\Ring\RingPermission.cs" />
     <Compile Include="Framework\Permissions\Ring\RingPermissionAttribute.cs" />
     <Compile Include="Framework\Permissions\Ring\RingPermissionRing.cs" />

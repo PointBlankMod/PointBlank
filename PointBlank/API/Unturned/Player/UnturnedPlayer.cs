@@ -521,7 +521,6 @@ namespace PointBlank.API.Unturned.Player
         /// <returns>An unturned player instance</returns>
         public static UnturnedPlayer Create(SPlayer steamplayer)
         {
-            // Checks
             UnturnedPlayer ply = UnturnedServer.Players.FirstOrDefault(a => a.SteamPlayer == steamplayer);
 
             if (ply != null)

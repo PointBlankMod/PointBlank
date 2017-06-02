@@ -56,7 +56,7 @@ namespace PointBlank.API.Unturned.Server
         /// </summary>
         /// <param name="player">The player instance</param>
         /// <returns>The player instance</returns>
-        public static UnturnedPlayer AddPlayer(UnturnedPlayer player)
+        internal static UnturnedPlayer AddPlayer(UnturnedPlayer player)
         {
             UnturnedPlayer ply = Players.FirstOrDefault(a => a.SteamPlayer == player.SteamPlayer);
 
@@ -72,7 +72,7 @@ namespace PointBlank.API.Unturned.Server
         /// </summary>
         /// <param name="player">The player instance</param>
         /// <returns>If the player was removed successfully</returns>
-        public static bool RemovePlayer(UnturnedPlayer player)
+        internal static bool RemovePlayer(UnturnedPlayer player)
         {
             UnturnedPlayer ply = Players.FirstOrDefault(a => a.SteamPlayer == player.SteamPlayer);
 
@@ -80,6 +80,38 @@ namespace PointBlank.API.Unturned.Server
                 return false;
 
             _Players.Remove(ply);
+            return true;
+        }
+
+        /// <summary>
+        /// Adds a structure to the server
+        /// </summary>
+        /// <param name="structure">The structure instance to add</param>
+        /// <returns>The added structure instance</returns>
+        internal static UnturnedStructure AddStructure(UnturnedStructure structure)
+        {
+            UnturnedStructure stru = Structures.FirstOrDefault(a => a.Data == structure.Data);
+
+            if (stru != null)
+                return stru;
+
+            _Structures.Add(structure);
+            return structure;
+        }
+
+        /// <summary>
+        /// Removes a structure from the server
+        /// </summary>
+        /// <param name="structure">The structure instance to remove</param>
+        /// <returns>If the structure was removed successfully</returns>
+        internal static bool RemoveStructure(UnturnedStructure structure)
+        {
+            UnturnedStructure stru = Structures.FirstOrDefault(a => a.Data == structure.Data);
+
+            if (stru == null)
+                return false;
+
+            _Structures.Remove(stru);
             return true;
         }
         #endregion
