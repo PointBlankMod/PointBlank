@@ -27,6 +27,10 @@ namespace PointBlank.API.Groups
         /// The name of the group
         /// </summary>
         public string Name { get; private set; }
+        /// <summary>
+        /// Is this the default group
+        /// </summary>
+        public bool Default { get; private set; }
 
         /// <summary>
         /// The list of permissions this group has
@@ -58,12 +62,13 @@ namespace PointBlank.API.Groups
         /// <param name="id">The ID of the group</param>
         /// <param name="name">The name of the group</param>
         /// <param name="cooldown">The cooldown of the group</param>
-        public Group(string id, string name, int cooldown)
+        public Group(string id, string name, bool isDefault, int cooldown)
         {
             // Set the variables
             this.ID = id;
             this.Name = name;
             this.Cooldown = cooldown;
+            this.Default = isDefault;
         }
 
         #region Public Functions

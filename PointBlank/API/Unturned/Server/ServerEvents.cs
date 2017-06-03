@@ -18,6 +18,11 @@ namespace PointBlank.API.Unturned.Server
         /// </summary>
         /// <param name="player">The player that connected/disconnected</param>
         public delegate void PlayerConnectionHandler(UnturnedPlayer player);
+        /// <summary>
+        /// Used for handling bots
+        /// </summary>
+        /// <param name="bot">The bot instance</param>
+        public delegate void BotStatusHandler(BotPlayer bot);
         #endregion
 
         #region Events
@@ -38,6 +43,15 @@ namespace PointBlank.API.Unturned.Server
         /// Called when a player disconnected from the server
         /// </summary>
         public static event PlayerConnectionHandler OnPlayerDisconnected;
+
+        /// <summary>
+        /// Called when a bot is created
+        /// </summary>
+        public static event BotStatusHandler OnBotCreated;
+        /// <summary>
+        /// Called when a bot is removed
+        /// </summary>
+        public static event BotStatusHandler OnBotRemoved;
 
         /// <summary>
         /// Called when the time is officially day
@@ -92,6 +106,21 @@ namespace PointBlank.API.Unturned.Server
                 return;
 
             OnPlayerDisconnected(UnturnedPlayer.Create(player));
+        }
+
+        internal static void RunBotCreated(BotPlayer bot)
+        {
+            if (OnBotCreated == null)
+                return;
+
+            OnBotCreated(bot);
+        }
+        internal static void RunBotRemoved(BotPlayer bot)
+        {
+            if (OnBotRemoved == null)
+                return;
+
+            OnBotRemoved(bot);
         }
 
         internal static void RunDayNight(bool isDay)

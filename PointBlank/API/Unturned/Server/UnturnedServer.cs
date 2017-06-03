@@ -16,6 +16,7 @@ namespace PointBlank.API.Unturned.Server
     {
         #region Variables
         private static List<UnturnedPlayer> _Players = new List<UnturnedPlayer>();
+        private static List<BotPlayer> _Bots = new List<BotPlayer>();
         private static List<UnturnedStructure> _Structures = new List<UnturnedStructure>();
         private static List<Item> _Items = new List<Item>();
         #endregion
@@ -25,6 +26,10 @@ namespace PointBlank.API.Unturned.Server
         /// The currently online players
         /// </summary>
         public static UnturnedPlayer[] Players => _Players.ToArray();
+        /// <summary>
+        /// The current existing bots
+        /// </summary>
+        public static BotPlayer[] Bots => _Bots.ToArray();
         /// <summary>
         /// Structures within the server
         /// </summary>

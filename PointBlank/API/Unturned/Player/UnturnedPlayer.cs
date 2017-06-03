@@ -8,9 +8,12 @@ using UPlayer = SDG.Unturned.Player;
 using SPlayer = SDG.Unturned.SteamPlayer;
 using Steamworks;
 using UnityEngine;
+using PointBlank.API.Groups;
 using PointBlank.API.Unturned.Server;
+using PointBlank.API.DataManagment;
 using Newtonsoft.Json.Linq;
 using System.Globalization;
+using RG = PointBlank.API.Steam.SteamGroup;
 
 namespace PointBlank.API.Unturned.Player
 {
@@ -19,6 +22,16 @@ namespace PointBlank.API.Unturned.Player
     /// </summary>
     public class UnturnedPlayer
     {
+        #region Variables
+        private List<BotPlayer> _Illusions = new List<BotPlayer>();
+        private List<UnturnedPlayer> _VisiblePlayers = new List<UnturnedPlayer>();
+        private List<Group> _Groups = new List<Group>();
+        private List<RG> _SteamGroups = new List<RG>();
+        private List<string> _Prefixes = new List<string>();
+        private List<string> _Suffixes = new List<string>();
+        private List<string> _Permissions = new List<string>();
+        #endregion
+
         #region Properties
         // Important information
         /// <summary>
@@ -396,7 +409,9 @@ namespace PointBlank.API.Unturned.Player
             get
             {
                 P2PSessionState_t State;
+
                 SteamGameServerNetworking.GetP2PSessionState(SteamID, out State);
+
                 return Parser.getIPFromUInt32(State.m_nRemoteIP);
             }
         }
@@ -409,11 +424,13 @@ namespace PointBlank.API.Unturned.Player
             {
                 try
                 {
-                    string info;
-                    WebsiteData.GetData("http://ipinfo.io/" + IP, out info);
+                    WebsiteData.GetData("http://ipinfo.io/" + IP, out string info);
+
                     dynamic data = JObject.Parse(info);
                     RegionInfo rgn = new RegionInfo(data.country);
+
                     data.country = rgn.EnglishName;
+
                     return data.country;
                 }
                 catch (Exception)
@@ -442,9 +459,68 @@ namespace PointBlank.API.Unturned.Player
                 return retval.ToArray();
             }
         }
+
+        // Extra data
+        /// <summary>
+        /// The command cooldown for the player
+        /// </summary>
+        public int Cooldown { get; private set; }
+        /// <summary>
+        /// The bots only this player can see
+        /// </summary>
+        public BotPlayer[] Illusions => _Illusions.ToArray();
+        /// <summary>
+        /// The players this player can see are in the server
+        /// </summary>
+        public UnturnedPlayer[] VisiblePlayers => _VisiblePlayers.ToArray();
+        /// <summary>
+        /// The groups this player is part of
+        /// </summary>
+        public Group[] Groups => _Groups.ToArray();
+        /// <summary>
+        /// The steam groups this player is part of
+        /// </summary>
+        public RG[] SteamGroups => _SteamGroups.ToArray();
+        /// <summary>
+        /// The prefixes of the player
+        /// </summary>
+        public string[] Prefixes => _Prefixes.ToArray();
+        /// <summary>
+        /// The suffixes of the player
+        /// </summary>
+        public string[] Suffixes => _Suffixes.ToArray();
+        /// <summary>
+        /// The permissions of the player
+        /// </summary>
+        public string[] Permissions => _Permissions.ToArray();
         #endregion
 
-        #region Functions
+        private UnturnedPlayer(SPlayer steamplayer)
+        {
+            // Set the variables
+            this.SteamPlayer = steamplayer;
+
+            // Run code
+            UnturnedServer.AddPlayer(this);
+        }
+
+        #region Static Functions
+        /// <summary>
+        /// Creates the unturned player instance or returns an existing one
+        /// </summary>
+        /// <param name="steamplayer">The steam player to build from</param>
+        /// <returns>An unturned player instance</returns>
+        public static UnturnedPlayer Create(SPlayer steamplayer)
+        {
+            UnturnedPlayer ply = UnturnedServer.Players.FirstOrDefault(a => a.SteamPlayer == steamplayer);
+
+            if (ply != null)
+                return ply;
+            return new UnturnedPlayer(steamplayer);
+        }
+        #endregion
+
+        #region Public Functions
         /// <summary>
         /// Checks if the player has a specific item
         /// </summary>
@@ -545,51 +621,29 @@ namespace PointBlank.API.Unturned.Player
         {
             return RemoveItem((Assets.find(EAssetType.ITEM, Name) as ItemAsset).id);
         }
+
         /// <summary>
         /// Sends effect to the player
         /// </summary>
         /// <param name="id">The effect id to trigger</param>
-        public void SendEffect(ushort id) 
-        { 
-            EffectManager.instance.tellEffectPoint(SteamID, id, Position); 
+        public void SendEffect(ushort id)
+        {
+            EffectManager.instance.tellEffectPoint(SteamID, id, Position);
         }
+
         /// <summary>
         /// Clear effect by id
         /// </summary>
         /// <param name="id">The effect id to clear</param>
-        public void ClearEffect(ushort id) 
-        { 
-            EffectManager.instance.tellEffectClearByID(SteamID, id); 
+        public void ClearEffect(ushort id)
+        {
+            EffectManager.instance.tellEffectClearByID(SteamID, id);
         }
+
         /// <summary>
         /// Dequip the player's equipped item
         ///</summary>
         public void DequipItem() => Player.equipment.dequip();
-        #endregion
-
-        private UnturnedPlayer(SPlayer steamplayer)
-        {
-            // Set the variables
-            this.SteamPlayer = steamplayer;
-
-            // Run code
-            UnturnedServer.AddPlayer(this);
-        }
-
-        #region Static Functions
-        /// <summary>
-        /// Creates the unturned player instance or returns an existing one
-        /// </summary>
-        /// <param name="steamplayer">The steam player to build from</param>
-        /// <returns>An unturned player instance</returns>
-        public static UnturnedPlayer Create(SPlayer steamplayer)
-        {
-            UnturnedPlayer ply = UnturnedServer.Players.FirstOrDefault(a => a.SteamPlayer == steamplayer);
-
-            if (ply != null)
-                return ply;
-            return new UnturnedPlayer(steamplayer);
-        }
         #endregion
     }
 }

@@ -94,6 +94,7 @@
     <Compile Include="API\Steam\SteamPlayer.cs" />
     <Compile Include="API\Unturned\Chat\ChatEvents.cs" />
     <Compile Include="API\Unturned\Chat\ChatManager.cs" />
+    <Compile Include="API\Unturned\Player\BotPlayer.cs" />
     <Compile Include="API\Unturned\Structure\StructureEvents.cs" />
     <Compile Include="API\Unturned\Structure\UnturnedStructure.cs" />
     <Compile Include="API\Unturned\Player\UnturnedPlayer.cs" />
