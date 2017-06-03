@@ -13,7 +13,6 @@ namespace PointBlank.Framework.Overrides
         [Detour(typeof(Structure), "askDamage", BindingFlags.Public | BindingFlags.Instance)]
         public static void askDamage(this Structure stru, ushort amount)
         {
-            
         }
     }
 }
