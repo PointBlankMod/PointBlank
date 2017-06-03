@@ -57,10 +57,6 @@ namespace PointBlank.API.Unturned.Structure
         /// The rotation of the structure
         /// </summary>
         public Quaternion Rotation => Structure.asset.structure.transform.rotation;
-        /// <summary>
-        /// Is the structure a bed
-        /// </summary>
-        public bool IsBed => (Data.structure.GetType() == typeof(InteractableBed));
         #endregion
 
         /// <summary>

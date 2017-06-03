@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using System.Reflection;
 using System.Xml;
 using System.Collections.Generic;
@@ -15,6 +16,11 @@ namespace PointBlank.Services.PluginManager
 {
     internal class PluginWrapper
     {
+        #region Variables
+        private Thread t;
+        private DateTime LastUpdateCheck;
+        #endregion
+
         #region Properties
         public string Location { get; private set; }
         public string Name { get; private set; }
@@ -51,6 +57,26 @@ namespace PointBlank.Services.PluginManager
 
             Translations = new TranslationList(); // Create the translation list
             Configurations = new ConfigurationList(); // Create the configuration list
+
+            // Setup the thread
+            t = new Thread(new ThreadStart(delegate ()
+            {
+                while (Enabled)
+                {
+                    if(LastUpdateCheck == null || (DateTime.Now - LastUpdateCheck).TotalSeconds >= PluginConfiguration.CheckUpdateTimeSeconds)
+                    {
+                        if (CheckUpdates())
+                        {
+                            if (PluginConfiguration.NotifyUpdates)
+                                Notify();
+                            if (PluginConfiguration.AutoUpdate)
+                                Update();
+                        }
+
+                        LastUpdateCheck = DateTime.Now;
+                    }
+                }
+            }));
         }
 
         #region Private Functions
@@ -174,6 +200,7 @@ namespace PointBlank.Services.PluginManager
                 PluginEvents.RunPluginLoaded(PluginClass); // Run the loaded event
 
                 Enabled = true; // Set the enabled to true
+                t.Start(); // Start the thread
                 return true;
             }
             catch (Exception ex)
@@ -202,6 +229,7 @@ namespace PointBlank.Services.PluginManager
                 Enviroment.runtimeObjects["Plugins"].RemoveCodeObject(PluginClass.GetType().Name); // Remove the plugin from gameobject
 
                 Enabled = false; // Set the enabled to false
+                t.Abort(); // Abort the thread
                 return true;
             }
             catch (Exception ex)

@@ -24,6 +24,12 @@ namespace PointBlank.API.Unturned.Structure
         /// <param name="structure">The structure instance</param>
         /// <param name="repair">The structure repair amount</param>
         public delegate void StructureRepairHandler(UnturnedStructure structure, ushort repair);
+
+        /// <summary>
+        /// Used for handling structure destroy events
+        /// </summary>
+        /// <param name="structure">The structure that gets destroyed</param>
+        public delegate void StructureDestroyHandler(UnturnedStructure structure);
         #endregion
 
         #region Events
@@ -35,6 +41,11 @@ namespace PointBlank.API.Unturned.Structure
         /// Called when a structure gets repaired
         /// </summary>
         public static event StructureRepairHandler OnRepairStructure;
+
+        /// <summary>
+        /// Called when a structure gets destroyed
+        /// </summary>
+        public static event StructureDestroyHandler OnDestroyStructure;
         #endregion
 
         #region Functions
@@ -44,6 +55,8 @@ namespace PointBlank.API.Unturned.Structure
                 return;
 
             OnDamageStructure(structure, damage, (damage > structure.Health));
+            if (damage > structure.Health)
+                RunDestroyStructure(structure);
         }
         internal static void RunRepairStructure(UnturnedStructure structure, ushort repair)
         {
@@ -51,6 +64,14 @@ namespace PointBlank.API.Unturned.Structure
                 return;
 
             OnRepairStructure(structure, repair);
+        }
+
+        internal static void RunDestroyStructure(UnturnedStructure structure)
+        {
+            if (OnDestroyStructure == null)
+                return;
+
+            OnDestroyStructure(structure);
         }
         #endregion
     }

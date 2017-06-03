@@ -10,5 +10,6 @@ namespace PointBlank.Services.PluginManager
         public static bool ContinueOnError;
         public static bool AutoUpdate;
         public static bool NotifyUpdates;
+        public static int CheckUpdateTimeSeconds;
     }
 }

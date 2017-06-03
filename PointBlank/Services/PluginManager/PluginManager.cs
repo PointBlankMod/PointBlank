@@ -96,16 +96,19 @@ namespace PointBlank.Services.PluginManager
                 PluginConfiguration.AutoUpdate = false;
                 PluginConfiguration.ContinueOnError = true;
                 PluginConfiguration.NotifyUpdates = true;
+                PluginConfiguration.CheckUpdateTimeSeconds = 1800;
 
                 JSONConfig.Document.Add("AutoUpdate", (PluginConfiguration.AutoUpdate ? "true" : "false"));
                 JSONConfig.Document.Add("ContinueOnError", (PluginConfiguration.ContinueOnError ? "true" : "false"));
                 JSONConfig.Document.Add("NotifyUpdates", (PluginConfiguration.NotifyUpdates ? "true" : "false"));
+                JSONConfig.Document.Add("CheckUpdateTimeSeconds", PluginConfiguration.CheckUpdateTimeSeconds.ToString());
             }
             else
             {
                 PluginConfiguration.AutoUpdate = ((string)JSONConfig.Document["AutoUpdate"] == "true");
                 PluginConfiguration.ContinueOnError = ((string)JSONConfig.Document["ContinueOnError"] == "true");
                 PluginConfiguration.NotifyUpdates = ((string)JSONConfig.Document["NotifyUpdates"] == "true");
+                PluginConfiguration.CheckUpdateTimeSeconds = int.Parse((string)JSONConfig.Document["CheckUpdateTimeSeconds"]);
             }
         }
 

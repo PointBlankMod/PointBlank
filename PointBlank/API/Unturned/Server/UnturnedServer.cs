@@ -115,7 +115,9 @@ namespace PointBlank.API.Unturned.Server
             _Structures.Remove(stru);
             return true;
         }
+        #endregion
 
+        #region Public Functions
         /// <summary>
         /// Finds a structure based on the unturned structure instance
         /// </summary>
