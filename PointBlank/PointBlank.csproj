@@ -129,6 +129,8 @@
     <Compile Include="Services\RCON\RCON.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="API\Unturned\Barricade\" />
+    <Folder Include="API\Unturned\Vehicle\" />
     <Folder Include="Commands\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
