@@ -5,6 +5,7 @@ using System.Text;
 using SDG.Unturned;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Structure;
+using UStructure = SDG.Unturned.Structure;
 
 namespace PointBlank.API.Unturned.Server
 {
@@ -113,6 +114,26 @@ namespace PointBlank.API.Unturned.Server
 
             _Structures.Remove(stru);
             return true;
+        }
+
+        /// <summary>
+        /// Finds a structure based on the unturned structure instance
+        /// </summary>
+        /// <param name="structure">The unturned structure instance</param>
+        /// <returns>The instance of the custom structure class</returns>
+        public static UnturnedStructure FindStructure(UStructure structure)
+        {
+            return Structures.FirstOrDefault(a => a.Structure == structure);
+        }
+
+        /// <summary>
+        /// Finds a structure based on the structure data
+        /// </summary>
+        /// <param name="data">The structure data</param>
+        /// <returns>The unturned structure instance</returns>
+        public static UnturnedStructure FindStructure(StructureData data)
+        {
+            return Structures.FirstOrDefault(a => a.Data == data);
         }
         #endregion
     }

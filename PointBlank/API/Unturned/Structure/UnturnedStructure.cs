@@ -61,13 +61,6 @@ namespace PointBlank.API.Unturned.Structure
         /// Is the structure a bed
         /// </summary>
         public bool IsBed => (Data.structure.GetType() == typeof(InteractableBed));
-        /// <summary>
-        /// Damage structure 
-        /// </summary>
-        public void askDamage(float StructureDamage)
-        {
-            DamageTool.explode(Data.point, 1f, EDeathCause.ANIMAL, CSteamID.Nil, 0, 0, 0, 0, StructureDamage, 0, 0, 0, EExplosionDamageType.CONVENTIONAL, 1f, false);
-        }
         #endregion
 
         /// <summary>
@@ -96,6 +89,41 @@ namespace PointBlank.API.Unturned.Structure
             if (stru != null)
                 return stru;
             return new UnturnedStructure(data);
+        }
+        #endregion
+
+        #region Public Functions
+        /// <summary>
+        /// Damage the structure
+        /// </summary>
+        /// <param name="amount">The amount of damage to cause</param>
+        public void Damage(ushort amount)
+        {
+            Structure.askDamage(amount);
+        }
+
+        /// <summary>
+        /// Repair the structure
+        /// </summary>
+        /// <param name="amount">The amount to repair it by</param>
+        public void Repair(ushort amount)
+        {
+            Structure.askRepair(amount);
+        }
+
+        /// <summary>
+        /// Set the health of the structure
+        /// </summary>
+        /// <param name="health">The health you want the structure to have</param>
+        public void SetHealth(ushort health)
+        {
+            if (health == Health)
+                return;
+
+            if(Health < health)
+                Repair((ushort)(health - Health));
+            if (Health > health)
+                Damage((ushort)(Health - health));
         }
         #endregion
     }
