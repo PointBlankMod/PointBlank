@@ -44,11 +44,11 @@ namespace PointBlank.API.Unturned.Structure
         /// <summary>
         /// The structure ID
         /// </summary>
-        public ushort ID => Data.structure.asset.id;
+        public ushort ID => Structure.asset.id;
         /// <summary>
         /// The name of the structure
         /// </summary>
-        public string Name => Data.structure.asset.itemName;
+        public string Name => Structure.asset.itemName;
         /// <summary>
         /// The position of the structure
         /// </summary>
