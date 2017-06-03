@@ -282,6 +282,26 @@ namespace PointBlank.API.Unturned.Player
             }
         }
         /// <summary>
+        /// Checks if player is in vehicle
+        /// </summary>
+        public bool IsInVehicle
+        {
+            get
+            {
+                return Player.movement.getVehicle() != null;
+            }
+        }
+        /// <summary>
+        /// The player current vehicle
+        /// </summary>
+        public InteractableVehicle Vehicle
+        {
+            get
+            {
+                return Player.movement.getVehicle();
+            }
+        }
+        /// <summary>
         /// The player's reputation
         /// </summary>
         public int Reputation
