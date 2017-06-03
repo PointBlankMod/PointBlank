@@ -58,6 +58,10 @@ namespace PointBlank.API.Unturned.Player
         /// </summary>
         public bool IsAdmin => SteamPlayer.isAdmin;
         /// <summary>
+        /// player ping
+        /// </summary>
+        public float Ping => SteamPlayer.ping;
+        /// <summary>
         /// Is the player a pro buyer
         /// </summary>
         public bool IsPro => SteamPlayer.isPro;
