@@ -9,6 +9,8 @@ using SPlayer = SDG.Unturned.SteamPlayer;
 using Steamworks;
 using UnityEngine;
 using PointBlank.API.Unturned.Server;
+using Newtonsoft.Json.Linq;
+using System.Globalization;
 
 namespace PointBlank.API.Unturned.Player
 {
@@ -392,6 +394,28 @@ namespace PointBlank.API.Unturned.Player
                 P2PSessionState_t State;
                 SteamGameServerNetworking.GetP2PSessionState(SteamID, out State);
                 return Parser.getIPFromUInt32(State.m_nRemoteIP);
+            }
+        }
+        /// <summary>
+        /// player country name
+        ///</summary>
+        public string Country
+        {
+            get
+            {
+                try
+                {
+                    string info;
+                    WebsiteData.GetData("http://ipinfo.io/" + IP, out info);
+                    dynamic data = JObject.Parse(info);
+                    RegionInfo rgn = new RegionInfo(data.country);
+                    data.country = rgn.EnglishName;
+                    return data.country;
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
             }
         }
         /// <summary>
