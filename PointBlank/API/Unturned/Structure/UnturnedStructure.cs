@@ -61,6 +61,13 @@ namespace PointBlank.API.Unturned.Structure
         /// Is the structure a bed
         /// </summary>
         public bool IsBed => (Data.structure.GetType() == typeof(InteractableBed));
+        /// <summary>
+        /// Damage structure 
+        /// </summary>
+        public void askDamage(float StructureDamage)
+        {
+            DamageTool.explode(Data.point, 1f, EDeathCause.ANIMAL, CSteamID.Nil, 0, 0, 0, 0, StructureDamage, 0, 0, 0, EExplosionDamageType.CONVENTIONAL, 1f, false);
+        }
         #endregion
 
         /// <summary>
