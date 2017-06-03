@@ -545,7 +545,22 @@ namespace PointBlank.API.Unturned.Player
         {
             return RemoveItem((Assets.find(EAssetType.ITEM, Name) as ItemAsset).id);
         }
-
+        /// <summary>
+        /// Sends effect to the player
+        /// </summary>
+        /// <param name="id">The effect id to trigger</param>
+        public void SendEffect(ushort id) 
+        { 
+            EffectManager.instance.tellEffectPoint(SteamID, id, Position); 
+        }
+        /// <summary>
+        /// Clear effect by id
+        /// </summary>
+        /// <param name="id">The effect id to clear</param>
+        public void ClearEffect(ushort id) 
+        { 
+            EffectManager.instance.tellEffectClearByID(SteamID, id); 
+        }
         /// <summary>
         /// Dequip the player's equipped item
         ///</summary>
