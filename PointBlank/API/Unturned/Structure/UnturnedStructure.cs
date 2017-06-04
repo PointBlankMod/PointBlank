@@ -93,9 +93,9 @@ namespace PointBlank.API.Unturned.Structure
         /// Damage the structure
         /// </summary>
         /// <param name="amount">The amount of damage to cause</param>
-        public void Damage(ushort amount)
+        public void Damage(float amount)
         {
-            Structure.askDamage(amount);
+            StructureManager.damage(Structure.asset.structure.transform, new Vector3(0, 0, 0), amount, 1, false);
         }
 
         /// <summary>

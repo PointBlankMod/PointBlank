@@ -5,6 +5,7 @@ using System.Text;
 using SDG.Unturned;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Structure;
+using PointBlank.API.Unturned.Vehicle;
 using UStructure = SDG.Unturned.Structure;
 
 namespace PointBlank.API.Unturned.Server
@@ -17,6 +18,7 @@ namespace PointBlank.API.Unturned.Server
         #region Variables
         private static List<UnturnedPlayer> _Players = new List<UnturnedPlayer>();
         private static List<BotPlayer> _Bots = new List<BotPlayer>();
+        private static List<UnturnedVehicle> _Vehicles = new List<UnturnedVehicle>();
         private static List<UnturnedStructure> _Structures = new List<UnturnedStructure>();
         private static List<Item> _Items = new List<Item>();
         #endregion
@@ -30,6 +32,10 @@ namespace PointBlank.API.Unturned.Server
         /// The current existing bots
         /// </summary>
         public static BotPlayer[] Bots => _Bots.ToArray();
+        /// <summary>
+        /// All vehicles on the server
+        /// </summary>
+        public static UnturnedVehicle[] Vehicles => _Vehicles.ToArray();
         /// <summary>
         /// Structures within the server
         /// </summary>
@@ -57,11 +63,6 @@ namespace PointBlank.API.Unturned.Server
         #endregion
 
         #region Functions
-        /// <summary>
-        /// Add a player to the server
-        /// </summary>
-        /// <param name="player">The player instance</param>
-        /// <returns>The player instance</returns>
         internal static UnturnedPlayer AddPlayer(UnturnedPlayer player)
         {
             UnturnedPlayer ply = Players.FirstOrDefault(a => a.SteamPlayer == player.SteamPlayer);
@@ -72,12 +73,6 @@ namespace PointBlank.API.Unturned.Server
             _Players.Add(player);
             return player;
         }
-
-        /// <summary>
-        /// Removes a player from the server
-        /// </summary>
-        /// <param name="player">The player instance</param>
-        /// <returns>If the player was removed successfully</returns>
         internal static bool RemovePlayer(UnturnedPlayer player)
         {
             UnturnedPlayer ply = Players.FirstOrDefault(a => a.SteamPlayer == player.SteamPlayer);
@@ -89,11 +84,6 @@ namespace PointBlank.API.Unturned.Server
             return true;
         }
 
-        /// <summary>
-        /// Adds a structure to the server
-        /// </summary>
-        /// <param name="structure">The structure instance to add</param>
-        /// <returns>The added structure instance</returns>
         internal static UnturnedStructure AddStructure(UnturnedStructure structure)
         {
             UnturnedStructure stru = Structures.FirstOrDefault(a => a.Data == structure.Data);
@@ -104,12 +94,6 @@ namespace PointBlank.API.Unturned.Server
             _Structures.Add(structure);
             return structure;
         }
-
-        /// <summary>
-        /// Removes a structure from the server
-        /// </summary>
-        /// <param name="structure">The structure instance to remove</param>
-        /// <returns>If the structure was removed successfully</returns>
         internal static bool RemoveStructure(UnturnedStructure structure)
         {
             UnturnedStructure stru = Structures.FirstOrDefault(a => a.Data == structure.Data);
@@ -118,6 +102,27 @@ namespace PointBlank.API.Unturned.Server
                 return false;
 
             _Structures.Remove(stru);
+            return true;
+        }
+
+        internal static UnturnedVehicle AddVehicle(UnturnedVehicle vehicle)
+        {
+            UnturnedVehicle veh = Vehicles.FirstOrDefault(a => a.Vehicle == vehicle.Vehicle);
+
+            if (veh != null)
+                return veh;
+
+            _Vehicles.Add(vehicle);
+            return vehicle;
+        }
+        internal static bool RemoveVehicle(UnturnedVehicle vehicle)
+        {
+            UnturnedVehicle veh = Vehicles.FirstOrDefault(a => a.Vehicle == vehicle.Vehicle);
+
+            if (veh == null)
+                return false;
+
+            _Vehicles.Remove(vehicle);
             return true;
         }
         #endregion

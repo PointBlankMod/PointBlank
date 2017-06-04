@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using SDG.Unturned;
 using PointBlank.API.Unturned.Player;
+using PointBlank.API.Unturned.Vehicle;
+using PointBlank.API.Unturned.Structure;
 
 namespace PointBlank.API.Unturned.Server
 {
@@ -18,11 +20,24 @@ namespace PointBlank.API.Unturned.Server
         /// </summary>
         /// <param name="player">The player that connected/disconnected</param>
         public delegate void PlayerConnectionHandler(UnturnedPlayer player);
+
         /// <summary>
         /// Used for handling bots
         /// </summary>
         /// <param name="bot">The bot instance</param>
         public delegate void BotStatusHandler(BotPlayer bot);
+
+        /// <summary>
+        /// Used for handling vehicles
+        /// </summary>
+        /// <param name="vehicle">The vehicle instance</param>
+        public delegate void VehicleStatusHandler(UnturnedVehicle vehicle);
+
+        /// <summary>
+        /// Used for handling structures
+        /// </summary>
+        /// <param name="structure">The structure instance</param>
+        public delegate void StructureStatusHandler(UnturnedStructure structure);
         #endregion
 
         #region Events
@@ -75,6 +90,24 @@ namespace PointBlank.API.Unturned.Server
         /// Called when the rain/snow is updated
         /// </summary>
         public static event RainUpdated OnRainUpdated;
+
+        /// <summary>
+        /// Called when a vehicle is created
+        /// </summary>
+        public static event VehicleStatusHandler OnVehicleCreated;
+        /// <summary>
+        /// Called when a vehicle is removed
+        /// </summary>
+        public static event VehicleStatusHandler OnVehicleRemoved;
+
+        /// <summary>
+        /// Called when a structure is created
+        /// </summary>
+        public static event StructureStatusHandler OnStructureCreated;
+        /// <summary>
+        /// Called wehn a structure is removed
+        /// </summary>
+        public static event StructureStatusHandler OnStructureRemoved;
         #endregion
 
         #region Functions
@@ -155,6 +188,29 @@ namespace PointBlank.API.Unturned.Server
                 return;
 
             OnRainUpdated(status);
+        }
+
+        internal static void RunVehicleCreated(UnturnedVehicle vehicle)
+        {
+            if (OnVehicleCreated == null)
+                return;
+
+            OnVehicleCreated(vehicle);
+        }
+        internal static void RunVehicleRemoved(UnturnedVehicle vehicle)
+        {
+            if (OnVehicleRemoved == null)
+                return;
+
+            OnVehicleRemoved(vehicle);
+        }
+
+        internal static void RunStructureRemoved(UnturnedStructure structure)
+        {
+            if (OnStructureRemoved == null)
+                return;
+
+            OnStructureRemoved(structure);
         }
         #endregion
     }

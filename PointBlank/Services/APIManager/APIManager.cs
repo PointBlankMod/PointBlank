@@ -6,6 +6,7 @@ using System.Text;
 using SDG.Unturned;
 using PointBlank.API.Services;
 using PointBlank.API.Unturned.Server;
+using PointBlank.API.Unturned.Structure;
 
 namespace PointBlank.Services.APIManager
 {
@@ -34,6 +35,7 @@ namespace PointBlank.Services.APIManager
             LightingManager.onDayNightUpdated += new DayNightUpdated(ServerEvents.RunDayNight);
             LightingManager.onMoonUpdated += new MoonUpdated(ServerEvents.RunFullMoon);
             LightingManager.onRainUpdated += new RainUpdated(ServerEvents.RunRainUpdated);
+            StructureEvents.OnDestroyStructure += new StructureEvents.StructureDestroyHandler(ServerEvents.RunStructureRemoved);
 
             // Run code
             tGame.Start();

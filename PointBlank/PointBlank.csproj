@@ -102,6 +102,7 @@
     <Compile Include="API\Unturned\Server\UnturnedServer.cs" />
     <Compile Include="API\Unturned\Skills\ESkills.cs" />
     <Compile Include="API\Unturned\Skills\ESkillset.cs" />
+    <Compile Include="API\Unturned\Vehicle\UnturnedVehicle.cs" />
     <Compile Include="Enviroment.cs" />
     <Compile Include="Framework\Configuration.cs" />
     <Compile Include="Framework\Objects\RuntimeObject.cs" />
@@ -131,7 +132,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="API\Unturned\Barricade\" />
-    <Folder Include="API\Unturned\Vehicle\" />
     <Folder Include="Commands\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
