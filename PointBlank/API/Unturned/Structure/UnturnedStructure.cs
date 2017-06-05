@@ -63,7 +63,7 @@ namespace PointBlank.API.Unturned.Structure
         /// The unturned structure instance
         /// </summary>
         /// <param name="data">The structure data</param>
-        internal UnturnedStructure(StructureData data)
+        private UnturnedStructure(StructureData data)
         {
             // Set the variables
             this.Data = data;

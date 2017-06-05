@@ -103,11 +103,13 @@
     <Compile Include="API\Unturned\Skills\ESkills.cs" />
     <Compile Include="API\Unturned\Skills\ESkillset.cs" />
     <Compile Include="API\Unturned\Vehicle\UnturnedVehicle.cs" />
+    <Compile Include="API\Unturned\Vehicle\VehicleEvents.cs" />
     <Compile Include="Enviroment.cs" />
     <Compile Include="Framework\Configuration.cs" />
     <Compile Include="Framework\Objects\RuntimeObject.cs" />
     <Compile Include="Framework\Overrides\_ChatManager.cs" />
     <Compile Include="Framework\Overrides\_Structure.cs" />
+    <Compile Include="Framework\Overrides\_StructureManager.cs" />
     <Compile Include="Framework\Permissions\Ring\RingPermission.cs" />
     <Compile Include="Framework\Permissions\Ring\RingPermissionAttribute.cs" />
     <Compile Include="Framework\Permissions\Ring\RingPermissionRing.cs" />

@@ -205,6 +205,13 @@ namespace PointBlank.API.Unturned.Server
             OnVehicleRemoved(vehicle);
         }
 
+        internal static void RunStructureCreated(StructureData structure)
+        {
+            if (OnStructureCreated == null)
+                return;
+
+            OnStructureCreated(UnturnedStructure.Create(structure));
+        }
         internal static void RunStructureRemoved(UnturnedStructure structure)
         {
             if (OnStructureRemoved == null)

@@ -314,13 +314,7 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// The player current vehicle
         /// </summary>
-        public UnturnedVehicle Vehicle
-        {
-            get
-            {
-                return new UnturnedVehicle(Player.movement.getVehicle());
-            }
-        }
+        public UnturnedVehicle Vehicle => UnturnedVehicle.Create(Player.movement.getVehicle());
         /// <summary>
         /// The player's reputation
         /// </summary>
@@ -460,6 +454,18 @@ namespace PointBlank.API.Unturned.Player
                 return retval.ToArray();
             }
         }
+        /// <summary>
+        /// Is the player member of a quest group
+        /// </summary>
+        public bool IsInQuestGroup => Player.quests.isMemberOfAGroup;
+        /// <summary>
+        /// The ID of the quest group
+        /// </summary>
+        public CSteamID QuestGroupID => Player.quests.groupID;
+        /// <summary>
+        /// Vehicles the player has locked
+        ///</summary>
+        public UnturnedVehicle[] LockedVehicles => UnturnedServer.Vehicles.Where(v => v.LockedOwner == SteamID || (IsInQuestGroup && QuestGroupID == v.LockedGroup)).ToArray();
 
         // Extra data
         /// <summary>
@@ -482,10 +488,6 @@ namespace PointBlank.API.Unturned.Player
         /// The steam groups this player is part of
         /// </summary>
         public RG[] SteamGroups => _SteamGroups.ToArray();
-        /// <summary>
-        /// player locked vehicles
-        ///</summary>
-        public List<UnturnedVehicle> LockedVehicles => UnturnedServer.Vehicles.Where(v => v.Vehicle.lockedOwner == SteamID).ToList();
         /// <summary>
         /// The prefixes of the player
         /// </summary>
