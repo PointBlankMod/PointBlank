@@ -14,6 +14,7 @@ using PointBlank.API.DataManagment;
 using Newtonsoft.Json.Linq;
 using System.Globalization;
 using RG = PointBlank.API.Steam.SteamGroup;
+using PointBlank.API.Unturned.Vehicle;
 
 namespace PointBlank.API.Unturned.Player
 {
@@ -481,6 +482,10 @@ namespace PointBlank.API.Unturned.Player
         /// The steam groups this player is part of
         /// </summary>
         public RG[] SteamGroups => _SteamGroups.ToArray();
+        /// <summary>
+        /// player locked vehicles
+        ///</summary>
+        public List<UnturnedVehicle> LockedVehicles => UnturnedServer.Vehicles.Where(v => v.Vehicle.lockedOwner == SteamID).ToList();
         /// <summary>
         /// The prefixes of the player
         /// </summary>
