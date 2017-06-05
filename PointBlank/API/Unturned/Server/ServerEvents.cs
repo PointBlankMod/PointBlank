@@ -190,19 +190,19 @@ namespace PointBlank.API.Unturned.Server
             OnRainUpdated(status);
         }
 
-        internal static void RunVehicleCreated(UnturnedVehicle vehicle)
+        internal static void RunVehicleCreated(InteractableVehicle vehicle)
         {
             if (OnVehicleCreated == null)
                 return;
 
-            OnVehicleCreated(vehicle);
+            OnVehicleCreated(UnturnedVehicle.Create(vehicle));
         }
-        internal static void RunVehicleRemoved(UnturnedVehicle vehicle)
+        internal static void RunVehicleRemoved(InteractableVehicle vehicle)
         {
             if (OnVehicleRemoved == null)
                 return;
 
-            OnVehicleRemoved(vehicle);
+            OnVehicleRemoved(UnturnedVehicle.Create(vehicle));
         }
 
         internal static void RunStructureCreated(StructureData structure)

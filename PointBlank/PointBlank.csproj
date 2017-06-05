@@ -95,6 +95,7 @@
     <Compile Include="API\Unturned\Chat\ChatEvents.cs" />
     <Compile Include="API\Unturned\Chat\ChatManager.cs" />
     <Compile Include="API\Unturned\Player\BotPlayer.cs" />
+    <Compile Include="API\Unturned\Quest\UnturnedQuest.cs" />
     <Compile Include="API\Unturned\Structure\StructureEvents.cs" />
     <Compile Include="API\Unturned\Structure\UnturnedStructure.cs" />
     <Compile Include="API\Unturned\Player\UnturnedPlayer.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="Framework\Configuration.cs" />
     <Compile Include="Framework\Objects\RuntimeObject.cs" />
     <Compile Include="Framework\Overrides\_ChatManager.cs" />
+    <Compile Include="Framework\Overrides\_InteractableVehicle.cs" />
     <Compile Include="Framework\Overrides\_Structure.cs" />
     <Compile Include="Framework\Overrides\_StructureManager.cs" />
     <Compile Include="Framework\Permissions\Ring\RingPermission.cs" />
