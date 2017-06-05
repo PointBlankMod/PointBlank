@@ -314,11 +314,11 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// The player current vehicle
         /// </summary>
-        public InteractableVehicle Vehicle
+        public UnturnedVehicle Vehicle
         {
             get
             {
-                return Player.movement.getVehicle();
+                return new UnturnedVehicle(Player.movement.getVehicle());
             }
         }
         /// <summary>
