@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SDG.Unturned;
+using UnityEngine;
 using Steamworks;
 using PointBlank.API.Unturned.Server;
 
@@ -310,6 +311,21 @@ namespace PointBlank.API.Unturned.Vehicle
             if (veh != null)
                 return veh;
             return new UnturnedVehicle(vehicle);
+        }
+
+        /// <summary>
+        /// Spawns a new vehicle and returns the unturned vehicle instance
+        /// </summary>
+        /// <param name="id">The ID of the vehicle</param>
+        /// <param name="position">The position to spawn it at</param>
+        /// <param name="rotation">The rotation of the vehicle</param>
+        /// <returns>The unturned vehicle instance</returns>
+        public static UnturnedVehicle Create(ushort id, Vector3 position, Quaternion rotation)
+        {
+            VehicleManager.spawnVehicle(id, position, rotation);
+            InteractableVehicle iv = VehicleManager.vehicles[VehicleManager.vehicles.Count - 1];
+
+            return new UnturnedVehicle(iv);
         }
         #endregion
     }
