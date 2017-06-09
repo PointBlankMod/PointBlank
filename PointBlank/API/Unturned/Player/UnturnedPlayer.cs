@@ -411,30 +411,6 @@ namespace PointBlank.API.Unturned.Player
             }
         }
         /// <summary>
-        /// player country name
-        ///</summary>
-        public string Country
-        {
-            get
-            {
-                try
-                {
-                    WebsiteData.GetData("http://ipinfo.io/" + IP, out string info);
-
-                    dynamic data = JObject.Parse(info);
-                    RegionInfo rgn = new RegionInfo(data.country);
-
-                    data.country = rgn.EnglishName;
-
-                    return data.country;
-                }
-                catch (Exception)
-                {
-                    return null;
-                }
-            }
-        }
-        /// <summary>
         /// Array of items in the player's inventory
         ///</summary>
         public Item[] Items

@@ -62,11 +62,11 @@ namespace PointBlank.API.Groups
         /// <param name="ID">The group ID</param>
         /// <param name="Name">The group name</param>
         /// <param name="Cooldown">The command cooldown for the group</param>
-        public static void AddGroup(string ID, string Name, int Cooldown)
+        public static void AddGroup(string ID, string Name, bool isDefault, int cooldown)
         {
             if (_Groups.ContainsKey(ID))
                 return;
-            Group group = new Group(ID, Name, Cooldown);
+            Group group = new Group(ID, Name, isDefault, cooldown);
 
             _Groups.Add(ID, group);
 

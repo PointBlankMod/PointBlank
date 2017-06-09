@@ -5,6 +5,8 @@ using System.Text;
 using PointBlank.API;
 using PointBlank.API.Collections;
 using PointBlank.API.Plugins;
+using PointBlank.API.Unturned.Server;
+using PointBlank.API.Unturned.Player;
 
 namespace TestPlugin
 {
@@ -41,11 +43,24 @@ namespace TestPlugin
             Logging.Log("Hello from test plugin load!");
             Logging.Log("Translation test: " + Test.Translations["test"]); // Call the translation
             Logging.Log("Configuration test: " + (string)Test.Configurations["test"]); // Call the test configuration
+
+            ServerEvents.OnPlayerConnected += new ServerEvents.PlayerConnectionHandler(OnPlayerJoin);
+            ServerEvents.OnPlayerDisconnected += new ServerEvents.PlayerConnectionHandler(OnPlayerLeave);
         }
 
         public override void Unload()
         {
             Logging.Log("Hello from test plugin unload!");
+        }
+
+        private void OnPlayerJoin(UnturnedPlayer player)
+        {
+            Logging.Log("Join: " + player.PlayerName);
+        }
+
+        private void OnPlayerLeave(UnturnedPlayer player)
+        {
+            Logging.Log("Leave: " + player.PlayerName);
         }
     }
 }
