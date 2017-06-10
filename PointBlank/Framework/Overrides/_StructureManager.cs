@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using SDG.Unturned;
 using UnityEngine;
+using PointBlank.API.Unturned.Structure;
 using PointBlank.API.Unturned.Server;
 using PointBlank.API.Detour;
 using Steamworks;
@@ -49,17 +50,18 @@ namespace PointBlank.Framework.Overrides
         }
 
         [SteamCall]
-        [Detour(typeof(StructureManager), "tellTakeStructure", BindingFlags.Public | BindingFlags.Instance)]
-        public void tellTakeStructure(CSteamID steamID, byte x, byte y, ushort index, Vector3 ragdoll)
+        [Detour(typeof(StructureManager), "askSalvageStructure", BindingFlags.Public | BindingFlags.Instance)]
+        public void askSalvageStructure(CSteamID steamID, byte x, byte y, ushort index)
         {
             StructureRegion structureRegion;
-            if (StructureManager.instance.channel.checkServer(steamID) && StructureManager.tryGetRegion(x, y, out structureRegion))
+            if (StructureManager.tryGetRegion(x, y, out structureRegion))
             {
-                StructureData data = structureRegion.structures[index];
+                StructureData data = structureRegion.structures[(int)index];
 
+                StructureEvents.RunSalvageStructure(UnturnedStructure.Create(data));
             }
 
-            DetourManager.CallOriginal(typeof(StructureManager).GetMethod("tellTakeStructure", BindingFlags.Instance | BindingFlags.Public), StructureManager.instance, x, y, index, ragdoll);
+            DetourManager.CallOriginal(typeof(StructureManager).GetMethod("askSalvageStructure", BindingFlags.Instance | BindingFlags.Public), StructureManager.instance, steamID, x, y, index);
         }
     }
 }
