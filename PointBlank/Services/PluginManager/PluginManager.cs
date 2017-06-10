@@ -105,6 +105,14 @@ namespace PointBlank.Services.PluginManager
             }
             else
             {
+                JSONConfig.Verify(new Dictionary<string, Newtonsoft.Json.Linq.JToken>()
+                {
+                    { "AutoUpdate", "false" },
+                    { "ContinueOnError", "true" },
+                    { "NotifyUpdates", "true" },
+                    { "CheckUpdateTimeSeconds", "1800" }
+                });
+
                 PluginConfiguration.AutoUpdate = ((string)JSONConfig.Document["AutoUpdate"] == "true");
                 PluginConfiguration.ContinueOnError = ((string)JSONConfig.Document["ContinueOnError"] == "true");
                 PluginConfiguration.NotifyUpdates = ((string)JSONConfig.Document["NotifyUpdates"] == "true");

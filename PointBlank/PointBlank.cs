@@ -121,6 +121,13 @@ namespace PointBlank
 
             if (!LoaderData.CreatedNew)
             {
+                data.Verify(new Dictionary<string, JToken>()
+                {
+                    { "ConfigFormat", "XML" },
+                    { "ServerAutoUpdate", "false" },
+                    { "UpdateScriptLocation", "" },
+                    { "CheckUpdateTimeSeconds", "600" }
+                });
                 if (((string)data.Document["ConfigFormat"]).ToLower() == "xml")
                     Configuration.SaveDataType = EDataType.XML;
                 else if (((string)data.Document["ConfigFormat"]).ToLower() == "json")

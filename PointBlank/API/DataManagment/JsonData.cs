@@ -146,6 +146,17 @@ namespace PointBlank.API.DataManagment
         }
 
         /// <summary>
+        /// Verifies the document and adds missing information specified in information
+        /// </summary>
+        /// <param name="information">The information to check from</param>
+        public void Verify(Dictionary<string, JToken> information)
+        {
+            foreach(string key in information.Keys)
+                if (!CheckKey(key))
+                    Document.Add(key, information[key]);
+        }
+
+        /// <summary>
         /// Adds a name + value to an array
         /// </summary>
         /// <param name="array">The array to add to</param>

@@ -30,7 +30,8 @@ namespace TestPlugin
             {
                 return new ConfigurationList()
                 {
-                    { "test", "hello" }
+                    { "test", "hello" },
+                    { "lolz", "smth" }
                 };
             }
         }
@@ -44,24 +45,11 @@ namespace TestPlugin
             Logging.Log("Hello from test plugin load!");
             Logging.Log("Translation test: " + Test.Translations["test"]); // Call the translation
             Logging.Log("Configuration test: " + (string)Test.Configurations["test"]); // Call the test configuration
-
-            ServerEvents.OnStructureCreated += new ServerEvents.StructureStatusHandler(TestEvent1);
-            ServerEvents.OnStructureRemoved += new ServerEvents.StructureStatusHandler(TestEvent2);
         }
 
         public override void Unload()
         {
             Logging.Log("Hello from test plugin unload!");
-        }
-
-        private void TestEvent1(UnturnedStructure test)
-        {
-            Logging.Log("Structure Created!");
-        }
-
-        private void TestEvent2(UnturnedStructure test)
-        {
-            Logging.Log("Structure Removed!");
         }
     }
 }

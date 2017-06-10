@@ -8,6 +8,7 @@ using UnityEngine;
 using Newtonsoft.Json.Linq;
 using PointBlank.API;
 using PointBlank.API.Services;
+using PointBlank.API.Plugins;
 using PointBlank.API.DataManagment;
 using PointBlank.Framework.Wrappers;
 
@@ -116,6 +117,9 @@ namespace PointBlank.Framework
             foreach (Type class_type in Assembly.GetExecutingAssembly().GetTypes()) // Load the local services
                 LoadService(class_type);
 
+            // Setup the events
+            PluginEvents.OnPluginLoaded += new PluginEvents.PluginEventHandler(OnPluginLoaded);
+
             // Set the variables
             Initialized = true;
         }
@@ -131,6 +135,14 @@ namespace PointBlank.Framework
 
             // Set the variables
             Initialized = false;
+        }
+        #endregion
+
+        #region Event Functions
+        private void OnPluginLoaded(Plugin plugin)
+        {
+            foreach (Type class_type in plugin.GetType().Assembly.GetTypes())
+                LoadService(class_type);
         }
         #endregion
     }
