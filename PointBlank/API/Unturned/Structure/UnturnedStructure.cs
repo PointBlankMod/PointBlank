@@ -86,6 +86,26 @@ namespace PointBlank.API.Unturned.Structure
                 return stru;
             return new UnturnedStructure(data);
         }
+
+        /// <summary>
+        /// Finds a structure based on the unturned structure instance
+        /// </summary>
+        /// <param name="structure">The unturned structure instance</param>
+        /// <returns>The instance of the custom structure class</returns>
+        public static UnturnedStructure FindStructure(UStructure structure)
+        {
+            return UnturnedServer.Structures.FirstOrDefault(a => a.Structure == structure);
+        }
+
+        /// <summary>
+        /// Finds a structure based on the structure data
+        /// </summary>
+        /// <param name="data">The structure data</param>
+        /// <returns>The unturned structure instance</returns>
+        public static UnturnedStructure FindStructure(StructureData data)
+        {
+            return UnturnedServer.Structures.FirstOrDefault(a => a.Data == data);
+        }
         #endregion
 
         #region Public Functions

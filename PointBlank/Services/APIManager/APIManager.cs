@@ -32,10 +32,12 @@ namespace PointBlank.Services.APIManager
             // Setup events
             Provider.onEnemyConnected += new Provider.EnemyConnected(ServerEvents.RunPlayerConnected);
             Provider.onEnemyDisconnected += new Provider.EnemyDisconnected(ServerEvents.RunPlayerDisconnected);
+            Provider.onServerShutdown += new Provider.ServerShutdown(ServerEvents.RunServerShutdown);
             LightingManager.onDayNightUpdated += new DayNightUpdated(ServerEvents.RunDayNight);
             LightingManager.onMoonUpdated += new MoonUpdated(ServerEvents.RunFullMoon);
             LightingManager.onRainUpdated += new RainUpdated(ServerEvents.RunRainUpdated);
             StructureEvents.OnDestroyStructure += new StructureEvents.StructureDestroyHandler(ServerEvents.RunStructureRemoved);
+            StructureEvents.OnSalvageStructure += new StructureEvents.StructureDestroyHandler(ServerEvents.RunStructureRemoved);
 
             // Run code
             tGame.Start();

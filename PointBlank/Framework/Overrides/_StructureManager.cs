@@ -7,6 +7,7 @@ using SDG.Unturned;
 using UnityEngine;
 using PointBlank.API.Unturned.Server;
 using PointBlank.API.Detour;
+using Steamworks;
 
 namespace PointBlank.Framework.Overrides
 {
@@ -45,6 +46,20 @@ namespace PointBlank.Framework.Overrides
                     ServerEvents.RunStructureCreated(structureData);
                 }
             }
+        }
+
+        [SteamCall]
+        [Detour(typeof(StructureManager), "tellTakeStructure", BindingFlags.Public | BindingFlags.Instance)]
+        public void tellTakeStructure(CSteamID steamID, byte x, byte y, ushort index, Vector3 ragdoll)
+        {
+            StructureRegion structureRegion;
+            if (StructureManager.instance.channel.checkServer(steamID) && StructureManager.tryGetRegion(x, y, out structureRegion))
+            {
+                StructureData data = structureRegion.structures[index];
+
+            }
+
+            DetourManager.CallOriginal(typeof(StructureManager).GetMethod("tellTakeStructure", BindingFlags.Instance | BindingFlags.Public), StructureManager.instance, x, y, index, ragdoll);
         }
     }
 }

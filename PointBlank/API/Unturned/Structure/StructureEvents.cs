@@ -46,6 +46,10 @@ namespace PointBlank.API.Unturned.Structure
         /// Called when a structure gets destroyed
         /// </summary>
         public static event StructureDestroyHandler OnDestroyStructure;
+        /// <summary>
+        /// Called when a structure gets salvaged
+        /// </summary>
+        public static event StructureDestroyHandler OnSalvageStructure;
         #endregion
 
         #region Functions
@@ -72,6 +76,13 @@ namespace PointBlank.API.Unturned.Structure
                 return;
 
             OnDestroyStructure(structure);
+        }
+        internal static void RunSalvageStructure(UnturnedStructure structure)
+        {
+            if (OnSalvageStructure == null)
+                return;
+
+            OnSalvageStructure(structure);
         }
         #endregion
     }

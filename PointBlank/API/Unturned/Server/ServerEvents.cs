@@ -51,6 +51,11 @@ namespace PointBlank.API.Unturned.Server
         public static event OnVoidDelegate OnThreadTick;
 
         /// <summary>
+        /// Called when the server is shutting down
+        /// </summary>
+        public static event OnVoidDelegate OnServerShutdown;
+
+        /// <summary>
         /// Called when a player connected to the server
         /// </summary>
         public static event PlayerConnectionHandler OnPlayerConnected;
@@ -124,6 +129,14 @@ namespace PointBlank.API.Unturned.Server
                 return;
 
             OnThreadTick();
+        }
+
+        internal static void RunServerShutdown()
+        {
+            if (OnServerShutdown == null)
+                return;
+
+            OnServerShutdown();
         }
 
         internal static void RunPlayerConnected(SteamPlayer player)

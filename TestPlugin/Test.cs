@@ -6,7 +6,8 @@ using PointBlank.API;
 using PointBlank.API.Collections;
 using PointBlank.API.Plugins;
 using PointBlank.API.Unturned.Server;
-using PointBlank.API.Unturned.Player;
+using PointBlank.API.Unturned.Structure;
+using SDG.Unturned;
 
 namespace TestPlugin
 {
@@ -44,8 +45,8 @@ namespace TestPlugin
             Logging.Log("Translation test: " + Test.Translations["test"]); // Call the translation
             Logging.Log("Configuration test: " + (string)Test.Configurations["test"]); // Call the test configuration
 
-            ServerEvents.OnPlayerConnected += new ServerEvents.PlayerConnectionHandler(OnPlayerJoin);
-            ServerEvents.OnPlayerDisconnected += new ServerEvents.PlayerConnectionHandler(OnPlayerLeave);
+            ServerEvents.OnStructureCreated += new ServerEvents.StructureStatusHandler(TestEvent1);
+            ServerEvents.OnStructureRemoved += new ServerEvents.StructureStatusHandler(TestEvent2);
         }
 
         public override void Unload()
@@ -53,14 +54,14 @@ namespace TestPlugin
             Logging.Log("Hello from test plugin unload!");
         }
 
-        private void OnPlayerJoin(UnturnedPlayer player)
+        private void TestEvent1(UnturnedStructure test)
         {
-            Logging.Log("Join: " + player.PlayerName);
+            Logging.Log("Structure Created!");
         }
 
-        private void OnPlayerLeave(UnturnedPlayer player)
+        private void TestEvent2(UnturnedStructure test)
         {
-            Logging.Log("Leave: " + player.PlayerName);
+            Logging.Log("Structure Removed!");
         }
     }
 }

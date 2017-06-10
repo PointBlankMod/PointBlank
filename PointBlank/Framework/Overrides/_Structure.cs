@@ -16,7 +16,7 @@ namespace PointBlank.Framework.Overrides
         public static void askDamage(this Structure stru, ushort amount)
         {
             // Run the events
-            StructureEvents.RunDamageStructure(UnturnedServer.FindStructure(stru), amount);
+            StructureEvents.RunDamageStructure(UnturnedStructure.FindStructure(stru), amount);
 
             // Run the original function
             DetourManager.CallOriginal(typeof(Structure).GetMethod("askDamage", BindingFlags.Instance | BindingFlags.Public), stru, amount);
@@ -26,7 +26,7 @@ namespace PointBlank.Framework.Overrides
         public static void askRepair(this Structure stru, ushort amount)
         {
             // Run the events
-            StructureEvents.RunRepairStructure(UnturnedServer.FindStructure(stru), amount);
+            StructureEvents.RunRepairStructure(UnturnedStructure.FindStructure(stru), amount);
 
             // Run the original function
             DetourManager.CallOriginal(typeof(Structure).GetMethod("askRepair", BindingFlags.Instance | BindingFlags.Public), stru, amount);
