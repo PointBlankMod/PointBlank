@@ -144,7 +144,7 @@ namespace PointBlank.Services.PluginManager
                 return false;
             string bVersion = "";
 
-            WebsiteData.GetData(PluginClass.VersionURL, out bVersion, false, Enviroment.WebsiteClient);
+            WebsiteData.GetData(PluginClass.VersionURL, out bVersion);
 
             return (bVersion != Version);
         }
@@ -157,7 +157,7 @@ namespace PointBlank.Services.PluginManager
                 return;
 
             Logging.LogImportant("Downloading " + Name + "...");
-            WebsiteData.DownloadFile(PluginClass.BuildURL, Location, false, Enviroment.WebsiteClient);
+            WebsiteData.DownloadFile(PluginClass.BuildURL, Location);
             Logging.LogImportant(Name + " updated successfully! Please restart the server to finalize the update!");
         }
 

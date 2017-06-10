@@ -493,7 +493,7 @@ namespace PointBlank.API.Unturned.Player
         /// </summary>
         /// <param name="steamplayer">The steam player to build from</param>
         /// <returns>An unturned player instance</returns>
-        public static UnturnedPlayer Create(SPlayer steamplayer)
+        internal static UnturnedPlayer Create(SPlayer steamplayer)
         {
             UnturnedPlayer ply = UnturnedServer.Players.FirstOrDefault(a => a.SteamPlayer == steamplayer);
 

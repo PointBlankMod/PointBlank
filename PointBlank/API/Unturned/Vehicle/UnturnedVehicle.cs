@@ -304,7 +304,7 @@ namespace PointBlank.API.Unturned.Vehicle
         /// </summary>
         /// <param name="vehicle">The vehicle instance</param>
         /// <returns>The unturned vehicle instance</returns>
-        public static UnturnedVehicle Create(InteractableVehicle vehicle)
+        internal static UnturnedVehicle Create(InteractableVehicle vehicle)
         {
             UnturnedVehicle veh = UnturnedServer.Vehicles.FirstOrDefault(a => a.Vehicle == vehicle);
 

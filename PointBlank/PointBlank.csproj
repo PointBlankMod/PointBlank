@@ -111,6 +111,7 @@
     <Compile Include="Framework\Overrides\_InteractableVehicle.cs" />
     <Compile Include="Framework\Overrides\_Structure.cs" />
     <Compile Include="Framework\Overrides\_StructureManager.cs" />
+    <Compile Include="Framework\Overrides\_VehicleManager.cs" />
     <Compile Include="Framework\Permissions\Ring\RingPermission.cs" />
     <Compile Include="Framework\Permissions\Ring\RingPermissionAttribute.cs" />
     <Compile Include="Framework\Permissions\Ring\RingPermissionRing.cs" />
@@ -125,7 +126,6 @@
     <Compile Include="Services\DetourManager\DetourManager.cs" />
     <Compile Include="Services\DetourManager\DetourWrapper.cs" />
     <Compile Include="Services\DetourManager\RedirectionHelper.cs" />
-    <Compile Include="Services\PermissionManager\PermissionManager.cs" />
     <Compile Include="Services\PluginManager\PluginConfiguration.cs" />
     <Compile Include="Services\PluginManager\PluginWrapper.cs" />
     <Compile Include="Services\RCON\RCONClient.cs" />

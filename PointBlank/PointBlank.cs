@@ -104,9 +104,6 @@ namespace PointBlank
         #region Functions
         private void ApplyPatches()
         {
-            ServicePointManager.ServerCertificateValidationCallback += new RemoteCertificateValidationCallback(ValidateCertificate);
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls;
-
             new I18N.West.CP1250(); // Fix the SQL error with mono
         }
 
@@ -158,7 +155,7 @@ namespace PointBlank
         #endregion
 
         #region Event Functions
-        private static bool ValidateCertificate(object sender, X509Certificate cert, X509Chain chain, SslPolicyErrors errors)
+        internal static bool ValidateCertificate(object sender, X509Certificate cert, X509Chain chain, SslPolicyErrors errors)
         {
             return (errors == SslPolicyErrors.None);
         }

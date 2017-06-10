@@ -16,7 +16,5 @@ namespace PointBlank
         public static Dictionary<string, RuntimeObject> runtimeObjects = new Dictionary<string, RuntimeObject>(); // The list of runtime objects
 
         public static List<SQLData> SQLConnections = new List<SQLData>(); // The list of all the sql connections
-
-        public static WeebClient WebsiteClient = new WeebClient(); // Website client for pointblank
     }
 }

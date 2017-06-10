@@ -78,7 +78,7 @@ namespace PointBlank.API.Unturned.Structure
         /// </summary>
         /// <param name="data">The structure data</param>
         /// <returns>The unturned structure instance</returns>
-        public static UnturnedStructure Create(StructureData data)
+        internal static UnturnedStructure Create(StructureData data)
         {
             UnturnedStructure stru = UnturnedServer.Structures.FirstOrDefault(a => a.Data == data);
 
