@@ -32,7 +32,7 @@ namespace PointBlank.Services.PluginManager
         public Plugin PluginClass { get; private set; }
 
         public UniversalData UniConfigurationData { get; private set; }
-        public XMLData ConfigurationData { get; private set; }
+        public JsonData ConfigurationData { get; private set; }
         public UniversalData UniTranslationData { get; private set; }
         public JsonData TranslationData { get; private set; }
         #endregion
@@ -51,7 +51,7 @@ namespace PointBlank.Services.PluginManager
             PluginAssembly = Assembly.Load(File.ReadAllBytes(pluginPath)); // Load the assembly
 
             UniConfigurationData = new UniversalData(PluginManager.ConfigurationPath + "\\" + Name); // Load the configuration data
-            ConfigurationData = UniConfigurationData.GetData(EDataType.XML) as XMLData; // Get the XML
+            ConfigurationData = UniConfigurationData.GetData(EDataType.JSON) as JsonData; // Get the JSON
             UniTranslationData = new UniversalData(ServerInfo.TranslationsPath + "\\" + Name); // Load the translation data
             TranslationData = UniTranslationData.GetData(EDataType.JSON) as JsonData; // Get the JSON
 
@@ -87,28 +87,30 @@ namespace PointBlank.Services.PluginManager
             if (ConfigurationData.CreatedNew)
                 return; // If it was just created don't bother loading
 
-            foreach (XmlNode node in ConfigurationData.GetChildNodes("/Data"))
-                Configurations[node.Name] = Convert.ChangeType(node.InnerText, Type.GetType(node.Attributes["Type"].Value)); // Add the configuration
+            foreach(JProperty obj in ConfigurationData.Document.Properties())
+            {
+                if (Configurations[obj.Name] == null)
+                    continue;
+
+                try
+                {
+                    Configurations[obj.Name] = obj.Value.ToObject(Configurations[obj.Name].GetType());
+                }
+                catch(Exception ex)
+                {
+                    ConfigurationData.Document[obj.Name] = JToken.FromObject(Configurations[obj.Name]);
+                }
+            }
         }
 
         private void SaveConfiguration()
         {
             foreach(KeyValuePair<string, object> config in Configurations)
             {
-                if(ConfigurationData.CheckNode("/Data/" + config.Key))
-                {
-                    ConfigurationData.SetValue("/Data/" + config.Key, config.Value.ToString());
-                    ConfigurationData.GetAttributes("/Data/" + config.Key)["Type"].InnerText = config.Value.GetType().ToString();
-                }
+                if (ConfigurationData.CheckKey(config.Key))
+                    ConfigurationData.Document[config.Key] = JToken.FromObject(config.Value);
                 else
-                {
-                    XmlAttribute att = ConfigurationData.Document.CreateAttribute("Type");
-
-                    ConfigurationData.AddNode("/Data", config.Key, config.Value.ToString());
-                    ConfigurationData.GetAttributes("/Data/" + config.Key).Append(att);
-
-                    att.Value = config.Value.GetType().ToString();
-                }
+                    ConfigurationData.Document.Add(config.Key, JToken.FromObject(config.Value));
             }
             UniConfigurationData.Save();
         }

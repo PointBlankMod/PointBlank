@@ -29,6 +29,9 @@ namespace PointBlank.API.Collections
         {
             get
             {
+                if (!Configurations.ContainsKey(configuration_name))
+                    return null;
+
                 return Configurations[configuration_name];
             }
             set

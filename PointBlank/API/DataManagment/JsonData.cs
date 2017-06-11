@@ -83,45 +83,45 @@ namespace PointBlank.API.DataManagment
         }
 
         /// <summary>
-        /// Serializes a class instance into a JSON file
+        /// Serializes a class instance into a JSON
         /// </summary>
-        /// <param name="filepath">The path to the file</param>
         /// <param name="instance">The instance of the class</param>
-        public static void Serialize(string filepath, object instance)
+        /// <returns>The JSON string</returns>
+        public static string Serialize(object instance)
         {
-            File.WriteAllText(filepath, JsonConvert.SerializeObject(instance)); // Serialize the object
+            return JsonConvert.SerializeObject(instance); // Serialize the object
         }
 
         /// <summary>
-        /// Serializes a class into a JSON file
+        /// Serializes a class into a JSON
         /// </summary>
         /// <typeparam name="T">The class to serialize</typeparam>
-        /// <param name="filepath">The path to the file</param>
-        public static void Serialize<T>(string filepath)
+        /// <returns>The JSON string/returns>
+        public static string Serialize<T>()
         {
-            File.WriteAllText(filepath, JsonConvert.SerializeObject(Activator.CreateInstance<T>())); // Instentate the class and serialize the instance
+            return JsonConvert.SerializeObject(Activator.CreateInstance<T>()); // Instentate the class and serialize the instance
         }
 
         /// <summary>
-        /// Deserializes a JSON file into an instance of a class
+        /// Deserializes JSON into an instance of a class
         /// </summary>
-        /// <param name="filepath">The path to the file</param>
+        /// <param name="json">The JSON</param>
         /// <param name="type">The type to deserialize to</param>
         /// <returns>Instance of the deserialized file</returns>
-        public static object Deserialize(string filepath, Type type)
+        public static object Deserialize(string json, Type type)
         {
-            return JsonConvert.DeserializeObject(File.ReadAllText(filepath), type); // Deserialize the file
+            return JsonConvert.DeserializeObject(json, type); // Deserialize the file
         }
 
         /// <summary>
-        /// Deserialize a JSON file into an instance of a class
+        /// Deserialize JSON into an instance of a class
         /// </summary>
         /// <typeparam name="T">The class</typeparam>
-        /// <param name="filepath">The file</param>
+        /// <param name="json">The JSON</param>
         /// <returns>Instance of the class deserialized from JSON</returns>
-        public static T Deserialize<T>(string filepath)
+        public static T Deserialize<T>(string json)
         {
-            return JsonConvert.DeserializeObject<T>(File.ReadAllText(filepath)); // Deserialize the JSON file
+            return JsonConvert.DeserializeObject<T>(json); // Deserialize the JSON
         }
         #endregion
 

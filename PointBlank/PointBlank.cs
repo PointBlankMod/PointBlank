@@ -123,7 +123,7 @@ namespace PointBlank
             {
                 data.Verify(new Dictionary<string, JToken>()
                 {
-                    { "ConfigFormat", "XML" },
+                    { "ConfigFormat", "JSON" },
                     { "ServerAutoUpdate", "false" },
                     { "UpdateScriptLocation", "" },
                     { "CheckUpdateTimeSeconds", "600" }
@@ -140,12 +140,12 @@ namespace PointBlank
             }
             else
             {
-                data.Document.Add("ConfigFormat", "XML");
+                data.Document.Add("ConfigFormat", "JSON");
                 data.Document.Add("ServerAutoUpdate", "false");
                 data.Document.Add("UpdateScriptLocation", "");
                 data.Document.Add("CheckUpdateTimeSeconds", "600");
 
-                Configuration.SaveDataType = EDataType.XML;
+                Configuration.SaveDataType = EDataType.JSON;
                 Configuration.ServerAutoUpdate = false;
                 Configuration.UpdateScriptLocation = "";
                 Configuration.CheckUpdateTimeSeconds = 600;

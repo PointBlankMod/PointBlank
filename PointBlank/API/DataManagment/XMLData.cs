@@ -97,74 +97,82 @@ namespace PointBlank.API.DataManagment
         }
 
         /// <summary>
-        /// Serializes a class instance to XML file
+        /// Serializes a class instance to XML
         /// </summary>
-        /// <param name="filepath">The path to the file</param>
         /// <param name="instance">The instance of the class</param>
-        public static void Serialize(string filepath, object instance)
+        /// <returns>The XML</returns>
+        public static string Serialize(object instance)
         {
             XmlSerializer serializer = new XmlSerializer(instance.GetType()); // Create the serializer
+            XmlSerializerNamespaces ns = new XmlSerializerNamespaces(new[] { XmlQualifiedName.Empty });
+            XmlWriterSettings settings = new XmlWriterSettings();
+            settings.Indent = true;
+            settings.OmitXmlDeclaration = true;
 
-            using(StreamWriter writer = new StreamWriter(filepath)) // Create a temporary file stream writer
+            using(StringWriter writer = new StringWriter()) // Create a temporary stream writer
             {
-                serializer.Serialize(writer, instance); // Serialize
-                writer.Close(); // Close the writer
+                using(XmlWriter xmlWriter = XmlWriter.Create(writer, settings))
+                {
+                    serializer.Serialize(xmlWriter, instance, ns); // Serialize
+                    return writer.ToString();
+                }
             }
         }
 
         /// <summary>
-        /// Serializes a class to XML file
+        /// Serializes a class to XML
         /// </summary>
         /// <typeparam name="T">The class</typeparam>
-        /// <param name="filepath">The path to the file</param>
-        public static void Serialize<T>(string filepath)
+        /// <returns>The XML</returns>
+        public static string Serialize<T>()
         {
             XmlSerializer serializer = new XmlSerializer(typeof(T)); // Create the serializer
+            XmlSerializerNamespaces ns = new XmlSerializerNamespaces(new[] { XmlQualifiedName.Empty });
+            XmlWriterSettings settings = new XmlWriterSettings();
+            settings.Indent = true;
+            settings.OmitXmlDeclaration = true;
             T instance = Activator.CreateInstance<T>(); // Instentate the class
 
-            using(StreamWriter writer = new StreamWriter(filepath)) // Create a temporary file stream writer
+            using (StringWriter writer = new StringWriter()) // Create a temporary stream writer
             {
-                serializer.Serialize(writer, instance); // Serialize
-                writer.Close(); // Close the writer
+                using (XmlWriter xmlWriter = XmlWriter.Create(writer, settings))
+                {
+                    serializer.Serialize(xmlWriter, instance, ns); // Serialize
+                    return writer.ToString();
+                }
             }
         }
 
         /// <summary>
-        /// Deserializes a file into an instance
+        /// Deserializes XML into an instance
         /// </summary>
-        /// <param name="filepath">The path to file</param>
+        /// <param name="xml">The XML</param>
         /// <param name="type">The file type</param>
         /// <returns>The instance of the object</returns>
-        public static object Deserialize(string filepath, Type type)
+        public static object Deserialize(string xml, Type type)
         {
             XmlSerializer serializer = new XmlSerializer(type); // Create the serializer
             object instance = null; // Create instance variable
 
-            using(StreamReader reader = new StreamReader(filepath)) // Create a temporary file stream reader
-            {
+            using (StringReader reader = new StringReader(xml)) // Create a temporary stream reader
                 instance = serializer.Deserialize(reader); // Deserialize
-                reader.Close(); // Close the reader
-            }
-
+                
             return instance; // Return the instance
         }
 
         /// <summary>
-        /// Deserializes a file into an instance
+        /// Deserializes XML into an instance
         /// </summary>
         /// <typeparam name="T">The class to deserialize to</typeparam>
-        /// <param name="filepath">The file path</param>
+        /// <param name="xml">The XML</param>
         /// <returns>The instance of the class</returns>
-        public static T Deserialize<T>(string filepath)
+        public static T Deserialize<T>(string xml)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(T)); // Create the serializer
             T instance; // Create instance variable
 
-            using (StreamReader reader = new StreamReader(filepath)) // Create a temporary file stream reader
-            {
+            using (StringReader reader = new StringReader(xml)) // Create a temporary stream reader
                 instance = (T)serializer.Deserialize(reader); // Deserialize
-                reader.Close(); // Close the reader
-            }
 
             return instance; // Return the instance
         }
@@ -185,6 +193,20 @@ namespace PointBlank.API.DataManagment
             }
 
             return "/" + path;
+        }
+
+        /// <summary>
+        /// Converts a string node to an XML node
+        /// </summary>
+        /// <param name="node">The string node</param>
+        /// <returns>The XML node</returns>
+        public static XmlNode StringToNode(string node)
+        {
+            XmlDocument doc = new XmlDocument();
+
+            doc.LoadXml(node);
+
+            return doc.DocumentElement;
         }
         #endregion
 

@@ -31,7 +31,14 @@ namespace TestPlugin
                 return new ConfigurationList()
                 {
                     { "test", "hello" },
-                    { "lolz", "smth" }
+                    { "lolz", "smth" },
+                    { "testList", new List<object>()
+                    {
+                        "test string 1",
+                        69,
+                        "test string 2"
+                    } },
+                    { "adding", "just a test" }
                 };
             }
         }
@@ -45,6 +52,7 @@ namespace TestPlugin
             Logging.Log("Hello from test plugin load!");
             Logging.Log("Translation test: " + Test.Translations["test"]); // Call the translation
             Logging.Log("Configuration test: " + (string)Test.Configurations["test"]); // Call the test configuration
+            Logging.Log("Configuration test 2: " + (string)((List<object>)Test.Configurations["testList"])[0]);
         }
 
         public override void Unload()
