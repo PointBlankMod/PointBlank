@@ -149,6 +149,7 @@ namespace PointBlank
                 Configuration.ServerAutoUpdate = false;
                 Configuration.UpdateScriptLocation = "";
                 Configuration.CheckUpdateTimeSeconds = 600;
+                LoaderData.Save();
             }
         }
 

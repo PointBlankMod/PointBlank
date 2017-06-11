@@ -89,6 +89,7 @@ namespace PointBlank.Framework
                 jObj.Add("Replace", (attribute.Replace ? "true" : "false")); //  Add the replace
 
                 ServicesData.Document.Add(attribute.Name, jObj); // Add the jobject
+                UniServicesData.Save();
             }
 
             RunService(service, attribute); // Run the service

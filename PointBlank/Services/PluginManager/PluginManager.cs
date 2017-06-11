@@ -102,6 +102,7 @@ namespace PointBlank.Services.PluginManager
                 JSONConfig.Document.Add("ContinueOnError", (PluginConfiguration.ContinueOnError ? "true" : "false"));
                 JSONConfig.Document.Add("NotifyUpdates", (PluginConfiguration.NotifyUpdates ? "true" : "false"));
                 JSONConfig.Document.Add("CheckUpdateTimeSeconds", PluginConfiguration.CheckUpdateTimeSeconds.ToString());
+                UniConfig.Save();
             }
             else
             {

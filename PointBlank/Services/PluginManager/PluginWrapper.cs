@@ -101,6 +101,7 @@ namespace PointBlank.Services.PluginManager
                     ConfigurationData.Document[obj.Name] = JToken.FromObject(Configurations[obj.Name]);
                 }
             }
+            UniConfigurationData.Save();
         }
 
         private void SaveConfiguration()
