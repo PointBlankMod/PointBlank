@@ -8,6 +8,8 @@ using PointBlank.API.Steam;
 using PointBlank.API.Groups;
 using PointBlank.API.Services;
 using PointBlank.API.DataManagment;
+using PointBlank.API.Unturned.Player;
+using PointBlank.API.Unturned.Server;
 
 namespace PointBlank.Services.APIManager
 {
@@ -56,7 +58,9 @@ namespace PointBlank.Services.APIManager
 
         public override void Unload()
         {
-            
+            // Save the configs
+            SaveGroups();
+            SaveSteamGroups();
         }
         #endregion
 
@@ -77,61 +81,266 @@ namespace PointBlank.Services.APIManager
             {
                 JObject obj = GroupConfig.Document[g.ID] as JObject;
 
-                foreach(JToken token in (JArray)obj["Inherits"])
+                if(obj["Inherits"] is JArray)
                 {
-                    Group i = GroupManager.Groups.FirstOrDefault(a => a.ID == (string)token);
+                    foreach (JToken token in (JArray)obj["Inherits"])
+                    {
+                        Group i = GroupManager.Groups.FirstOrDefault(a => a.ID == (string)token);
+
+                        if (i == null)
+                            continue;
+                        g.AddInherit(i);
+                    }
+                }
+                else
+                {
+                    Group i = GroupManager.Groups.FirstOrDefault(a => a.ID == (string)obj["Inherits"]);
 
                     if (i == null)
                         continue;
                     g.AddInherit(i);
                 }
-                foreach(JToken token in (JArray)obj["Permissions"])
+                if(obj["Permissions"] is JArray)
                 {
-                    if (g.Permissions.Contains((string)token))
-                        continue;
+                    foreach (JToken token in (JArray)obj["Permissions"])
+                    {
+                        if (g.Permissions.Contains((string)token))
+                            continue;
 
-                    g.AddPermission((string)token);
+                        g.AddPermission((string)token);
+                    }
                 }
-                foreach (JToken token in (JArray)obj["Prefixes"])
+                else
                 {
-                    if (g.Prefixes.Contains((string)token))
+                    if (g.Permissions.Contains((string)obj["Permissions"]))
                         continue;
 
-                    g.AddPrefix((string)token);
+                    g.AddPermission((string)obj["Permissions"]);
                 }
-                foreach (JToken token in (JArray)obj["Suffixes"])
+                if(obj["Prefixes"] is JArray)
                 {
-                    if (g.Suffixes.Contains((string)token))
+                    foreach (JToken token in (JArray)obj["Prefixes"])
+                    {
+                        if (g.Prefixes.Contains((string)token))
+                            continue;
+
+                        g.AddPrefix((string)token);
+                    }
+                }
+                else
+                {
+                    if (g.Prefixes.Contains((string)obj["Prefixes"]))
                         continue;
 
-                    g.AddSuffix((string)token);
+                    g.AddPrefix((string)obj["Prefixes"]);
+                }
+                if(obj["Suffixes"] is JArray)
+                {
+                    foreach (JToken token in (JArray)obj["Suffixes"])
+                    {
+                        if (g.Suffixes.Contains((string)token))
+                            continue;
+
+                        g.AddSuffix((string)token);
+                    }
+                }
+                else
+                {
+                    if (g.Suffixes.Contains((string)obj["Suffixes"]))
+                        continue;
+
+                    g.AddSuffix((string)obj["Suffixes"]);
                 }
             }
         }
 
         private void FirstGroups()
         {
-            Group g = new Group("Guest", "Guest Group", true, 100);
+            // Create the groups
+            Group guest = new Group("Guest", "Guest Group", true, 100);
+            Group admin = new Group("Admin", "Admin Group", false, 0);
+
+            // Configure guest group
+            guest.AddPermission("unturned.commands.nonadmin.*");
+            guest.AddPrefix("Guest");
+            guest.AddSuffix("Guest");
+            GroupManager.AddGroup(guest);
+
+            // Configure admin group
+            admin.AddPermission("unturned.commands.admin.*");
+            admin.AddPrefix("Admin");
+            admin.AddSuffix("Admin");
+            admin.AddInherit(guest);
+            GroupManager.AddGroup(admin);
+
+            // Save the groups
+            SaveGroups();
         }
 
         private void SaveGroups()
         {
+            foreach(Group g in GroupManager.Groups)
+            {
+                if(GroupConfig.Document[g.ID] != null)
+                {
+                    JObject obj = GroupConfig.Document[g.ID] as JObject;
 
+                    obj["Permissions"] = JToken.FromObject(g.Permissions);
+                    obj["Prefixes"] = JToken.FromObject(g.Prefixes);
+                    obj["Suffixes"] = JToken.FromObject(g.Suffixes);
+                    obj["Inherits"] = JToken.FromObject(g.Inherits.Select(a => a.ID));
+                    obj["Cooldown"] = g.Cooldown;
+                }
+                else
+                {
+                    JObject obj = new JObject();
+
+                    obj.Add("Name", g.Name);
+                    obj.Add("Default", g.Default);
+                    obj.Add("Permissions", JToken.FromObject(g.Permissions));
+                    obj.Add("Prefixes", JToken.FromObject(g.Prefixes));
+                    obj.Add("Suffixes", JToken.FromObject(g.Suffixes));
+                    obj.Add("Inherits", JToken.FromObject(g.Inherits.Select(a => a.ID)));
+                    obj.Add("Cooldown", g.Cooldown);
+
+                    GroupConfig.Document.Add(g.ID, obj);
+                }
+            }
+            UniGroupConfig.Save();
         }
 
         private void LoadSteamGroups()
         {
+            foreach(JProperty obj in SteamGroupConfig.Document.Properties())
+            {
+                if (SteamGroupManager.Groups.Count(a => a.ID == ulong.Parse(obj.Name)) > 0)
+                    continue;
 
+                SteamGroup g = new SteamGroup(ulong.Parse(obj.Name), (int)obj.Value["Cooldown"]);
+
+                SteamGroupManager.AddSteamGroup(g);
+            }
+
+            foreach(SteamGroup g in SteamGroupManager.Groups)
+            {
+                JObject obj = SteamGroupConfig.Document[g.ID.ToString()] as JObject;
+
+                if(obj["Inherits"] is JArray)
+                {
+                    foreach(JToken token in (JArray)obj["Inherits"])
+                    {
+                        SteamGroup i = SteamGroupManager.Groups.FirstOrDefault(a => a.ID == ulong.Parse((string)token));
+
+                        if (i == null)
+                            continue;
+                        g.AddInherit(i);
+                    }
+                }
+                else
+                {
+                    SteamGroup i = SteamGroupManager.Groups.FirstOrDefault(a => a.ID == ulong.Parse((string)obj["Inherits"]));
+
+                    if (i == null)
+                        continue;
+                    g.AddInherit(i);
+                }
+                if(obj["Permissions"] is JArray)
+                {
+                    foreach(JToken token in (JArray)obj["Permissions"])
+                    {
+                        if (g.Permissions.Contains((string)token))
+                            continue;
+
+                        g.AddPermission((string)token);
+                    }
+                }
+                else
+                {
+                    if (g.Permissions.Contains((string)obj["Permissions"]))
+                        continue;
+
+                    g.AddPermission((string)obj["Permissions"]);
+                }
+                if(obj["Prefixes"] is JArray)
+                {
+                    foreach(JToken token in (JArray)obj["Prefixes"])
+                    {
+                        if (g.Prefixes.Contains((string)token))
+                            continue;
+
+                        g.AddPrefix((string)token);
+                    }
+                }
+                else
+                {
+                    if (g.Prefixes.Contains((string)obj["Prefixes"]))
+                        continue;
+
+                    g.AddPrefix((string)obj["Prefixes"]);
+                }
+                if(obj["Suffixes"] is JArray)
+                {
+                    foreach(JToken token in (JArray)obj["Suffixes"])
+                    {
+                        if (g.Suffixes.Contains((string)token))
+                            continue;
+
+                        g.AddSuffix((string)token);
+                    }
+                }
+                else
+                {
+                    if (g.Suffixes.Contains((string)obj["Suffixes"]))
+                        continue;
+
+                    g.AddSuffix((string)obj["Suffixes"]);
+                }
+            }
         }
 
         private void FirstSteamGroups()
         {
+            // Ceate the groups
+            SteamGroup group = new SteamGroup(103582791437463178, 100);
 
+            // Configure steam group
+            group.AddPermission("unturned.commands.noadmin.*");
+            group.AddPrefix("Workshopper");
+            group.AddSuffix("Workshopper");
+            SteamGroupManager.AddSteamGroup(group);
+
+            // Save the groups
+            SaveSteamGroups();
         }
 
         private void SaveSteamGroups()
         {
+            foreach(SteamGroup g in SteamGroupManager.Groups)
+            {
+                if(SteamGroupConfig.Document[g.ID.ToString()] != null)
+                {
+                    JObject obj = SteamGroupConfig.Document[g.ID.ToString()] as JObject;
 
+                    obj["Permissions"] = JToken.FromObject(g.Permissions);
+                    obj["Prefixes"] = JToken.FromObject(g.Prefixes);
+                    obj["Suffixes"] = JToken.FromObject(g.Suffixes);
+                    obj["Inherits"] = JToken.FromObject(g.Inherits.Select(a => a.ID.ToString()));
+                    obj["Cooldown"] = g.Cooldown;
+                }
+                else
+                {
+                    JObject obj = new JObject();
+
+                    obj.Add("Permissions", JToken.FromObject(g.Permissions));
+                    obj.Add("Prefixes", JToken.FromObject(g.Prefixes));
+                    obj.Add("Suffixes", JToken.FromObject(g.Suffixes));
+                    obj.Add("Inherits", JToken.FromObject(g.Inherits.Select(a => a.ID)));
+                    obj.Add("Cooldown", g.Cooldown);
+
+                    SteamGroupConfig.Document.Add(g.ID.ToString(), obj);
+                }
+            }
+            UniSteamGoupConfig.Save();
         }
         #endregion
 

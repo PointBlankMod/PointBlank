@@ -104,18 +104,11 @@ namespace PointBlank.API.DataManagment
         public static string Serialize(object instance)
         {
             XmlSerializer serializer = new XmlSerializer(instance.GetType()); // Create the serializer
-            XmlSerializerNamespaces ns = new XmlSerializerNamespaces(new[] { XmlQualifiedName.Empty });
-            XmlWriterSettings settings = new XmlWriterSettings();
-            settings.Indent = true;
-            settings.OmitXmlDeclaration = true;
 
             using(StringWriter writer = new StringWriter()) // Create a temporary stream writer
             {
-                using(XmlWriter xmlWriter = XmlWriter.Create(writer, settings))
-                {
-                    serializer.Serialize(xmlWriter, instance, ns); // Serialize
-                    return writer.ToString();
-                }
+                serializer.Serialize(writer, instance); // Serialize
+                return writer.ToString();
             }
         }
 
@@ -127,19 +120,12 @@ namespace PointBlank.API.DataManagment
         public static string Serialize<T>()
         {
             XmlSerializer serializer = new XmlSerializer(typeof(T)); // Create the serializer
-            XmlSerializerNamespaces ns = new XmlSerializerNamespaces(new[] { XmlQualifiedName.Empty });
-            XmlWriterSettings settings = new XmlWriterSettings();
-            settings.Indent = true;
-            settings.OmitXmlDeclaration = true;
             T instance = Activator.CreateInstance<T>(); // Instentate the class
 
             using (StringWriter writer = new StringWriter()) // Create a temporary stream writer
             {
-                using (XmlWriter xmlWriter = XmlWriter.Create(writer, settings))
-                {
-                    serializer.Serialize(xmlWriter, instance, ns); // Serialize
-                    return writer.ToString();
-                }
+                serializer.Serialize(writer, instance); // Serialize
+                return writer.ToString();
             }
         }
 

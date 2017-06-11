@@ -445,6 +445,10 @@ namespace PointBlank.API.Unturned.Player
 
         // Extra data
         /// <summary>
+        /// Any custom data you want to attach to the player
+        /// </summary>
+        public Dictionary<string, Metadata> Metadata { get; private set; }
+        /// <summary>
         /// The command cooldown for the player
         /// </summary>
         public int Cooldown { get; private set; }
@@ -480,6 +484,9 @@ namespace PointBlank.API.Unturned.Player
 
         private UnturnedPlayer(SPlayer steamplayer)
         {
+            // Setup the variables
+            Metadata = new Dictionary<string, API.Metadata>();
+
             // Set the variables
             this.SteamPlayer = steamplayer;
 

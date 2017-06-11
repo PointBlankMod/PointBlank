@@ -85,7 +85,10 @@ namespace PointBlank.Services.PluginManager
             Configurations.AddRange(PluginClass.DefaultConfigurations); // Add the default configurations
 
             if (ConfigurationData.CreatedNew)
+            {
+                SaveConfiguration();
                 return; // If it was just created don't bother loading
+            }
 
             foreach(JProperty obj in ConfigurationData.Document.Properties())
             {
@@ -101,7 +104,6 @@ namespace PointBlank.Services.PluginManager
                     ConfigurationData.Document[obj.Name] = JToken.FromObject(Configurations[obj.Name]);
                 }
             }
-            UniConfigurationData.Save();
         }
 
         private void SaveConfiguration()
