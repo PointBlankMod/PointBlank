@@ -451,7 +451,7 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// The command cooldown for the player
         /// </summary>
-        public int Cooldown { get; private set; }
+        public int Cooldown { get; set; }
         /// <summary>
         /// The bots only this player can see
         /// </summary>

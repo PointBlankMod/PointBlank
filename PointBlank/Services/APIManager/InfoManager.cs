@@ -45,6 +45,10 @@ namespace PointBlank.Services.APIManager
             PlayerConfig = UniPlayerConfig.GetData(EDataType.JSON) as JsonData;
             GroupConfig = UniGroupConfig.GetData(EDataType.JSON) as JsonData;
 
+            // Setup events
+            ServerEvents.OnPlayerConnected += new ServerEvents.PlayerConnectionHandler(OnPlayerJoin);
+            ServerEvents.OnPlayerDisconnected += new ServerEvents.PlayerConnectionHandler(OnPlayerLeave);
+
             // Load the configs
             if (!UniGroupConfig.CreatedNew)
                 LoadGroups();
@@ -54,6 +58,8 @@ namespace PointBlank.Services.APIManager
                 LoadSteamGroups();
             else
                 FirstSteamGroups();
+            if (UniPlayerConfig.CreatedNew)
+                FirstPlayers();
         }
 
         public override void Unload()
@@ -61,6 +67,7 @@ namespace PointBlank.Services.APIManager
             // Save the configs
             SaveGroups();
             SaveSteamGroups();
+            SavePlayers();
         }
         #endregion
 
@@ -213,17 +220,17 @@ namespace PointBlank.Services.APIManager
         {
             foreach(JProperty obj in SteamGroupConfig.Document.Properties())
             {
-                if (SteamGroupManager.Groups.Count(a => a.ID == ulong.Parse(obj.Name)) > 0)
+                if (SteamGroupManager.Groups.Count(a => a.ID == ulong.Parse((string)obj.Value["Steam64"])) > 0)
                     continue;
 
-                SteamGroup g = new SteamGroup(ulong.Parse(obj.Name), (int)obj.Value["Cooldown"]);
+                SteamGroup g = new SteamGroup(ulong.Parse((string)obj.Value["Steam64"]), (int)obj.Value["Cooldown"]);
 
                 SteamGroupManager.AddSteamGroup(g);
             }
 
             foreach(SteamGroup g in SteamGroupManager.Groups)
             {
-                JObject obj = SteamGroupConfig.Document[g.ID.ToString()] as JObject;
+                JObject obj = SteamGroupConfig.Document[g.Name.Replace(' ', '_')] as JObject;
 
                 if(obj["Inherits"] is JArray)
                 {
@@ -238,6 +245,8 @@ namespace PointBlank.Services.APIManager
                 }
                 else
                 {
+                    if (string.IsNullOrEmpty((string)obj["Inherits"]))
+                        continue;
                     SteamGroup i = SteamGroupManager.Groups.FirstOrDefault(a => a.ID == ulong.Parse((string)obj["Inherits"]));
 
                     if (i == null)
@@ -317,9 +326,9 @@ namespace PointBlank.Services.APIManager
         {
             foreach(SteamGroup g in SteamGroupManager.Groups)
             {
-                if(SteamGroupConfig.Document[g.ID.ToString()] != null)
+                if(SteamGroupConfig.Document[g.Name.Replace(' ', '_')] != null)
                 {
-                    JObject obj = SteamGroupConfig.Document[g.ID.ToString()] as JObject;
+                    JObject obj = SteamGroupConfig.Document[g.Name.Replace(' ', '_')] as JObject;
 
                     obj["Permissions"] = JToken.FromObject(g.Permissions);
                     obj["Prefixes"] = JToken.FromObject(g.Prefixes);
@@ -331,20 +340,55 @@ namespace PointBlank.Services.APIManager
                 {
                     JObject obj = new JObject();
 
+                    obj.Add("Steam64", g.ID);
                     obj.Add("Permissions", JToken.FromObject(g.Permissions));
                     obj.Add("Prefixes", JToken.FromObject(g.Prefixes));
                     obj.Add("Suffixes", JToken.FromObject(g.Suffixes));
                     obj.Add("Inherits", JToken.FromObject(g.Inherits.Select(a => a.ID)));
                     obj.Add("Cooldown", g.Cooldown);
 
-                    SteamGroupConfig.Document.Add(g.ID.ToString(), obj);
+                    SteamGroupConfig.Document.Add(g.Name.Replace(' ', '_'), obj);
                 }
             }
             UniSteamGoupConfig.Save();
         }
+
+        private void FirstPlayers()
+        {
+            PlayerConfig.Document.Add("Players", new JArray());
+        }
+
+        private void SavePlayers() // Force save players
+        {
+            JArray arr = PlayerConfig.Document["Players"] as JArray;
+
+            foreach(UnturnedPlayer player in UnturnedServer.Players)
+            {
+                JToken token = arr.FirstOrDefault(a => (string)a["Steam64"] == player.SteamID.ToString());
+
+                if(token != null)
+                {
+                    token["Cooldown"] = player.Cooldown;
+
+                }
+                else
+                {
+
+                }
+            }
+        }
         #endregion
 
         #region Event Functions
+        private void OnPlayerJoin(UnturnedPlayer player)
+        {
+
+        }
+
+        private void OnPlayerLeave(UnturnedPlayer player)
+        {
+
+        }
         #endregion
     }
 }
