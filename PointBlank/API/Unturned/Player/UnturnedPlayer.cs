@@ -11,6 +11,7 @@ using UnityEngine;
 using PointBlank.API.Groups;
 using PointBlank.API.Unturned.Server;
 using PointBlank.API.DataManagment;
+using SP = PointBlank.API.Steam.SteamPlayer;
 using Newtonsoft.Json.Linq;
 using System.Globalization;
 using RG = PointBlank.API.Steam.SteamGroup;
@@ -24,10 +25,8 @@ namespace PointBlank.API.Unturned.Player
     public class UnturnedPlayer
     {
         #region Variables
-        private List<BotPlayer> _Illusions = new List<BotPlayer>();
         private List<UnturnedPlayer> _VisiblePlayers = new List<UnturnedPlayer>();
         private List<Group> _Groups = new List<Group>();
-        private List<RG> _SteamGroups = new List<RG>();
         private List<string> _Prefixes = new List<string>();
         private List<string> _Suffixes = new List<string>();
         private List<string> _Permissions = new List<string>();
@@ -47,6 +46,10 @@ namespace PointBlank.API.Unturned.Player
         /// The steam player ID instance
         /// </summary>
         public SteamPlayerID SteamPlayerID => SteamPlayer.playerID;
+        /// <summary>
+        /// The steam information about the player
+        /// </summary>
+        public SP Steam { get; private set; }
 
         // Steam player ID information
         /// <summary>
@@ -453,10 +456,6 @@ namespace PointBlank.API.Unturned.Player
         /// </summary>
         public int Cooldown { get; set; }
         /// <summary>
-        /// The bots only this player can see
-        /// </summary>
-        public BotPlayer[] Illusions => _Illusions.ToArray();
-        /// <summary>
         /// The players this player can see are in the server
         /// </summary>
         public UnturnedPlayer[] VisiblePlayers => _VisiblePlayers.ToArray();
@@ -467,7 +466,7 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// The steam groups this player is part of
         /// </summary>
-        public RG[] SteamGroups => _SteamGroups.ToArray();
+        public RG[] SteamGroups => Steam.Groups;
         /// <summary>
         /// The prefixes of the player
         /// </summary>
@@ -485,10 +484,11 @@ namespace PointBlank.API.Unturned.Player
         private UnturnedPlayer(SPlayer steamplayer)
         {
             // Setup the variables
-            Metadata = new Dictionary<string, API.Metadata>();
+            Metadata = new Dictionary<string, Metadata>();
 
             // Set the variables
             this.SteamPlayer = steamplayer;
+            this.Steam = new SP(SteamID.m_SteamID);
 
             // Run code
             UnturnedServer.AddPlayer(this);
@@ -511,6 +511,133 @@ namespace PointBlank.API.Unturned.Player
         #endregion
 
         #region Public Functions
+        /// <summary>
+        /// Make a player visible to this player
+        /// </summary>
+        /// <param name="player">The player to make visible</param>
+        public void AddVisiblePlayer(UnturnedPlayer player)
+        {
+            if (VisiblePlayers.Contains(player))
+                return;
+
+            _VisiblePlayers.Add(player);
+            PlayerEvents.RunVisiblePlayerAdd(this, player);
+        }
+        /// <summary>
+        /// Make a player invisible to this player
+        /// </summary>
+        /// <param name="player">The player to make invisible</param>
+        public void RemoveVisiblePlayer(UnturnedPlayer player)
+        {
+            if (!VisiblePlayers.Contains(player))
+                return;
+
+            _VisiblePlayers.Remove(player);
+            PlayerEvents.RunVisiblePlayerRemove(this, player);
+        }
+
+        /// <summary>
+        /// Add the player to a group
+        /// </summary>
+        /// <param name="group">The group to add the player to</param>
+        public void AddGroup(Group group)
+        {
+            if (Groups.Contains(group))
+                return;
+
+            _Groups.Add(group);
+            PlayerEvents.RunGroupAdd(this, group);
+        }
+        /// <summary>
+        /// Remove the player from a group
+        /// </summary>
+        /// <param name="group">The group to remove the player from</param>
+        public void RemoveGroup(Group group)
+        {
+            if (!Groups.Contains(group))
+                return;
+
+            _Groups.Remove(group);
+            PlayerEvents.RunGroupRemove(this, group);
+        }
+
+        /// <summary>
+        /// Adds a prefix to the player
+        /// </summary>
+        /// <param name="prefix">The prefix to add</param>
+        public void AddPrefix(string prefix)
+        {
+            if (Prefixes.Contains(prefix))
+                return;
+
+            _Prefixes.Add(prefix);
+            PlayerEvents.RunPrefixAdd(this, prefix);
+        }
+        /// <summary>
+        /// Removes a prefix from the player
+        /// </summary>
+        /// <param name="prefix">The prefix to remove</param>
+        public void RemovePrefix(string prefix)
+        {
+            if (!Prefixes.Contains(prefix))
+                return;
+
+            _Prefixes.Remove(prefix);
+            PlayerEvents.RunPrefixRemove(this, prefix);
+        }
+
+        /// <summary>
+        /// Adds a suffix to the player
+        /// </summary>
+        /// <param name="suffix">The suffix to add</param>
+        public void AddSuffix(string suffix)
+        {
+            if (Suffixes.Contains(suffix))
+                return;
+
+            _Suffixes.Add(suffix);
+            PlayerEvents.RunSuffixAdd(this, suffix);
+        }
+        /// <summary>
+        /// Removes a suffix from the player
+        /// </summary>
+        /// <param name="suffix">The suffix to remove</param>
+        public void RemoveSuffix(string suffix)
+        {
+            if (!Suffixes.Contains(suffix))
+                return;
+
+            _Suffixes.Remove(suffix);
+            PlayerEvents.RunSuffixRemove(this, suffix);
+        }
+
+        /// <summary>
+        /// Adds a permission to the player
+        /// </summary>
+        /// <param name="permission">The permission to add</param>
+        public void AddPermission(string permission)
+        {
+            if (Permissions.Contains(permission))
+                return;
+
+            _Permissions.Add(permission);
+            PlayerEvents.RunPermissionAdd(this, permission);
+        }
+        /// <summary>
+        /// Removes a permission from the player
+        /// </summary>
+        /// <param name="permission">The permission to remove</param>
+        public void RemovePermission(string permission)
+        {
+            if (!Permissions.Contains(permission))
+                return;
+
+            _Permissions.Remove(permission);
+            PlayerEvents.RunPermissionRemove(this, permission);
+        }
+        #endregion
+
+        #region Unturned Functions
         /// <summary>
         /// Checks if the player has a specific item
         /// </summary>

@@ -369,20 +369,45 @@ namespace PointBlank.Services.APIManager
                 if(token != null)
                 {
                     token["Cooldown"] = player.Cooldown;
-
+                    token["Permissions"] = JToken.FromObject(player.Permissions);
+                    token["Prefixes"] = JToken.FromObject(player.Prefixes);
+                    token["Suffixes"] = JToken.FromObject(player.Suffixes);
+                    token["Groups"] = JToken.FromObject(player.Groups.Select(a => a.ID));
+                    token["Metadata"] = new JArray();
+                    foreach(string key in player.Metadata.Keys)
+                        ((JArray)token["Metadata"]).Add(new JProperty("key", player.Metadata[key]));
                 }
                 else
                 {
+                    JObject obj = new JObject();
 
+                    obj.Add("Steam64", player.SteamID.ToString());
+                    obj.Add("Permissions", JToken.FromObject(player.Permissions));
+                    obj.Add("Groups", JToken.FromObject(player.Groups.Select(a => a.ID)));
+                    obj.Add("Prefixes", JToken.FromObject(player.Prefixes));
+                    obj.Add("Suffixes", JToken.FromObject(player.Suffixes));
+                    obj.Add("Cooldown", player.Cooldown);
+                    obj.Add("Metadata", new JArray());
+                    foreach (string key in player.Metadata.Keys)
+                        ((JArray)obj["Metadata"]).Add(new JProperty("key", player.Metadata[key]));
+
+                    arr.Add(obj);
                 }
             }
+            UniPlayerConfig.Save();
         }
         #endregion
 
         #region Event Functions
         private void OnPlayerJoin(UnturnedPlayer player)
         {
+            JArray arr = PlayerConfig.Document["Players"] as JArray;
+            JToken token = arr.FirstOrDefault(a => (string)a["Steam64"] == player.SteamID.ToString());
 
+            if(token != null)
+            {
+                player.Cooldown = (int)token["Cooldown"];
+            }
         }
 
         private void OnPlayerLeave(UnturnedPlayer player)
