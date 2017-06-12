@@ -79,7 +79,6 @@
     <Compile Include="API\Groups\GroupManager.cs" />
     <Compile Include="API\Implements\NetFramework.cs" />
     <Compile Include="API\Logging.cs" />
-    <Compile Include="API\Metadata.cs" />
     <Compile Include="API\Plugins\Plugin.cs" />
     <Compile Include="API\Plugins\PluginEvents.cs" />
     <Compile Include="API\ServerInfo.cs" />

@@ -75,15 +75,16 @@ namespace PointBlank.API.Steam
         /// The steam group instance
         /// </summary>
         /// <param name="id">The ID of the steam group</param>
-        public SteamGroup(ulong id)
+        /// <param name="cooldown">The cooldown for the group</param>
+        public SteamGroup(ulong id, int cooldown)
         {
             // Set the variables
             this.ID = id;
-            this.Cooldown = -1;
+            this.Cooldown = cooldown;
 
             // Setup the XML
             XmlDocument document = new XmlDocument();
-            document.LoadXml(string.Format("http://steamcommunity.com/gid/{0}/memberslistxml/?xml=1", ID.ToString()));
+            document.Load(string.Format("http://steamcommunity.com/gid/{0}/memberslistxml/?xml=1", ID.ToString()));
             XmlNode root = document.DocumentElement;
 
             // Set the data
@@ -109,12 +110,11 @@ namespace PointBlank.API.Steam
         /// The steam group instance using async
         /// </summary>
         /// <param name="id">The ID of the steam group</param>
-        /// <param name="cooldown">The cooldown for the group</param>
-        public SteamGroup(ulong id, int cooldown)
+        public SteamGroup(ulong id)
         {
             // Set the variables
             this.ID = id;
-            this.Cooldown = cooldown;
+            this.Cooldown = -1;
 
             // Setup the XML
             WebsiteData.GetDataAsync(string.Format("http://steamcommunity.com/gid/{0}/memberslistxml/?xml=1", ID.ToString()), new DownloadStringCompletedEventHandler(delegate (object sender, DownloadStringCompletedEventArgs args)

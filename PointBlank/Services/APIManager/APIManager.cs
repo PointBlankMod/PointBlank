@@ -4,9 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SDG.Unturned;
+using PointBlank.API.Groups;
 using PointBlank.API.Services;
 using PointBlank.API.Unturned.Server;
+using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Structure;
+using GM = PointBlank.API.Groups.GroupManager;
 
 namespace PointBlank.Services.APIManager
 {
@@ -39,6 +42,10 @@ namespace PointBlank.Services.APIManager
             StructureEvents.OnDestroyStructure += new StructureEvents.StructureDestroyHandler(ServerEvents.RunStructureRemoved);
             StructureEvents.OnSalvageStructure += new StructureEvents.StructureDestroyHandler(ServerEvents.RunStructureRemoved);
 
+            // Setup pointblank events
+            ServerEvents.OnPlayerConnected += new ServerEvents.PlayerConnectionHandler(OnPlayerJoin);
+            ServerEvents.OnPlayerDisconnected += new ServerEvents.PlayerConnectionHandler(OnPlayerLeave);
+
             // Run code
             tGame.Start();
         }
@@ -55,6 +62,22 @@ namespace PointBlank.Services.APIManager
         void Update()
         {
             ServerEvents.RunGameTick();
+        }
+        #endregion
+
+        #region Event Functions
+        private void OnPlayerJoin(UnturnedPlayer player)
+        {
+            Group[] groups = GM.Groups.Where(a => a.Default).ToArray();
+
+            foreach(Group g in groups)
+                if (!player.Groups.Contains(g))
+                    player.AddGroup(g);
+        }
+
+        private void OnPlayerLeave(UnturnedPlayer player)
+        {
+            UnturnedServer.RemovePlayer(player);
         }
         #endregion
     }

@@ -94,7 +94,7 @@ namespace PointBlank.Services.APIManager
                     {
                         Group i = GroupManager.Groups.FirstOrDefault(a => a.ID == (string)token);
 
-                        if (i == null)
+                        if (i == null || g.Inherits.Contains(i) || g == i)
                             continue;
                         g.AddInherit(i);
                     }
@@ -103,7 +103,7 @@ namespace PointBlank.Services.APIManager
                 {
                     Group i = GroupManager.Groups.FirstOrDefault(a => a.ID == (string)obj["Inherits"]);
 
-                    if (i == null)
+                    if (i == null || g.Inherits.Contains(i) || g == i)
                         continue;
                     g.AddInherit(i);
                 }
@@ -236,9 +236,11 @@ namespace PointBlank.Services.APIManager
                 {
                     foreach(JToken token in (JArray)obj["Inherits"])
                     {
+                        if (string.IsNullOrEmpty((string)token))
+                            continue;
                         SteamGroup i = SteamGroupManager.Groups.FirstOrDefault(a => a.ID == ulong.Parse((string)token));
 
-                        if (i == null)
+                        if (i == null || g.Inherits.Contains(i) || g == i)
                             continue;
                         g.AddInherit(i);
                     }
@@ -249,7 +251,7 @@ namespace PointBlank.Services.APIManager
                         continue;
                     SteamGroup i = SteamGroupManager.Groups.FirstOrDefault(a => a.ID == ulong.Parse((string)obj["Inherits"]));
 
-                    if (i == null)
+                    if (i == null || g.Inherits.Contains(i) || g == i)
                         continue;
                     g.AddInherit(i);
                 }
@@ -373,9 +375,6 @@ namespace PointBlank.Services.APIManager
                     token["Prefixes"] = JToken.FromObject(player.Prefixes);
                     token["Suffixes"] = JToken.FromObject(player.Suffixes);
                     token["Groups"] = JToken.FromObject(player.Groups.Select(a => a.ID));
-                    token["Metadata"] = new JArray();
-                    foreach(string key in player.Metadata.Keys)
-                        ((JArray)token["Metadata"]).Add(new JProperty("key", player.Metadata[key]));
                 }
                 else
                 {
@@ -387,9 +386,6 @@ namespace PointBlank.Services.APIManager
                     obj.Add("Prefixes", JToken.FromObject(player.Prefixes));
                     obj.Add("Suffixes", JToken.FromObject(player.Suffixes));
                     obj.Add("Cooldown", player.Cooldown);
-                    obj.Add("Metadata", new JArray());
-                    foreach (string key in player.Metadata.Keys)
-                        ((JArray)obj["Metadata"]).Add(new JProperty("key", player.Metadata[key]));
 
                     arr.Add(obj);
                 }
@@ -407,12 +403,100 @@ namespace PointBlank.Services.APIManager
             if(token != null)
             {
                 player.Cooldown = (int)token["Cooldown"];
+
+                if (token["Permissions"] is JArray)
+                {
+                    foreach(JToken t in (JArray)token["Permissions"])
+                    {
+                        if (player.Permissions.Contains((string)t))
+                            continue;
+
+                        player.AddPermission((string)t);
+                    }
+                }
+                else
+                {
+                    if (!player.Permissions.Contains((string)token["Permissions"]))
+                        player.AddPermission((string)token["Permissions"]);
+                }
+                if(token["Groups"] is JArray)
+                {
+                    foreach(JToken t in (JArray)token["Groups"])
+                    {
+                        Group g = GroupManager.Groups.FirstOrDefault(a => a.ID == (string)t);
+
+                        if (g == null || player.Groups.Contains(g))
+                            continue;
+                        player.AddGroup(g);
+                    }
+                }
+                else
+                {
+                    Group g = GroupManager.Groups.FirstOrDefault(a => a.ID == (string)token["Groups"]);
+
+                    if (g != null && !player.Groups.Contains(g))
+                        player.AddGroup(g);
+                }
+                if(token["Prefixes"] is JArray)
+                {
+                    foreach(JToken t in (JArray)token["Prefixes"])
+                    {
+                        if (player.Prefixes.Contains((string)t))
+                            continue;
+
+                        player.AddPrefix((string)t);
+                    }
+                }
+                else
+                {
+                    if (!player.Prefixes.Contains((string)token["Prefixes"]))
+                        player.AddPrefix((string)token["Prefixes"]);
+                }
+                if(token["Suffixes"] is JArray)
+                {
+                    foreach(JToken t in (JArray)token["Suffixes"])
+                    {
+                        if (player.Suffixes.Contains((string)t))
+                            continue;
+
+                        player.AddSuffix((string)t);
+                    }
+                }
+                else
+                {
+                    if (!player.Suffixes.Contains((string)token["Suffixes"]))
+                        player.AddSuffix((string)token["Suffixes"]);
+                }
             }
         }
 
         private void OnPlayerLeave(UnturnedPlayer player)
         {
+            JArray arr = PlayerConfig.Document["Players"] as JArray;
+            JToken token = arr.FirstOrDefault(a => (string)a["Steam64"] == player.SteamID.ToString());
 
+            if (token != null)
+            {
+                token["Cooldown"] = player.Cooldown;
+                token["Permissions"] = JToken.FromObject(player.Permissions);
+                token["Prefixes"] = JToken.FromObject(player.Prefixes);
+                token["Suffixes"] = JToken.FromObject(player.Suffixes);
+                token["Groups"] = JToken.FromObject(player.Groups.Select(a => a.ID));
+            }
+            else
+            {
+                JObject obj = new JObject();
+
+                obj.Add("Steam64", player.SteamID.ToString());
+                obj.Add("Permissions", JToken.FromObject(player.Permissions));
+                obj.Add("Groups", JToken.FromObject(player.Groups.Select(a => a.ID)));
+                obj.Add("Prefixes", JToken.FromObject(player.Prefixes));
+                obj.Add("Suffixes", JToken.FromObject(player.Suffixes));
+                obj.Add("Cooldown", player.Cooldown);
+
+                arr.Add(obj);
+            }
+            UniPlayerConfig.Save();
         }
         #endregion
     }
