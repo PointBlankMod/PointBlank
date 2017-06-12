@@ -138,6 +138,7 @@
   <ItemGroup>
     <Folder Include="API\Discord\" />
     <Folder Include="API\Unturned\Barricade\" />
+    <Folder Include="API\Unturned\Item\" />
     <Folder Include="Commands\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

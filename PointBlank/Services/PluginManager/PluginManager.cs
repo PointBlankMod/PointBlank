@@ -35,7 +35,6 @@ namespace PointBlank.Services.PluginManager
         #region Override Functions
         public override void Load()
         {
-            Logging.Log("Loading plugins...");
             if (!Directory.Exists(ServerInfo.LibrariesPath))
                 Directory.CreateDirectory(ServerInfo.LibrariesPath); // Create libraries directory
             if (!Directory.Exists(ServerInfo.PluginsPath))
@@ -67,16 +66,13 @@ namespace PointBlank.Services.PluginManager
                         break;
                 }
             }
-            Logging.Log("Plugins loaded!");
         }
 
         public override void Unload()
         {
-            Logging.Log("Unloading plugins...");
             foreach (PluginWrapper wrapper in _plugins)
                 wrapper.Unload(); // Unload the wrapper
             SaveConfig();
-            Logging.Log("Plugins unloaded!");
         }
         #endregion
 

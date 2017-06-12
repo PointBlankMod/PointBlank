@@ -24,6 +24,28 @@ namespace PointBlank.API.Commands
                 return new string[0];
             }
         }
+
+        /// <summary>
+        /// The permissions needed to execute the command
+        /// </summary>
+        public string Permission
+        {
+            get
+            {
+                return "";
+            }
+        }
+
+        /// <summary>
+        /// The cooldown needed to execute the command
+        /// </summary>
+        public int Cooldown
+        {
+            get
+            {
+                return -1;
+            }
+        }
         #endregion
 
         #region Abstract Properties
@@ -33,9 +55,43 @@ namespace PointBlank.API.Commands
         public abstract string[] DefaultCommands { get; }
 
         /// <summary>
-        /// Displayed if the player wants more info on the command
+        /// The translation key for the command help message
         /// </summary>
-        public abstract string Help { get; }
+        public abstract string HelpTranslationKey { get; }
+
+        /// <summary>
+        /// The translation key for the command usage message
+        /// </summary>
+        public abstract string UsageTranslationKey { get; }
+
+        /// <summary>
+        /// The permission needed to run the command
+        /// </summary>
+        public abstract string DefaultPermission { get; }
+        #endregion
+
+        #region Virtual Properties
+        /// <summary>
+        /// The default cooldown(-1 to not override cooldown)
+        /// </summary>
+        public virtual int DefaultCooldown
+        {
+            get
+            {
+                return -1;
+            }
+        }
+
+        /// <summary>
+        /// Can the command be executed while the server is running
+        /// </summary>
+        public virtual bool AllowRuntime
+        {
+            get
+            {
+                return true;
+            }
+        }
         #endregion
 
         #region Abstract Functions

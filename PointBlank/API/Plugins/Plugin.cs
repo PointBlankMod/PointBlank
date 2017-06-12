@@ -75,6 +75,11 @@ namespace PointBlank.API.Plugins
         public virtual string BuildURL { get { return null; } }
         #endregion
 
+        public Plugin()
+        {
+            Instance = this;
+        }
+
         #region Abstract Functions
         /// <summary>
         /// Called when the plugin is loading
@@ -87,9 +92,17 @@ namespace PointBlank.API.Plugins
         public abstract void Unload();
         #endregion
 
-        public Plugin()
+        #region Functions
+        /// <summary>
+        /// Easy translation with string formatting
+        /// </summary>
+        /// <param name="key">The translation key</param>
+        /// <param name="data">The arguments for string formatting</param>
+        /// <returns>The formatted message</returns>
+        public string Translate(string key, params object[] data)
         {
-            Instance = this;
+            return string.Format(Translations[key], data);
         }
+        #endregion
     }
 }

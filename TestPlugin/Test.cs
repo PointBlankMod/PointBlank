@@ -8,6 +8,7 @@ using PointBlank.API.Plugins;
 using PointBlank.API.Unturned.Server;
 using PointBlank.API.Unturned.Structure;
 using SDG.Unturned;
+using Steamworks;
 
 namespace TestPlugin
 {

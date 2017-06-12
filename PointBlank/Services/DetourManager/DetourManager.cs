@@ -59,8 +59,6 @@ namespace PointBlank.Services.DetourManager
         {
             if (Initialized)
                 return;
-            Logging.Log("Loading detours...");
-
             // Set the events
             PluginEvents.OnPluginLoaded += new PluginEvents.PluginEventHandler(OnPluginLoaded);
             PluginEvents.OnPluginUnloaded += new PluginEvents.PluginEventHandler(OnPluginUnloaded);
@@ -73,14 +71,12 @@ namespace PointBlank.Services.DetourManager
 
             // Set the variables
             Initialized = true;
-            Logging.Log("Detours loaded!");
         }
 
         public override void Unload()
         {
             if (!Initialized)
                 return;
-            Logging.Log("Unloading detours...");
 
             // Main code
             foreach (KeyValuePair<DetourAttribute, DetourWrapper> kvp in Detours.Where(a => a.Value.Local == false))
@@ -91,7 +87,6 @@ namespace PointBlank.Services.DetourManager
 
             // Set the variables
             Initialized = false;
-            Logging.Log("Detours unloaded!");
         }
         #endregion
 
