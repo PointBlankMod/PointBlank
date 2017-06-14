@@ -75,12 +75,12 @@ namespace PointBlank.API.Commands
         /// <summary>
         /// The translation key for the command help message
         /// </summary>
-        public abstract string HelpTranslationKey { get; }
+        public abstract string Help { get; }
 
         /// <summary>
         /// The translation key for the command usage message
         /// </summary>
-        public abstract string UsageTranslationKey { get; }
+        public abstract string Usage { get; }
 
         /// <summary>
         /// The permission needed to run the command
@@ -108,6 +108,17 @@ namespace PointBlank.API.Commands
             get
             {
                 return true;
+            }
+        }
+
+        /// <summary>
+        /// Can the command only be execute in the console
+        /// </summary>
+        public virtual bool ConsoleOnly
+        {
+            get
+            {
+                return false;
             }
         }
         #endregion

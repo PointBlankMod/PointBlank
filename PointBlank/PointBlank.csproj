@@ -105,6 +105,7 @@
     <Compile Include="API\Unturned\Skills\ESkillset.cs" />
     <Compile Include="API\Unturned\Vehicle\UnturnedVehicle.cs" />
     <Compile Include="API\Unturned\Vehicle\VehicleEvents.cs" />
+    <Compile Include="Commands\CommandShutdown.cs" />
     <Compile Include="Enviroment.cs" />
     <Compile Include="Framework\Configuration.cs" />
     <Compile Include="Framework\Objects\RuntimeObject.cs" />
@@ -139,7 +140,6 @@
     <Folder Include="API\Discord\" />
     <Folder Include="API\Unturned\Barricade\" />
     <Folder Include="API\Unturned\Item\" />
-    <Folder Include="Commands\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

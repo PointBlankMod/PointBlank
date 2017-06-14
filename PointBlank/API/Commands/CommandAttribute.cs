@@ -35,7 +35,6 @@ namespace PointBlank.API.Commands
         {
             this.Name = name; // Set the name
             this.MinParams = minparams; // Set the minimum params
-            this.Description = description; // Set the command description
         }
     }
 }

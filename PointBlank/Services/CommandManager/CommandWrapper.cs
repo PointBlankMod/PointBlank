@@ -5,8 +5,11 @@ using System.Linq;
 using System.Text;
 using PointBlank.API;
 using PointBlank.API.Commands;
+using CMD = PointBlank.API.Commands.Command;
 using PointBlank.API.Unturned.Player;
 using Newtonsoft.Json.Linq;
+using SDG.Unturned;
+using UnityEngine;
 
 namespace PointBlank.Services.CommandManager
 {
@@ -17,7 +20,7 @@ namespace PointBlank.Services.CommandManager
         public CommandAttribute Attribute { get; private set; }
         public JObject Config { get; private set; }
 
-        public Command CommandClass { get; private set; }
+        public CMD CommandClass { get; private set; }
 
         public string[] Commands { get; private set; }
         public string Permission { get; private set; }
@@ -33,7 +36,7 @@ namespace PointBlank.Services.CommandManager
             this.Config = config;
 
             // Setup the variables
-            CommandClass = (Command)Activator.CreateInstance(Class);
+            CommandClass = (CMD)Activator.CreateInstance(Class);
 
             // Run the code
             Reload();
@@ -78,6 +81,27 @@ namespace PointBlank.Services.CommandManager
         {
             try
             {
+                if (!CommandClass.AllowRuntime && Provider.isServer)
+                {
+                    if (executor == null)
+                        CommandWindow.Log("The command can't be execute while the server is running!", ConsoleColor.Red);
+                    else
+                        executor.SendMessage("The command can't be execute while the server is running!", Color.red);
+                    return;
+                }
+                if (CommandClass.ConsoleOnly && executor != null)
+                {
+                    executor.SendMessage("The command can only be executed from the console!", Color.red);
+                    return;
+                }
+                if(Attribute.MinParams > args.Length)
+                {
+                    if (executor == null)
+                        CommandWindow.Log("Not enough arguments!", ConsoleColor.Red);
+                    else
+                        executor.SendMessage("Not enough arguments!", Color.red);
+                    return;
+                }
                 CommandClass.Execute(executor, args);
             }
             catch (Exception ex)

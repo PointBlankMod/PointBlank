@@ -79,7 +79,6 @@ namespace PointBlank.Services.PluginManager
         #region Public Functions
         public PluginWrapper GetWrapper(Plugin plugin)
         {
-            //return Plugins.First(a => a.Plugins.ContainsValue(plugin));
             return Plugins.First(a => a.PluginClass == plugin);
         }
         #endregion

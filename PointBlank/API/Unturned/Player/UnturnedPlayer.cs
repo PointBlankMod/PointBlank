@@ -754,7 +754,6 @@ namespace PointBlank.API.Unturned.Player
         {
             CM.Tell(SteamID, message, color, mode);
         }
-
         /// <summary>
         /// Fake sends the message to look like the player sent it
         /// </summary>
@@ -778,7 +777,6 @@ namespace PointBlank.API.Unturned.Player
 
             return (Player.inventory.search(ID, true, true).Count > 0); // The easy way
         }
-
         /// <summary>
         /// Checks if the player has a specific item
         /// </summary>
@@ -788,7 +786,6 @@ namespace PointBlank.API.Unturned.Player
         {
             return HasItem(Item.id);
         }
-
         /// <summary>
         /// Checks if the player has a specific item
         /// </summary>
@@ -808,7 +805,6 @@ namespace PointBlank.API.Unturned.Player
         {
             return ItemTool.tryForceGiveItem(Player, ID, 1);
         }
-
         /// <summary>
         /// Gives the player an item
         /// </summary>
@@ -818,7 +814,6 @@ namespace PointBlank.API.Unturned.Player
         {
             return GiveItem(Item.id);
         }
-
         /// <summary>
         /// Gives the player an item
         /// </summary>
@@ -847,7 +842,6 @@ namespace PointBlank.API.Unturned.Player
             items.removeItem(items.getIndex(search.jar.x, search.jar.y));
             return true;
         }
-
         /// <summary>
         /// Removes an item from the player's inventory
         /// </summary>
@@ -857,7 +851,6 @@ namespace PointBlank.API.Unturned.Player
         {
             return RemoveItem(Item.id);
         }
-
         /// <summary>
         /// Removes an item from the player's inventory
         /// </summary>
@@ -876,7 +869,6 @@ namespace PointBlank.API.Unturned.Player
         {
             EffectManager.instance.tellEffectPoint(SteamID, id, Position);
         }
-
         /// <summary>
         /// Clear effect by id
         /// </summary>
