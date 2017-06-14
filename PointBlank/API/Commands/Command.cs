@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Security.Permissions;
 using PointBlank.Framework.Permissions.Ring;
+using PointBlank.API.Unturned.Player;
+using CM = PointBlank.Services.CommandManager.CommandManager;
 
 namespace PointBlank.API.Commands
 {
@@ -15,13 +17,18 @@ namespace PointBlank.API.Commands
     {
         #region Properties
         /// <summary>
+        /// The command instance
+        /// </summary>
+        public static Command Instance { get; internal set; }
+
+        /// <summary>
         /// The commands used to execute this command
         /// </summary>
         public string[] Commands
         {
             get
             {
-                return new string[0];
+                return CM.Commands.FirstOrDefault(a => a.Value.CommandClass == this).Value.Commands;
             }
         }
 
@@ -32,7 +39,7 @@ namespace PointBlank.API.Commands
         {
             get
             {
-                return "";
+                return CM.Commands.FirstOrDefault(a => a.Value.CommandClass == this).Value.Permission;
             }
         }
 
@@ -43,7 +50,18 @@ namespace PointBlank.API.Commands
         {
             get
             {
-                return -1;
+                return CM.Commands.FirstOrDefault(a => a.Value.CommandClass == this).Value.Cooldown;
+            }
+        }
+
+        /// <summary>
+        /// Is the command enabled
+        /// </summary>
+        public bool Enabled
+        {
+            get
+            {
+                return CM.Commands.FirstOrDefault(a => a.Value.CommandClass == this).Value.Enabled;
             }
         }
         #endregion
@@ -99,7 +117,12 @@ namespace PointBlank.API.Commands
         /// Called when the player executes the command
         /// </summary>
         /// <param name="arguments">The arguments the player inputted</param>
-        public abstract void Execute(string[] arguments);
+        public abstract void Execute(UnturnedPlayer executor, string[] args);
         #endregion
+
+        public Command()
+        {
+            Instance = this;
+        }
     }
 }

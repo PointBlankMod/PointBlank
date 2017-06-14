@@ -6,7 +6,9 @@ using SDG.Unturned;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Structure;
 using PointBlank.API.Unturned.Vehicle;
+using Steamworks;
 using UStructure = SDG.Unturned.Structure;
+using UPlayer = SDG.Unturned.Player;
 
 namespace PointBlank.API.Unturned.Server
 {
@@ -124,6 +126,70 @@ namespace PointBlank.API.Unturned.Server
 
             _Vehicles.Remove(vehicle);
             return true;
+        }
+        #endregion
+
+        #region Public Functions
+        /// <summary>
+        /// Gets the unturned player instance based on steam player instance
+        /// </summary>
+        /// <param name="player">The steam player instance</param>
+        /// <returns>The unturned player instance</returns>
+        public static UnturnedPlayer GetPlayer(SteamPlayer player)
+        {
+            return Players.FirstOrDefault(a => a.SteamPlayer == player);
+        }
+        /// <summary>
+        /// Gets the unturned player instance based on player instance
+        /// </summary>
+        /// <param name="player">The player instance</param>
+        /// <returns>The unturned player instace</returns>
+        public static UnturnedPlayer GetPlayer(UPlayer player)
+        {
+            return Players.FirstOrDefault(a => a.Player == player);
+        }
+        /// <summary>
+        /// Gets the unturned player instance based on arena player instance
+        /// </summary>
+        /// <param name="player">The unturned player instance</param>
+        /// <returns>The unturned player instance</returns>
+        public static UnturnedPlayer GetPlayer(ArenaPlayer player)
+        {
+            try
+            {
+                return Players.FirstOrDefault(a => a.SteamPlayer == player.steamPlayer);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        /// <summary>
+        /// Gets the unturned player instance based on steam player id instance
+        /// </summary>
+        /// <param name="playerID">The steam player id instance</param>
+        /// <returns>The unturned player instance</returns>
+        public static UnturnedPlayer GetPlayer(SteamPlayerID playerID)
+        {
+            return Players.FirstOrDefault(a => a.SteamPlayerID == playerID);
+        }
+        /// <summary>
+        /// Gets the unturned player instance based on steam id instance
+        /// </summary>
+        /// <param name="steamID">The steam id instance</param>
+        /// <returns>The unturned player instance</returns>
+        public static UnturnedPlayer GetPlayer(CSteamID steamID)
+        {
+            return Players.FirstOrDefault(a => a.SteamID == steamID);
+        }
+        /// <summary>
+        /// Gets the unturned player instance based on steam64 ID
+        /// </summary>
+        /// <param name="steam64">The steam64 ID</param>
+        /// <returns>The unturned player instance</returns>
+        public static UnturnedPlayer GetPlayer(ulong steam64)
+        {
+            return Players.FirstOrDefault(a => a.SteamID.m_SteamID == steam64);
         }
         #endregion
     }

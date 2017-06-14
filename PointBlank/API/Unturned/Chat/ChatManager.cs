@@ -48,7 +48,7 @@ namespace PointBlank.API.Unturned.Chat
             if (text.Length > CM.LENGTH)
                 text = text.Substring(0, CM.LENGTH);
 
-            CM.instance.channel.send("tellChat", ESteamCall.OTHERS, ESteamPacket.UPDATE_UNRELIABLE_BUFFER, new object[]
+            CM.instance.channel.send("tellChat", ESteamCall.CLIENTS, ESteamPacket.UPDATE_UNRELIABLE_BUFFER, new object[]
             {
                 sender,
                 0,

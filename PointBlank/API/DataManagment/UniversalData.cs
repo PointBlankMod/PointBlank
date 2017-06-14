@@ -18,6 +18,11 @@ namespace PointBlank.API.DataManagment
     [RingPermission(SecurityAction.Demand, ring = RingPermissionRing.None)]
     public class UniversalData
     {
+        #region Variables
+        private XMLData _XML = null;
+        private JsonData _JSON = null;
+        #endregion
+
         #region Properties
         /// <summary>
         /// The path to the file(if linked to file)
@@ -31,11 +36,27 @@ namespace PointBlank.API.DataManagment
         /// <summary>
         /// The XML data(if the file is a XML)
         /// </summary>
-        public XMLData XML { get; private set; }
+        public XMLData XML
+        {
+            get
+            {
+                if (DataType != EDataType.XML)
+                    return GetData(EDataType.XML) as XMLData;
+                return _XML;
+            }
+        }
         /// <summary>
         /// The JSON data(if the file is a JSON)
         /// </summary>
-        public JsonData JSON { get; private set; }
+        public JsonData JSON
+        {
+            get
+            {
+                if (DataType != EDataType.JSON)
+                    return GetData(EDataType.JSON) as JsonData;
+                return _JSON;
+            }
+        }
         /// <summary>
         /// The CONF data(if the file is a CONF)
         /// </summary>
@@ -51,7 +72,7 @@ namespace PointBlank.API.DataManagment
         /// Universal data managment
         /// </summary>
         /// <param name="path">The path to the data file</param>
-        public UniversalData(string path, EDataType DefaultDataType = EDataType.XML)
+        public UniversalData(string path, EDataType DefaultDataType = EDataType.JSON)
         {
             this.Path = path + ".dat"; // Set the path
             this.CreatedNew = !File.Exists(Path); // Check if the file has to be created
@@ -62,11 +83,11 @@ namespace PointBlank.API.DataManagment
 
                 if(DefaultDataType == EDataType.JSON)
                 {
-                    JSON = new JsonData(Path); // Create the JSON file
+                    _JSON = new JsonData(Path); // Create the JSON file
                 }
                 else if(DefaultDataType == EDataType.XML)
                 {
-                    XML = new XMLData(Path); // Create the XML file
+                    _XML = new XMLData(Path); // Create the XML file
                 }
 
                 return; // No need to continue
@@ -75,12 +96,12 @@ namespace PointBlank.API.DataManagment
             if (XMLData.CheckFile(Path))
             {
                 DataType = EDataType.XML; // An XML file
-                XML = new XMLData(Path);
+                _XML = new XMLData(Path);
             }
             else if (JsonData.CheckFile(Path))
             {
                 DataType = EDataType.JSON; // A JSON file
-                JSON = new JsonData(Path);
+                _JSON = new JsonData(Path);
             }
             else
             {
@@ -144,7 +165,7 @@ namespace PointBlank.API.DataManagment
 
             if(XML == null)
             {
-                XML = tmpXML; // If the XML is null just set the tmpXML to it
+                _XML = tmpXML; // If the XML is null just set the tmpXML to it
                 return XML;
             }
 
@@ -164,7 +185,7 @@ namespace PointBlank.API.DataManagment
                 tmpJSON = new JsonData(Path); // Create a new JSON
             if(JSON == null)
             {
-                JSON = tmpJSON; // If the JSON is null just set the tmpJSON to it
+                _JSON = tmpJSON; // If the JSON is null just set the tmpJSON to it
                 return JSON;
             }
 

@@ -16,6 +16,7 @@ using Newtonsoft.Json.Linq;
 using System.Globalization;
 using RG = PointBlank.API.Steam.SteamGroup;
 using PointBlank.API.Unturned.Vehicle;
+using CM = PointBlank.API.Unturned.Chat.ChatManager;
 
 namespace PointBlank.API.Unturned.Player
 {
@@ -509,6 +510,61 @@ namespace PointBlank.API.Unturned.Player
                 return ply;
             return new UnturnedPlayer(steamplayer);
         }
+
+        /// <summary>
+        /// Gets the unturned player instance based on steam player instance
+        /// </summary>
+        /// <param name="player">The steam player instance</param>
+        /// <returns>The unturned player instance</returns>
+        public static UnturnedPlayer Get(SPlayer player)
+        {
+            return UnturnedServer.GetPlayer(player);
+        }
+        /// <summary>
+        /// Gets the unturned player instance based on player instance
+        /// </summary>
+        /// <param name="player">The player instance</param>
+        /// <returns>The unturned player instace</returns>
+        public static UnturnedPlayer Get(UPlayer player)
+        {
+            return UnturnedServer.GetPlayer(player);
+        }
+        /// <summary>
+        /// Gets the unturned player instance based on arena player instance
+        /// </summary>
+        /// <param name="player">The unturned player instance</param>
+        /// <returns>The unturned player instance</returns>
+        public static UnturnedPlayer Get(ArenaPlayer player)
+        {
+            return UnturnedServer.GetPlayer(player);
+        }
+        /// <summary>
+        /// Gets the unturned player instance based on steam player id instance
+        /// </summary>
+        /// <param name="playerID">The steam player id instance</param>
+        /// <returns>The unturned player instance</returns>
+        public static UnturnedPlayer Get(SteamPlayerID playerID)
+        {
+            return UnturnedServer.GetPlayer(playerID);
+        }
+        /// <summary>
+        /// Gets the unturned player instance based on steam id instance
+        /// </summary>
+        /// <param name="steamID">The steam id instance</param>
+        /// <returns>The unturned player instance</returns>
+        public static UnturnedPlayer Get(CSteamID steamID)
+        {
+            return UnturnedServer.GetPlayer(steamID);
+        }
+        /// <summary>
+        /// Gets the unturned player instance based on steam64 ID
+        /// </summary>
+        /// <param name="steam64">The steam64 ID</param>
+        /// <returns>The unturned player instance</returns>
+        public static UnturnedPlayer Get(ulong steam64)
+        {
+            return UnturnedServer.GetPlayer(steam64);
+        }
         #endregion
 
         #region Public Functions
@@ -635,6 +691,78 @@ namespace PointBlank.API.Unturned.Player
 
             _Permissions.Remove(permission);
             PlayerEvents.RunPermissionRemove(this, permission);
+        }
+
+        /// <summary>
+        /// Checks if the player has the permissions specified
+        /// </summary>
+        /// <param name="permissions">The permissions to check for</param>
+        /// <returns>If the player has the permissions specified</returns>
+        public bool HasPermissions(params string[] permissions)
+        {
+            for (int i = 0; i < permissions.Length; i++)
+                if (!HasPermission(permissions[i]))
+                    return false;
+            return true;
+        }
+        /// <summary>
+        /// Checks if the player has the specified permission
+        /// </summary>
+        /// <param name="permission">The permission to check for</param>
+        /// <returns>If the player has the specified permission</returns>
+        public bool HasPermission(string permission)
+        {
+            for(int i = 0; i < Groups.Length; i++)
+                if (Groups[i].HasPermission(permission))
+                    return true;
+            for(int i = 0; i < SteamGroups.Length; i++)
+                if (SteamGroups[i].HasPermission(permission))
+                    return true;
+
+            string[] sPermission = permission.Split('.');
+
+            for (int a = 0; a < sPermission.Length; a++)
+            {
+                bool found = false;
+
+                for (int b = 0; b < Permissions.Length; b++)
+                {
+                    string[] sPerm = Permissions[b].Split('.');
+
+                    if (sPerm[a] == "*")
+                        return true;
+                    if (sPerm[a] == sPermission[a])
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found)
+                    return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Sends a message to the player
+        /// </summary>
+        /// <param name="message">The message to tell the player</param>
+        /// <param name="color">The color of the message</param>
+        /// <param name="mode">The mode of the message</param>
+        public void SendMessage(string message, Color color, EChatMode mode = EChatMode.SAY)
+        {
+            CM.Tell(SteamID, message, color, mode);
+        }
+
+        /// <summary>
+        /// Fake sends the message to look like the player sent it
+        /// </summary>
+        /// <param name="message">The message to send</param>
+        /// <param name="color">The color of the message</param>
+        public void ForceSay(string message, Color color)
+        {
+            CM.FakeMessage(SteamID, message, color);
         }
         #endregion
 

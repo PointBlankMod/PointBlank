@@ -200,6 +200,39 @@ namespace PointBlank.API.Groups
 
             return permissions.ToArray();
         }
+
+        /// <summary>
+        /// Checks if the group has the permission specified
+        /// </summary>
+        /// <param name="permission">The permission to check for</param>
+        /// <returns>If the group has the permission specified</returns>
+        public bool HasPermission(string permission)
+        {
+            string[] permissions = GetPermissions();
+            string[] sPermission = permission.Split('.');
+
+            for(int a = 0; a < sPermission.Length; a++)
+            {
+                bool found = false;
+
+                for(int b = 0; b < permissions.Length; b++)
+                {
+                    string[] sPerm = permissions[b].Split('.');
+
+                    if (sPerm[a] == "*")
+                        return true;
+                    if(sPerm[a] == sPermission[a])
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found)
+                    return false;
+            }
+            return true;
+        }
         #endregion
     }
 }
