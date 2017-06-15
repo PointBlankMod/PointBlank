@@ -8,6 +8,7 @@ using Steamworks;
 using PointBlank.API;
 using PointBlank.API.Detour;
 using PointBlank.API.Unturned.Chat;
+using PointBlank.API.Unturned.Player;
 using CM = SDG.Unturned.ChatManager;
 
 namespace PointBlank.Framework.Overrides
@@ -20,12 +21,15 @@ namespace PointBlank.Framework.Overrides
         {
             // Set the variables
             bool cancel = false;
+            UnturnedPlayer player = UnturnedPlayer.Get(steamID);
 
             // Run methods
-            ChatEvents.RunChatted(ref steamID, ref mode, ref text, ref cancel);
+            ChatEvents.RunChatted(ref player, ref mode, ref text, ref cancel);
 
             // Do checks
-            if (steamID == null || steamID == CSteamID.Nil)
+            if (player == null)
+                return;
+            if (player.SteamID == null || player.SteamID == CSteamID.Nil)
                 return;
             if (string.IsNullOrEmpty(text))
                 return;
@@ -33,7 +37,7 @@ namespace PointBlank.Framework.Overrides
                 return;
 
             // Restore original
-            DetourManager.CallOriginal(typeof(CM).GetMethod("askChat", BindingFlags.Public | BindingFlags.Instance), CM.instance, steamID, mode, text);
+            DetourManager.CallOriginal(typeof(CM).GetMethod("askChat", BindingFlags.Public | BindingFlags.Instance), CM.instance, player.SteamID, mode, text);
         }
     }
 }

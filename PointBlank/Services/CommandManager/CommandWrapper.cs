@@ -104,11 +104,20 @@ namespace PointBlank.Services.CommandManager
                         executor.SendMessage("Not enough arguments!", Color.red);
                     return;
                 }
+                if(executor != null && executor.HasCooldown(CommandClass))
+                {
+                    executor.SendMessage("The command currently has a cooldown!", Color.red);
+                    return;
+                }
                 bool shouldExecute = true;
 
                 CommandEvents.RunCommandExecute(CommandClass, args, executor, ref shouldExecute);
                 if (shouldExecute)
+                {
+                    if (executor != null)
+                        executor.SetCooldown(CommandClass, DateTime.Now);
                     CommandClass.Execute(executor, args);
+                }
             }
             catch (Exception ex)
             {

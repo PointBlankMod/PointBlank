@@ -4,8 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Security.Permissions;
 using PointBlank.Framework.Permissions.Ring;
-using SDG.Unturned;
-using Steamworks;
+using PointBlank.API.Unturned.Player;
 
 namespace PointBlank.API.Unturned.Chat
 {
@@ -16,7 +15,7 @@ namespace PointBlank.API.Unturned.Chat
     public static class ChatEvents
     {
         #region Handlers
-        public delegate void ChattedHandler(ref CSteamID steamID, ref byte mode, ref string text, ref bool cancel);
+        public delegate void ChattedHandler(ref UnturnedPlayer player, ref byte mode, ref string text, ref bool cancel);
         #endregion
 
         #region Events
@@ -24,12 +23,12 @@ namespace PointBlank.API.Unturned.Chat
         #endregion
 
         #region Functions
-        internal static void RunChatted(ref CSteamID steamID, ref byte mode, ref string text, ref bool cancel)
+        internal static void RunChatted(ref UnturnedPlayer player, ref byte mode, ref string text, ref bool cancel)
         {
             if (OnChatted == null)
                 return;
 
-            OnChatted(ref steamID, ref mode, ref text, ref cancel);
+            OnChatted(ref player, ref mode, ref text, ref cancel);
         }
         #endregion
     }

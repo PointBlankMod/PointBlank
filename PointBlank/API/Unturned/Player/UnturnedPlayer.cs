@@ -17,6 +17,7 @@ using System.Globalization;
 using RG = PointBlank.API.Steam.SteamGroup;
 using PointBlank.API.Unturned.Vehicle;
 using CM = PointBlank.API.Unturned.Chat.ChatManager;
+using CMD = PointBlank.API.Commands.Command;
 
 namespace PointBlank.API.Unturned.Player
 {
@@ -31,6 +32,8 @@ namespace PointBlank.API.Unturned.Player
         private List<string> _Prefixes = new List<string>();
         private List<string> _Suffixes = new List<string>();
         private List<string> _Permissions = new List<string>();
+
+        private Dictionary<CMD, DateTime> _Cooldowns = new Dictionary<CMD, DateTime>();
         #endregion
 
         #region Properties
@@ -742,6 +745,85 @@ namespace PointBlank.API.Unturned.Player
                     return false;
             }
             return true;
+        }
+
+        /// <summary>
+        /// Gets the command cooldown for the player
+        /// </summary>
+        /// <returns>The command cooldown for the player</returns>
+        public int GetCooldown()
+        {
+            if (HasPermission("pointblank.nocooldown"))
+                return 0;
+            if (Cooldown != -1)
+                return Cooldown;
+            for (int i = 0; i < Groups.Length; i++)
+                if (Groups[i].Cooldown != -1)
+                    return Groups[i].Cooldown;
+            for (int i = 0; i < SteamGroups.Length; i++)
+                if (SteamGroups[i].Cooldown != -1)
+                    return SteamGroups[i].Cooldown;
+            return -1;
+        }
+        /// <summary>
+        /// Checks if the player has a cooldown on a specific command
+        /// </summary>
+        /// <param name="command">The command to check for</param>
+        /// <returns>If there is a cooldown on the command</returns>
+        public bool HasCooldown(CMD command)
+        {
+            if (!_Cooldowns.ContainsKey(command))
+                return false;
+            int cooldown = GetCooldown();
+
+            if (cooldown != -1)
+            {
+                if((DateTime.Now - _Cooldowns[command]).TotalSeconds >= cooldown)
+                {
+                    _Cooldowns.Remove(command);
+                    return false;
+                }
+                return true;
+            }
+            if(command.Cooldown != -1)
+            {
+                if((DateTime.Now - _Cooldowns[command]).TotalSeconds >= command.Cooldown)
+                {
+                    _Cooldowns.Remove(command);
+                    return false;
+                }
+                return true;
+            }
+            return false;
+        }
+        /// <summary>
+        /// Gives the player a cooldown on a specific command
+        /// </summary>
+        /// <param name="command">The command to set the cooldown on</param>
+        /// <param name="time">The time when the cooldown was applied(set to null to remove cooldown)</param>
+        public void SetCooldown(CMD command, DateTime time)
+        {
+            if(time == null)
+            {
+                _Cooldowns.Remove(command);
+                return;
+            }
+
+            _Cooldowns.Add(command, time);
+        }
+
+        /// <summary>
+        /// Gets the player color
+        /// </summary>
+        /// <returns>The player color</returns>
+        public Color GetColor()
+        {
+            for(int i = 0; i < Groups.Length; i++)
+            {
+                if (Groups[i].Color != Color.clear)
+                    return Groups[i].Color;
+            }
+            return Color.clear;
         }
 
         /// <summary>

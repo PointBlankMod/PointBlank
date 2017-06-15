@@ -10,6 +10,8 @@ using PointBlank.API.Unturned.Server;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Structure;
 using GM = PointBlank.API.Groups.GroupManager;
+using Steamworks;
+using UnityEngine;
 
 namespace PointBlank.Services.APIManager
 {
@@ -45,6 +47,7 @@ namespace PointBlank.Services.APIManager
             // Setup pointblank events
             ServerEvents.OnPlayerConnected += new ServerEvents.PlayerConnectionHandler(OnPlayerJoin);
             ServerEvents.OnPlayerDisconnected += new ServerEvents.PlayerConnectionHandler(OnPlayerLeave);
+            ChatManager.onChatted += new Chatted(OnPlayerChat);
 
             // Run code
             tGame.Start();
@@ -78,6 +81,15 @@ namespace PointBlank.Services.APIManager
         private void OnPlayerLeave(UnturnedPlayer player)
         {
             UnturnedServer.RemovePlayer(player);
+        }
+
+        private void OnPlayerChat(SteamPlayer player, EChatMode mode, ref Color color, string text, ref bool visible)
+        {
+            UnturnedPlayer ply = UnturnedPlayer.Get(player);
+            Color c = ply.GetColor();
+
+            if(c != Color.clear)
+                color = c;
         }
         #endregion
     }

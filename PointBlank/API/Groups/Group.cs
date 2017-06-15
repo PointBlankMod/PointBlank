@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace PointBlank.API.Groups
 {
@@ -54,6 +55,10 @@ namespace PointBlank.API.Groups
         /// The cooldown for the commands
         /// </summary>
         public int Cooldown { get; set; }
+        /// <summary>
+        /// The color of the group(visible in chat)
+        /// </summary>
+        public Color Color { get; set; }
         #endregion
 
         /// <summary>
@@ -62,13 +67,14 @@ namespace PointBlank.API.Groups
         /// <param name="id">The ID of the group</param>
         /// <param name="name">The name of the group</param>
         /// <param name="cooldown">The cooldown of the group</param>
-        public Group(string id, string name, bool isDefault, int cooldown)
+        public Group(string id, string name, bool isDefault, int cooldown, Color color)
         {
             // Set the variables
             this.ID = id;
             this.Name = name;
             this.Cooldown = cooldown;
             this.Default = isDefault;
+            this.Color = color;
         }
 
         #region Public Functions

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace PointBlank.API.Groups
 {
@@ -62,11 +63,11 @@ namespace PointBlank.API.Groups
         /// <param name="ID">The group ID</param>
         /// <param name="Name">The group name</param>
         /// <param name="Cooldown">The command cooldown for the group</param>
-        public static void AddGroup(string ID, string Name, bool isDefault, int cooldown)
+        public static void AddGroup(string ID, string Name, bool isDefault, int cooldown, Color color)
         {
             if (_Groups.ContainsKey(ID))
                 return;
-            Group group = new Group(ID, Name, isDefault, cooldown);
+            Group group = new Group(ID, Name, isDefault, cooldown, color);
 
             _Groups.Add(ID, group);
 

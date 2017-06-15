@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Security.Permissions;
 using PointBlank.Framework.Permissions.Ring;
+using UnityEngine;
 
 namespace PointBlank.API
 {
@@ -93,6 +94,17 @@ namespace PointBlank.API
             Buffer.BlockCopy(bytes, 0, chars, 0, length);
 
             return new string(chars);
+        }
+
+        /// <summary>
+        /// Converts a float to a byte
+        /// </summary>
+        /// <param name="f">The float</param>
+        /// <returns>The output byte</returns>
+        public static byte ToByte(float f)
+        {
+            f = Mathf.Clamp01(f);
+            return (byte)(f * 255);
         }
         #endregion
     }

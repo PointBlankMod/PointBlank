@@ -10,6 +10,7 @@ using PointBlank.API.Services;
 using PointBlank.API.DataManagment;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Server;
+using UnityEngine;
 
 namespace PointBlank.Services.APIManager
 {
@@ -79,7 +80,12 @@ namespace PointBlank.Services.APIManager
                 if (GroupManager.Groups.Count(a => a.ID == obj.Name) > 0)
                     continue;
 
-                Group g = new Group(obj.Name, (string)obj.Value["Name"], (bool)obj.Value["Default"], (int)obj.Value["Cooldown"]);
+                Color color;
+
+                if(!ColorUtility.TryParseHtmlString((string)obj.Value["Color"], out color))
+                    color = Color.clear;
+
+                Group g = new Group(obj.Name, (string)obj.Value["Name"], (bool)obj.Value["Default"], (int)obj.Value["Cooldown"], color);
 
                 GroupManager.AddGroup(g);
             }
@@ -164,8 +170,8 @@ namespace PointBlank.Services.APIManager
         private void FirstGroups()
         {
             // Create the groups
-            Group guest = new Group("Guest", "Guest Group", true, 100);
-            Group admin = new Group("Admin", "Admin Group", false, 0);
+            Group guest = new Group("Guest", "Guest Group", true, -1, Color.clear);
+            Group admin = new Group("Admin", "Admin Group", false, 0, Color.blue);
 
             // Configure guest group
             guest.AddPermission("unturned.commands.nonadmin.*");
@@ -197,6 +203,7 @@ namespace PointBlank.Services.APIManager
                     obj["Suffixes"] = JToken.FromObject(g.Suffixes);
                     obj["Inherits"] = JToken.FromObject(g.Inherits.Select(a => a.ID));
                     obj["Cooldown"] = g.Cooldown;
+                    obj["Color"] = (g.Color == Color.clear ? "none" : "#" + ColorUtility.ToHtmlStringRGB(g.Color));
                 }
                 else
                 {
@@ -209,6 +216,7 @@ namespace PointBlank.Services.APIManager
                     obj.Add("Suffixes", JToken.FromObject(g.Suffixes));
                     obj.Add("Inherits", JToken.FromObject(g.Inherits.Select(a => a.ID)));
                     obj.Add("Cooldown", g.Cooldown);
+                    obj.Add("Color", (g.Color == Color.clear ? "none" : "#" + ColorUtility.ToHtmlStringRGB(g.Color)));
 
                     GroupConfig.Document.Add(g.ID, obj);
                 }
@@ -315,7 +323,7 @@ namespace PointBlank.Services.APIManager
             SteamGroupConfig.Document.Add("SteamGroups", new JArray());
 
             // Ceate the groups
-            SteamGroup group = new SteamGroup(103582791437463178, 100, false, false);
+            SteamGroup group = new SteamGroup(103582791437463178, -1, false, false);
 
             // Configure steam group
             group.AddPermission("unturned.commands.noadmin.*");
