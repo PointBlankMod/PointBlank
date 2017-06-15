@@ -134,10 +134,7 @@
     <Compile Include="Services\DetourManager\RedirectionHelper.cs" />
     <Compile Include="Services\PluginManager\PluginConfiguration.cs" />
     <Compile Include="Services\PluginManager\PluginWrapper.cs" />
-    <Compile Include="Services\RCON\RCONClient.cs" />
-    <Compile Include="Services\RCON\RCONConfiguration.cs" />
     <Compile Include="Services\PluginManager\PluginManager.cs" />
-    <Compile Include="Services\RCON\RCON.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="API\Discord\" />
