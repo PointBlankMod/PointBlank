@@ -72,51 +72,25 @@ namespace PointBlank.API.Steam
         #endregion
 
         /// <summary>
-        /// The steam group instance
+        /// The steam group instance using async
         /// </summary>
         /// <param name="id">The ID of the steam group</param>
-        /// <param name="cooldown">The cooldown for the group</param>
-        public SteamGroup(ulong id, int cooldown)
+        /// <param name="cooldown">The default cooldown for the steam group</param>
+        /// <param name="downloadData">Should the information for the steam group be downloaded</param>
+        public SteamGroup(ulong id, int cooldown = -1, bool downloadData = false)
         {
             // Set the variables
             this.ID = id;
             this.Cooldown = cooldown;
 
-            // Setup the XML
-            XmlDocument document = new XmlDocument();
-            document.Load(string.Format("http://steamcommunity.com/gid/{0}/memberslistxml/?xml=1", ID.ToString()));
-            XmlNode root = document.DocumentElement;
-
-            // Set the data
-            if (root != null)
-            {
-                Name = root.SelectSingleNode("groupDetails/groupName").InnerText.Replace("<![CDATA[ ", "").Replace(" ]]>", "");
-                MemberCount = int.Parse(root.SelectSingleNode("groupDetails/memberCount").InnerText);
-                MembersOnline = int.Parse(root.SelectSingleNode("groupDetails/membersOnline").InnerText);
-                MembersInGame = int.Parse(root.SelectSingleNode("groupDetails/membersInGame").InnerText);
-                MembersInChat = int.Parse(root.SelectSingleNode("groupDetails/membersInChat").InnerText);
-            }
-            else
-            {
-                Name = "";
-                MemberCount = 0;
-                MembersOnline = 0;
-                MembersInGame = 0;
-                MembersInChat = 0;
-            }
+            // Run the code
+            if (downloadData)
+                DownloadData();
         }
 
-        /// <summary>
-        /// The steam group instance using async
-        /// </summary>
-        /// <param name="id">The ID of the steam group</param>
-        public SteamGroup(ulong id)
+        #region Public Functions
+        public void DownloadData()
         {
-            // Set the variables
-            this.ID = id;
-            this.Cooldown = -1;
-
-            // Setup the XML
             WebsiteData.GetDataAsync(string.Format("http://steamcommunity.com/gid/{0}/memberslistxml/?xml=1", ID.ToString()), new DownloadStringCompletedEventHandler(delegate (object sender, DownloadStringCompletedEventArgs args)
             {
                 XmlDocument document = new XmlDocument();
@@ -143,7 +117,6 @@ namespace PointBlank.API.Steam
             }));
         }
 
-        #region Public Functions
         /// <summary>
         /// Add a permission to the steam group
         /// </summary>

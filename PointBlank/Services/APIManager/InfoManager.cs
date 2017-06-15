@@ -218,19 +218,19 @@ namespace PointBlank.Services.APIManager
 
         private void LoadSteamGroups()
         {
-            foreach(JProperty obj in SteamGroupConfig.Document.Properties())
+            foreach(JObject obj in (JArray)SteamGroupConfig.Document["SteamGroups"])
             {
-                if (SteamGroupManager.Groups.Count(a => a.ID == ulong.Parse((string)obj.Value["Steam64"])) > 0)
+                if (SteamGroupManager.Groups.Count(a => a.ID == (ulong)obj["Steam64"]) > 0)
                     continue;
 
-                SteamGroup g = new SteamGroup(ulong.Parse((string)obj.Value["Steam64"]), (int)obj.Value["Cooldown"]);
+                SteamGroup g = new SteamGroup((ulong)obj["Steam64"], (int)obj["Cooldown"]);
 
                 SteamGroupManager.AddSteamGroup(g);
             }
 
             foreach(SteamGroup g in SteamGroupManager.Groups)
             {
-                JObject obj = SteamGroupConfig.Document[g.Name.Replace(' ', '_')] as JObject;
+                JObject obj = SteamGroupConfig.Document["SteamGroups"].FirstOrDefault(a => (ulong)a["Steam64"] == g.ID) as JObject;
 
                 if(obj["Inherits"] is JArray)
                 {
@@ -311,6 +311,9 @@ namespace PointBlank.Services.APIManager
 
         private void FirstSteamGroups()
         {
+            // Create the array
+            SteamGroupConfig.Document.Add("SteamGroups", new JArray());
+
             // Ceate the groups
             SteamGroup group = new SteamGroup(103582791437463178, 100);
 
@@ -328,10 +331,9 @@ namespace PointBlank.Services.APIManager
         {
             foreach(SteamGroup g in SteamGroupManager.Groups)
             {
-                if(SteamGroupConfig.Document[g.Name.Replace(' ', '_')] != null)
+                var obj = SteamGroupConfig.Document["SteamGroups"].FirstOrDefault(a => (ulong)a["Steam64"] == g.ID);
+                if (obj != null)
                 {
-                    JObject obj = SteamGroupConfig.Document[g.Name.Replace(' ', '_')] as JObject;
-
                     obj["Permissions"] = JToken.FromObject(g.Permissions);
                     obj["Prefixes"] = JToken.FromObject(g.Prefixes);
                     obj["Suffixes"] = JToken.FromObject(g.Suffixes);
@@ -340,16 +342,16 @@ namespace PointBlank.Services.APIManager
                 }
                 else
                 {
-                    JObject obj = new JObject();
+                    obj = new JObject();
 
-                    obj.Add("Steam64", g.ID);
-                    obj.Add("Permissions", JToken.FromObject(g.Permissions));
-                    obj.Add("Prefixes", JToken.FromObject(g.Prefixes));
-                    obj.Add("Suffixes", JToken.FromObject(g.Suffixes));
-                    obj.Add("Inherits", JToken.FromObject(g.Inherits.Select(a => a.ID)));
-                    obj.Add("Cooldown", g.Cooldown);
+                    ((JObject)obj).Add("Steam64", g.ID);
+                    ((JObject)obj).Add("Permissions", JToken.FromObject(g.Permissions));
+                    ((JObject)obj).Add("Prefixes", JToken.FromObject(g.Prefixes));
+                    ((JObject)obj).Add("Suffixes", JToken.FromObject(g.Suffixes));
+                    ((JObject)obj).Add("Inherits", JToken.FromObject(g.Inherits.Select(a => a.ID)));
+                    ((JObject)obj).Add("Cooldown", g.Cooldown);
 
-                    SteamGroupConfig.Document.Add(g.Name.Replace(' ', '_'), obj);
+                    ((JArray)SteamGroupConfig.Document["SteamGroups"]).Add(obj);
                 }
             }
             UniSteamGoupConfig.Save();
