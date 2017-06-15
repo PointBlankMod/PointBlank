@@ -64,6 +64,8 @@
     <Compile Include="API\Collections\TranslationList.cs" />
     <Compile Include="API\Commands\Command.cs" />
     <Compile Include="API\Commands\CommandAttribute.cs" />
+    <Compile Include="API\Commands\CommandEvents.cs" />
+    <Compile Include="API\Commands\CommandManager.cs" />
     <Compile Include="API\DataManagment\ConfData.cs" />
     <Compile Include="API\DataManagment\EDataType.cs" />
     <Compile Include="API\DataManagment\ESQLDataType.cs" />
@@ -105,6 +107,7 @@
     <Compile Include="API\Unturned\Skills\ESkillset.cs" />
     <Compile Include="API\Unturned\Vehicle\UnturnedVehicle.cs" />
     <Compile Include="API\Unturned\Vehicle\VehicleEvents.cs" />
+    <Compile Include="Commands\CommandHelp.cs" />
     <Compile Include="Commands\CommandShutdown.cs" />
     <Compile Include="Enviroment.cs" />
     <Compile Include="Framework\Configuration.cs" />

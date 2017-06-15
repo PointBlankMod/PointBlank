@@ -46,11 +46,13 @@ namespace PointBlank.Services.CommandManager
         public void Enable()
         {
             Enabled = true;
+            CommandEvents.RunCommandEnable(CommandClass);
         }
 
         public void Disable()
         {
             Enabled = false;
+            CommandEvents.RunCommandDisable(CommandClass);
         }
 
         public void Reload()
@@ -102,7 +104,11 @@ namespace PointBlank.Services.CommandManager
                         executor.SendMessage("Not enough arguments!", Color.red);
                     return;
                 }
-                CommandClass.Execute(executor, args);
+                bool shouldExecute = true;
+
+                CommandEvents.RunCommandExecute(CommandClass, args, executor, ref shouldExecute);
+                if (shouldExecute)
+                    CommandClass.Execute(executor, args);
             }
             catch (Exception ex)
             {

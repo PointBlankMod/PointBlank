@@ -60,43 +60,42 @@ namespace PointBlank.API.Steam
             this.ID = id;
 
             // Setup the XML
-            (new Thread(new ThreadStart(delegate ()
+            try
             {
-                try
+                XmlDocument document = new XmlDocument();
+                document.Load(string.Format("http://steamcommunity.com/profiles/{0}/?xml=1", ID.ToString()));
+                XmlNode root = document.DocumentElement;
+
+                // Set the data
+                if (root != null)
                 {
-                    Logging.Log("HI!");
-                    XmlDocument document = new XmlDocument();
-                    document.Load(string.Format("http://steamcommunity.com/profiles/{0}/?xml=1", ID.ToString()));
-                    XmlNode root = document.DocumentElement;
+                    Name = root.SelectSingleNode("steamID").InnerText.Replace("<![CDATA[ ", "").Replace(" ]]>", "");
+                    IsVisible = (int.Parse(root.SelectSingleNode("visibilityState").InnerText) > 0);
+                    IsVACBanned = (int.Parse(root.SelectSingleNode("vacBanned").InnerText) > 0);
+                    IsTradeBanned = (root.SelectSingleNode("tradeBanState").InnerText != "None");
+                    IsLimited = (int.Parse(root.SelectSingleNode("isLimitedAccount").InnerText) > 0);
 
-                    // Set the data
-                    if (root != null)
+                    string privacystate = root.SelectSingleNode("privacyState").InnerText;
+                    if (privacystate == "public")
+                        PrivacyState = EPrivacyState.PUBLIC;
+                    else if (privacystate == "friendsonly")
+                        PrivacyState = EPrivacyState.FRIENDS_ONLY;
+                    else if (privacystate == "private")
+                        PrivacyState = EPrivacyState.PRIVATE;
+                    else
+                        PrivacyState = EPrivacyState.NONE;
+
+                    if(PrivacyState == EPrivacyState.PUBLIC)
                     {
-                        Name = root.SelectSingleNode("steamID").InnerText.Replace("<![CDATA[ ", "").Replace(" ]]>", "");
-                        IsVisible = (int.Parse(root.SelectSingleNode("visibilityState").InnerText) > 0);
-                        IsVACBanned = (int.Parse(root.SelectSingleNode("vacBanned").InnerText) > 0);
-                        IsTradeBanned = (root.SelectSingleNode("tradeBanState").InnerText != "None");
-                        IsLimited = (int.Parse(root.SelectSingleNode("isLimitedAccount").InnerText) > 0);
-
-                        string privacystate = root.SelectSingleNode("privacyState").InnerText;
-                        if (privacystate == "public")
-                            PrivacyState = EPrivacyState.PUBLIC;
-                        else if (privacystate == "friendsonly")
-                            PrivacyState = EPrivacyState.FRIENDS_ONLY;
-                        else if (privacystate == "private")
-                            PrivacyState = EPrivacyState.PRIVATE;
-                        else
-                            PrivacyState = EPrivacyState.NONE;
-
                         List<SteamGroup> groups = new List<SteamGroup>();
                         foreach (XmlNode node in root.SelectNodes("groups/group"))
                         {
-                            ulong i = ulong.Parse(node.InnerText);
+                            ulong i = ulong.Parse(node.SelectSingleNode("groupID64").InnerText);
                             SteamGroup group = SteamGroupManager.Groups.FirstOrDefault(a => a.ID == i);
 
                             if (group == null)
                             {
-                                group = new SteamGroup(i);
+                                group = new SteamGroup(i, -1, false, true);
                                 SteamGroupManager.AddSteamGroup(group);
                             }
                             groups.Add(group);
@@ -105,20 +104,24 @@ namespace PointBlank.API.Steam
                     }
                     else
                     {
-                        Name = "";
                         Groups = new SteamGroup[0];
-                        PrivacyState = EPrivacyState.NONE;
-                        IsVisible = false;
-                        IsVACBanned = false;
-                        IsTradeBanned = false;
-                        IsLimited = false;
                     }
                 }
-                catch (Exception ex)
+                else
                 {
-                    Logging.LogError("Issue occured when getting info for " + ID, ex);
+                    Name = "";
+                    Groups = new SteamGroup[0];
+                    PrivacyState = EPrivacyState.NONE;
+                    IsVisible = false;
+                    IsVACBanned = false;
+                    IsTradeBanned = false;
+                    IsLimited = false;
                 }
-            }))).Start();
+            }
+            catch (Exception ex)
+            {
+                Logging.LogError("Issue occured when getting info for " + ID, ex);
+            }
         }
     }
 }

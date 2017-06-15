@@ -66,7 +66,7 @@ namespace PointBlank.API.DataManagment
                     WeebClient wc = new WeebClient();
                     ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(PointBlank.ValidateCertificate);
 
-                    //wc.DownloadStringCompleted += new DownloadStringCompletedEventHandler(OnDownloadString);
+                    wc.DownloadStringCompleted += new DownloadStringCompletedEventHandler(OnDownloadString);
                     wc.DownloadStringCompleted += method;
                     wc.DownloadStringAsync(new Uri(URL));
                     return true;

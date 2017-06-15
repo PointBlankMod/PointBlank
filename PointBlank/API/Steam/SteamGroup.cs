@@ -69,6 +69,11 @@ namespace PointBlank.API.Steam
         /// The group cooldown for commands
         /// </summary>
         public int Cooldown { get; set; }
+
+        /// <summary>
+        /// Should the group be ignored while saving
+        /// </summary>
+        public bool Ignore { get; private set; }
         #endregion
 
         /// <summary>
@@ -77,11 +82,13 @@ namespace PointBlank.API.Steam
         /// <param name="id">The ID of the steam group</param>
         /// <param name="cooldown">The default cooldown for the steam group</param>
         /// <param name="downloadData">Should the information for the steam group be downloaded</param>
-        public SteamGroup(ulong id, int cooldown = -1, bool downloadData = false)
+        /// <param name="ignore">Should the group be ignored while saving</param>
+        public SteamGroup(ulong id, int cooldown = -1, bool downloadData = false, bool ignore = true)
         {
             // Set the variables
             this.ID = id;
             this.Cooldown = cooldown;
+            this.Ignore = ignore;
 
             // Run the code
             if (downloadData)
@@ -89,32 +96,32 @@ namespace PointBlank.API.Steam
         }
 
         #region Public Functions
+        /// <summary>
+        /// Downloads the steam group data from steam
+        /// </summary>
         public void DownloadData()
         {
-            WebsiteData.GetDataAsync(string.Format("http://steamcommunity.com/gid/{0}/memberslistxml/?xml=1", ID.ToString()), new DownloadStringCompletedEventHandler(delegate (object sender, DownloadStringCompletedEventArgs args)
-            {
-                XmlDocument document = new XmlDocument();
-                document.LoadXml(args.Result);
-                XmlNode root = document.DocumentElement;
+            XmlDocument document = new XmlDocument();
+            document.Load(string.Format("http://steamcommunity.com/gid/{0}/memberslistxml/?xml=1", ID.ToString()));
+            XmlNode root = document.DocumentElement;
 
-                // Set the data
-                if (root != null)
-                {
-                    Name = root.SelectSingleNode("groupDetails/groupName").InnerText.Replace("<![CDATA[ ", "").Replace(" ]]>", "");
-                    MemberCount = int.Parse(root.SelectSingleNode("groupDetails/memberCount").InnerText);
-                    MembersOnline = int.Parse(root.SelectSingleNode("groupDetails/membersOnline").InnerText);
-                    MembersInGame = int.Parse(root.SelectSingleNode("groupDetails/membersInGame").InnerText);
-                    MembersInChat = int.Parse(root.SelectSingleNode("groupDetails/membersInChat").InnerText);
-                }
-                else
-                {
-                    Name = "";
-                    MemberCount = 0;
-                    MembersOnline = 0;
-                    MembersInGame = 0;
-                    MembersInChat = 0;
-                }
-            }));
+            // Set the data
+            if (root != null)
+            {
+                Name = root.SelectSingleNode("groupDetails/groupName").InnerText.Replace("<![CDATA[ ", "").Replace(" ]]>", "");
+                MemberCount = int.Parse(root.SelectSingleNode("groupDetails/memberCount").InnerText);
+                MembersOnline = int.Parse(root.SelectSingleNode("groupDetails/membersOnline").InnerText);
+                MembersInGame = int.Parse(root.SelectSingleNode("groupDetails/membersInGame").InnerText);
+                MembersInChat = int.Parse(root.SelectSingleNode("groupDetails/membersInChat").InnerText);
+            }
+            else
+            {
+                Name = "";
+                MemberCount = 0;
+                MembersOnline = 0;
+                MembersInGame = 0;
+                MembersInChat = 0;
+            }
         }
 
         /// <summary>

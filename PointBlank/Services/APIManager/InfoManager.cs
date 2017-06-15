@@ -223,7 +223,7 @@ namespace PointBlank.Services.APIManager
                 if (SteamGroupManager.Groups.Count(a => a.ID == (ulong)obj["Steam64"]) > 0)
                     continue;
 
-                SteamGroup g = new SteamGroup((ulong)obj["Steam64"], (int)obj["Cooldown"]);
+                SteamGroup g = new SteamGroup((ulong)obj["Steam64"], (int)obj["Cooldown"], false, false);
 
                 SteamGroupManager.AddSteamGroup(g);
             }
@@ -315,7 +315,7 @@ namespace PointBlank.Services.APIManager
             SteamGroupConfig.Document.Add("SteamGroups", new JArray());
 
             // Ceate the groups
-            SteamGroup group = new SteamGroup(103582791437463178, 100);
+            SteamGroup group = new SteamGroup(103582791437463178, 100, false, false);
 
             // Configure steam group
             group.AddPermission("unturned.commands.noadmin.*");
@@ -331,6 +331,9 @@ namespace PointBlank.Services.APIManager
         {
             foreach(SteamGroup g in SteamGroupManager.Groups)
             {
+                if (g.Ignore)
+                    continue;
+
                 var obj = SteamGroupConfig.Document["SteamGroups"].FirstOrDefault(a => (ulong)a["Steam64"] == g.ID);
                 if (obj != null)
                 {

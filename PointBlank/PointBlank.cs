@@ -123,10 +123,7 @@ namespace PointBlank
             {
                 data.Verify(new Dictionary<string, JToken>()
                 {
-                    { "ConfigFormat", "JSON" },
-                    { "ServerAutoUpdate", "false" },
-                    { "UpdateScriptLocation", "" },
-                    { "CheckUpdateTimeSeconds", "600" }
+                    { "ConfigFormat", "JSON" }
                 });
                 if (((string)data.Document["ConfigFormat"]).ToLower() == "xml")
                     Configuration.SaveDataType = EDataType.XML;
@@ -134,21 +131,12 @@ namespace PointBlank
                     Configuration.SaveDataType = EDataType.JSON;
                 else
                     Configuration.SaveDataType = EDataType.UNKNOWN;
-                Configuration.ServerAutoUpdate = (((string)data.Document["ServerAutoUpdate"]).ToLower() == "true");
-                Configuration.UpdateScriptLocation = (string)data.Document["UpdateScriptLocation"];
-                Configuration.CheckUpdateTimeSeconds = int.Parse((string)data.Document["CheckUpdateTimeSeconds"]);
             }
             else
             {
                 data.Document.Add("ConfigFormat", "JSON");
-                data.Document.Add("ServerAutoUpdate", "false");
-                data.Document.Add("UpdateScriptLocation", "");
-                data.Document.Add("CheckUpdateTimeSeconds", "600");
 
                 Configuration.SaveDataType = EDataType.JSON;
-                Configuration.ServerAutoUpdate = false;
-                Configuration.UpdateScriptLocation = "";
-                Configuration.CheckUpdateTimeSeconds = 600;
                 LoaderData.Save();
             }
         }
