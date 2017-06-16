@@ -57,9 +57,10 @@ namespace PointBlank.Services.CommandManager
 
         public void Reload()
         {
-            if(Config["Name"] == null)
+            string name = Attribute.GetType().Assembly.GetName().Name + "." + Attribute.Name;
+            if (Config["Name"] == null)
             {
-                Config["Name"] = Attribute.Name;
+                Config["Name"] = name;
                 Config["Commands"] = JToken.FromObject(CommandClass.DefaultCommands);
                 Config["Permission"] = CommandClass.DefaultPermission;
                 Config["Cooldown"] = CommandClass.DefaultCooldown;
@@ -68,7 +69,7 @@ namespace PointBlank.Services.CommandManager
                 Commands = CommandClass.DefaultCommands;
                 Permission = CommandClass.DefaultPermission;
                 Cooldown = CommandClass.DefaultCooldown;
-                Enabled = false;
+                Enabled = true;
             }
             else
             {
@@ -77,6 +78,11 @@ namespace PointBlank.Services.CommandManager
                 Cooldown = (int)Config["Cooldown"];
                 Enabled = (bool)Config["Enabled"];
             }
+        }
+
+        public void Save()
+        {
+            Config["Enabled"] = Enabled;
         }
 
         public void Execute(UnturnedPlayer executor, string[] args)

@@ -30,7 +30,7 @@ namespace PointBlank.Commands
         {
             if(args.Length > 0)
             {
-                Command cmd = CommandManager.Commands.FirstOrDefault(a => a.Commands.Contains(args[0]));
+                Command cmd = CommandManager.Commands.FirstOrDefault(a => a.Commands.Contains(args[0]) && a.Enabled);
 
                 if(cmd == null)
                 {
@@ -48,9 +48,9 @@ namespace PointBlank.Commands
             }
 
             if (executor == null)
-                CommandWindow.Log(string.Join(",", CommandManager.Commands.Select(a => a.Commands[0]).ToArray()), ConsoleColor.Green);
+                CommandWindow.Log(string.Join(",", CommandManager.Commands.Where(a => a.Enabled).Select(a => a.Commands[0]).ToArray()), ConsoleColor.Green);
             else
-                executor.SendMessage(string.Join(",", CommandManager.Commands.Select(a => a.Commands[0]).ToArray()), Color.green);
+                executor.SendMessage(string.Join(",", CommandManager.Commands.Where(a => a.Enabled).Select(a => a.Commands[0]).ToArray()), Color.green);
         }
     }
 }

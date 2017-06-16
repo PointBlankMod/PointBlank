@@ -69,6 +69,9 @@ namespace PointBlank.Services.CommandManager
 
         private void SaveConfig()
         {
+            foreach(CommandWrapper wrapper in Commands.Values)
+                wrapper.Save();
+
             UniConfig.Save();
         }
         #endregion
@@ -82,18 +85,19 @@ namespace PointBlank.Services.CommandManager
                 return;
             if (!typeof(CMD).IsAssignableFrom(_class))
                 return;
+            if (Commands.Count(a => a.Key.Name == attribute.Name && a.Key.GetType().Assembly == attribute.GetType().Assembly) > 0)
+                return;
 
             try
             {
-                JObject objConfig = ((JArray)JSONConfig.Document["Commands"]).FirstOrDefault(a => (string)a["Name"] == attribute.Name) as JObject;
+                string name = attribute.GetType().Assembly.GetName().Name + "." + attribute.Name;
+                JObject objConfig = ((JArray)JSONConfig.Document["Commands"]).FirstOrDefault(a => (string)a["Name"] == name) as JObject;
                 if(objConfig == null)
                 {
                     objConfig = new JObject();
                     ((JArray)JSONConfig.Document["Commands"]).Add(objConfig);
                 }
                 CommandWrapper wrapper = new CommandWrapper(_class, attribute, objConfig);
-
-                wrapper.Enable();
 
                 Commands.Add(attribute, wrapper);
             }
@@ -185,7 +189,7 @@ namespace PointBlank.Services.CommandManager
                 CommandWindow.Log("Invalid command! Do help for the list of commands", ConsoleColor.Red);
                 return;
             }
-            if(info.Length > 1)
+            if (info.Length > 1)
                 for (int i = 1; i < info.Length; i++)
                     args.Add(info[i]);
             wrapper.Execute(null, args.ToArray());
