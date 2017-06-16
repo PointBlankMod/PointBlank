@@ -107,6 +107,7 @@
     <Compile Include="API\Unturned\Skills\ESkillset.cs" />
     <Compile Include="API\Unturned\Vehicle\UnturnedVehicle.cs" />
     <Compile Include="API\Unturned\Vehicle\VehicleEvents.cs" />
+    <Compile Include="Commands\CommandAdmin.cs" />
     <Compile Include="Commands\CommandHelp.cs" />
     <Compile Include="Commands\CommandShutdown.cs" />
     <Compile Include="Enviroment.cs" />

@@ -27,7 +27,7 @@ namespace PointBlank.API.Unturned.Player
     public class UnturnedPlayer
     {
         #region Variables
-        private List<UnturnedPlayer> _VisiblePlayers = new List<UnturnedPlayer>();
+        private List<UnturnedPlayer> _InvisiblePlayers = new List<UnturnedPlayer>();
         private List<Group> _Groups = new List<Group>();
         private List<string> _Prefixes = new List<string>();
         private List<string> _Suffixes = new List<string>();
@@ -462,7 +462,7 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// The players this player can see are in the server
         /// </summary>
-        public UnturnedPlayer[] VisiblePlayers => _VisiblePlayers.ToArray();
+        public UnturnedPlayer[] InvisiblePlayers => _InvisiblePlayers.ToArray();
         /// <summary>
         /// The groups this player is part of
         /// </summary>
@@ -568,32 +568,59 @@ namespace PointBlank.API.Unturned.Player
         {
             return UnturnedServer.GetPlayer(steam64);
         }
+
+        /// <summary>
+        /// Tries to get the unturned player instance based on the paramater
+        /// </summary>
+        /// <param name="param">The paramater to test</param>
+        /// <param name="player">The unturned player instance</param>
+        /// <returns>If the player waws gotten successfully</returns>
+        public static bool TryGetPlayer(string param, out UnturnedPlayer player)
+        {
+            ulong steam64;
+            if(ulong.TryParse(param, out steam64))
+            {
+                player = Get(steam64);
+                return true;
+            }
+
+            for(int i = 0; i < UnturnedServer.Players.Length; i++)
+            {
+                if(NameTool.checkNames(param, UnturnedServer.Players[i].PlayerName) || NameTool.checkNames(param, UnturnedServer.Players[i].CharacterName))
+                {
+                    player = UnturnedServer.Players[i];
+                    return true;
+                }
+            }
+            player = null;
+            return false;
+        }
         #endregion
 
         #region Public Functions
         /// <summary>
-        /// Make a player visible to this player
-        /// </summary>
-        /// <param name="player">The player to make visible</param>
-        public void AddVisiblePlayer(UnturnedPlayer player)
-        {
-            if (VisiblePlayers.Contains(player))
-                return;
-
-            _VisiblePlayers.Add(player);
-            PlayerEvents.RunVisiblePlayerAdd(this, player);
-        }
-        /// <summary>
         /// Make a player invisible to this player
         /// </summary>
         /// <param name="player">The player to make invisible</param>
-        public void RemoveVisiblePlayer(UnturnedPlayer player)
+        public void AddInvisiblePlayer(UnturnedPlayer player)
         {
-            if (!VisiblePlayers.Contains(player))
+            if (InvisiblePlayers.Contains(player))
                 return;
 
-            _VisiblePlayers.Remove(player);
-            PlayerEvents.RunVisiblePlayerRemove(this, player);
+            _InvisiblePlayers.Add(player);
+            PlayerEvents.RunInvisiblePlayerAdd(this, player);
+        }
+        /// <summary>
+        /// Make a player visible to this player
+        /// </summary>
+        /// <param name="player">The player to make visible</param>
+        public void RemoveInvisiblePlayer(UnturnedPlayer player)
+        {
+            if (!InvisiblePlayers.Contains(player))
+                return;
+
+            _InvisiblePlayers.Remove(player);
+            PlayerEvents.RunInvisiblePlayerRemove(this, player);
         }
 
         /// <summary>
@@ -715,6 +742,8 @@ namespace PointBlank.API.Unturned.Player
         /// <returns>If the player has the specified permission</returns>
         public bool HasPermission(string permission)
         {
+            if (IsAdmin)
+                return true;
             for(int i = 0; i < Groups.Length; i++)
                 if (Groups[i].HasPermission(permission))
                     return true;

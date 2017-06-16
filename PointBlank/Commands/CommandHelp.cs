@@ -10,7 +10,7 @@ using UnityEngine;
 namespace PointBlank.Commands
 {
     [Command("Help", 0)]
-    public class CommandHelp : Command
+    internal class CommandHelp : Command
     {
         #region Properties
         public override string[] DefaultCommands => new string[]

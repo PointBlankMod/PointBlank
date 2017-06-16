@@ -25,11 +25,11 @@ namespace PointBlank.API.Unturned.Player
         /// <param name="group">The changed group</param>
         public delegate void GroupsChangedHandler(UnturnedPlayer player, Group group);
         /// <summary>
-        /// Handles visible player changes of the player
+        /// Handles invisible player changes of the player
         /// </summary>
         /// <param name="player">The affected player</param>
         /// <param name="target">The changed player</param>
-        public delegate void VisiblePlayersChangedHandler(UnturnedPlayer player, UnturnedPlayer target);
+        public delegate void InvisiblePlayersChangedHandler(UnturnedPlayer player, UnturnedPlayer target);
 
         /// <summary>
         /// Handles prefix changes of the player
@@ -65,13 +65,13 @@ namespace PointBlank.API.Unturned.Player
         public static event GroupsChangedHandler OnGroupRemoved;
 
         /// <summary>
-        /// Called when a visible player is added
+        /// Called when an invisible player is added
         /// </summary>
-        public static event VisiblePlayersChangedHandler OnVisiblePlayerAdded;
+        public static event InvisiblePlayersChangedHandler OnInvisiblePlayerAdded;
         /// <summary>
-        /// Called when a visible player is removed
+        /// Called when an invisible player is removed
         /// </summary>
-        public static event VisiblePlayersChangedHandler OnVisiblePlayerRemoved;
+        public static event InvisiblePlayersChangedHandler OnInvisiblePlayerRemoved;
 
         /// <summary>
         /// Called when a prefix is added
@@ -123,19 +123,19 @@ namespace PointBlank.API.Unturned.Player
             OnGroupRemoved(player, group);
         }
 
-        internal static void RunVisiblePlayerAdd(UnturnedPlayer player, UnturnedPlayer target)
+        internal static void RunInvisiblePlayerAdd(UnturnedPlayer player, UnturnedPlayer target)
         {
-            if (OnVisiblePlayerAdded == null)
+            if (OnInvisiblePlayerAdded == null)
                 return;
 
-            OnVisiblePlayerAdded(player, target);
+            OnInvisiblePlayerAdded(player, target);
         }
-        internal static void RunVisiblePlayerRemove(UnturnedPlayer player, UnturnedPlayer target)
+        internal static void RunInvisiblePlayerRemove(UnturnedPlayer player, UnturnedPlayer target)
         {
-            if (OnVisiblePlayerRemoved == null)
+            if (OnInvisiblePlayerRemoved == null)
                 return;
 
-            OnVisiblePlayerRemoved(player, target);
+            OnInvisiblePlayerRemoved(player, target);
         }
 
         internal static void RunPrefixAdd(UnturnedPlayer player, string prefix)

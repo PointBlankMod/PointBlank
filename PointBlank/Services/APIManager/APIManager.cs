@@ -48,6 +48,8 @@ namespace PointBlank.Services.APIManager
             ServerEvents.OnPlayerConnected += new ServerEvents.PlayerConnectionHandler(OnPlayerJoin);
             ServerEvents.OnPlayerDisconnected += new ServerEvents.PlayerConnectionHandler(OnPlayerLeave);
             ChatManager.onChatted += new Chatted(OnPlayerChat);
+            PlayerEvents.OnInvisiblePlayerAdded += new PlayerEvents.InvisiblePlayersChangedHandler(OnSetInvisible);
+            PlayerEvents.OnInvisiblePlayerRemoved += new PlayerEvents.InvisiblePlayersChangedHandler(OnSetVisible);
 
             // Run code
             tGame.Start();
@@ -90,6 +92,67 @@ namespace PointBlank.Services.APIManager
 
             if(c != Color.clear)
                 color = c;
+        }
+
+        private void OnSetInvisible(UnturnedPlayer player, UnturnedPlayer target)
+        {
+            int index = 0;
+            List<SteamPlayer> plys = Provider.clients.ToList();
+
+            for(int i = 0; i < player.InvisiblePlayers.Length; i++)
+                if (plys.Contains(player.InvisiblePlayers[i].SteamPlayer))
+                    plys.Remove(player.InvisiblePlayers[i].SteamPlayer);
+            for(int i = 0; i < plys.Count; i++)
+            {
+                if(plys[i] == target.SteamPlayer)
+                {
+                    index = i;
+                    break;
+                }
+            }
+            Provider.send(player.SteamID, ESteamPacket.DISCONNECTED, new byte[]
+            {
+                12,
+                (byte)index
+            }, 2, 0);
+        }
+
+        private void OnSetVisible(UnturnedPlayer player, UnturnedPlayer target)
+        {
+            int size;
+            byte[] bytes = SteamPacker.getBytes(0, out size, new object[]
+            {
+                11,
+                target.SteamPlayerID.steamID,
+                target.SteamPlayerID.characterID,
+                target.SteamPlayerID.playerName,
+                target.SteamPlayerID.characterName,
+                target.SteamPlayer.model.transform.position,
+                (byte)(target.SteamPlayer.model.transform.rotation.eulerAngles.y / 2f),
+                target.SteamPlayer.isPro,
+                target.SteamPlayer.isAdmin && !Provider.hideAdmins,
+                target.SteamPlayer.channel,
+                target.SteamPlayer.playerID.group,
+                target.SteamPlayer.playerID.nickName,
+                target.SteamPlayer.face,
+                target.SteamPlayer.hair,
+                target.SteamPlayer.beard,
+                target.SteamPlayer.skin,
+                target.SteamPlayer.color,
+                target.SteamPlayer.hand,
+                target.SteamPlayer.shirtItem,
+                target.SteamPlayer.pantsItem,
+                target.SteamPlayer.hatItem,
+                target.SteamPlayer.backpackItem,
+                target.SteamPlayer.vestItem,
+                target.SteamPlayer.maskItem,
+                target.SteamPlayer.glassesItem,
+                target.SteamPlayer.skinItems,
+                (byte)target.SteamPlayer.skillset,
+                target.SteamPlayer.language
+            });
+
+            Provider.send(player.SteamID, ESteamPacket.CONNECTED, bytes, size, 0);
         }
         #endregion
     }
