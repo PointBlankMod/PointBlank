@@ -30,9 +30,7 @@ namespace PointBlank.Commands
 
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
-            UnturnedPlayer player;
-
-            if(!UnturnedPlayer.TryGetPlayer(args[0], out player))
+            if (!UnturnedPlayer.TryGetPlayer(args[0], out UnturnedPlayer player))
             {
                 if (executor == null)
                     CommandWindow.Log("Player not found!", ConsoleColor.Red);
@@ -41,11 +39,11 @@ namespace PointBlank.Commands
                 return;
             }
 
-            if(executor == null)
+            if (executor == null)
             {
                 SteamAdminlist.admin(player.SteamID, CSteamID.Nil);
                 CommandWindow.Log(player.PlayerName + " has been set as admin!", ConsoleColor.Green);
-                
+
             }
             else
             {
