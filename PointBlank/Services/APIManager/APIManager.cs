@@ -30,7 +30,7 @@ namespace PointBlank.Services.APIManager
             // Setup thread
             tGame = new Thread(new ThreadStart(delegate ()
             {
-                while(RunThread)
+                while (RunThread)
                     ServerEvents.RunThreadTick();
             }));
 
@@ -75,7 +75,7 @@ namespace PointBlank.Services.APIManager
         {
             Group[] groups = GM.Groups.Where(a => a.Default).ToArray();
 
-            foreach(Group g in groups)
+            foreach (Group g in groups)
                 if (!player.Groups.Contains(g))
                     player.AddGroup(g);
         }
@@ -90,26 +90,18 @@ namespace PointBlank.Services.APIManager
             UnturnedPlayer ply = UnturnedPlayer.Get(player);
             Color c = ply.GetColor();
 
-            if(c != Color.clear)
+            if (c != Color.clear)
                 color = c;
         }
 
         private void OnSetInvisible(UnturnedPlayer player, UnturnedPlayer target)
         {
-            int index = 0;
             List<SteamPlayer> plys = Provider.clients.ToList();
 
-            for(int i = 0; i < player.InvisiblePlayers.Length; i++)
+            for (int i = 0; i < player.InvisiblePlayers.Length; i++)
                 if (plys.Contains(player.InvisiblePlayers[i].SteamPlayer))
                     plys.Remove(player.InvisiblePlayers[i].SteamPlayer);
-            for(int i = 0; i < plys.Count; i++)
-            {
-                if(plys[i] == target.SteamPlayer)
-                {
-                    index = i;
-                    break;
-                }
-            }
+            int index = plys.FindIndex(x => x == target.SteamPlayer);
             Provider.send(player.SteamID, ESteamPacket.DISCONNECTED, new byte[]
             {
                 12,

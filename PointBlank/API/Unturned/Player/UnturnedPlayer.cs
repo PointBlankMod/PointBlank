@@ -577,8 +577,7 @@ namespace PointBlank.API.Unturned.Player
         /// <returns>If the player waws gotten successfully</returns>
         public static bool TryGetPlayer(string param, out UnturnedPlayer player)
         {
-            ulong steam64;
-            if(ulong.TryParse(param, out steam64))
+            if(ulong.TryParse(param, out ulong steam64))
             {
                 player = Get(steam64);
                 return true;
