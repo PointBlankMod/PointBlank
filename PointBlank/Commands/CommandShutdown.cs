@@ -15,6 +15,8 @@ namespace PointBlank.Commands
         public override string[] DefaultCommands => new string[]
         {
             "shutdown",
+            "Shutdown",
+            "ShutDown",
             "SHUTDOWN"
         };
 

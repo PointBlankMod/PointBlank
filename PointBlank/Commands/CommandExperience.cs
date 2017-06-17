@@ -17,6 +17,7 @@ namespace PointBlank.Commands
             "xp",
             "XP",
             "experience",
+            "Experience",
             "EXPERIENCE"
         };
 

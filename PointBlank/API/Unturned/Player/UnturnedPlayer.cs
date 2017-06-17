@@ -77,7 +77,20 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// Is the player an admin
         /// </summary>
-        public bool IsAdmin => SteamPlayer.isAdmin;
+        public bool IsAdmin
+        {
+            get
+            {
+                return SteamPlayer.isAdmin;
+            }
+            set
+            {
+                if (value)
+                    SteamAdminlist.admin(SteamID, CSteamID.Nil);
+                else
+                    SteamAdminlist.unadmin(SteamID);
+            }
+        }
         /// <summary>
         /// player ping
         /// </summary>

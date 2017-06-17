@@ -122,7 +122,10 @@
     <Compile Include="Commands\CommandDebug.cs" />
     <Compile Include="Commands\CommandExperience.cs" />
     <Compile Include="Commands\CommandFilter.cs" />
+    <Compile Include="Commands\CommandFlag.cs" />
+    <Compile Include="Commands\CommandGameMode.cs" />
     <Compile Include="Commands\CommandHelp.cs" />
+    <Compile Include="Commands\CommandItem.cs" />
     <Compile Include="Commands\CommandShutdown.cs" />
     <Compile Include="Enviroment.cs" />
     <Compile Include="Framework\Configuration.cs" />

@@ -15,6 +15,7 @@ namespace PointBlank.Commands
         public override string[] DefaultCommands => new string[]
         {
             "filter",
+            "Filter",
             "FILTER"
         };
 

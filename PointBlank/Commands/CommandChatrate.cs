@@ -21,6 +21,8 @@ namespace PointBlank.Commands
         public override string[] DefaultCommands => new string[]
         {
             "chatrate",
+            "Chatrate",
+            "ChatRate",
             "CHATRATE"
         };
 

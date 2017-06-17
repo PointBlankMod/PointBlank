@@ -9,30 +9,31 @@ using Provider = SDG.Unturned.Provider;
 
 namespace PointBlank.Commands
 {
-    [Command("Cheats", 0)]
-    internal class CommandCheats : Command
+    [Command("GameMode", 1)]
+    internal class CommandGameMode : Command
     {
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "cheats",
-            "Cheats",
-            "CHEATS"
+            "gamemode",
+            "GAMEMODE",
+            "Gamemode",
+            "GameMode"
         };
 
-        public override string Help => "Enables cheats for the server";
+        public override string Help => "Sets the server game mode";
 
-        public override string Usage => Commands[0];
+        public override string Usage => Commands[0] + " <game mode>";
 
-        public override string DefaultPermission => "unturned.commands.server.cheats";
+        public override string DefaultPermission => "unturned.commands.server.gamemode";
 
         public override bool AllowRuntime => false;
         #endregion
 
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
-            Provider.hasCheats = true;
-            ChatManager.SendMessage(executor, "Cheats have been enabled!", ConsoleColor.Green);
+            Provider.selectedGameModeName = args[0];
+            ChatManager.SendMessage(executor, "Setting game mode to " + args[0], ConsoleColor.Green);
         }
     }
 }
