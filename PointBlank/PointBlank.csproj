@@ -115,6 +115,13 @@
     <Compile Include="Commands\CommandBans.cs" />
     <Compile Include="Commands\CommandBind.cs" />
     <Compile Include="Commands\CommandCamera.cs" />
+    <Compile Include="Commands\CommandChatrate.cs" />
+    <Compile Include="Commands\CommandCheats.cs" />
+    <Compile Include="Commands\CommandCycle.cs" />
+    <Compile Include="Commands\CommandDay.cs" />
+    <Compile Include="Commands\CommandDebug.cs" />
+    <Compile Include="Commands\CommandExperience.cs" />
+    <Compile Include="Commands\CommandFilter.cs" />
     <Compile Include="Commands\CommandHelp.cs" />
     <Compile Include="Commands\CommandShutdown.cs" />
     <Compile Include="Enviroment.cs" />

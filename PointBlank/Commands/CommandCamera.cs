@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Player;
+using PointBlank.API.Unturned.Chat;
 using ECameraMode = SDG.Unturned.ECameraMode;
 using Provider = SDG.Unturned.Provider;
 
@@ -52,6 +53,7 @@ namespace PointBlank.Commands
                     break;
             }
             Provider.cameraMode = mode;
+            ChatManager.SendMessage(executor, "Camera set to " + mode.ToString(), ConsoleColor.Green);
         }
     }
 }
