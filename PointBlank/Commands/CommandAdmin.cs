@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Player;
+using PointBlank.API.Unturned.Chat;
 using UnityEngine;
 using Steamworks;
 using CommandWindow = SDG.Unturned.CommandWindow;
@@ -23,7 +24,7 @@ namespace PointBlank.Commands
 
         public override string Help => "Admins a player";
 
-        public override string Usage => "admin <player>";
+        public override string Usage => Commands[0] + " <player>";
 
         public override string DefaultPermission => "unturned.commands.admin.admin";
         #endregion
@@ -32,10 +33,7 @@ namespace PointBlank.Commands
         {
             if (!UnturnedPlayer.TryGetPlayer(args[0], out UnturnedPlayer player))
             {
-                if (executor == null)
-                    CommandWindow.Log("Player not found!", ConsoleColor.Red);
-                else
-                    executor.SendMessage("Player not found!", Color.red);
+                ChatManager.SendMessage(executor, "Player not found!", ConsoleColor.Red);
                 return;
             }
 

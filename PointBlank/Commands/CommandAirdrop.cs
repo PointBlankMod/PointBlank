@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Player;
+using PointBlank.API.Unturned.Chat;
 using LevelManager = SDG.Unturned.LevelManager;
 
 namespace PointBlank.Commands
 {
     [Command("Airdrop", 0)]
-    public class CommandAirdrop : Command
+    internal class CommandAirdrop : Command
     {
         #region Properties
         public override string[] DefaultCommands => new string[]
@@ -20,7 +21,7 @@ namespace PointBlank.Commands
 
         public override string Help => "Activates an airdrop";
 
-        public override string Usage => "airdrop";
+        public override string Usage => Commands[0];
 
         public override string DefaultPermission => "unturned.commands.admin.airdrop";
         #endregion
@@ -31,6 +32,7 @@ namespace PointBlank.Commands
                 return;
 
             LevelManager.airdropFrequency = 0u;
+            ChatManager.SendMessage(executor, "Airdrop spawned successfully!", ConsoleColor.Green);
         }
     }
 }

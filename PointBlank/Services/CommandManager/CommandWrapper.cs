@@ -6,6 +6,7 @@ using System.Text;
 using PointBlank.API;
 using PointBlank.API.Commands;
 using CMD = PointBlank.API.Commands.Command;
+using CM = PointBlank.API.Unturned.Chat.ChatManager;
 using PointBlank.API.Unturned.Player;
 using Newtonsoft.Json.Linq;
 using SDG.Unturned;
@@ -91,10 +92,7 @@ namespace PointBlank.Services.CommandManager
             {
                 if (!CommandClass.AllowRuntime && Provider.isServer)
                 {
-                    if (executor == null)
-                        CommandWindow.Log("The command can't be execute while the server is running!", ConsoleColor.Red);
-                    else
-                        executor.SendMessage("The command can't be execute while the server is running!", Color.red);
+                    CM.SendMessage(executor, "The command can't be execute while the server is running!", ConsoleColor.Red);
                     return;
                 }
                 if (CommandClass.ConsoleOnly && executor != null)
@@ -104,10 +102,7 @@ namespace PointBlank.Services.CommandManager
                 }
                 if(Attribute.MinParams > args.Length)
                 {
-                    if (executor == null)
-                        CommandWindow.Log("Not enough arguments!", ConsoleColor.Red);
-                    else
-                        executor.SendMessage("Not enough arguments!", Color.red);
+                    CM.SendMessage(executor, "Not enough arguments!", ConsoleColor.Red);
                     return;
                 }
                 if(executor != null && executor.HasCooldown(CommandClass))

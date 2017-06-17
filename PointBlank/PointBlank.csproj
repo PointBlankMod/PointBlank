@@ -111,6 +111,10 @@
     <Compile Include="Commands\CommandAdmin.cs" />
     <Compile Include="Commands\CommandAdmins.cs" />
     <Compile Include="Commands\CommandAirdrop.cs" />
+    <Compile Include="Commands\CommandBan.cs" />
+    <Compile Include="Commands\CommandBans.cs" />
+    <Compile Include="Commands\CommandBind.cs" />
+    <Compile Include="Commands\CommandCamera.cs" />
     <Compile Include="Commands\CommandHelp.cs" />
     <Compile Include="Commands\CommandShutdown.cs" />
     <Compile Include="Enviroment.cs" />

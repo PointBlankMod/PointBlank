@@ -22,7 +22,7 @@ namespace PointBlank.Commands
 
         public override string Help => "Shows a list of admins on the server";
 
-        public override string Usage => "admins";
+        public override string Usage => Commands[0];
 
         public override string DefaultPermission => "unturned.commands.nonadmin.admins";
         #endregion

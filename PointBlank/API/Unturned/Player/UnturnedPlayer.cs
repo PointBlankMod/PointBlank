@@ -410,11 +410,21 @@ namespace PointBlank.API.Unturned.Player
         {
             get
             {
-                P2PSessionState_t State;
+                
 
-                SteamGameServerNetworking.GetP2PSessionState(SteamID, out State);
+                return Parser.getIPFromUInt32(SteamIP);
+            }
+        }
+        /// <summary>
+        /// The steam defined IP of the player
+        /// </summary>
+        public uint SteamIP
+        {
+            get
+            {
+                SteamGameServerNetworking.GetP2PSessionState(SteamID, out P2PSessionState_t state);
 
-                return Parser.getIPFromUInt32(State.m_nRemoteIP);
+                return state.m_nRemoteIP;
             }
         }
         /// <summary>
