@@ -66,6 +66,8 @@
     <Compile Include="API\Commands\CommandAttribute.cs" />
     <Compile Include="API\Commands\CommandEvents.cs" />
     <Compile Include="API\Commands\CommandManager.cs" />
+    <Compile Include="API\Commands\EAllowedCaller.cs" />
+    <Compile Include="API\Commands\EAllowedServerState.cs" />
     <Compile Include="API\DataManagment\ConfData.cs" />
     <Compile Include="API\DataManagment\EDataType.cs" />
     <Compile Include="API\DataManagment\ESQLDataType.cs" />
@@ -124,8 +126,12 @@
     <Compile Include="Commands\CommandFilter.cs" />
     <Compile Include="Commands\CommandFlag.cs" />
     <Compile Include="Commands\CommandGameMode.cs" />
+    <Compile Include="Commands\CommandGold.cs" />
     <Compile Include="Commands\CommandHelp.cs" />
+    <Compile Include="Commands\CommandHideAdmins.cs" />
     <Compile Include="Commands\CommandItem.cs" />
+    <Compile Include="Commands\CommandKick.cs" />
+    <Compile Include="Commands\CommandKill.cs" />
     <Compile Include="Commands\CommandShutdown.cs" />
     <Compile Include="Enviroment.cs" />
     <Compile Include="Framework\Configuration.cs" />

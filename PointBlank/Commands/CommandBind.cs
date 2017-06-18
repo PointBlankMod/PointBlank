@@ -27,7 +27,7 @@ namespace PointBlank.Commands
 
         public override string DefaultPermission => "unturned.commands.server.bind";
 
-        public override bool AllowRuntime => false;
+        public override EAllowedServerState AllowedServerState => EAllowedServerState.LOADING;
         #endregion
 
         public override void Execute(UnturnedPlayer executor, string[] args)

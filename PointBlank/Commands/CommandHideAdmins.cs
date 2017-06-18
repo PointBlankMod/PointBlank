@@ -9,31 +9,31 @@ using Provider = SDG.Unturned.Provider;
 
 namespace PointBlank.Commands
 {
-    [Command("GameMode", 1)]
-    internal class CommandGameMode : Command
+    [Command("HideAdmins", 0)]
+    internal class CommandHideAdmins : Command
     {
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "gamemode",
-            "GAMEMODE",
-            "Gamemode",
-            "GameMode"
+            "hideadmins",
+            "Hideadmins",
+            "HideAdmins",
+            "HIDEADMINS"
         };
 
-        public override string Help => "Sets the server game mode";
+        public override string Help => "Hides all admins on the server";
 
-        public override string Usage => Commands[0] + " <game mode>";
+        public override string Usage => Commands[0];
 
-        public override string DefaultPermission => "unturned.commands.server.gamemode";
+        public override string DefaultPermission => "unturned.commands.server.hideadmins";
 
         public override EAllowedServerState AllowedServerState => EAllowedServerState.LOADING;
         #endregion
 
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
-            Provider.selectedGameModeName = args[0];
-            ChatManager.SendMessage(executor, "Setting game mode to " + args[0], ConsoleColor.Green);
+            Provider.hideAdmins = true;
+            ChatManager.SendMessage(executor, "Admins are hidden!", ConsoleColor.Green);
         }
     }
 }

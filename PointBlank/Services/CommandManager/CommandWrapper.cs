@@ -90,17 +90,27 @@ namespace PointBlank.Services.CommandManager
         {
             try
             {
-                if (!CommandClass.AllowRuntime && Provider.isServer)
+                if (CommandClass.AllowedServerState == EAllowedServerState.LOADING && Provider.isServer)
                 {
                     CM.SendMessage(executor, "The command can't be execute while the server is running!", ConsoleColor.Red);
                     return;
                 }
-                if (CommandClass.ConsoleOnly && executor != null)
+                if (CommandClass.AllowedServerState == EAllowedServerState.RUNNING && !Provider.isServer)
+                {
+                    CM.SendMessage(executor, "The command can't be execute while the server is not running!", ConsoleColor.Red);
+                    return;
+                }
+                if (CommandClass.AllowedCaller == EAllowedCaller.SERVER && executor != null)
                 {
                     executor.SendMessage("The command can only be executed from the console!", Color.red);
                     return;
                 }
-                if(Attribute.MinParams > args.Length)
+                if (CommandClass.AllowedCaller == EAllowedCaller.PLAYER && executor == null)
+                {
+                    executor.SendMessage("The command can only be executed by a player!", Color.red);
+                    return;
+                }
+                if (Attribute.MinParams > args.Length)
                 {
                     CM.SendMessage(executor, "Not enough arguments!", ConsoleColor.Red);
                     return;

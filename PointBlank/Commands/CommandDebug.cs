@@ -28,14 +28,13 @@ namespace PointBlank.Commands
 
         public override string DefaultPermission => "unturned.commands.server.debug";
 
-        public override bool ConsoleOnly => true;
+        public override EAllowedServerState AllowedServerState => EAllowedServerState.RUNNING;
+
+        public override EAllowedCaller AllowedCaller => EAllowedCaller.SERVER;
         #endregion
 
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
-            if (!Provider.isServer)
-                return;
-
             CommandWindow.Log("Debug Information:");
             CommandWindow.Log("SteamID: " + SteamGameServer.GetSteamID());
             CommandWindow.Log("IP: " + Parser.getIPFromUInt32(SteamGameServer.GetPublicIP()));

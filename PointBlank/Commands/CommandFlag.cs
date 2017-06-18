@@ -24,6 +24,8 @@ namespace PointBlank.Commands
         public override string Usage => Commands[0] + " <flag> <value> [player]";
 
         public override string DefaultPermission => "unturned.commands.admin.flag";
+
+        public override EAllowedServerState AllowedServerState => EAllowedServerState.RUNNING;
         #endregion
 
         public override void Execute(UnturnedPlayer executor, string[] args)

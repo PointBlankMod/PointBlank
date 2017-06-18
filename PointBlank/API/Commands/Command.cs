@@ -101,26 +101,14 @@ namespace PointBlank.API.Commands
         }
 
         /// <summary>
-        /// Can the command be executed while the server is running
+        /// At what state is the command allowed to be executed
         /// </summary>
-        public virtual bool AllowRuntime
-        {
-            get
-            {
-                return true;
-            }
-        }
+        public virtual EAllowedServerState AllowedServerState => EAllowedServerState.BOTH;
 
         /// <summary>
-        /// Can the command only be execute in the console
+        /// Who can execute the command
         /// </summary>
-        public virtual bool ConsoleOnly
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public virtual EAllowedCaller AllowedCaller => EAllowedCaller.BOTH;
         #endregion
 
         #region Abstract Functions

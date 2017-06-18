@@ -9,31 +9,30 @@ using Provider = SDG.Unturned.Provider;
 
 namespace PointBlank.Commands
 {
-    [Command("GameMode", 1)]
-    internal class CommandGameMode : Command
+    [Command("Gold", 0)]
+    internal class CommandGold : Command
     {
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "gamemode",
-            "GAMEMODE",
-            "Gamemode",
-            "GameMode"
+            "gold",
+            "Gold",
+            "GOLD"
         };
 
-        public override string Help => "Sets the server game mode";
+        public override string Help => "Sets the server to gold only";
 
-        public override string Usage => Commands[0] + " <game mode>";
+        public override string Usage => Commands[0];
 
-        public override string DefaultPermission => "unturned.commands.server.gamemode";
+        public override string DefaultPermission => "unturned.commands.server.gold";
 
         public override EAllowedServerState AllowedServerState => EAllowedServerState.LOADING;
         #endregion
 
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
-            Provider.selectedGameModeName = args[0];
-            ChatManager.SendMessage(executor, "Setting game mode to " + args[0], ConsoleColor.Green);
+            Provider.isGold = true;
+            ChatManager.SendMessage(executor, "Server set to gold only", ConsoleColor.Green);
         }
     }
 }
