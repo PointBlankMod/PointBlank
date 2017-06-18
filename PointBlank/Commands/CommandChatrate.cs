@@ -48,7 +48,7 @@ namespace PointBlank.Commands
                 return;
             }
 
-            CM.chatrate = rate;
+            ChatManager.chatrate = rate;
             UnturnedChat.SendMessage(executor, "Chat rate set to " + rate.ToString(), ConsoleColor.Green);
         }
     }
