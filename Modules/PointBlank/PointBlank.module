@@ -7,29 +7,17 @@
 		{
 			"Path": "/PointBlank.dll",
 			"Role": "Server"
-		},
-		{
-			"Path": "/PointBlankExtra.dll",
-			"Role": "Server"
-		},
-		{
-			"Path": "/I18N.dll",
-			"Role": "Server"
-		},
-		{
-			"Path": "/I18N.West.dll",
-			"Role": "Server"
 		}
 	],
 	"Dependencies":
 	[
 		{
 			"Name": "Framework",
-			"Version": "3.18.4.1"
+			"Version": "3.19.0.0"
 		},
 		{
 			"Name": "Unturned",
-			"Version": "3.18.4.1"
+			"Version": "3.19.0.0"
 		}
 	]
 }
