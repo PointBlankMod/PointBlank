@@ -141,6 +141,13 @@
     <Compile Include="Commands\CommandNight.cs" />
     <Compile Include="Commands\CommandOwner.cs" />
     <Compile Include="Commands\CommandPassword.cs" />
+    <Compile Include="Commands\CommandPermit.cs" />
+    <Compile Include="Commands\CommandPermits.cs" />
+    <Compile Include="Commands\CommandPort.cs" />
+    <Compile Include="Commands\CommandPvE.cs" />
+    <Compile Include="Commands\CommandQuest.cs" />
+    <Compile Include="Commands\CommandQueue.cs" />
+    <Compile Include="Commands\CommandReputation.cs" />
     <Compile Include="Commands\CommandShutdown.cs" />
     <Compile Include="Enviroment.cs" />
     <Compile Include="Framework\Configuration.cs" />
