@@ -5,20 +5,17 @@ using System.Text;
 using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Chat;
-using ECameraMode = SDG.Unturned.ECameraMode;
-using Provider = SDG.Unturned.Provider;
+using SDG.Unturned;
 
 namespace PointBlank.Commands
 {
-    [Command("Camera", 1)]
-    internal class CommandCamera : Command
+    [PointBlankCommand("Camera", 1)]
+    internal class CommandCamera : PointBlankCommand
     {
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "camera",
-            "Camera",
-            "CAMERA"
+            "camera"
         };
 
         public override string Help => "Sets the allowed camera location";
@@ -54,7 +51,7 @@ namespace PointBlank.Commands
                     break;
             }
             Provider.cameraMode = mode;
-            ChatManager.SendMessage(executor, "Camera set to " + mode.ToString(), ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, "Camera set to " + mode.ToString(), ConsoleColor.Green);
         }
     }
 }

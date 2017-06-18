@@ -5,19 +5,17 @@ using System.Text;
 using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Chat;
-using Provider = SDG.Unturned.Provider;
+using SDG.Unturned;
 
 namespace PointBlank.Commands
 {
-    [Command("Kick", 1)]
-    internal class CommandKick : Command
+    [PointBlankCommand("Kick", 1)]
+    internal class CommandKick : PointBlankCommand
     {
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "kick",
-            "Kick",
-            "KICK"
+            "kick"
         };
 
         public override string Help => "Kicks a player from the server";
@@ -36,7 +34,7 @@ namespace PointBlank.Commands
 
             if(!UnturnedPlayer.TryGetPlayer(args[0], out ply))
             {
-                ChatManager.SendMessage(executor, "Player not found!", ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, "Player not found!", ConsoleColor.Red);
                 return;
             }
             if (args.Length < 2)
@@ -45,7 +43,7 @@ namespace PointBlank.Commands
                 reason = args[1];
 
             Provider.kick(ply.SteamID, reason);
-            ChatManager.SendMessage(executor, ply.PlayerName + " has been kicked!", ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, ply.PlayerName + " has been kicked!", ConsoleColor.Green);
         }
     }
 }

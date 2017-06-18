@@ -6,19 +6,17 @@ using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Chat;
 using Steamworks;
-using SteamBlacklist = SDG.Unturned.SteamBlacklist;
+using SDG.Unturned;
 
 namespace PointBlank.Commands
 {
-    [Command("Ban", 1)]
-    internal class CommandBan : Command
+    [PointBlankCommand("Ban", 1)]
+    internal class CommandBan : PointBlankCommand
     {
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "ban",
-            "Ban",
-            "BAN"
+            "ban"
         };
 
         public override string Help => "Bans a player";
@@ -38,7 +36,7 @@ namespace PointBlank.Commands
 
             if(!UnturnedPlayer.TryGetPlayer(args[0], out player) || (executor == player && executor != null))
             {
-                ChatManager.SendMessage(executor, "Player not found!", ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, "Player not found!", ConsoleColor.Red);
                 return;
             }
             if(args.Length < 2 || uint.TryParse(args[1], out duration))
@@ -48,7 +46,7 @@ namespace PointBlank.Commands
             else
                 reason = args[2];
 
-            ChatManager.SendMessage(executor, player.PlayerName + " has been banned!", ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, player.PlayerName + " has been banned!", ConsoleColor.Green);
             SteamBlacklist.ban(player.SteamID, player.SteamIP, (executor == null ? CSteamID.Nil : executor.SteamID), reason, duration);
         }
     }

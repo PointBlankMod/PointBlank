@@ -7,19 +7,16 @@ using PointBlank.API.Unturned.Player;
 using SDG.Unturned;
 using Steamworks;
 using UnityEngine;
-using CMD = PointBlank.API.Commands.Command;
 
 namespace PointBlank.Commands
 {
-    [Command("Debug", 0)]
-    internal class CommandDebug : CMD
+    [PointBlankCommand("Debug", 0)]
+    internal class CommandDebug : PointBlankCommand
     {
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "debug",
-            "Debug",
-            "DEBUG"
+            "debug"
         };
 
         public override string Help => "Shows server debug information";

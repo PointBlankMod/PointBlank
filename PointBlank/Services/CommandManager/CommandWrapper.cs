@@ -5,8 +5,8 @@ using System.Linq;
 using System.Text;
 using PointBlank.API;
 using PointBlank.API.Commands;
-using CMD = PointBlank.API.Commands.Command;
-using CM = PointBlank.API.Unturned.Chat.ChatManager;
+using CMD = PointBlank.API.Commands.PointBlankCommand;
+using CM = PointBlank.API.Unturned.Chat.UnturnedChat;
 using PointBlank.API.Unturned.Player;
 using Newtonsoft.Json.Linq;
 using SDG.Unturned;
@@ -18,7 +18,7 @@ namespace PointBlank.Services.CommandManager
     {
         #region Properties
         public Type Class { get; private set; }
-        public CommandAttribute Attribute { get; private set; }
+        public PointBlankCommandAttribute Attribute { get; private set; }
         public JObject Config { get; private set; }
 
         public CMD CommandClass { get; private set; }
@@ -29,7 +29,7 @@ namespace PointBlank.Services.CommandManager
         public bool Enabled { get; private set; }
         #endregion
 
-        public CommandWrapper(Type _class, CommandAttribute attribute, JObject config)
+        public CommandWrapper(Type _class, PointBlankCommandAttribute attribute, JObject config)
         {
             // Set the variables
             this.Class = _class;

@@ -16,8 +16,8 @@ using Newtonsoft.Json.Linq;
 using System.Globalization;
 using RG = PointBlank.API.Steam.SteamGroup;
 using PointBlank.API.Unturned.Vehicle;
-using CM = PointBlank.API.Unturned.Chat.ChatManager;
-using CMD = PointBlank.API.Commands.Command;
+using CM = PointBlank.API.Unturned.Chat.UnturnedChat;
+using CMD = PointBlank.API.Commands.PointBlankCommand;
 
 namespace PointBlank.API.Unturned.Player
 {
@@ -107,6 +107,10 @@ namespace PointBlank.API.Unturned.Player
         /// Is the player muted
         /// </summary>
         public bool IsMuted { get { return SteamPlayer.isMuted; } set { SteamPlayer.isMuted = value; } }
+        /// <summary>
+        /// Is the player the owner
+        /// </summary>
+        public bool IsOwner => SteamAdminlist.ownerID == SteamID;
 
         // Player information
         /// <summary>

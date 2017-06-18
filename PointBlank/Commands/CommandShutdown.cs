@@ -4,20 +4,17 @@ using System.Linq;
 using System.Text;
 using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Player;
-using Provider = SDG.Unturned.Provider;
+using SDG.Unturned;
 
 namespace PointBlank.Commands
 {
-    [Command("Shutdown", 0)]
-    internal class CommandShutdown : Command
+    [PointBlankCommand("Shutdown", 0)]
+    internal class CommandShutdown : PointBlankCommand
     {
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "shutdown",
-            "Shutdown",
-            "ShutDown",
-            "SHUTDOWN"
+            "shutdown"
         };
 
         public override string Help => "Shuts down the unturned server";

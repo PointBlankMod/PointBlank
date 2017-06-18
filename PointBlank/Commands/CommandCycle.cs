@@ -5,22 +5,17 @@ using System.Text;
 using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Chat;
-using LightingManager = SDG.Unturned.LightingManager;
-using Provider = SDG.Unturned.Provider;
-using Level = SDG.Unturned.Level;
-using ELevelType = SDG.Unturned.ELevelType;
+using SDG.Unturned;
 
 namespace PointBlank.Commands
 {
-    [Command("Cycle", 1)]
-    internal class CommandCycle : Command
+    [PointBlankCommand("Cycle", 1)]
+    internal class CommandCycle : PointBlankCommand
     {
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "cycle",
-            "Cycle",
-            "CYCLE"
+            "cycle"
         };
 
         public override string Help => "Sets the cycle for time";
@@ -34,22 +29,22 @@ namespace PointBlank.Commands
         {
             if(Provider.isServer && Level.info.type == ELevelType.ARENA)
             {
-                ChatManager.SendMessage(executor, "Can't set cycle on arena!", ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, "Can't set cycle on arena!", ConsoleColor.Red);
                 return;
             }
             if (Provider.isServer && Level.info.type == ELevelType.HORDE)
             {
-                ChatManager.SendMessage(executor, "Can't set cycle on horde!", ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, "Can't set cycle on horde!", ConsoleColor.Red);
                 return;
             }
             if (!uint.TryParse(args[0], out uint cycle))
             {
-                ChatManager.SendMessage(executor, "Invalid cycle number!", ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, "Invalid cycle number!", ConsoleColor.Red);
                 return;
             }
 
             LightingManager.cycle = cycle;
-            ChatManager.SendMessage(executor, "Set cycle to " + cycle.ToString(), ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, "Set cycle to " + cycle.ToString(), ConsoleColor.Green);
         }
     }
 }

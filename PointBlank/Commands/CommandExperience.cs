@@ -8,17 +8,14 @@ using PointBlank.API.Unturned.Chat;
 
 namespace PointBlank.Commands
 {
-    [Command("Experience", 1)]
-    internal class CommandExperience : Command
+    [PointBlankCommand("Experience", 1)]
+    internal class CommandExperience : PointBlankCommand
     {
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
             "xp",
-            "XP",
-            "experience",
-            "Experience",
-            "EXPERIENCE"
+            "experience"
         };
 
         public override string Help => "Gives the player experience";
@@ -37,14 +34,14 @@ namespace PointBlank.Commands
 
             if(!uint.TryParse(args[0], out xp))
             {
-                ChatManager.SendMessage(executor, "Invalid amount of experience!", ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, "Invalid amount of experience!", ConsoleColor.Red);
                 return;
             }
             if(args.Length < 2 || !UnturnedPlayer.TryGetPlayer(args[1], out player))
             {
                 if(executor == null)
                 {
-                    ChatManager.SendMessage(executor, "Invalid player!", ConsoleColor.Red);
+                    UnturnedChat.SendMessage(executor, "Invalid player!", ConsoleColor.Red);
                     return;
                 }
 
@@ -52,7 +49,7 @@ namespace PointBlank.Commands
             }
 
             player.Player.skills.askAward(xp);
-            ChatManager.SendMessage(executor, "Gave " + player.PlayerName + " " + xp + " experience", ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, "Gave " + player.PlayerName + " " + xp + " experience", ConsoleColor.Green);
         }
     }
 }

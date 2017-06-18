@@ -13,13 +13,13 @@ namespace PointBlank.API.Commands
     /// Custom command class
     /// </summary>
     [RingPermission(SecurityAction.Demand, ring = RingPermissionRing.None)]
-    public abstract class Command
+    public abstract class PointBlankCommand
     {
         #region Properties
         /// <summary>
         /// The command instance
         /// </summary>
-        public static Command Instance { get; internal set; }
+        public static PointBlankCommand Instance { get; internal set; }
 
         /// <summary>
         /// The commands used to execute this command
@@ -119,7 +119,7 @@ namespace PointBlank.API.Commands
         public abstract void Execute(UnturnedPlayer executor, string[] args);
         #endregion
 
-        public Command()
+        public PointBlankCommand()
         {
             Instance = this;
         }

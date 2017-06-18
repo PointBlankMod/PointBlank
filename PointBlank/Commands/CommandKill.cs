@@ -4,23 +4,20 @@ using System.Linq;
 using System.Text;
 using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Player;
+using PointBlank.API.Unturned.Chat;
 using UnityEngine;
 using SDG.Unturned;
 using Steamworks;
-using CMD = PointBlank.API.Commands.Command;
-using CM = PointBlank.API.Unturned.Chat.ChatManager;
 
 namespace PointBlank.Commands
 {
-    [Command("Kill", 0)]
-    internal class CommandKill : CMD
+    [PointBlankCommand("Kill", 0)]
+    internal class CommandKill : PointBlankCommand
     {
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "kill",
-            "Kill",
-            "KILL"
+            "kill"
         };
 
         public override string Help => "Kills a player";
@@ -38,7 +35,7 @@ namespace PointBlank.Commands
             {
                 if(executor == null)
                 {
-                    CM.SendMessage(executor, "Player not found!", ConsoleColor.Red);
+                    UnturnedChat.SendMessage(executor, "Player not found!", ConsoleColor.Red);
                     return;
                 }
 
@@ -46,7 +43,7 @@ namespace PointBlank.Commands
             }
 
             ply.Player.life.askDamage(255, Vector3.up * 10f, EDeathCause.KILL, ELimb.SKULL, (executor == null ? CSteamID.Nil : executor.SteamID), out EPlayerKill kill);
-            CM.SendMessage(executor, ply.PlayerName + " has been killed", ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, ply.PlayerName + " has been killed", ConsoleColor.Green);
         }
     }
 }

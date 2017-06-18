@@ -7,20 +7,17 @@ using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Chat;
 using UnityEngine;
 using Steamworks;
-using CommandWindow = SDG.Unturned.CommandWindow;
-using SteamAdminlist = SDG.Unturned.SteamAdminlist;
+using SDG.Unturned;
 
 namespace PointBlank.Commands
 {
-    [Command("Admin", 1)]
-    internal class CommandAdmin : Command
+    [PointBlankCommand("Admin", 1)]
+    internal class CommandAdmin : PointBlankCommand
     {
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "admin",
-            "Admin",
-            "ADMIN"
+            "admin"
         };
 
         public override string Help => "Admins a player";
@@ -36,7 +33,7 @@ namespace PointBlank.Commands
         {
             if (!UnturnedPlayer.TryGetPlayer(args[0], out UnturnedPlayer player))
             {
-                ChatManager.SendMessage(executor, "Player not found!", ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, "Player not found!", ConsoleColor.Red);
                 return;
             }
 

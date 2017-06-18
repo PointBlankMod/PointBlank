@@ -9,22 +9,20 @@ using SDG.Unturned;
 
 namespace PointBlank.Commands
 {
-    [PointBlankCommand("Day", 0)]
-    internal class CommandDay : PointBlankCommand
+    [PointBlankCommand("Night", 0)]
+    internal class CommandNight : PointBlankCommand
     {
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "day"
+            "Night"
         };
 
-        public override string Help => "Sets the time to day";
+        public override string Help => "Sets the time to night";
 
         public override string Usage => Commands[0];
 
-        public override string DefaultPermission => "unturned.commands.admin.day";
-
-        public override EAllowedServerState AllowedServerState => EAllowedServerState.RUNNING;
+        public override string DefaultPermission => "unturned.commands.admin.night";
         #endregion
 
         public override void Execute(UnturnedPlayer executor, string[] args)
@@ -40,8 +38,8 @@ namespace PointBlank.Commands
                 return;
             }
 
-            LightingManager.time = (uint)(LightingManager.cycle * LevelLighting.transition);
-            UnturnedChat.SendMessage(executor, "Time set to day!", ConsoleColor.Green);
+            LightingManager.time = (uint)(LightingManager.cycle * (LevelLighting.bias + LevelLighting.transition));
+            UnturnedChat.SendMessage(executor, "Time set to night!", ConsoleColor.Green);
         }
     }
 }

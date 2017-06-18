@@ -13,7 +13,7 @@ namespace PointBlank.API.Unturned.Chat
     /// <summary>
     /// The unturned chat manager
     /// </summary>
-    public static class ChatManager
+    public static class UnturnedChat
     {
         #region Public Functions
         /// <summary>
@@ -64,7 +64,7 @@ namespace PointBlank.API.Unturned.Chat
         /// <param name="player">The player(null if the console)</param>
         /// <param name="text">The message</param>
         /// <param name="color">The message color</param>
-        public static void SendMessage(UnturnedPlayer player, object text, ConsoleColor color)
+        public static void SendMessage(UnturnedPlayer player, object text, ConsoleColor color = ConsoleColor.White)
         {
             if(player == null)
             {

@@ -5,19 +5,17 @@ using System.Text;
 using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Chat;
-using Provider = SDG.Unturned.Provider;
+using SDG.Unturned;
 
 namespace PointBlank.Commands
 {
-    [Command("Gold", 0)]
-    internal class CommandGold : Command
+    [PointBlankCommand("Gold", 0)]
+    internal class CommandGold : PointBlankCommand
     {
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "gold",
-            "Gold",
-            "GOLD"
+            "gold"
         };
 
         public override string Help => "Sets the server to gold only";
@@ -32,7 +30,7 @@ namespace PointBlank.Commands
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
             Provider.isGold = true;
-            ChatManager.SendMessage(executor, "Server set to gold only", ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, "Server set to gold only", ConsoleColor.Green);
         }
     }
 }

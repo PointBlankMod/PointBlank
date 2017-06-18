@@ -4,21 +4,17 @@ using System.Linq;
 using System.Text;
 using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Player;
-using Parser = SDG.Unturned.Parser;
-using Provider = SDG.Unturned.Provider;
-using CommandWindow = SDG.Unturned.CommandWindow;
+using SDG.Unturned;
 
 namespace PointBlank.Commands
 {
-    [Command("Bind", 1)]
-    internal class CommandBind : Command
+    [PointBlankCommand("Bind", 1)]
+    internal class CommandBind : PointBlankCommand
     {
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "bind",
-            "Bind",
-            "BIND"
+            "bind"
         };
 
         public override string Help => "Binds the server to a specific IP";

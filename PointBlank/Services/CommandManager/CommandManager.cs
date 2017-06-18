@@ -13,7 +13,7 @@ using PointBlank.API.Unturned.Player;
 using Newtonsoft.Json.Linq;
 using PointBlank.Services.PluginManager;
 using UnityEngine;
-using CMD = PointBlank.API.Commands.Command;
+using CMD = PointBlank.API.Commands.PointBlankCommand;
 
 namespace PointBlank.Services.CommandManager
 {
@@ -25,7 +25,7 @@ namespace PointBlank.Services.CommandManager
         #endregion
 
         #region Properties
-        public static Dictionary<CommandAttribute, CommandWrapper> Commands { get; private set; }
+        public static Dictionary<PointBlankCommandAttribute, CommandWrapper> Commands { get; private set; }
 
         public UniversalData UniConfig { get; private set; }
         public JsonData JSONConfig { get; private set; }
@@ -35,7 +35,7 @@ namespace PointBlank.Services.CommandManager
         public override void Load()
         {
             // Setup variables
-            Commands = new Dictionary<CommandAttribute, CommandWrapper>();
+            Commands = new Dictionary<PointBlankCommandAttribute, CommandWrapper>();
             UniConfig = new UniversalData(ConfigurationPath);
             JSONConfig = UniConfig.GetData(EDataType.JSON) as JsonData;
 
@@ -79,7 +79,7 @@ namespace PointBlank.Services.CommandManager
         #region Public Functions
         public void LoadCommand(Type _class)
         {
-            CommandAttribute attribute = (CommandAttribute)Attribute.GetCustomAttribute(_class, typeof(CommandAttribute));
+            PointBlankCommandAttribute attribute = (PointBlankCommandAttribute)Attribute.GetCustomAttribute(_class, typeof(PointBlankCommandAttribute));
 
             if (attribute == null)
                 return;
@@ -169,7 +169,7 @@ namespace PointBlank.Services.CommandManager
         {
             PluginWrapper wrapper = PluginManager.PluginManager.Plugins.First(a => a.PluginClass == plugin);
 
-            foreach (KeyValuePair<CommandAttribute, CommandWrapper> kvp in Commands.Where(a => a.Value.Class.DeclaringType.Assembly == wrapper.PluginAssembly))
+            foreach (KeyValuePair<PointBlankCommandAttribute, CommandWrapper> kvp in Commands.Where(a => a.Value.Class.DeclaringType.Assembly == wrapper.PluginAssembly))
                 Commands.Remove(kvp.Key);
             UniConfig.Save();
         }
@@ -182,7 +182,7 @@ namespace PointBlank.Services.CommandManager
 
             string[] info = ParseCommand(text);
             List<string> args = new List<string>();
-            CommandWrapper wrapper = Commands.Select(a => a.Value).FirstOrDefault(a => a.Commands.Contains(info[0]));
+            CommandWrapper wrapper = Commands.Select(a => a.Value).FirstOrDefault(a => a.Commands.FirstOrDefault(b => b.ToLower() == info[0].ToLower()) != null);
 
             if(wrapper == null || !wrapper.Enabled)
             {
@@ -204,7 +204,7 @@ namespace PointBlank.Services.CommandManager
                 shouldList = false;
 
                 string[] info = ParseCommand(text);
-                CommandWrapper wrapper = Commands.Select(a => a.Value).FirstOrDefault(a => a.Commands.Contains(info[0]));
+                CommandWrapper wrapper = Commands.Select(a => a.Value).FirstOrDefault(a => a.Commands.FirstOrDefault(b => b.ToLower() == info[0].ToLower()) != null);
                 UnturnedPlayer ply = UnturnedPlayer.Get(player);
                 List<string> args = new List<string>();
 

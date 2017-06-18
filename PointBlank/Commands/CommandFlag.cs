@@ -8,15 +8,13 @@ using PointBlank.API.Unturned.Chat;
 
 namespace PointBlank.Commands
 {
-    [Command("Flag", 2)]
-    internal class CommandFlag : Command
+    [PointBlankCommand("Flag", 2)]
+    internal class CommandFlag : PointBlankCommand
     {
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "flag",
-            "Flag",
-            "FLAG"
+            "flag"
         };
 
         public override string Help => "Sets the quest flag of the player";
@@ -36,26 +34,26 @@ namespace PointBlank.Commands
 
             if(!ushort.TryParse(args[0], out flag))
             {
-                ChatManager.SendMessage(executor, "Invalid flag ID!", ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, "Invalid flag ID!", ConsoleColor.Red);
                 return;
             }
             if(!short.TryParse(args[1], out value))
             {
-                ChatManager.SendMessage(executor, "Invalid value ID!", ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, "Invalid value ID!", ConsoleColor.Red);
                 return;
             }
             if(args.Length < 3 || !UnturnedPlayer.TryGetPlayer(args[2], out player))
             {
                 if(executor == null)
                 {
-                    ChatManager.SendMessage(executor, "Invalid player!", ConsoleColor.Red);
+                    UnturnedChat.SendMessage(executor, "Invalid player!", ConsoleColor.Red);
                     return;
                 }
                 player = executor;
             }
 
             player.Player.quests.sendSetFlag(flag, value);
-            ChatManager.SendMessage(executor, "The quest has been set for " + player.PlayerName, ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, "The quest has been set for " + player.PlayerName, ConsoleColor.Green);
         }
     }
 }

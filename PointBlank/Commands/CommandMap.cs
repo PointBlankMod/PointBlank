@@ -9,28 +9,33 @@ using SDG.Unturned;
 
 namespace PointBlank.Commands
 {
-    [PointBlankCommand("HideAdmins", 0)]
-    internal class CommandHideAdmins : PointBlankCommand
+    [PointBlankCommand("Map", 1)]
+    internal class CommandMap : PointBlankCommand
     {
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "hideadmins"
+            "map"
         };
 
-        public override string Help => "Hides all admins on the server";
+        public override string Help => "Sets the server map";
 
-        public override string Usage => Commands[0];
+        public override string Usage => Commands[0] + " <map>";
 
-        public override string DefaultPermission => "unturned.commands.server.hideadmins";
+        public override string DefaultPermission => "unturned.commands.server.map";
 
         public override EAllowedServerState AllowedServerState => EAllowedServerState.LOADING;
         #endregion
 
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
-            Provider.hideAdmins = true;
-            UnturnedChat.SendMessage(executor, "Admins are hidden!", ConsoleColor.Green);
+            if (!Level.exists(args[0]))
+            {
+                UnturnedChat.SendMessage(executor, "Invalid map!", ConsoleColor.Red);
+                return;
+            }
+
+            Provider.map = args[0];
         }
     }
 }

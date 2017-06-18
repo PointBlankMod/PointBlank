@@ -5,20 +5,17 @@ using System.Text;
 using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Chat;
-using Provider = SDG.Unturned.Provider;
+using SDG.Unturned;
 
 namespace PointBlank.Commands
 {
-    [Command("GameMode", 1)]
-    internal class CommandGameMode : Command
+    [PointBlankCommand("GameMode", 1)]
+    internal class CommandGameMode : PointBlankCommand
     {
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "gamemode",
-            "GAMEMODE",
-            "Gamemode",
-            "GameMode"
+            "gamemode"
         };
 
         public override string Help => "Sets the server game mode";
@@ -33,7 +30,7 @@ namespace PointBlank.Commands
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
             Provider.selectedGameModeName = args[0];
-            ChatManager.SendMessage(executor, "Setting game mode to " + args[0], ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, "Setting game mode to " + args[0], ConsoleColor.Green);
         }
     }
 }

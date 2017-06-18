@@ -5,19 +5,17 @@ using System.Text;
 using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Chat;
-using LevelManager = SDG.Unturned.LevelManager;
+using SDG.Unturned;
 
 namespace PointBlank.Commands
 {
-    [Command("Airdrop", 0)]
-    internal class CommandAirdrop : Command
+    [PointBlankCommand("Airdrop", 0)]
+    internal class CommandAirdrop : PointBlankCommand
     {
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "airdrop",
-            "Airdrop",
-            "AIRDROP"
+            "airdrop"
         };
 
         public override string Help => "Activates an airdrop";
@@ -33,7 +31,7 @@ namespace PointBlank.Commands
                 return;
 
             LevelManager.airdropFrequency = 0u;
-            ChatManager.SendMessage(executor, "Airdrop spawned successfully!", ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, "Airdrop spawned successfully!", ConsoleColor.Green);
         }
     }
 }

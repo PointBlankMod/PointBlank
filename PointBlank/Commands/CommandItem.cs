@@ -4,23 +4,19 @@ using System.Linq;
 using System.Text;
 using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Player;
+using PointBlank.API.Unturned.Chat;
 using SDG.Unturned;
-using CM = PointBlank.API.Unturned.Chat.ChatManager;
-using CMD = PointBlank.API.Commands.Command;
 
 namespace PointBlank.Commands
 {
-    [Command("Item", 1)]
-    internal class CommandItem : CMD
+    [PointBlankCommand("Item", 1)]
+    internal class CommandItem : PointBlankCommand
     {
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
             "i",
-            "I",
-            "item",
-            "Item",
-            "ITEM"
+            "item"
         };
 
         public override string Help => "Gives the player a specific item";
@@ -50,7 +46,7 @@ namespace PointBlank.Commands
             }
             if (item == null)
             {
-                CM.SendMessage(executor, "Could not find item!", ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, "Could not find item!", ConsoleColor.Red);
                 return;
             }
 
@@ -61,7 +57,7 @@ namespace PointBlank.Commands
             {
                 if(executor == null)
                 {
-                    CM.SendMessage(executor, "Player not found!", ConsoleColor.Red);
+                    UnturnedChat.SendMessage(executor, "Player not found!", ConsoleColor.Red);
                     return;
                 }
 
@@ -70,10 +66,10 @@ namespace PointBlank.Commands
 
             if(!ItemTool.tryForceGiveItem(ply.Player, id, amount))
             {
-                CM.SendMessage(executor, "Could not give item to player!", ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, "Could not give item to player!", ConsoleColor.Red);
                 return;
             }
-            CM.SendMessage(executor, item.itemName + " given to " + ply.PlayerName, ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, item.itemName + " given to " + ply.PlayerName, ConsoleColor.Green);
         }
     }
 }

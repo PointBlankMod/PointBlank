@@ -4,19 +4,17 @@ using System.Linq;
 using System.Text;
 using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Player;
-using Provider = SDG.Unturned.Provider;
+using SDG.Unturned;
 
 namespace PointBlank.Commands
 {
-    [Command("Filter", 0)]
-    internal class CommandFilter : Command
+    [PointBlankCommand("Filter", 0)]
+    internal class CommandFilter : PointBlankCommand
     {
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "filter",
-            "Filter",
-            "FILTER"
+            "filter"
         };
 
         public override string Help => "Filters names";

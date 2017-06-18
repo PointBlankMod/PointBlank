@@ -5,20 +5,17 @@ using System.Text;
 using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Player;
 using UnityEngine;
-using Provider = SDG.Unturned.Provider;
-using CommandWindow = SDG.Unturned.CommandWindow;
+using SDG.Unturned;
 
 namespace PointBlank.Commands
 {
-    [Command("Admins", 0)]
-    internal class CommandAdmins : Command
+    [PointBlankCommand("Admins", 0)]
+    internal class CommandAdmins : PointBlankCommand
     {
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "admins",
-            "Admins",
-            "ADMINS"
+            "admins"
         };
 
         public override string Help => "Shows a list of admins on the server";

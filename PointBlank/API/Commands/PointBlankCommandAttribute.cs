@@ -12,7 +12,7 @@ namespace PointBlank.API.Commands
     /// </summary>
     [RingPermission(SecurityAction.Demand, ring = RingPermissionRing.None)]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public class CommandAttribute : Attribute
+    public class PointBlankCommandAttribute : Attribute
     {
         #region Properties
         /// <summary>
@@ -31,7 +31,7 @@ namespace PointBlank.API.Commands
         /// </summary>
         /// <param name="name">The name of the command</param>
         /// <param name="minparams">The minimum number of paramaters/arguments needed for the command</param>
-        public CommandAttribute(string name, int minparams)
+        public PointBlankCommandAttribute(string name, int minparams)
         {
             this.Name = name; // Set the name
             this.MinParams = minparams; // Set the minimum params

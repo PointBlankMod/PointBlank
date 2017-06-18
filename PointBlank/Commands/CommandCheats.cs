@@ -5,19 +5,17 @@ using System.Text;
 using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Chat;
-using Provider = SDG.Unturned.Provider;
+using SDG.Unturned;
 
 namespace PointBlank.Commands
 {
-    [Command("Cheats", 0)]
-    internal class CommandCheats : Command
+    [PointBlankCommand("Cheats", 0)]
+    internal class CommandCheats : PointBlankCommand
     {
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "cheats",
-            "Cheats",
-            "CHEATS"
+            "cheats"
         };
 
         public override string Help => "Enables cheats for the server";
@@ -32,7 +30,7 @@ namespace PointBlank.Commands
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
             Provider.hasCheats = true;
-            ChatManager.SendMessage(executor, "Cheats have been enabled!", ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, "Cheats have been enabled!", ConsoleColor.Green);
         }
     }
 }

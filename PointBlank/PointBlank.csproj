@@ -62,8 +62,8 @@
   <ItemGroup>
     <Compile Include="API\Collections\ConfigurationList.cs" />
     <Compile Include="API\Collections\TranslationList.cs" />
-    <Compile Include="API\Commands\Command.cs" />
-    <Compile Include="API\Commands\CommandAttribute.cs" />
+    <Compile Include="API\Commands\PointBlankCommand.cs" />
+    <Compile Include="API\Commands\PointBlankCommandAttribute.cs" />
     <Compile Include="API\Commands\CommandEvents.cs" />
     <Compile Include="API\Commands\CommandManager.cs" />
     <Compile Include="API\Commands\EAllowedCaller.cs" />
@@ -98,7 +98,7 @@
     <Compile Include="API\Steam\SteamGroupManager.cs" />
     <Compile Include="API\Steam\SteamPlayer.cs" />
     <Compile Include="API\Unturned\Chat\ChatEvents.cs" />
-    <Compile Include="API\Unturned\Chat\ChatManager.cs" />
+    <Compile Include="API\Unturned\Chat\UnturnedChat.cs" />
     <Compile Include="API\Unturned\Player\BotPlayer.cs" />
     <Compile Include="API\Unturned\Player\PlayerEvents.cs" />
     <Compile Include="API\Unturned\Structure\StructureEvents.cs" />
@@ -132,6 +132,15 @@
     <Compile Include="Commands\CommandItem.cs" />
     <Compile Include="Commands\CommandKick.cs" />
     <Compile Include="Commands\CommandKill.cs" />
+    <Compile Include="Commands\CommandLog.cs" />
+    <Compile Include="Commands\CommandMap.cs" />
+    <Compile Include="Commands\CommandMaxPlayers.cs" />
+    <Compile Include="Commands\CommandMode.cs" />
+    <Compile Include="Commands\CommandModules.cs" />
+    <Compile Include="Commands\CommandName.cs" />
+    <Compile Include="Commands\CommandNight.cs" />
+    <Compile Include="Commands\CommandOwner.cs" />
+    <Compile Include="Commands\CommandPassword.cs" />
     <Compile Include="Commands\CommandShutdown.cs" />
     <Compile Include="Enviroment.cs" />
     <Compile Include="Framework\Configuration.cs" />
@@ -145,6 +154,9 @@
     <Compile Include="Framework\Permissions\Ring\RingPermissionAttribute.cs" />
     <Compile Include="Framework\Permissions\Ring\RingPermissionRing.cs" />
     <Compile Include="Framework\ServiceManager.cs" />
+    <Compile Include="Framework\Translations\CommandTranslations.cs" />
+    <Compile Include="Framework\Translations\PointBlankTranslations.cs" />
+    <Compile Include="Framework\Translations\ServiceTranslations.cs" />
     <Compile Include="Framework\Wrappers\ServiceWrapper.cs" />
     <Compile Include="PointBlank.cs" />
     <Compile Include="PointBlankInfo.cs" />

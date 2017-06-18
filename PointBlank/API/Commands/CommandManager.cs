@@ -16,7 +16,7 @@ namespace PointBlank.API.Commands
         /// <summary>
         /// List of commands
         /// </summary>
-        public static Command[] Commands => CM.Commands.Values.Select(a => a.CommandClass).ToArray();
+        public static PointBlankCommand[] Commands => CM.Commands.Values.Select(a => a.CommandClass).ToArray();
         #endregion
 
         #region Functions
@@ -25,7 +25,7 @@ namespace PointBlank.API.Commands
         /// </summary>
         /// <typeparam name="T">The class to get the command with</typeparam>
         /// <returns>The command</returns>
-        public static T GetCommand<T>() where T : Command
+        public static T GetCommand<T>() where T : PointBlankCommand
         {
             CommandWrapper wrapper = CM.Commands.Values.FirstOrDefault(a => a.Class == typeof(T));
 
@@ -39,7 +39,7 @@ namespace PointBlank.API.Commands
         /// </summary>
         /// <param name="Class">The type to find the command by</param>
         /// <returns>The command</returns>
-        public static Command GetCommand(Type Class)
+        public static PointBlankCommand GetCommand(Type Class)
         {
             CommandWrapper wrapper = CM.Commands.Values.FirstOrDefault(a => a.Class == Class);
 
@@ -52,7 +52,7 @@ namespace PointBlank.API.Commands
         /// Enables a command
         /// </summary>
         /// <param name="command">The command to enable</param>
-        public static void EnableCommand(Command command)
+        public static void EnableCommand(PointBlankCommand command)
         {
             CommandWrapper wrapper = CM.Commands.Values.FirstOrDefault(a => a.CommandClass == command);
 
@@ -65,7 +65,7 @@ namespace PointBlank.API.Commands
         /// Disables a command
         /// </summary>
         /// <param name="command">The command to disable</param>
-        public static void DisableCommand(Command command)
+        public static void DisableCommand(PointBlankCommand command)
         {
             CommandWrapper wrapper = CM.Commands.Values.FirstOrDefault(a => a.CommandClass == command);
 
