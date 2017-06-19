@@ -30,24 +30,29 @@ namespace PointBlank.Commands
 
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
-            UnturnedPlayer player;
+            CSteamID player;
             uint duration;
             string reason;
+            uint ip;
 
-            if(!UnturnedPlayer.TryGetPlayer(args[0], out player) || (executor == player && executor != null))
+            if (!PlayerTool.tryGetSteamID(args[0], out player) || (executor != null && executor.SteamID == player))
             {
                 UnturnedChat.SendMessage(executor, "Player not found!", ConsoleColor.Red);
                 return;
             }
-            if(args.Length < 2 || uint.TryParse(args[1], out duration))
+            if (SteamGameServerNetworking.GetP2PSessionState(player, out P2PSessionState_t p2PSessionState_t))
+                ip = p2PSessionState_t.m_nRemoteIP;
+            else
+                ip = 0u;
+            if (args.Length < 2 || uint.TryParse(args[1], out duration))
                 duration = SteamBlacklist.PERMANENT;
             if (args.Length < 3)
                 reason = "Undefined";
             else
                 reason = args[2];
 
-            UnturnedChat.SendMessage(executor, player.PlayerName + " has been banned!", ConsoleColor.Green);
-            SteamBlacklist.ban(player.SteamID, player.SteamIP, (executor == null ? CSteamID.Nil : executor.SteamID), reason, duration);
+            UnturnedChat.SendMessage(executor, player + " has been banned!", ConsoleColor.Green);
+            SteamBlacklist.ban(player, ip, (executor == null ? CSteamID.Nil : executor.SteamID), reason, duration);
         }
     }
 }

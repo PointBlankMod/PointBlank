@@ -160,6 +160,10 @@
     <Compile Include="Commands\CommandTime.cs" />
     <Compile Include="Commands\CommandTimeout.cs" />
     <Compile Include="Commands\CommandUnadmin.cs" />
+    <Compile Include="Commands\CommandUnban.cs" />
+    <Compile Include="Commands\CommandUnpermit.cs" />
+    <Compile Include="Commands\CommandVehicle.cs" />
+    <Compile Include="Commands\CommandVotify.cs" />
     <Compile Include="Enviroment.cs" />
     <Compile Include="Framework\Configuration.cs" />
     <Compile Include="Framework\Objects\RuntimeObject.cs" />

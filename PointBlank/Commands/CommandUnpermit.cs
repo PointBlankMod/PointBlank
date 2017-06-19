@@ -10,20 +10,20 @@ using Steamworks;
 
 namespace PointBlank.Commands
 {
-    [PointBlankCommand("Unadmin", 1)]
-    internal class CommandUnadmin : PointBlankCommand
+    [PointBlankCommand("Unpermit", 1)]
+    internal class CommandUnpermit : PointBlankCommand
     {
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "Unadmin"
+            "Unpermit"
         };
 
-        public override string Help => "Unadmin a player";
+        public override string Help => "Unwhitelists a player";
 
         public override string Usage => Commands[0] + " <player>";
 
-        public override string DefaultPermission => "unturned.commands.admin.unadmin";
+        public override string DefaultPermission => "unturned.commands.admin.unpermit";
 
         public override EAllowedServerState AllowedServerState => EAllowedServerState.RUNNING;
         #endregion
@@ -36,8 +36,12 @@ namespace PointBlank.Commands
                 return;
             }
 
-            SteamAdminlist.unadmin(id);
-            UnturnedChat.SendMessage(executor, id + " has been unadmined", ConsoleColor.Green);
+            if (!SteamWhitelist.unwhitelist(id))
+            {
+                UnturnedChat.SendMessage(executor, id + " has not been whitelisted!", ConsoleColor.Red);
+                return;
+            }
+            UnturnedChat.SendMessage(executor, id + " has been unwhitelisted!", ConsoleColor.Green);
         }
     }
 }

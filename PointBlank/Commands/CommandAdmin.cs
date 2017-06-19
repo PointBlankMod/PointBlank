@@ -31,24 +31,23 @@ namespace PointBlank.Commands
 
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
-            if (!UnturnedPlayer.TryGetPlayer(args[0], out UnturnedPlayer player))
+            if (!PlayerTool.tryGetSteamID(args[0], out CSteamID player))
             {
-                UnturnedChat.SendMessage(executor, "Player not found!", ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, "Invalid player!", ConsoleColor.Red);
                 return;
             }
 
             if (executor == null)
             {
-                SteamAdminlist.admin(player.SteamID, CSteamID.Nil);
-                CommandWindow.Log(player.PlayerName + " has been set as admin!", ConsoleColor.Green);
+                SteamAdminlist.admin(player, CSteamID.Nil);
+                CommandWindow.Log(player + " has been set as admin!", ConsoleColor.Green);
 
             }
             else
             {
-                SteamAdminlist.admin(player.SteamID, executor.SteamID);
-                executor.SendMessage(player.PlayerName + " has been set as admin!", Color.green);
+                SteamAdminlist.admin(player, executor.SteamID);
+                executor.SendMessage(player + " has been set as admin!", Color.green);
             }
-            player.SendMessage("You are now admin!", Color.green);
         }
     }
 }

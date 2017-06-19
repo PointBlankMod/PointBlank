@@ -10,20 +10,20 @@ using Steamworks;
 
 namespace PointBlank.Commands
 {
-    [PointBlankCommand("Unadmin", 1)]
-    internal class CommandUnadmin : PointBlankCommand
+    [PointBlankCommand("Unban", 1)]
+    internal class CommandUnban : PointBlankCommand
     {
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "Unadmin"
+            "Unban"
         };
 
-        public override string Help => "Unadmin a player";
+        public override string Help => "Unbans a player";
 
         public override string Usage => Commands[0] + " <player>";
 
-        public override string DefaultPermission => "unturned.commands.admin.unadmin";
+        public override string DefaultPermission => "unturned.commands.admin.unban";
 
         public override EAllowedServerState AllowedServerState => EAllowedServerState.RUNNING;
         #endregion
@@ -36,8 +36,12 @@ namespace PointBlank.Commands
                 return;
             }
 
-            SteamAdminlist.unadmin(id);
-            UnturnedChat.SendMessage(executor, id + " has been unadmined", ConsoleColor.Green);
+            if (!SteamBlacklist.unban(id))
+            {
+                UnturnedChat.SendMessage(executor, "Player has not been banned!", ConsoleColor.Red);
+                return;
+            }
+            UnturnedChat.SendMessage(executor, id + " has been unbanned!", ConsoleColor.Green);
         }
     }
 }

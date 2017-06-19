@@ -38,7 +38,8 @@ namespace PointBlank.Commands
             if(!ushort.TryParse(args[0], out id))
             {
                 ItemAsset[] items = Assets.find(EAssetType.ITEM) as ItemAsset[];
-                item = items.Where(a => a != null).OrderBy(a => a.itemName.Length).FirstOrDefault(a => a.itemName.ToLower().Contains(args[0]));
+
+                item = items.Where(a => a != null).OrderBy(a => a.itemName.Length).FirstOrDefault(a => a.itemName.ToLower().Contains(args[0].ToLower()));
             }
             else
             {
@@ -64,7 +65,7 @@ namespace PointBlank.Commands
                 ply = executor;
             }
 
-            if(!ItemTool.tryForceGiveItem(ply.Player, id, amount))
+            if(!ItemTool.tryForceGiveItem(ply.Player, item.id, amount))
             {
                 UnturnedChat.SendMessage(executor, "Could not give item to player!", ConsoleColor.Red);
                 return;
