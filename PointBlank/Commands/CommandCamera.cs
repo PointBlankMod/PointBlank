@@ -6,6 +6,7 @@ using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Chat;
 using SDG.Unturned;
+using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
@@ -15,12 +16,12 @@ namespace PointBlank.Commands
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "camera"
+            "Camera"
         };
 
-        public override string Help => "Sets the allowed camera location";
+        public override string Help => Translation.Camera_Help;
 
-        public override string Usage => Commands[0] + " <first/third/both/vehicle>";
+        public override string Usage => Commands[0] + Translation.Camera_Usage;
 
         public override string DefaultPermission => "unturned.commands.server.camera";
 
@@ -51,7 +52,7 @@ namespace PointBlank.Commands
                     break;
             }
             Provider.cameraMode = mode;
-            UnturnedChat.SendMessage(executor, "Camera set to " + mode.ToString(), ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, string.Format(Translation.Camera_SetTo, mode.ToString()), ConsoleColor.Green);
         }
     }
 }

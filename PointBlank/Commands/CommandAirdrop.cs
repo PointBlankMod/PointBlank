@@ -6,6 +6,7 @@ using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Chat;
 using SDG.Unturned;
+using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
@@ -15,10 +16,10 @@ namespace PointBlank.Commands
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "airdrop"
+            "Airdrop"
         };
 
-        public override string Help => "Activates an airdrop";
+        public override string Help => Translation.Airdrop_Help;
 
         public override string Usage => Commands[0];
 
@@ -31,7 +32,7 @@ namespace PointBlank.Commands
                 return;
 
             LevelManager.airdropFrequency = 0u;
-            UnturnedChat.SendMessage(executor, "Airdrop spawned successfully!", ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, Translation.Airdrop_Success, ConsoleColor.Green);
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Player;
 using SDG.Unturned;
+using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
@@ -14,12 +15,12 @@ namespace PointBlank.Commands
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "bind"
+            "Bind"
         };
 
-        public override string Help => "Binds the server to a specific IP";
+        public override string Help => Translation.Bind_Help;
 
-        public override string Usage => Commands[0] + " <IP>";
+        public override string Usage => Commands[0] + Translation.Bind_Usage;
 
         public override string DefaultPermission => "unturned.commands.server.bind";
 
@@ -30,7 +31,7 @@ namespace PointBlank.Commands
         {
             if (!Parser.checkIP(args[0]))
             {
-                CommandWindow.Log("Invalid IP!", ConsoleColor.Red);
+                CommandWindow.Log(Translation.Bind_InvalidIP, ConsoleColor.Red);
                 return;
             }
 

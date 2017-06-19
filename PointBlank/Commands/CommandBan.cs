@@ -7,6 +7,7 @@ using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Chat;
 using Steamworks;
 using SDG.Unturned;
+using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
@@ -16,12 +17,12 @@ namespace PointBlank.Commands
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "ban"
+            "Ban"
         };
 
-        public override string Help => "Bans a player";
+        public override string Help => Translation.Ban_Help;
 
-        public override string Usage => Commands[0] + " <player> [duration] [reason]";
+        public override string Usage => Commands[0] + Translation.Ban_Usage;
 
         public override string DefaultPermission => "unturned.commands.admin.ban";
 
@@ -37,7 +38,7 @@ namespace PointBlank.Commands
 
             if (!PlayerTool.tryGetSteamID(args[0], out player) || (executor != null && executor.SteamID == player))
             {
-                UnturnedChat.SendMessage(executor, "Player not found!", ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translation.Base_InvalidPlayer, ConsoleColor.Red);
                 return;
             }
             if (SteamGameServerNetworking.GetP2PSessionState(player, out P2PSessionState_t p2PSessionState_t))
@@ -47,12 +48,12 @@ namespace PointBlank.Commands
             if (args.Length < 2 || uint.TryParse(args[1], out duration))
                 duration = SteamBlacklist.PERMANENT;
             if (args.Length < 3)
-                reason = "Undefined";
+                reason = Translation.Ban_Reason;
             else
                 reason = args[2];
 
-            UnturnedChat.SendMessage(executor, player + " has been banned!", ConsoleColor.Green);
             SteamBlacklist.ban(player, ip, (executor == null ? CSteamID.Nil : executor.SteamID), reason, duration);
+            UnturnedChat.SendMessage(executor, string.Format(Translation.Ban_Success, player), ConsoleColor.Green);
         }
     }
 }

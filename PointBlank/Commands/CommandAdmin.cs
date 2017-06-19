@@ -18,7 +18,7 @@ namespace PointBlank.Commands
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "admin"
+            "Admin"
         };
 
         public override string Help => Translation.Admin_Help;
@@ -34,20 +34,20 @@ namespace PointBlank.Commands
         {
             if (!PlayerTool.tryGetSteamID(args[0], out CSteamID player))
             {
-                UnturnedChat.SendMessage(executor, Translation.Admin_InvalidPlayer, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translation.Base_InvalidPlayer, ConsoleColor.Red);
                 return;
             }
 
             if (executor == null)
             {
                 SteamAdminlist.admin(player, CSteamID.Nil);
-                CommandWindow.Log(player + Translation.Admin_Set, ConsoleColor.Green);
+                CommandWindow.Log(string.Format(Translation.Admin_Set, player), ConsoleColor.Green);
 
             }
             else
             {
                 SteamAdminlist.admin(player, executor.SteamID);
-                executor.SendMessage(player + Translation.Admin_Set, Color.green);
+                executor.SendMessage(string.Format(Translation.Admin_Set, player), Color.green);
             }
         }
     }

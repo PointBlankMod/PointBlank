@@ -6,6 +6,7 @@ using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Chat;
 using SDG.Unturned;
+using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
@@ -20,12 +21,12 @@ namespace PointBlank.Commands
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "chatrate"
+            "Chatrate"
         };
 
-        public override string Help => "Sets the chat rate";
+        public override string Help => Translation.Chatrate_Help;
 
-        public override string Usage => Commands[0] + " <rate>";
+        public override string Usage => Commands[0] + Translation.Chatrate_Usage;
 
         public override string DefaultPermission => "unturned.commands.admin.chatrate";
         #endregion
@@ -34,22 +35,22 @@ namespace PointBlank.Commands
         {
             if(!float.TryParse(args[0], out float rate))
             {
-                UnturnedChat.SendMessage(executor, "Invalid chat rate number!", ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translation.Chatrate_Invalid, ConsoleColor.Red);
                 return;
             }
             if(rate < MIN_NUMBER)
             {
-                UnturnedChat.SendMessage(executor, "The chat rate can't be lower than " + MIN_NUMBER.ToString(), ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, string.Format(Translation.Chatrate_TooLow, MIN_NUMBER), ConsoleColor.Red);
                 return;
             }
             else if(rate > MAX_NUMBER)
             {
-                UnturnedChat.SendMessage(executor, "The chat rate can't be higher than " + MAX_NUMBER.ToString(), ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, string.Format(Translation.Chatrate_TooHigh, MAX_NUMBER), ConsoleColor.Red);
                 return;
             }
 
             ChatManager.chatrate = rate;
-            UnturnedChat.SendMessage(executor, "Chat rate set to " + rate.ToString(), ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, string.Format(Translation.Chatrate_SetTo, rate), ConsoleColor.Green);
         }
     }
 }

@@ -6,6 +6,7 @@ using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Player;
 using UnityEngine;
 using SDG.Unturned;
+using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
@@ -15,10 +16,10 @@ namespace PointBlank.Commands
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "admins"
+            "Admins"
         };
 
-        public override string Help => "Shows a list of admins on the server";
+        public override string Help => Translation.Admins_Help;
 
         public override string Usage => Commands[0];
 
@@ -31,17 +32,17 @@ namespace PointBlank.Commands
 
             if(executor == null)
             {
-                CommandWindow.Log("Admins: " + admins, ConsoleColor.Green);
+                CommandWindow.Log(Translation.Admins_List + admins, ConsoleColor.Green);
             }
             else
             {
                 if(Provider.hideAdmins && !executor.HasPermission("unturned.revealadmins"))
                 {
-                    executor.SendMessage("The admins are currently hidden!", Color.red);
+                    executor.SendMessage(Translation.Admins_Hidden, Color.red);
                     return;
                 }
 
-                executor.SendMessage("Admins: " + admins, Color.green);
+                executor.SendMessage(Translation.Admins_List + admins, Color.green);
             }
         }
     }
