@@ -1019,6 +1019,15 @@ namespace PointBlank.API.Unturned.Player
         /// Dequip the player's equipped item
         ///</summary>
         public void DequipItem() => Player.equipment.dequip();
+
+        /// <summary>
+        /// Teleports the player to a specific position
+        /// </summary>
+        /// <param name="position">The position to teleport the player to</param>
+        public void Teleport(Vector3 position)
+        {
+            Player.sendTeleport(position, MeasurementTool.angleToByte(Player.transform.rotation.eulerAngles.y));
+        }
         #endregion
     }
 }
