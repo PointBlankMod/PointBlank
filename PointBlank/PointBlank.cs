@@ -139,6 +139,7 @@ namespace PointBlank
                 Configuration.SaveDataType = EDataType.JSON;
                 LoaderData.Save();
             }
+            TranslationManager.Load();
         }
 
         private void RunRequirementsShutdown()
@@ -147,6 +148,7 @@ namespace PointBlank
                 sql.Disconnect();
 
             LoaderData.Save();
+            TranslationManager.Save();
         }
         #endregion
 

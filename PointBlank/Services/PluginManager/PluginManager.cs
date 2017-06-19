@@ -17,6 +17,7 @@ namespace PointBlank.Services.PluginManager
     {
         #region Info
         public static readonly string ConfigurationPath = ServerInfo.ConfigurationsPath + "/Plugins"; // Set the plugins configuration path
+        public static readonly string TranslationPath = ServerInfo.TranslationsPath + "/Plugins";
         #endregion
 
         #region Variables
@@ -41,6 +42,8 @@ namespace PointBlank.Services.PluginManager
                 Directory.CreateDirectory(ServerInfo.PluginsPath); // Create plugins directory
             if (!Directory.Exists(ConfigurationPath))
                 Directory.CreateDirectory(ConfigurationPath); // Create plugins directory
+            if (!Directory.Exists(TranslationPath))
+                Directory.CreateDirectory(TranslationPath); // Create plugins directory
 
             // Setup the config
             UniConfig = new UniversalData(SM.ConfigurationPath + "\\PluginManager");

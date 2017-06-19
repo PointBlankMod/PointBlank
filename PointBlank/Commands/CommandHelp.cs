@@ -28,7 +28,7 @@ namespace PointBlank.Commands
         {
             if(args.Length > 0)
             {
-                PointBlankCommand cmd = CommandManager.Commands.FirstOrDefault(a => a.Commands.Contains(args[0]) && a.Enabled);
+                PointBlankCommand cmd = CommandManager.Commands.FirstOrDefault(a => a.Commands.FirstOrDefault(b => b.ToLower() == args[0].ToLower()) != null && a.Enabled);
 
                 if(cmd == null)
                 {

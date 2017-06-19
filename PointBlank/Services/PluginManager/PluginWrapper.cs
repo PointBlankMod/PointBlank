@@ -52,7 +52,7 @@ namespace PointBlank.Services.PluginManager
 
             UniConfigurationData = new UniversalData(PluginManager.ConfigurationPath + "\\" + Name); // Load the configuration data
             ConfigurationData = UniConfigurationData.GetData(EDataType.JSON) as JsonData; // Get the JSON
-            UniTranslationData = new UniversalData(ServerInfo.TranslationsPath + "\\" + Name); // Load the translation data
+            UniTranslationData = new UniversalData(PluginManager.TranslationPath + "\\" + Name); // Load the translation data
             TranslationData = UniTranslationData.GetData(EDataType.JSON) as JsonData; // Get the JSON
 
             Translations = new TranslationList(); // Create the translation list
