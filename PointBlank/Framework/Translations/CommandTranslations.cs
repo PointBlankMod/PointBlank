@@ -86,5 +86,11 @@ namespace PointBlank.Framework.Translations
         public static string Debug_TPS;
         public static string Debug_Zombies;
         public static string Debug_Animals;
+
+        // Experience command
+        public static string Experience_Help;
+        public static string Experience_Usage;
+        public static string Experience_Invalid;
+        public static string Experience_Give;
     }
 }

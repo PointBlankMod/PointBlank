@@ -121,6 +121,11 @@ namespace PointBlank.Framework
                 CommandTranslations.Debug_Zombies = "Zombie count: {0}";
                 CommandTranslations.Debug_Animals = "Animal count: {0}";
 
+                CommandTranslations.Experience_Help = "This gives a player some experience.";
+                CommandTranslations.Experience_Usage = " <amount> [player]";
+                CommandTranslations.Experience_Invalid = "Invalid number of experience!";
+                CommandTranslations.Experience_Give = "Gave {0} {1} experience!";
+
                 Save();
             }
             else
@@ -191,6 +196,11 @@ namespace PointBlank.Framework
                 CommandTranslations.Debug_TPS = (string)JCommand.Document["Debug_TPS"];
                 CommandTranslations.Debug_Zombies = (string)JCommand.Document["Debug_Zombies"];
                 CommandTranslations.Debug_Animals = (string)JCommand.Document["Debug_Animals"];
+
+                CommandTranslations.Experience_Help = (string)JCommand.Document["Experience_Help"];
+                CommandTranslations.Experience_Usage = (string)JCommand.Document["Experience_Usage"];
+                CommandTranslations.Experience_Invalid = (string)JCommand.Document["Experience_Invalid"];
+                CommandTranslations.Experience_Give = (string)JCommand.Document["Experience_Give"];
             }
         }
 
@@ -267,6 +277,11 @@ namespace PointBlank.Framework
             SetCommand("Debug_TPS", CommandTranslations.Debug_TPS);
             SetCommand("Debug_Zombies", CommandTranslations.Debug_Zombies);
             SetCommand("Debug_Animals", CommandTranslations.Debug_Animals);
+
+            SetCommand("Experience_Help", CommandTranslations.Experience_Help);
+            SetCommand("Experience_Usage", CommandTranslations.Experience_Usage);
+            SetCommand("Experience_Invalid", CommandTranslations.Experience_Invalid);
+            SetCommand("Experience_Give", CommandTranslations.Experience_Give);
 
             UniCommand.Save();
         }
