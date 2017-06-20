@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Player;
+using PointBlank.API.Unturned.Chat;
 using SDG.Unturned;
 using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
@@ -18,7 +19,7 @@ namespace PointBlank.Commands
             "filter"
         };
 
-        public override string Help => "Filters names";
+        public override string Help => Translation.Filter_Help;
 
         public override string Usage => Commands[0];
 
@@ -30,6 +31,7 @@ namespace PointBlank.Commands
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
             Provider.filterName = true;
+            UnturnedChat.SendMessage(executor, Translation.Filter_Enable, ConsoleColor.Green);
         }
     }
 }

@@ -126,6 +126,9 @@ namespace PointBlank.Framework
                 CommandTranslations.Experience_Invalid = "Invalid number of experience!";
                 CommandTranslations.Experience_Give = "Gave {0} {1} experience!";
 
+                CommandTranslations.Filter_Enable = "Succesfully enabled name filter!";
+                CommandTranslations.Filter_Help = "This filters out players with non-English-alphanumeric names.
+
                 Save();
             }
             else
@@ -201,6 +204,9 @@ namespace PointBlank.Framework
                 CommandTranslations.Experience_Usage = (string)JCommand.Document["Experience_Usage"];
                 CommandTranslations.Experience_Invalid = (string)JCommand.Document["Experience_Invalid"];
                 CommandTranslations.Experience_Give = (string)JCommand.Document["Experience_Give"];
+
+                CommandTranslations.Filter_Enable = (string)JCommand.Document["Filter_Enable"];
+                CommandTranslations.Filter_Help = (string)JCommand.Document["Filter_Help"];
             }
         }
 
@@ -282,6 +288,9 @@ namespace PointBlank.Framework
             SetCommand("Experience_Usage", CommandTranslations.Experience_Usage);
             SetCommand("Experience_Invalid", CommandTranslations.Experience_Invalid);
             SetCommand("Experience_Give", CommandTranslations.Experience_Give);
+
+            SetCommand("Filter_Enable", CommandTranslations.Filter_Enable);
+            SetCommand("Filter_Help", CommandTranslations.Filter_Help);
 
             UniCommand.Save();
         }

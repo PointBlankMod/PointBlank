@@ -6,6 +6,7 @@ using SDG.Unturned;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Structure;
 using PointBlank.API.Unturned.Vehicle;
+using PointBlank.API.Unturned.Barricade;
 using Steamworks;
 using UStructure = SDG.Unturned.Structure;
 using UPlayer = SDG.Unturned.Player;
@@ -18,18 +19,19 @@ namespace PointBlank.API.Unturned.Server
     public static class UnturnedServer
     {
         #region Variables
-        private static List<UnturnedPlayer> _Players = new List<UnturnedPlayer>();
-        private static List<BotPlayer> _Bots = new List<BotPlayer>();
-        private static List<UnturnedVehicle> _Vehicles = new List<UnturnedVehicle>();
-        private static List<UnturnedStructure> _Structures = new List<UnturnedStructure>();
-        private static List<Item> _Items = new List<Item>();
+        private static HashSet<UnturnedPlayer> _Players = new HashSet<UnturnedPlayer>();
+        private static HashSet<BotPlayer> _Bots = new HashSet<BotPlayer>();
+        private static HashSet<UnturnedVehicle> _Vehicles = new HashSet<UnturnedVehicle>();
+        private static HashSet<UnturnedStructure> _Structures = new HashSet<UnturnedStructure>();
+        private static HashSet<UnturnedBarricade> _Barricades = new HashSet<UnturnedBarricade>();
+        private static HashSet<Item> _Items = new HashSet<Item>();
         #endregion
 
         #region Properties
         /// <summary>
         /// The currently online players
         /// </summary>
-        public static UnturnedPlayer[] Players => _Players.ToArray();
+        public static UnturnedPlayer[] Players => _Players.ToArray(); // Does this assign at runtime? bad if so
         /// <summary>
         /// The current existing bots
         /// </summary>
@@ -42,6 +44,10 @@ namespace PointBlank.API.Unturned.Server
         /// Structures within the server
         /// </summary>
         public static UnturnedStructure[] Structures => _Structures.ToArray();
+        /// <summary>
+        /// Barricades within the server
+        /// </summary>
+        public static UnturnedBarricade[] Barricades = _Barricades.ToArray();
         /// <summary>
         /// Items within the server
         /// </summary>
@@ -104,6 +110,28 @@ namespace PointBlank.API.Unturned.Server
                 return false;
 
             _Structures.Remove(stru);
+            return true;
+        }
+
+        internal static UnturnedBarricade AddBarricade(UnturnedBarricade Barricade)
+        {
+            UnturnedBarricade barricade = Barricades.FirstOrDefault(a => a.Data == Barricade.Data);
+
+            if (barricade != null)
+                return barricade;
+
+            _Barricades.Add(Barricade);
+            return Barricade;
+        }
+
+        internal static bool RemoveBarricade(UnturnedBarricade Barricade)
+        {
+            UnturnedBarricade barricade = Barricades.FirstOrDefault(a => a.Data == Barricade.Data);
+
+            if (barricade == null)
+                return false;
+
+            _Barricades.Remove(barricade);
             return true;
         }
 

@@ -92,5 +92,9 @@ namespace PointBlank.Framework.Translations
         public static string Experience_Usage;
         public static string Experience_Invalid;
         public static string Experience_Give;
+
+        // Filter command
+        public static string Filter_Enable;
+        public static string Filter_Help;
     }
 }

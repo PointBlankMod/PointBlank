@@ -120,21 +120,21 @@ namespace PointBlank.API.Unturned.Player
         {
             get
             {
-                return Player.life.health;
+                return Life.health;
             }
             set
             {
                 // Do checks
-                if (Player.life.isDead)
+                if (Life.isDead)
                     return;
                 if (value < 1)
-                    Player.life.sendSuicide();
+                    Life.sendSuicide();
 
                 // Set data
-                typeof(PlayerLife).GetField("_health", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(Player.life, value);
+                typeof(PlayerLife).GetField("_health", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(Life, value);
 
                 // Send update
-                Player.life.channel.send("tellHealth", ESteamCall.OWNER, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
+                Life.channel.send("tellHealth", ESteamCall.OWNER, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
                 {
                     Health
                 });
@@ -143,7 +143,7 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// The player's stamina
         /// </summary>
-        public byte Stamina => Player.life.stamina;
+        public byte Stamina => Life.stamina;
         /// <summary>
         /// The player's food/hunger
         /// </summary>
@@ -151,21 +151,21 @@ namespace PointBlank.API.Unturned.Player
         {
             get
             {
-                return Player.life.food;
+                return Life.food;
             }
             set
             {
                 // Checks
-                if (Player.life.isDead)
+                if (Life.isDead)
                     return;
                 if (value < 0)
                     return;
 
                 // Data
-                typeof(PlayerLife).GetField("_food", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(Player.life, value);
+                typeof(PlayerLife).GetField("_food", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(Life, value);
 
                 // Update
-                Player.life.channel.send("tellFood", ESteamCall.OWNER, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
+                Life.channel.send("tellFood", ESteamCall.OWNER, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
                 {
                     Food
                 });
@@ -178,21 +178,21 @@ namespace PointBlank.API.Unturned.Player
         {
             get
             {
-                return Player.life.water;
+                return Life.water;
             }
             set
             {
                 // Checks
-                if (Player.life.isDead)
+                if (Life.isDead)
                     return;
                 if (value < 0)
                     return;
 
                 // Data
-                typeof(PlayerLife).GetField("_water", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(Player.life, value);
+                typeof(PlayerLife).GetField("_water", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(Life, value);
 
                 // Update
-                Player.life.channel.send("tellWater", ESteamCall.OWNER, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
+                Life.channel.send("tellWater", ESteamCall.OWNER, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
                 {
                     Thirst
                 });
@@ -205,21 +205,21 @@ namespace PointBlank.API.Unturned.Player
         {
             get
             {
-                return Player.life.virus;
+                return Life.virus;
             }
             set
             {
                 // Checks
-                if (Player.life.isDead)
+                if (Life.isDead)
                     return;
                 if (value < 0)
                     return;
 
                 // Data
-                typeof(PlayerLife).GetField("_virus", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(Player.life, value);
+                typeof(PlayerLife).GetField("_virus", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(Life, value);
 
                 // Update
-                Player.life.channel.send("tellVirus", ESteamCall.OWNER, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
+                Life.channel.send("tellVirus", ESteamCall.OWNER, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
                 {
                     Virus
                 });
@@ -232,21 +232,21 @@ namespace PointBlank.API.Unturned.Player
         {
             get
             {
-                return Player.life.isBroken;
+                return Life.isBroken;
             }
             set
             {
                 // Checks
-                if (Player.life.isDead)
+                if (Life.isDead)
                     return;
                 if (value == IsBroken)
                     return;
 
                 // Data
-                typeof(PlayerLife).GetField("_isBroken", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(Player.life, value);
+                typeof(PlayerLife).GetField("_isBroken", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(Life, value);
 
                 // Update
-                Player.life.channel.send("tellBroken", ESteamCall.OWNER, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
+                Life.channel.send("tellBroken", ESteamCall.OWNER, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
                 {
                     IsBroken
                 });
@@ -259,21 +259,21 @@ namespace PointBlank.API.Unturned.Player
         {
             get
             {
-                return Player.life.isBleeding;
+                return Life.isBleeding;
             }
             set
             {
                 // Checks
-                if (Player.life.isDead)
+                if (Life.isDead)
                     return;
                 if (value == IsBleeding)
                     return;
 
                 // Data
-                typeof(PlayerLife).GetField("_isBleeding", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(Player.life, value);
+                typeof(PlayerLife).GetField("_isBleeding", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(Life, value);
 
                 // Update
-                Player.life.channel.send("tellBleeding", ESteamCall.OWNER, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
+                Life.channel.send("tellBleeding", ESteamCall.OWNER, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
                 {
                     IsBleeding
                 });
@@ -282,7 +282,7 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// Is the player dead
         /// </summary>
-        public bool IsDead { get { return Player.life.isDead; } }
+        public bool IsDead { get { return Life.isDead; } }
         /// <summary>
         /// The player's skill boost
         /// </summary>
@@ -332,13 +332,13 @@ namespace PointBlank.API.Unturned.Player
         {
             get
             {
-                return Player.movement.getVehicle() != null;
+                return Movement.getVehicle() != null;
             }
         }
         /// <summary>
         /// The player current vehicle
         /// </summary>
-        public UnturnedVehicle Vehicle => UnturnedVehicle.Create(Player.movement.getVehicle());
+        public UnturnedVehicle Vehicle => UnturnedVehicle.Create(Movement.getVehicle());
         /// <summary>
         /// The player's reputation
         /// </summary>
@@ -367,35 +367,35 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// Has the player got anything equipped
         /// </summary>
-        public bool HasAnythingEquipped => (Player.equipment.isEquipped && Player.equipment.asset != null && Player.equipment.useable != null);
+        public bool HasAnythingEquipped => (Equipment.isEquipped && Equipment.asset != null && Equipment.useable != null);
         /// <summary>
         /// The currently equipped asset
         /// </summary>
-        public ItemAsset EquippedAsset => Player.equipment.asset;
+        public ItemAsset EquippedAsset => Equipment.asset;
         /// <summary>
         /// The currently equpped useable
         /// </summary>
-        public Useable EquippedUseable => Player.equipment.useable;
+        public Useable EquippedUseable => Equipment.useable;
         /// <summary>
         /// The currently equipped item ID
         /// </summary>
-        public ushort EquippedItemID => Player.equipment.itemID;
+        public ushort EquippedItemID => Equipment.itemID;
         /// <summary>
         /// Is the currently equpped item a primary
         /// </summary>
-        public bool IsEquippedPrimary => Player.equipment.primary;
+        public bool IsEquippedPrimary => Equipment.primary;
         /// <summary>
         /// Is the current equipment busy
         /// </summary>
-        public bool IsEquipmentBusy { get { return Player.equipment.isBusy; } set { Player.equipment.isBusy = value; } }
+        public bool IsEquipmentBusy { get { return Equipment.isBusy; } set { Equipment.isBusy = value; } }
         /// <summary>
         /// Can the equipped item be inspected
         /// </summary>
-        public bool CanInspectEquipped => Player.equipment.canInspect;
+        public bool CanInspectEquipped => Equipment.canInspect;
         /// <summary>
         /// Is the player currently inspecting the equipped item
         /// </summary>
-        public bool IsInspectingEquipped => Player.equipment.isInspecting;
+        public bool IsInspectingEquipped => Equipment.isInspecting;
         /// <summary>
         /// Current position of the player
         ///</summary>
@@ -407,15 +407,15 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// Is the player moving
         ///</summary>
-        public bool IsMoving => Player.movement.isMoving;
+        public bool IsMoving => Movement.isMoving;
         /// <summary>
         /// Is the player grounded
         ///</summary>
-        public bool IsGrounded => Player.movement.isGrounded;
+        public bool IsGrounded => Movement.isGrounded;
         /// <summary>
         /// Is the player safe
         ///</summary>
-        public bool IsSafe => Player.movement.isSafe;
+        public bool IsSafe => Movement.isSafe;
         /// <summary>
         /// Is the player loading (Thanks Trojaner)
         ///</summary>
@@ -454,11 +454,11 @@ namespace PointBlank.API.Unturned.Player
                 List<Item> retval = new List<Item>();
                 for (byte page = 0; page < (PlayerInventory.PAGES - 1); page++)
                 {
-                    byte count = Player.inventory.getItemCount(page);
+                    byte count = Inventory.getItemCount(page);
                     if (count > 0)
                     {
                         for (byte index = 0; index < count; index++)
-                            retval.Add(Player.inventory.getItem(page, index).item);
+                            retval.Add(Inventory.getItem(page, index).item);
                     }
                 }
                 return retval.ToArray();
@@ -510,6 +510,46 @@ namespace PointBlank.API.Unturned.Player
         /// The permissions of the player
         /// </summary>
         public string[] Permissions => _Permissions.ToArray();
+
+        /// <summary>
+        /// Return PlayerMovement of Player
+        /// </summary>
+        public PlayerMovement Movement => Player.movement;  
+
+        /// <summary>
+        /// Return PlayerLife of Player
+        /// </summary>
+        public PlayerLife Life => Player.life;
+
+        /// <summary>
+        /// Return PlayerLook of Player
+        /// </summary>
+        public PlayerLook Look => Player.look;
+
+        /// <summary>
+        /// Return PlayerClothing of Player
+        /// </summary>
+        public PlayerClothing Clothing => Player.clothing;
+
+        /// <summary>
+        /// Return PlayerInventory of Player
+        /// </summary>
+        public PlayerInventory Inventory => Player.inventory;
+
+        /// <summary>
+        /// Return PlayerEquipment of Player
+        /// </summary>
+        public PlayerEquipment Equipment => Player.equipment;
+
+        /// <summary>
+        /// Return PlayerStance of Player
+        /// </summary>
+        public PlayerStance Stance => Player.stance;
+
+        /// <summary>
+        /// Returns SteamChannel of Player
+        /// </summary>
+        public SteamChannel Channel => Player.channel;
         #endregion
 
         private UnturnedPlayer(SPlayer steamplayer)
@@ -912,7 +952,7 @@ namespace PointBlank.API.Unturned.Player
         {
             if (EquippedItemID == ID) return true;
 
-            return (Player.inventory.search(ID, true, true).Count > 0); // The easy way
+            return (Inventory.search(ID, true, true).Count > 0); // The easy way
         }
         /// <summary>
         /// Checks if the player has a specific item
@@ -969,12 +1009,12 @@ namespace PointBlank.API.Unturned.Player
         public bool RemoveItem(ushort ID)
         {
             if (EquippedItemID == ID)
-                Player.equipment.dequip();
-            InventorySearch search = Player.inventory.search(ID, true, true).FirstOrDefault();
+                Equipment.dequip();
+            InventorySearch search = Inventory.search(ID, true, true).FirstOrDefault();
 
             if (search == null)
                 return false;
-            Items items = Player.inventory.items[search.page];
+            Items items = Inventory.items[search.page];
 
             items.removeItem(items.getIndex(search.jar.x, search.jar.y));
             return true;
@@ -1018,16 +1058,13 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// Dequip the player's equipped item
         ///</summary>
-        public void DequipItem() => Player.equipment.dequip();
+        public void DequipItem() => Equipment.dequip();
 
         /// <summary>
         /// Teleports the player to a specific position
         /// </summary>
         /// <param name="position">The position to teleport the player to</param>
-        public void Teleport(Vector3 position)
-        {
-            Player.sendTeleport(position, MeasurementTool.angleToByte(Player.transform.rotation.eulerAngles.y));
-        }
+        public void Teleport(Vector3 position) => Player.sendTeleport(position, MeasurementTool.angleToByte(Player.transform.rotation.eulerAngles.y));  
         #endregion
     }
 }
