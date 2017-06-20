@@ -9,6 +9,8 @@ namespace PointBlank.Framework.Translations
     {
         // Base for all commands
         public static string Base_InvalidPlayer;
+        public static string Base_NoArenaTime;
+        public static string Base_NoHordeTime;
 
         // Admin command
         public static string Admin_Help;
@@ -55,5 +57,34 @@ namespace PointBlank.Framework.Translations
         // Cheats command
         public static string Cheats_Help;
         public static string Cheats_Enabled;
+
+        // Cycle command
+        public static string Cycle_Help;
+        public static string Cycle_Usage;
+        public static string Cycle_Invalid;
+        public static string Cycle_SetTo;
+
+        // Day command
+        public static string Day_Help;
+        public static string Day_Set;
+
+        // Debug command
+        public static string Debug_Help;
+        public static string Debug_Title;
+        public static string Debug_SteamID;
+        public static string Debug_IP;
+        public static string Debug_Port;
+        public static string Debug_BytesSent;
+        public static string Debug_BytesReceived;
+        public static string Debug_ABytesSent;
+        public static string Debug_ABytesReceived;
+        public static string Debug_PacketsSent;
+        public static string Debug_PacketsReceived;
+        public static string Debug_APacketsSent;
+        public static string Debug_APacketsReceived;
+        public static string Debug_UPS;
+        public static string Debug_TPS;
+        public static string Debug_Zombies;
+        public static string Debug_Animals;
     }
 }

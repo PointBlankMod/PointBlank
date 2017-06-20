@@ -6,6 +6,7 @@ using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Chat;
 using SDG.Unturned;
+using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
@@ -15,10 +16,10 @@ namespace PointBlank.Commands
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "day"
+            "Day"
         };
 
-        public override string Help => "Sets the time to day";
+        public override string Help => Translation.Day_Help;
 
         public override string Usage => Commands[0];
 
@@ -31,17 +32,17 @@ namespace PointBlank.Commands
         {
             if (Provider.isServer && Level.info.type == ELevelType.ARENA)
             {
-                UnturnedChat.SendMessage(executor, "Can't set time on arena!", ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translation.Base_NoArenaTime, ConsoleColor.Red);
                 return;
             }
             if (Provider.isServer && Level.info.type == ELevelType.HORDE)
             {
-                UnturnedChat.SendMessage(executor, "Can't set time on horde!", ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translation.Base_NoHordeTime, ConsoleColor.Red);
                 return;
             }
 
             LightingManager.time = (uint)(LightingManager.cycle * LevelLighting.transition);
-            UnturnedChat.SendMessage(executor, "Time set to day!", ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, Translation.Day_Set, ConsoleColor.Green);
         }
     }
 }
