@@ -56,6 +56,15 @@ namespace PointBlank.API.Unturned.Barricade
         /// </summary>
         public Quaternion Rotation => Barricade.asset.barricade.transform.rotation;
 
+        /// <summary>
+        /// ID of barricade asset
+        /// </summary>
+        public ushort AssetID => Barricade.asset.id;
+
+        /// <summary>
+        /// State of barricade
+        /// </summary>
+        public byte[] State => Barricade.state;
         #endregion
 
         private UnturnedBarricade(BarricadeData data)
@@ -136,6 +145,15 @@ namespace PointBlank.API.Unturned.Barricade
                 Damage((ushort)(Health - health));
         }
 
+        /// <summary>
+        /// Duplicate the barricade
+        /// </summary>
+        public UnturnedBarricade Duplicate()
+        {
+            UnturnedBarricade Dupe = new UnturnedBarricade(new StructureData(new UBarricade((ushort)(UnturnedServer.Structures.Length + 1), Barricade.health, Barricade.state Barricade.asset), Data.point, Data.angle_x, Data.angle_y, Data.angle_z, Data.owner, Data.group, Data.objActiveDate));
+            UnturnedServer.AddBarricade(Dupe);
+            return Dupe;
+        }
         #endregion
     }
 }

@@ -103,6 +103,7 @@
     <Compile Include="API\Unturned\Player\PlayerEvents.cs" />
     <Compile Include="API\Unturned\Structure\StructureEvents.cs" />
     <Compile Include="API\Unturned\Structure\UnturnedStructure.cs" />
+    <Compile Include="API\Unturned\Barricade\UnturnedBarricade.cs" />
     <Compile Include="API\Unturned\Player\UnturnedPlayer.cs" />
     <Compile Include="API\Unturned\Server\ServerEvents.cs" />
     <Compile Include="API\Unturned\Server\UnturnedServer.cs" />

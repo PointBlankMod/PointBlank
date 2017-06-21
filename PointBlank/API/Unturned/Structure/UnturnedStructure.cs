@@ -57,6 +57,10 @@ namespace PointBlank.API.Unturned.Structure
         /// The rotation of the structure
         /// </summary>
         public Quaternion Rotation => Structure.asset.structure.transform.rotation;
+        /// <summary>
+        /// ID of structure asset
+        /// </summary>
+        public ushort AssetID => Structure.asset.id;
         #endregion
 
         /// <summary>
@@ -140,6 +144,16 @@ namespace PointBlank.API.Unturned.Structure
                 Repair((ushort)(health - Health));
             if (Health > health)
                 Damage((ushort)(Health - health));
+        }
+
+        /// <summary>
+        /// Duplicate the structure
+        /// </summary>
+        public UnturnedStructure Duplicate()
+        {
+            UnturnedStructure Dupe = new UnturnedStructure(new StructureData(new UStructure((ushort)(UnturnedServer.Structures.Length + 1), Structure.health, Structure.asset), Data.point, Data.angle_x, Data.angle_y, Data.angle_z, Data.owner, Data.group, Data.objActiveDate));
+            UnturnedServer.AddStructure(Dupe);
+            return Dupe;
         }
         #endregion
     }

@@ -32,19 +32,19 @@ namespace PointBlank.Commands
             short value;
             UnturnedPlayer player;
 
-            if(!ushort.TryParse(args[0], out flag))
+            if (!ushort.TryParse(args[0], out flag))
             {
                 UnturnedChat.SendMessage(executor, "Invalid flag ID!", ConsoleColor.Red);
                 return;
             }
-            if(!short.TryParse(args[1], out value))
+            if (!short.TryParse(args[1], out value))
             {
                 UnturnedChat.SendMessage(executor, "Invalid value ID!", ConsoleColor.Red);
                 return;
             }
-            if(args.Length < 3 || !UnturnedPlayer.TryGetPlayer(args[2], out player))
+            if (args.Length < 3 || !UnturnedPlayer.TryGetPlayer(args[2], out player))
             {
-                if(executor == null)
+                if (executor == null)
                 {
                     UnturnedChat.SendMessage(executor, "Invalid player!", ConsoleColor.Red);
                     return;
