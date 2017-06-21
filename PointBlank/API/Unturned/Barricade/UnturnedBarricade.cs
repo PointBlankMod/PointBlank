@@ -69,9 +69,11 @@ namespace PointBlank.API.Unturned.Barricade
 
         private UnturnedBarricade(BarricadeData data)
         {
+            // Set the variables
             Data = data;
 
-
+            // Run the code
+            UnturnedServer.AddBarricade(this);
         }
 
         #region Static Functions
@@ -111,24 +113,17 @@ namespace PointBlank.API.Unturned.Barricade
         #endregion
 
         #region Public Functions
-
         /// <summary>
         /// Damage the barricade
         /// </summary>
         /// <param name="amount">The amount of damage to cause</param>
-        public void Damage(float amount)
-        {
-            BarricadeManager.damage(Barricade.asset.barricade.transform, amount, 1, false);
-        }
+        public void Damage(float amount) => BarricadeManager.damage(Barricade.asset.barricade.transform, amount, 1, false);
 
         /// <summary>
         /// Repair the Barricade
         /// </summary>
         /// <param name="amount">The amount to repair it by</param>
-        public void Repair(ushort amount)
-        {
-            Barricade.askRepair(amount);
-        }
+        public void Repair(ushort amount) => Barricade.askRepair(amount);
 
         /// <summary>
         /// Set the health of the barricade
@@ -150,8 +145,8 @@ namespace PointBlank.API.Unturned.Barricade
         /// </summary>
         public UnturnedBarricade Duplicate()
         {
-            UnturnedBarricade Dupe = new UnturnedBarricade(new StructureData(new UBarricade((ushort)(UnturnedServer.Structures.Length + 1), Barricade.health, Barricade.state Barricade.asset), Data.point, Data.angle_x, Data.angle_y, Data.angle_z, Data.owner, Data.group, Data.objActiveDate));
-            UnturnedServer.AddBarricade(Dupe);
+            UnturnedBarricade Dupe = Create(new StructureData(new UBarricade((ushort)(UnturnedServer.Structures.Length + 1), Barricade.health, Barricade.state, Barricade.asset), Data.point, Data.angle_x, Data.angle_y, Data.angle_z, Data.owner, Data.group, Data.objActiveDate));
+
             return Dupe;
         }
         #endregion

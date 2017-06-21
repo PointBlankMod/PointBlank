@@ -97,6 +97,7 @@
     <Compile Include="API\Steam\SteamGroupEvents.cs" />
     <Compile Include="API\Steam\SteamGroupManager.cs" />
     <Compile Include="API\Steam\SteamPlayer.cs" />
+    <Compile Include="API\Unturned\Barricade\BarricadeEvents.cs" />
     <Compile Include="API\Unturned\Chat\ChatEvents.cs" />
     <Compile Include="API\Unturned\Chat\UnturnedChat.cs" />
     <Compile Include="API\Unturned\Player\BotPlayer.cs" />
@@ -170,6 +171,8 @@
     <Compile Include="Enviroment.cs" />
     <Compile Include="Framework\Configuration.cs" />
     <Compile Include="Framework\Objects\RuntimeObject.cs" />
+    <Compile Include="Framework\Overrides\_Barricade.cs" />
+    <Compile Include="Framework\Overrides\_BarricadeManager.cs" />
     <Compile Include="Framework\Overrides\_ChatManager.cs" />
     <Compile Include="Framework\Overrides\_InteractableVehicle.cs" />
     <Compile Include="Framework\Overrides\_Structure.cs" />
@@ -200,7 +203,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="API\Discord\" />
-    <Folder Include="API\Unturned\Barricade\" />
     <Folder Include="API\Unturned\Item\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

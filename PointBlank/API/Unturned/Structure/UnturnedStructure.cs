@@ -117,19 +117,13 @@ namespace PointBlank.API.Unturned.Structure
         /// Damage the structure
         /// </summary>
         /// <param name="amount">The amount of damage to cause</param>
-        public void Damage(float amount)
-        {
-            StructureManager.damage(Structure.asset.structure.transform, new Vector3(0, 0, 0), amount, 1, false);
-        }
+        public void Damage(float amount) => StructureManager.damage(Structure.asset.structure.transform, new Vector3(0, 0, 0), amount, 1, false);
 
         /// <summary>
         /// Repair the structure
         /// </summary>
         /// <param name="amount">The amount to repair it by</param>
-        public void Repair(ushort amount)
-        {
-            Structure.askRepair(amount);
-        }
+        public void Repair(ushort amount) => Structure.askRepair(amount);
 
         /// <summary>
         /// Set the health of the structure
@@ -151,8 +145,8 @@ namespace PointBlank.API.Unturned.Structure
         /// </summary>
         public UnturnedStructure Duplicate()
         {
-            UnturnedStructure Dupe = new UnturnedStructure(new StructureData(new UStructure((ushort)(UnturnedServer.Structures.Length + 1), Structure.health, Structure.asset), Data.point, Data.angle_x, Data.angle_y, Data.angle_z, Data.owner, Data.group, Data.objActiveDate));
-            UnturnedServer.AddStructure(Dupe);
+            UnturnedStructure Dupe = Create(new StructureData(new UStructure((ushort)(UnturnedServer.Structures.Length + 1), Structure.health, Structure.asset), Data.point, Data.angle_x, Data.angle_y, Data.angle_z, Data.owner, Data.group, Data.objActiveDate));
+
             return Dupe;
         }
         #endregion

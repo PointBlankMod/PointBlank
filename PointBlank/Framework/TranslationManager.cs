@@ -127,7 +127,7 @@ namespace PointBlank.Framework
                 CommandTranslations.Experience_Give = "Gave {0} {1} experience!";
 
                 CommandTranslations.Filter_Enable = "Succesfully enabled name filter!";
-                CommandTranslations.Filter_Help = "This filters out players with non-English-alphanumeric names.
+                CommandTranslations.Filter_Help = "This filters out players with non-English-alphanumeric names.";
 
                 Save();
             }

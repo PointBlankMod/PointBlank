@@ -6,6 +6,7 @@ using SDG.Unturned;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Vehicle;
 using PointBlank.API.Unturned.Structure;
+using PointBlank.API.Unturned.Barricade;
 
 namespace PointBlank.API.Unturned.Server
 {
@@ -38,6 +39,12 @@ namespace PointBlank.API.Unturned.Server
         /// </summary>
         /// <param name="structure">The structure instance</param>
         public delegate void StructureStatusHandler(UnturnedStructure structure);
+
+        /// <summary>
+        /// Used for handling barricades
+        /// </summary>
+        /// <param name="barricade">The affected barricade</param>
+        public delegate void BarricadeStatusHandler(UnturnedBarricade barricade);
         #endregion
 
         #region Events
@@ -110,9 +117,18 @@ namespace PointBlank.API.Unturned.Server
         /// </summary>
         public static event StructureStatusHandler OnStructureCreated;
         /// <summary>
-        /// Called wehn a structure is removed
+        /// Called when a structure is removed
         /// </summary>
         public static event StructureStatusHandler OnStructureRemoved;
+
+        /// <summary>
+        /// Called when a barricade is created
+        /// </summary>
+        public static event BarricadeStatusHandler OnBarricadeCreated;
+        /// <summary>
+        /// Called when a barricade is removed
+        /// </summary>
+        public static event BarricadeStatusHandler OnBarricadeRemoved;
         #endregion
 
         #region Functions
@@ -231,6 +247,21 @@ namespace PointBlank.API.Unturned.Server
                 return;
 
             OnStructureRemoved(structure);
+        }
+
+        internal static void RunBarricadeCreated(BarricadeData barricade)
+        {
+            if (OnBarricadeCreated == null)
+                return;
+
+            OnBarricadeCreated(UnturnedBarricade.Create(barricade));
+        }
+        internal static void RunBarricadeRemoved(UnturnedBarricade barricade)
+        {
+            if (OnBarricadeRemoved == null)
+                return;
+
+            OnBarricadeRemoved(barricade);
         }
         #endregion
     }
