@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -68,6 +68,8 @@ namespace PointBlank.Framework
 
                 CommandTranslations.Airdrop_Help = "This forces a dropship to fly over and perform an airdrop.";
                 CommandTranslations.Airdrop_Success = "Airdrop spawned successfully!";
+
+                CommandTranslations.SOwner_Help = "Shows you the structure owner";
 
                 CommandTranslations.Ban_Help = "This adds the specified player to the list of users not allowed to join the server.";
                 CommandTranslations.Ban_Usage = " <player> [duration] [reason]";
@@ -191,6 +193,8 @@ namespace PointBlank.Framework
 
                 CommandTranslations.Airdrop_Help = (string)JCommand.Document["Airdrop_Help"];
                 CommandTranslations.Airdrop_Success = (string)JCommand.Document["Airdrop_Success"];
+
+                CommandTranslations.SOwner_Help = (string)JCommand.Document["SOwner_Help"];
 
                 CommandTranslations.Ban_Help = (string)JCommand.Document["Ban_Help"];
                 CommandTranslations.Ban_Usage = (string)JCommand.Document["Ban_Usage"];
@@ -319,6 +323,8 @@ namespace PointBlank.Framework
 
             SetCommand("Airdrop_Help", CommandTranslations.Airdrop_Help);
             SetCommand("Airdrop_Success", CommandTranslations.Airdrop_Success);
+
+            SetCommand("SOwner_Help" , CommandTranslations.SOwner_Help);
 
             SetCommand("Ban_Help", CommandTranslations.Ban_Help);
             SetCommand("Ban_Usage", CommandTranslations.Ban_Usage);
