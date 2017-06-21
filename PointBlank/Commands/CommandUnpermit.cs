@@ -7,6 +7,7 @@ using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Chat;
 using SDG.Unturned;
 using Steamworks;
+using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {

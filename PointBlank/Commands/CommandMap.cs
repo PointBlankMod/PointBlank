@@ -6,6 +6,7 @@ using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Chat;
 using SDG.Unturned;
+using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
@@ -15,12 +16,12 @@ namespace PointBlank.Commands
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "map"
+            "Map"
         };
 
-        public override string Help => "Sets the server map";
+        public override string Help => Translation.Map_Help;
 
-        public override string Usage => Commands[0] + " <map>";
+        public override string Usage => Commands[0] + Translation.Map_Usage;
 
         public override string DefaultPermission => "unturned.commands.server.map";
 
@@ -31,11 +32,12 @@ namespace PointBlank.Commands
         {
             if (!Level.exists(args[0]))
             {
-                UnturnedChat.SendMessage(executor, "Invalid map!", ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translation.Map_Invalid, ConsoleColor.Red);
                 return;
             }
 
             Provider.map = args[0];
+            UnturnedChat.SendMessage(executor, string.Format(Translation.Map_Set, args[0]), ConsoleColor.Green);
         }
     }
 }

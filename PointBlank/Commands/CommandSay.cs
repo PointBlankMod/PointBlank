@@ -6,6 +6,7 @@ using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Player;
 using SDG.Unturned;
 using UnityEngine;
+using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {

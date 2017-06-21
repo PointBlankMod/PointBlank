@@ -6,6 +6,7 @@ using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Chat;
 using SDG.Unturned;
+using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
@@ -16,12 +17,12 @@ namespace PointBlank.Commands
         public override string[] DefaultCommands => new string[]
         {
             "i",
-            "item"
+            "Item"
         };
 
-        public override string Help => "Gives the player a specific item";
+        public override string Help => Translation.Item_Help;
 
-        public override string Usage => Commands[0] + " <item> [amount] [player]";
+        public override string Usage => Commands[0] + Translation.Item_Usage;
 
         public override string DefaultPermission => "pointblank.commands.admin.item";
 
@@ -47,7 +48,7 @@ namespace PointBlank.Commands
             }
             if (item == null)
             {
-                UnturnedChat.SendMessage(executor, "Could not find item!", ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translation.Item_Invalid, ConsoleColor.Red);
                 return;
             }
 
@@ -58,7 +59,7 @@ namespace PointBlank.Commands
             {
                 if(executor == null)
                 {
-                    UnturnedChat.SendMessage(executor, "Player not found!", ConsoleColor.Red);
+                    UnturnedChat.SendMessage(executor, Translation.Base_InvalidPlayer, ConsoleColor.Red);
                     return;
                 }
 
@@ -67,10 +68,10 @@ namespace PointBlank.Commands
 
             if(!ItemTool.tryForceGiveItem(ply.Player, item.id, amount))
             {
-                UnturnedChat.SendMessage(executor, "Could not give item to player!", ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translation.Item_Fail, ConsoleColor.Red);
                 return;
             }
-            UnturnedChat.SendMessage(executor, item.itemName + " given to " + ply.PlayerName, ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, string.Format(Translation.Item_Give, item.itemName, ply.PlayerName), ConsoleColor.Green);
         }
     }
 }

@@ -129,6 +129,50 @@ namespace PointBlank.Framework
                 CommandTranslations.Filter_Enable = "Succesfully enabled name filter!";
                 CommandTranslations.Filter_Help = "This filters out players with non-English-alphanumeric names.";
 
+                CommandTranslations.Flag_Help = "This sets a player's flag.";
+                CommandTranslations.Flag_Usage = " <flag> <value> [player]";
+                CommandTranslations.Flag_InvalidFlag = "Selected flag ID is invalid!";
+                CommandTranslations.Flag_InvalidValue = "Selected flag value is invalid!";
+                CommandTranslations.Flag_Set = "The flag for {0} has been set!";
+
+                CommandTranslations.GameMode_Help = "This assigns the game mode of the server.";
+                CommandTranslations.GameMode_Usage = " <game mode>";
+                CommandTranslations.GameMode_Set = "Server game mode set to {0}!";
+
+                CommandTranslations.Gold_Help = "This marks the server as joinable only by Gold members.";
+                CommandTranslations.Gold_Set = "Server has been set to gold only!";
+
+                CommandTranslations.Help_Help = "Displayes all enabled commands or information on a specific command";
+                CommandTranslations.Help_Usage = " [command]";
+                CommandTranslations.Help_Invalid = "The specified command is invalid!";
+
+                CommandTranslations.HideAdmins_Help = "This allows the recording of cinematic footage without the admin labels visible to players.";
+                CommandTranslations.HideAdmins_Set = "Admin labels are now hidden!";
+
+                CommandTranslations.Item_Help = "Gives the player the specified item.";
+                CommandTranslations.Item_Usage = " <item> [amount] [player]";
+                CommandTranslations.Item_Invalid = "Failed to find the specified item!";
+                CommandTranslations.Item_Fail = "Failed to give the specified item to player!";
+                CommandTranslations.Item_Give = "{0} has been given to {1}";
+
+                CommandTranslations.Kick_Help = "This disconnects the specified player from the server.";
+                CommandTranslations.Kick_Usage = " <player> [reason]";
+                CommandTranslations.Kick_Reason = "Undefined";
+                CommandTranslations.Kick_Kicked = "{0} has been kicked from the server!";
+
+                CommandTranslations.Kill_Help = "This kills the specified player in-game.";
+                CommandTranslations.Kill_Usage = " [player]";
+                CommandTranslations.Kill_Killed = "{0} has been killed!";
+
+                CommandTranslations.Log_Help = "This assigns the console log options.";
+                CommandTranslations.Log_Usage = " <chat(y/n)> <join/leave(y/n)> <deaths(y/n)> <anticheat(y/n)>";
+                CommandTranslations.Log_Set = "Console logging settings have been set!";
+
+                CommandTranslations.Map_Help = "This sets the map that the server loads on startup.";
+                CommandTranslations.Map_Usage = " <map>";
+                CommandTranslations.Map_Invalid = "The specified map is invalid!";
+                CommandTranslations.Map_Set = "Server map has been set to {0}";
+
                 Save();
             }
             else
@@ -207,6 +251,50 @@ namespace PointBlank.Framework
 
                 CommandTranslations.Filter_Enable = (string)JCommand.Document["Filter_Enable"];
                 CommandTranslations.Filter_Help = (string)JCommand.Document["Filter_Help"];
+
+                CommandTranslations.Flag_Help = (string)JCommand.Document["Flag_Help"];
+                CommandTranslations.Flag_Usage = (string)JCommand.Document["Flag_Usage"];
+                CommandTranslations.Flag_InvalidFlag = (string)JCommand.Document["Flag_InvalidFlag"];
+                CommandTranslations.Flag_InvalidValue = (string)JCommand.Document["Flag_InvalidValue"];
+                CommandTranslations.Flag_Set = (string)JCommand.Document["Flag_Set"];
+
+                CommandTranslations.GameMode_Help = (string)JCommand.Document["GameMode_Help"];
+                CommandTranslations.GameMode_Usage = (string)JCommand.Document["GameMode_Usage"];
+                CommandTranslations.GameMode_Set = (string)JCommand.Document["GameMode_Set"];
+
+                CommandTranslations.Gold_Help = (string)JCommand.Document["Gold_Help"];
+                CommandTranslations.Gold_Set = (string)JCommand.Document["Gold_Set"];
+
+                CommandTranslations.Help_Help = (string)JCommand.Document["Help_Help"];
+                CommandTranslations.Help_Usage = (string)JCommand.Document["Help_Usage"];
+                CommandTranslations.Help_Invalid = (string)JCommand.Document["Help_Invalid"];
+
+                CommandTranslations.HideAdmins_Help = (string)JCommand.Document["HideAdmins_Help"];
+                CommandTranslations.HideAdmins_Set = (string)JCommand.Document["HideAdmins_Set"];
+
+                CommandTranslations.Item_Help = (string)JCommand.Document["Item_Help"];
+                CommandTranslations.Item_Usage = (string)JCommand.Document["Item_Usage"];
+                CommandTranslations.Item_Invalid = (string)JCommand.Document["Item_Invalid"];
+                CommandTranslations.Item_Fail = (string)JCommand.Document["Item_Fail"];
+                CommandTranslations.Item_Give = (string)JCommand.Document["Item_Give"];
+
+                CommandTranslations.Kick_Help = (string)JCommand.Document["Kick_Help"];
+                CommandTranslations.Kick_Usage = (string)JCommand.Document["Kick_Usage"];
+                CommandTranslations.Kick_Reason = (string)JCommand.Document["Kick_Reason"];
+                CommandTranslations.Kick_Kicked = (string)JCommand.Document["Kick_Kicked"];
+
+                CommandTranslations.Kill_Help = (string)JCommand.Document["Kill_Help"];
+                CommandTranslations.Kill_Usage = (string)JCommand.Document["Kill_Usage"];
+                CommandTranslations.Kill_Killed = (string)JCommand.Document["Kill_Killed"];
+
+                CommandTranslations.Log_Help = (string)JCommand.Document["Log_Help"];
+                CommandTranslations.Log_Usage = (string)JCommand.Document["Log_Usage"];
+                CommandTranslations.Log_Set = (string)JCommand.Document["Log_Set"];
+
+                CommandTranslations.Map_Help = (string)JCommand.Document["Map_Help"];
+                CommandTranslations.Map_Usage = (string)JCommand.Document["Map_Usage"];
+                CommandTranslations.Map_Invalid = (string)JCommand.Document["Map_Invalid"];
+                CommandTranslations.Map_Set = (string)JCommand.Document["Map_Set"];
             }
         }
 
@@ -291,6 +379,50 @@ namespace PointBlank.Framework
 
             SetCommand("Filter_Enable", CommandTranslations.Filter_Enable);
             SetCommand("Filter_Help", CommandTranslations.Filter_Help);
+
+            SetCommand("Flag_Help", CommandTranslations.Flag_Help);
+            SetCommand("Flag_Usage", CommandTranslations.Flag_Usage);
+            SetCommand("Flag_InvalidFlag", CommandTranslations.Flag_InvalidFlag);
+            SetCommand("Flag_InvalidValue", CommandTranslations.Flag_InvalidValue);
+            SetCommand("Flag_Set", CommandTranslations.Flag_Set);
+
+            SetCommand("GameMode_Help", CommandTranslations.GameMode_Help);
+            SetCommand("GameMode_Usage", CommandTranslations.GameMode_Usage);
+            SetCommand("GameMode_Set", CommandTranslations.GameMode_Set);
+
+            SetCommand("Gold_Help", CommandTranslations.Gold_Help);
+            SetCommand("Gold_Set", CommandTranslations.Gold_Set);
+
+            SetCommand("Help_Help", CommandTranslations.Help_Help);
+            SetCommand("Help_Usage", CommandTranslations.Help_Usage);
+            SetCommand("Help_Invalid", CommandTranslations.Help_Invalid);
+
+            SetCommand("HideAdmins_Help", CommandTranslations.HideAdmins_Help);
+            SetCommand("HideAdmins_Set", CommandTranslations.HideAdmins_Set);
+
+            SetCommand("Item_Help", CommandTranslations.Item_Help);
+            SetCommand("Item_Usage", CommandTranslations.Item_Usage);
+            SetCommand("Item_Invalid", CommandTranslations.Item_Invalid);
+            SetCommand("Item_Fail", CommandTranslations.Item_Fail);
+            SetCommand("Item_Give", CommandTranslations.Item_Give);
+
+            SetCommand("Kick_Help", CommandTranslations.Kick_Help);
+            SetCommand("Kick_Usage", CommandTranslations.Kick_Usage);
+            SetCommand("Kick_Reason", CommandTranslations.Kick_Reason);
+            SetCommand("Kick_Kicked", CommandTranslations.Kick_Kicked);
+
+            SetCommand("Kill_Help", CommandTranslations.Kill_Help);
+            SetCommand("Kill_Usage", CommandTranslations.Kill_Usage);
+            SetCommand("Kill_Killed", CommandTranslations.Kill_Killed);
+
+            SetCommand("Log_Help", CommandTranslations.Log_Help);
+            SetCommand("Log_Usage", CommandTranslations.Log_Usage);
+            SetCommand("Log_Set", CommandTranslations.Log_Set);
+
+            SetCommand("Map_Help", CommandTranslations.Map_Help);
+            SetCommand("Map_Usage", CommandTranslations.Map_Usage);
+            SetCommand("Map_Invalid", CommandTranslations.Map_Invalid);
+            SetCommand("Map_Set", CommandTranslations.Map_Set);
 
             UniCommand.Save();
         }

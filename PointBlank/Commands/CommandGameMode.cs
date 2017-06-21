@@ -6,6 +6,7 @@ using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Chat;
 using SDG.Unturned;
+using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
@@ -15,12 +16,12 @@ namespace PointBlank.Commands
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "gamemode"
+            "GameMode"
         };
 
-        public override string Help => "Sets the server game mode";
+        public override string Help => Translation.GameMode_Help;
 
-        public override string Usage => Commands[0] + " <game mode>";
+        public override string Usage => Commands[0] + Translation.GameMode_Usage;
 
         public override string DefaultPermission => "unturned.commands.server.gamemode";
 
@@ -30,7 +31,7 @@ namespace PointBlank.Commands
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
             Provider.selectedGameModeName = args[0];
-            UnturnedChat.SendMessage(executor, "Setting game mode to " + args[0], ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, string.Format(Translation.GameMode_Set, args[0]), ConsoleColor.Green);
         }
     }
 }

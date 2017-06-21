@@ -96,5 +96,59 @@ namespace PointBlank.Framework.Translations
         // Filter command
         public static string Filter_Enable;
         public static string Filter_Help;
+
+        // Flag command
+        public static string Flag_Help;
+        public static string Flag_Usage;
+        public static string Flag_InvalidFlag;
+        public static string Flag_InvalidValue;
+        public static string Flag_Set;
+
+        // Gamemode command
+        public static string GameMode_Help;
+        public static string GameMode_Usage;
+        public static string GameMode_Set;
+
+        // Gold command
+        public static string Gold_Help;
+        public static string Gold_Set;
+
+        // Help command
+        public static string Help_Help;
+        public static string Help_Usage;
+        public static string Help_Invalid;
+
+        // HideAdmins command
+        public static string HideAdmins_Help;
+        public static string HideAdmins_Set;
+
+        // Item command
+        public static string Item_Help;
+        public static string Item_Usage;
+        public static string Item_Invalid;
+        public static string Item_Fail;
+        public static string Item_Give;
+
+        // Kick command
+        public static string Kick_Help;
+        public static string Kick_Usage;
+        public static string Kick_Reason;
+        public static string Kick_Kicked;
+
+        // Kill command
+        public static string Kill_Help;
+        public static string Kill_Usage;
+        public static string Kill_Killed;
+
+        // Log command
+        public static string Log_Help;
+        public static string Log_Usage;
+        public static string Log_Set;
+
+        // Map command
+        public static string Map_Help;
+        public static string Map_Usage;
+        public static string Map_Invalid;
+        public static string Map_Set;
     }
 }

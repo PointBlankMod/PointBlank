@@ -8,6 +8,7 @@ using PointBlank.API.Unturned.Chat;
 using UnityEngine;
 using SDG.Unturned;
 using Steamworks;
+using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
@@ -17,12 +18,12 @@ namespace PointBlank.Commands
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "kill"
+            "Kill"
         };
 
-        public override string Help => "Kills a player";
+        public override string Help => Translation.Kill_Help;
 
-        public override string Usage => Commands[0] + " [player]";
+        public override string Usage => Commands[0] + Translation.Kill_Usage;
 
         public override string DefaultPermission => "unturned.commands.admin.kill";
         #endregion
@@ -35,7 +36,7 @@ namespace PointBlank.Commands
             {
                 if(executor == null)
                 {
-                    UnturnedChat.SendMessage(executor, "Player not found!", ConsoleColor.Red);
+                    UnturnedChat.SendMessage(executor, Translation.Base_InvalidPlayer, ConsoleColor.Red);
                     return;
                 }
 
@@ -43,7 +44,7 @@ namespace PointBlank.Commands
             }
 
             ply.Player.life.askDamage(255, Vector3.up * 10f, EDeathCause.KILL, ELimb.SKULL, (executor == null ? CSteamID.Nil : executor.SteamID), out EPlayerKill kill);
-            UnturnedChat.SendMessage(executor, ply.PlayerName + " has been killed", ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, string.Format(Translation.Kill_Killed, ply.PlayerName), ConsoleColor.Green);
         }
     }
 }

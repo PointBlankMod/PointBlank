@@ -5,6 +5,7 @@ using System.Text;
 using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Chat;
+using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
@@ -14,12 +15,12 @@ namespace PointBlank.Commands
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "help"
+            "Help"
         };
 
-        public override string Help => "Shows all commands on the server or information of a specific command";
+        public override string Help => Translation.Help_Help;
 
-        public override string Usage => Commands[0] + " [command]";
+        public override string Usage => Commands[0] + Translation.Help_Usage;
 
         public override string DefaultPermission => "unturned.commands.nonadmin.help";
         #endregion
@@ -32,7 +33,7 @@ namespace PointBlank.Commands
 
                 if(cmd == null)
                 {
-                    UnturnedChat.SendMessage(executor, "No such command found!", ConsoleColor.Red);
+                    UnturnedChat.SendMessage(executor, Translation.Help_Invalid, ConsoleColor.Red);
                     return;
                 }
                 UnturnedChat.SendMessage(executor, cmd.Help, ConsoleColor.Green);

@@ -6,6 +6,7 @@ using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Chat;
 using SDG.Unturned;
+using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
@@ -15,10 +16,10 @@ namespace PointBlank.Commands
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "hideadmins"
+            "HideAdmins"
         };
 
-        public override string Help => "Hides all admins on the server";
+        public override string Help => Translation.HideAdmins_Help;
 
         public override string Usage => Commands[0];
 
@@ -30,7 +31,7 @@ namespace PointBlank.Commands
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
             Provider.hideAdmins = true;
-            UnturnedChat.SendMessage(executor, "Admins are hidden!", ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, Translation.HideAdmins_Set, ConsoleColor.Green);
         }
     }
 }

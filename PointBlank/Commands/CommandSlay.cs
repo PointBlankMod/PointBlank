@@ -8,6 +8,7 @@ using PointBlank.API.Unturned.Chat;
 using SDG.Unturned;
 using Steamworks;
 using UnityEngine;
+using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {

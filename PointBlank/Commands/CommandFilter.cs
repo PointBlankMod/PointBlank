@@ -16,7 +16,7 @@ namespace PointBlank.Commands
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "filter"
+            "Filter"
         };
 
         public override string Help => Translation.Filter_Help;

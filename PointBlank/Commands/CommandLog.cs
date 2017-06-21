@@ -5,6 +5,7 @@ using System.Text;
 using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Player;
 using SDG.Unturned;
+using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
@@ -14,12 +15,12 @@ namespace PointBlank.Commands
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "log"
+            "Log"
         };
 
-        public override string Help => "Sets unturned logging";
+        public override string Help => Translation.Log_Help;
 
-        public override string Usage => Commands[0] + " <chat(y/n)> <join/leave(y/n)> <deaths(y/n)> <anticheat(y/n)>";
+        public override string Usage => Commands[0] + Translation.Log_Usage;
 
         public override string DefaultPermission => "unturned.commands.server.log";
 
@@ -32,7 +33,7 @@ namespace PointBlank.Commands
             CommandWindow.shouldLogJoinLeave = (args[1].ToLower() == "y");
             CommandWindow.shouldLogDeaths = (args[2].ToLower() == "y");
             CommandWindow.shouldLogAnticheat = (args[3].ToLower() == "y");
-            CommandWindow.Log("Logging changed!", ConsoleColor.Green);
+            CommandWindow.Log(Translation.Log_Set, ConsoleColor.Green);
         }
     }
 }
