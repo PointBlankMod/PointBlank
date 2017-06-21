@@ -19,7 +19,7 @@ namespace PointBlank.Commands
             "PvE"
         };
 
-        public override string Help => "Sets the server to PvE";
+        public override string Help => Translation.PvE_Help;
 
         public override string Usage => Commands[0];
 
@@ -31,7 +31,7 @@ namespace PointBlank.Commands
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
             Provider.isPvP = false;
-            UnturnedChat.SendMessage(executor, "Server is now in PvE mode!", ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, Translation.PvE_Set, ConsoleColor.Green);
         }
     }
 }

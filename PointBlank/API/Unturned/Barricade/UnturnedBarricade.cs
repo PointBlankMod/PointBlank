@@ -140,7 +140,7 @@ namespace PointBlank.API.Unturned.Barricade
                 Damage((ushort)(Health - health));
         }
 
-        /// <summary>
+        /*/// <summary>
         /// Duplicate the barricade
         /// </summary>
         public UnturnedBarricade Duplicate()
@@ -148,7 +148,7 @@ namespace PointBlank.API.Unturned.Barricade
             UnturnedBarricade Dupe = Create(new StructureData(new UBarricade((ushort)(UnturnedServer.Structures.Length + 1), Barricade.health, Barricade.state, Barricade.asset), Data.point, Data.angle_x, Data.angle_y, Data.angle_z, Data.owner, Data.group, Data.objActiveDate));
 
             return Dupe;
-        }
+        }*/
         #endregion
     }
 }

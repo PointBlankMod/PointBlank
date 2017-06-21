@@ -153,5 +153,79 @@ namespace PointBlank.Framework.Translations
         public static string Map_Usage;
         public static string Map_Invalid;
         public static string Map_Set;
+
+        // MaxPlayers command
+        public static string MaxPlayers_Help;
+        public static string MaxPlayers_Usage;
+        public static string MaxPlayers_Invalid;
+        public static string MaxPlayers_TooHigh;
+        public static string MaxPlayers_TooLow;
+        public static string MaxPlayers_Set;
+
+        // Mode command
+        public static string Mode_Help;
+        public static string Mode_Usage;
+        public static string Mode_Invalid;
+        public static string Mode_Set;
+
+        // Modules command
+        public static string Modules_Help;
+        public static string Modules_Title;
+        public static string Modules_Name;
+        public static string Modules_Version;
+
+        // Name command
+        public static string Name_Help;
+        public static string Name_Usage;
+        public static string Name_TooLong;
+        public static string Name_TooShort;
+        public static string Name_Set;
+
+        // Night command
+        public static string Night_Help;
+        public static string Night_Set;
+
+        // Owner command
+        public static string Owner_Help;
+        public static string Owner_Usage;
+        public static string Owner_Set;
+
+        // Password command
+        public static string Password_Help;
+        public static string Password_Usage;
+        public static string Password_Removed;
+        public static string Password_Set;
+
+        // Permit command
+        public static string Permit_Help;
+        public static string Permit_Usage;
+        public static string Permit_Added;
+
+        // Permits command
+        public static string Permits_Help;
+        public static string Permits_List;
+
+        // Port command
+        public static string Port_Help;
+        public static string Port_Usage;
+        public static string Port_Invalid;
+        public static string Port_Set;
+
+        // PvE command
+        public static string PvE_Help;
+        public static string PvE_Set;
+
+        // Quest command
+        public static string Quest_Help;
+        public static string Quest_Usage;
+        public static string Quest_Invalid;
+        public static string Quest_Added;
+
+        // Queue command
+        public static string Queue_Help;
+        public static string Queue_Usage;
+        public static string Queue_Invalid;
+        public static string Queue_TooHigh;
+        public static string Queue_Set;
     }
 }

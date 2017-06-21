@@ -19,9 +19,9 @@ namespace PointBlank.Commands
             "Password"
         };
 
-        public override string Help => "Sets the server password";
+        public override string Help => Translation.Password_Help;
 
-        public override string Usage => Commands[0] + " <password>";
+        public override string Usage => Commands[0] + Translation.Password_Usage;
 
         public override string DefaultPermission => "unturned.commands.server.password";
 
@@ -33,12 +33,12 @@ namespace PointBlank.Commands
             if(args.Length < 1 || args[0].Length < 1)
             {
                 Provider.serverPassword = string.Empty;
-                UnturnedChat.SendMessage(executor, "Removed password from server!", ConsoleColor.Green);
+                UnturnedChat.SendMessage(executor, Translation.Password_Removed, ConsoleColor.Green);
                 return;
             }
 
             Provider.serverPassword = args[0];
-            UnturnedChat.SendMessage(executor, "Password set to " + args[0], ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, string.Format(Translation.Password_Set, args[0]), ConsoleColor.Green);
         }
     }
 }

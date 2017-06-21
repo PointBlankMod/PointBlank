@@ -175,6 +175,67 @@ namespace PointBlank.Framework
                 CommandTranslations.Map_Invalid = "The specified map is invalid!";
                 CommandTranslations.Map_Set = "Server map has been set to {0}";
 
+                CommandTranslations.MaxPlayers_Help = "This sets the maximum number of connections the server is willing to accept.";
+                CommandTranslations.MaxPlayers_Usage = " <max players>";
+                CommandTranslations.MaxPlayers_Invalid = "Invalid number of players!";
+                CommandTranslations.MaxPlayers_TooHigh = "Max player count cannot be higher than {0}!";
+                CommandTranslations.MaxPlayers_TooLow = "Max player count cannot be lower than {0}!";
+                CommandTranslations.MaxPlayers_Set = "Max players set to {0}!";
+
+                CommandTranslations.Mode_Help = "This assigns the difficulty of the server.";
+                CommandTranslations.Mode_Usage = " <difficulty(easy/normal/hard)>";
+                CommandTranslations.Mode_Invalid = "The selected difficulty is invalid!";
+                CommandTranslations.Mode_Set = "The server difficulty has been set to {0}!";
+
+                CommandTranslations.Modules_Help = "This shows a list of the loaded modules.";
+                CommandTranslations.Modules_Title = "Module list";
+                CommandTranslations.Modules_Name = "Name: {0}";
+                CommandTranslations.Modules_Version = "Version: {0}";
+
+                CommandTranslations.Name_Help = "This assigns the name of the server on the server list.";
+                CommandTranslations.Name_Usage = " <name>";
+                CommandTranslations.Name_TooLong = "The server name cannot be longer than {0}!";
+                CommandTranslations.Name_TooShort = "The server name cannot be shorter than {0}!";
+                CommandTranslations.Name_Set = "The server name has been set to {0}";
+
+                CommandTranslations.Night_Help = "This assigns the current time to night.";
+                CommandTranslations.Night_Set = "The server time has been changed to night!";
+
+                CommandTranslations.Owner_Help = "This sets the owner of the server.";
+                CommandTranslations.Owner_Usage = " <owner>";
+                CommandTranslations.Owner_Set = "The server owner has been set to {0}!";
+
+                CommandTranslations.Password_Help = "This assigns the codeword required for entry to the server.";
+                CommandTranslations.Password_Usage = " <password>";
+                CommandTranslations.Password_Removed = "The password has been removed from the server!";
+                CommandTranslations.Password_Set = "The server password has been set to {0}!";
+
+                CommandTranslations.Permit_Help = "This adds the specified player to the list of users allowed to join the server.";
+                CommandTranslations.Permit_Usage = " <player> <tag>";
+                CommandTranslations.Permit_Added = "{0} has been added to the server whitelist!";
+
+                CommandTranslations.Permits_Help = "This shows a list of the current players allowed to join the server.";
+                CommandTranslations.Permits_List = "Permits: {0}";
+
+                CommandTranslations.Port_Help = "This assigns the port of the server. Port + 1 and port + 2 are also used, so remember to open them on the router as well.";
+                CommandTranslations.Port_Usage = " <port>";
+                CommandTranslations.Port_Invalid = "The specified port is invalid!";
+                CommandTranslations.Port_Set = "The server port has been set to {0}!";
+
+                CommandTranslations.PvE_Help = "This allows player versus environment combat.";
+                CommandTranslations.PvE_Set = "The server has been now set to PvE!";
+
+                CommandTranslations.Quest_Help = "This gives a player a flag.";
+                CommandTranslations.Quest_Usage = " <quest> [player]";
+                CommandTranslations.Quest_Invalid = "The specified quest ID is invalid!";
+                CommandTranslations.Quest_Added = "Quest {0} has been added to {1}!";
+
+                CommandTranslations.Queue_Help = "This sets the maximum number of queued connections the server is willing to hold on to.";
+                CommandTranslations.Queue_Usage = " <queue>";
+                CommandTranslations.Queue_Invalid = "The specified queue is invalid!";
+                CommandTranslations.Queue_TooHigh = "The queue number cannot be higher than {0}!";
+                CommandTranslations.Queue_Set = "The server queue has been set to {0}!";
+
                 Save();
             }
             else
@@ -299,6 +360,67 @@ namespace PointBlank.Framework
                 CommandTranslations.Map_Usage = (string)JCommand.Document["Map_Usage"];
                 CommandTranslations.Map_Invalid = (string)JCommand.Document["Map_Invalid"];
                 CommandTranslations.Map_Set = (string)JCommand.Document["Map_Set"];
+
+                CommandTranslations.MaxPlayers_Help = (string)JCommand.Document["MaxPlayers_Help"];
+                CommandTranslations.MaxPlayers_Usage = (string)JCommand.Document["MaxPlayers_Usage"];
+                CommandTranslations.MaxPlayers_Invalid = (string)JCommand.Document["MaxPlayers_Invalid"];
+                CommandTranslations.MaxPlayers_TooHigh = (string)JCommand.Document["MaxPlayers_TooHigh"];
+                CommandTranslations.MaxPlayers_TooLow = (string)JCommand.Document["MaxPlayers_TooLow"];
+                CommandTranslations.MaxPlayers_Set = (string)JCommand.Document["MaxPlayers_Set"];
+
+                CommandTranslations.Mode_Help = (string)JCommand.Document["Mode_Help"];
+                CommandTranslations.Mode_Usage = (string)JCommand.Document["Mode_Usage"];
+                CommandTranslations.Mode_Invalid = (string)JCommand.Document["Mode_Invalid"];
+                CommandTranslations.Mode_Set = (string)JCommand.Document["Mode_Set"];
+
+                CommandTranslations.Modules_Help = (string)JCommand.Document["Modules_Help"];
+                CommandTranslations.Modules_Title = (string)JCommand.Document["Modules_Title"];
+                CommandTranslations.Modules_Name = (string)JCommand.Document["Modules_Name"];
+                CommandTranslations.Modules_Version = (string)JCommand.Document["Modules_Version"];
+
+                CommandTranslations.Name_Help = (string)JCommand.Document["Name_Help"];
+                CommandTranslations.Name_Usage = (string)JCommand.Document["Name_Usage"];
+                CommandTranslations.Name_TooLong = (string)JCommand.Document["Name_TooLong"];
+                CommandTranslations.Name_TooShort = (string)JCommand.Document["Name_TooShort"];
+                CommandTranslations.Name_Set = (string)JCommand.Document["Name_Set"];
+
+                CommandTranslations.Night_Help = (string)JCommand.Document["Night_Help"];
+                CommandTranslations.Night_Set = (string)JCommand.Document["Night_Set"];
+
+                CommandTranslations.Owner_Help = (string)JCommand.Document["Owner_Help"];
+                CommandTranslations.Owner_Usage = (string)JCommand.Document["Owner_Usage"];
+                CommandTranslations.Owner_Set = (string)JCommand.Document["Owner_Set"];
+
+                CommandTranslations.Password_Help = (string)JCommand.Document["Password_Help"];
+                CommandTranslations.Password_Usage = (string)JCommand.Document["Password_Usage"];
+                CommandTranslations.Password_Removed = (string)JCommand.Document["Password_Removed"];
+                CommandTranslations.Password_Set = (string)JCommand.Document["Password_Set"];
+
+                CommandTranslations.Permit_Help = (string)JCommand.Document["Permit_Help"];
+                CommandTranslations.Permit_Usage = (string)JCommand.Document["Permit_Usage"];
+                CommandTranslations.Permit_Added = (string)JCommand.Document["Permit_Added"];
+
+                CommandTranslations.Permits_Help = (string)JCommand.Document["Permits_Help"];
+                CommandTranslations.Permits_List = (string)JCommand.Document["Permits_List"];
+
+                CommandTranslations.Port_Help = (string)JCommand.Document["Port_Help"];
+                CommandTranslations.Port_Usage = (string)JCommand.Document["Port_Usage"];
+                CommandTranslations.Port_Invalid = (string)JCommand.Document["Port_Invalid"];
+                CommandTranslations.Port_Set = (string)JCommand.Document["Port_Set"];
+
+                CommandTranslations.PvE_Help = (string)JCommand.Document["PvE_Help"];
+                CommandTranslations.PvE_Set = (string)JCommand.Document["PvE_Set"];
+
+                CommandTranslations.Quest_Help = (string)JCommand.Document["Quest_Help"];
+                CommandTranslations.Quest_Usage = (string)JCommand.Document["Quest_Usage"];
+                CommandTranslations.Quest_Invalid = (string)JCommand.Document["Quest_Invalid"];
+                CommandTranslations.Quest_Added = (string)JCommand.Document["Quest_Added"];
+
+                CommandTranslations.Queue_Help = (string)JCommand.Document["Queue_Help"];
+                CommandTranslations.Queue_Usage = (string)JCommand.Document["Queue_Usage"];
+                CommandTranslations.Queue_Invalid = (string)JCommand.Document["Queue_Invalid"];
+                CommandTranslations.Queue_TooHigh = (string)JCommand.Document["Queue_TooHigh"];
+                CommandTranslations.Queue_Set = (string)JCommand.Document["Queue_Set"];
             }
         }
 
@@ -429,6 +551,67 @@ namespace PointBlank.Framework
             SetCommand("Map_Usage", CommandTranslations.Map_Usage);
             SetCommand("Map_Invalid", CommandTranslations.Map_Invalid);
             SetCommand("Map_Set", CommandTranslations.Map_Set);
+
+            SetCommand("MaxPlayers_Help", CommandTranslations.MaxPlayers_Help);
+            SetCommand("MaxPlayers_Usage", CommandTranslations.MaxPlayers_Usage);
+            SetCommand("MaxPlayers_Invalid", CommandTranslations.MaxPlayers_Invalid);
+            SetCommand("MaxPlayers_TooHigh", CommandTranslations.MaxPlayers_TooHigh);
+            SetCommand("MaxPlayers_TooLow", CommandTranslations.MaxPlayers_TooLow);
+            SetCommand("MaxPlayers_Set", CommandTranslations.MaxPlayers_Set);
+
+            SetCommand("Mode_Help", CommandTranslations.Mode_Help);
+            SetCommand("Mode_Usage", CommandTranslations.Mode_Usage);
+            SetCommand("Mode_Invalid", CommandTranslations.Mode_Invalid);
+            SetCommand("Mode_Set", CommandTranslations.Mode_Set);
+
+            SetCommand("Modules_Help", CommandTranslations.Modules_Help);
+            SetCommand("Modules_Title", CommandTranslations.Modules_Title);
+            SetCommand("Modules_Name", CommandTranslations.Modules_Name);
+            SetCommand("Modules_Version", CommandTranslations.Modules_Version);
+
+            SetCommand("Name_Help", CommandTranslations.Name_Help);
+            SetCommand("Name_Usage", CommandTranslations.Name_Usage);
+            SetCommand("Name_TooLong", CommandTranslations.Name_TooLong);
+            SetCommand("Name_TooShort", CommandTranslations.Name_TooShort);
+            SetCommand("Name_Set", CommandTranslations.Name_Set);
+
+            SetCommand("Night_Help", CommandTranslations.Night_Help);
+            SetCommand("Night_Set", CommandTranslations.Night_Set);
+
+            SetCommand("Owner_Help", CommandTranslations.Owner_Help);
+            SetCommand("Owner_Usage", CommandTranslations.Owner_Usage);
+            SetCommand("Owner_Set", CommandTranslations.Owner_Set);
+
+            SetCommand("Password_Help", CommandTranslations.Password_Help);
+            SetCommand("Password_Usage", CommandTranslations.Password_Usage);
+            SetCommand("Password_Removed", CommandTranslations.Password_Removed);
+            SetCommand("Password_Set", CommandTranslations.Password_Set);
+
+            SetCommand("Permit_Help", CommandTranslations.Permit_Help);
+            SetCommand("Permit_Usage", CommandTranslations.Permit_Usage);
+            SetCommand("Permit_Added", CommandTranslations.Permit_Added);
+
+            SetCommand("Permits_Help", CommandTranslations.Permits_Help);
+            SetCommand("Permits_List", CommandTranslations.Permits_List);
+
+            SetCommand("Port_Help", CommandTranslations.Port_Help);
+            SetCommand("Port_Usage", CommandTranslations.Port_Usage);
+            SetCommand("Port_Invalid", CommandTranslations.Port_Invalid);
+            SetCommand("Port_Set", CommandTranslations.Port_Set);
+
+            SetCommand("PvE_Help", CommandTranslations.PvE_Help);
+            SetCommand("PvE_Set", CommandTranslations.PvE_Set);
+
+            SetCommand("Quest_Help", CommandTranslations.Quest_Help);
+            SetCommand("Quest_Usage", CommandTranslations.Quest_Usage);
+            SetCommand("Quest_Invalid", CommandTranslations.Quest_Invalid);
+            SetCommand("Quest_Added", CommandTranslations.Quest_Added);
+
+            SetCommand("Queue_Help", CommandTranslations.Queue_Help);
+            SetCommand("Queue_Usage", CommandTranslations.Queue_Usage);
+            SetCommand("Queue_Invalid", CommandTranslations.Queue_Invalid);
+            SetCommand("Queue_TooHigh", CommandTranslations.Queue_TooHigh);
+            SetCommand("Queue_Set", CommandTranslations.Queue_Set);
 
             UniCommand.Save();
         }

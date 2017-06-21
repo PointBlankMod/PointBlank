@@ -24,9 +24,9 @@ namespace PointBlank.Commands
             "Name"
         };
 
-        public override string Help => "Sets the server name";
+        public override string Help => Translation.Name_Help;
 
-        public override string Usage => Commands[0] + " <name>";
+        public override string Usage => Commands[0] + Translation.Name_Usage;
 
         public override string DefaultPermission => "unturned.commands.server.name";
         #endregion
@@ -37,17 +37,17 @@ namespace PointBlank.Commands
 
             if(name.Length > MAX_LENGTH)
             {
-                UnturnedChat.SendMessage(executor, "The name is too long!", ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, string.Format(Translation.Name_TooLong, MAX_LENGTH), ConsoleColor.Red);
                 return;
             }
             else if(name.Length < MIN_LENGTH)
             {
-                UnturnedChat.SendMessage(executor, "The name is too short!", ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, string.Format(Translation.Name_TooShort, MIN_LENGTH), ConsoleColor.Red);
                 return;
             }
 
             Provider.serverName = name;
-            UnturnedChat.SendMessage(executor, "Server name set to " + name);
+            UnturnedChat.SendMessage(executor, string.Format(Translation.Name_Set, name), ConsoleColor.Green);
         }
     }
 }

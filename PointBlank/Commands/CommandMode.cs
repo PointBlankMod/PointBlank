@@ -16,12 +16,12 @@ namespace PointBlank.Commands
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "mode"
+            "Mode"
         };
 
-        public override string Help => "Sets the difficulty of the server";
+        public override string Help => Translation.Mode_Help;
 
-        public override string Usage => Commands[0] + " <difficulty(easy/normal/hard)>";
+        public override string Usage => Commands[0] + Translation.Mode_Usage;
 
         public override string DefaultPermission => "unturned.commands.server.mode";
 
@@ -38,11 +38,11 @@ namespace PointBlank.Commands
                 Provider.mode = EGameMode.HARD;
             else
             {
-                UnturnedChat.SendMessage(executor, "Invalid difficulty!", ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translation.Mode_Invalid, ConsoleColor.Red);
                 return;
             }
 
-            UnturnedChat.SendMessage(executor, "Difficulty set to " + Provider.mode.ToString(), ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, string.Format(Translation.Mode_Set, Provider.mode), ConsoleColor.Green);
         }
     }
 }

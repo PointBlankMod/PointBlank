@@ -21,12 +21,12 @@ namespace PointBlank.Commands
         #region Properties
         public override string[] DefaultCommands => new string[]
         {
-            "maxplayers"
+            "MaxPlayers"
         };
 
-        public override string Help => "Sets the max amount of players that can join";
+        public override string Help => Translation.MaxPlayers_Help;
 
-        public override string Usage => Commands[0] + " <max players>";
+        public override string Usage => Commands[0] + Translation.MaxPlayers_Usage;
 
         public override string DefaultPermission => "unturned.commands.server.maxplayers";
         #endregion
@@ -35,22 +35,23 @@ namespace PointBlank.Commands
         {
             if(!byte.TryParse(args[0], out byte max))
             {
-                UnturnedChat.SendMessage(executor, "Invalid number!", ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translation.MaxPlayers_Invalid, ConsoleColor.Red);
                 return;
             }
 
             if(max > MAX_NUMBER)
             {
-                UnturnedChat.SendMessage(executor, "Number can't be higher than " + MAX_NUMBER, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, string.Format(Translation.MaxPlayers_TooHigh, MAX_NUMBER), ConsoleColor.Red);
                 return;
             }
             else if(max < MIN_NUMBER)
             {
-                UnturnedChat.SendMessage(executor, "Number can't be lower than " + MIN_NUMBER, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, string.Format(Translation.MaxPlayers_TooLow, MIN_NUMBER), ConsoleColor.Red);
                 return;
             }
 
             Provider.maxPlayers = max;
+            UnturnedChat.SendMessage(executor, string.Format(Translation.MaxPlayers_Set, max), ConsoleColor.Green);
         }
     }
 }

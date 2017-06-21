@@ -19,7 +19,7 @@ namespace PointBlank.Commands
             "Permits"
         };
 
-        public override string Help => "Shows whitelisted IDs";
+        public override string Help => Translation.Permits_Help;
 
         public override string Usage => Commands[0];
 
@@ -28,7 +28,7 @@ namespace PointBlank.Commands
 
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
-            UnturnedChat.SendMessage(executor, "Permits: " + string.Join(",", SteamWhitelist.list.Select(a => a.steamID.ToString()).ToArray()));
+            UnturnedChat.SendMessage(executor, string.Format(Translation.Permits_List, string.Join(",", SteamWhitelist.list.Select(a => a.steamID.ToString()).ToArray())), ConsoleColor.Green);
         }
     }
 }

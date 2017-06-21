@@ -19,7 +19,7 @@ namespace PointBlank.Commands
             "Night"
         };
 
-        public override string Help => "Sets the time to night";
+        public override string Help => Translation.Night_Help;
 
         public override string Usage => Commands[0];
 
@@ -30,17 +30,17 @@ namespace PointBlank.Commands
         {
             if (Provider.isServer && Level.info.type == ELevelType.ARENA)
             {
-                UnturnedChat.SendMessage(executor, "Can't set time on arena!", ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translation.Base_NoArenaTime, ConsoleColor.Red);
                 return;
             }
             if (Provider.isServer && Level.info.type == ELevelType.HORDE)
             {
-                UnturnedChat.SendMessage(executor, "Can't set time on horde!", ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translation.Base_NoHordeTime, ConsoleColor.Red);
                 return;
             }
 
             LightingManager.time = (uint)(LightingManager.cycle * (LevelLighting.bias + LevelLighting.transition));
-            UnturnedChat.SendMessage(executor, "Time set to night!", ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, Translation.Night_Set, ConsoleColor.Green);
         }
     }
 }

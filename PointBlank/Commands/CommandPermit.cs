@@ -20,9 +20,9 @@ namespace PointBlank.Commands
             "Permit"
         };
 
-        public override string Help => "Whitelists a player";
+        public override string Help => Translation.Permit_Help;
 
-        public override string Usage => Commands[0] + " <player> <tag>";
+        public override string Usage => Commands[0] + Translation.Permit_Usage;
 
         public override string DefaultPermission => "unturned.commands.admin.permit";
         #endregion
@@ -31,12 +31,12 @@ namespace PointBlank.Commands
         {
             if(!PlayerTool.tryGetSteamID(args[0], out CSteamID id))
             {
-                UnturnedChat.SendMessage(executor, "Invalid ID!", ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translation.Base_InvalidPlayer, ConsoleColor.Red);
                 return;
             }
 
             SteamWhitelist.whitelist(id, args[1], (executor == null ? CSteamID.Nil : executor.SteamID));
-            UnturnedChat.SendMessage(executor, args[0] + " added to whitelist!", ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, string.Format(Translation.Permit_Added, id), ConsoleColor.Green);
         }
     }
 }

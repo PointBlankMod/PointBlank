@@ -23,9 +23,9 @@ namespace PointBlank.Commands
             "Queue"
         };
 
-        public override string Help => "Sets the maximum queue";
+        public override string Help => Translation.Queue_Help;
 
-        public override string Usage => Commands[0] + " <queue>";
+        public override string Usage => Commands[0] + Translation.Queue_Usage;
 
         public override string DefaultPermission => "unturned.commands.server.queue";
         #endregion
@@ -34,17 +34,17 @@ namespace PointBlank.Commands
         {
             if(!byte.TryParse(args[0], out byte queue))
             {
-                UnturnedChat.SendMessage(executor, "Invalid queue number!", ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translation.Queue_Invalid, ConsoleColor.Red);
                 return;
             }
             if(queue > MAX_NUMBER)
             {
-                UnturnedChat.SendMessage(executor, "Queue too high!", ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, string.Format(Translation.Queue_TooHigh, MAX_NUMBER), ConsoleColor.Red);
                 return;
             }
 
             Provider.queueSize = queue;
-            UnturnedChat.SendMessage(executor, "Queue set to " + queue, ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, string.Format(Translation.Queue_Set, queue), ConsoleColor.Green);
         }
     }
 }
