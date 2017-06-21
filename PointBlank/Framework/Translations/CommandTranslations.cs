@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,9 +25,6 @@ namespace PointBlank.Framework.Translations
         // Airdrop command
         public static string Airdrop_Help;
         public static string Airdrop_Success;
-
-        // SOwner command
-        public static string SOwner_Help;
 
         // Ban command
         public static string Ban_Help;
