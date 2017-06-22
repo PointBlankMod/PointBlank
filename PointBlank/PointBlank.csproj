@@ -146,6 +146,7 @@
     <Compile Include="Commands\CommandPassword.cs" />
     <Compile Include="Commands\CommandPermit.cs" />
     <Compile Include="Commands\CommandPermits.cs" />
+    <Compile Include="Commands\CommandPlayer.cs" />
     <Compile Include="Commands\CommandPort.cs" />
     <Compile Include="Commands\CommandPvE.cs" />
     <Compile Include="Commands\CommandQuest.cs" />

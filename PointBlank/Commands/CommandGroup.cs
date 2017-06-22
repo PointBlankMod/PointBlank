@@ -22,7 +22,7 @@ namespace PointBlank.Commands
 
         public override string Help => Translation.Group_Help;
 
-        public override string Usage => Translation.Group_Usage;
+        public override string Usage => Commands[0] + Translation.Group_Usage;
 
         public override string DefaultPermission => "pointblank.commands.admin.group";
 
@@ -31,31 +31,31 @@ namespace PointBlank.Commands
 
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
-            if(args[0].ToLower() == "list")
+            if(args[0].ToLower() == Translation.Group_Commands_List.ToLower())
             {
                 UnturnedChat.SendMessage(executor, string.Join(",", GroupManager.Groups.Select(a => a.Name).ToArray()), ConsoleColor.Green);
             }
-            else if(args[0].ToLower() == "ids")
+            else if(args[0].ToLower() == Translation.Group_Commands_IDs.ToLower())
             {
                 UnturnedChat.SendMessage(executor, string.Join(",", GroupManager.Groups.Select(a => a.ID).ToArray()), ConsoleColor.Green);
             }
-            else if(args[0].ToLower() == "help")
+            else if(args[0].ToLower() == Translation.Group_Commands_Help.ToLower())
             {
-                UnturnedChat.SendMessage(executor, Translation.Group_Usage_Add, ConsoleColor.Green);
-                UnturnedChat.SendMessage(executor, Translation.Group_Usage_IDs, ConsoleColor.Green);
-                UnturnedChat.SendMessage(executor, Translation.Group_Usage_List, ConsoleColor.Green);
-                UnturnedChat.SendMessage(executor, Translation.Group_Usage_Permissions, ConsoleColor.Green);
-                UnturnedChat.SendMessage(executor, Translation.Group_Usage_Remove, ConsoleColor.Green);
+                UnturnedChat.SendMessage(executor, Commands[0] + string.Format(Translation.Group_Usage_Add, Translation.Group_Commands_Add), ConsoleColor.Green);
+                UnturnedChat.SendMessage(executor, Commands[0] + string.Format(Translation.Group_Usage_IDs, Translation.Group_Commands_IDs), ConsoleColor.Green);
+                UnturnedChat.SendMessage(executor, Commands[0] + string.Format(Translation.Group_Usage_List, Translation.Group_Commands_List), ConsoleColor.Green);
+                UnturnedChat.SendMessage(executor, Commands[0] + string.Format(Translation.Group_Usage_Permissions, Translation.Group_Commands_Permissions), ConsoleColor.Green);
+                UnturnedChat.SendMessage(executor, Commands[0] + string.Format(Translation.Group_Usage_Remove, Translation.Group_Commands_Remove), ConsoleColor.Green);
             }
-            else if(args[0].ToLower() == "permissions")
+            else if(args[0].ToLower() == Translation.Group_Commands_Permissions.ToLower())
             {
                 Permissions(executor, args);
             }
-            else if(args[0].ToLower() == "add")
+            else if(args[0].ToLower() == Translation.Group_Commands_Add.ToLower())
             {
                 Add(executor, args);
             }
-            else if(args[0].ToLower() == "remove")
+            else if(args[0].ToLower() == Translation.Group_Commands_Remove.ToLower())
             {
                 Remove(executor, args);
             }

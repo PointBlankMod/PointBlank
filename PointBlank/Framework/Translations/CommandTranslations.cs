@@ -344,5 +344,21 @@ namespace PointBlank.Framework.Translations
         public static string Group_Usage_Permissions;
         public static string Group_Added;
         public static string Group_Removed;
+        public static string Group_Commands_List;
+        public static string Group_Commands_IDs;
+        public static string Group_Commands_Help;
+        public static string Group_Commands_Permissions;
+        public static string Group_Commands_Add;
+        public static string Group_Commands_Remove;
+
+        // Player command
+        public static string Player_Help;
+        public static string Player_Usage;
+        public static string Player_Permissions;
+        public static string Player_Group;
+        public static string Player_Group_Add;
+        public static string Player_Group_Remove;
+        public static string Player_Group_Added;
+        public static string Player_Group_Removed;
     }
 }
