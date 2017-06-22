@@ -52,6 +52,7 @@ namespace PointBlank.Framework
         #region Functions
         public static void Load()
         {
+            #region Command Translations
             if (UniCommand.CreatedNew)
             {
                 CommandTranslations.Base_InvalidPlayer = "Invalid player or player ID!";
@@ -586,6 +587,7 @@ namespace PointBlank.Framework
                 CommandTranslations.Whitelisted_Help = (string)JCommand.Document["Whitelisted_Help"];
                 CommandTranslations.Whitelisted_Set = (string)JCommand.Document["Whitelisted_Set"];
             }
+            #endregion
         }
 
         public static void Reload()
@@ -595,6 +597,7 @@ namespace PointBlank.Framework
 
         public static void Save()
         {
+            #region Command Translations
             SetCommand("Base_InvalidPlayer", CommandTranslations.Base_InvalidPlayer);
             SetCommand("Base_InvalidPlayer", CommandTranslations.Base_InvalidPlayer);
             SetCommand("Base_InvalidPlayer", CommandTranslations.Base_InvalidPlayer);
@@ -858,6 +861,7 @@ namespace PointBlank.Framework
 
             SetCommand("Whitelisted_Help", CommandTranslations.Whitelisted_Help);
             SetCommand("Whitelisted_Set", CommandTranslations.Whitelisted_Set);
+            #endregion
 
             UniCommand.Save();
         }
