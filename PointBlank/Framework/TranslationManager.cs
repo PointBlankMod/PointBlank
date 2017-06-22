@@ -12,17 +12,14 @@ namespace PointBlank.Framework
     {
         #region Info
         public static readonly string CommandPath = ServerInfo.TranslationsPath + "/Commands";
-        public static readonly string PointBlankPath = ServerInfo.TranslationsPath + "/PointBlank";
         public static readonly string ServicePath = ServerInfo.TranslationsPath + "/Services";
         #endregion
 
         #region Properties
         public static UniversalData UniCommand { get; private set; }
-        public static UniversalData UniPointBlank { get; private set; }
         public static UniversalData UniService { get; private set; }
 
         public static JsonData JCommand { get; private set; }
-        public static JsonData JPointBlank { get; private set; }
         public static JsonData JService { get; private set; }
         #endregion
 
@@ -30,12 +27,10 @@ namespace PointBlank.Framework
         {
             // Set universal data
             UniCommand = new UniversalData(CommandPath);
-            UniPointBlank = new UniversalData(PointBlankPath);
             UniService = new UniversalData(ServicePath);
 
             // Set the json data
             JCommand = UniCommand.GetData(EDataType.JSON) as JsonData;
-            JPointBlank = UniPointBlank.GetData(EDataType.JSON) as JsonData;
             JService = UniService.GetData(EDataType.JSON) as JsonData;
         }
 
@@ -46,6 +41,14 @@ namespace PointBlank.Framework
                 JCommand.Document[key] = val;
             else
                 JCommand.Document.Add(key, val);
+        }
+
+        private static void SetService(string key, string val)
+        {
+            if (JService.Document[key] != null)
+                JService.Document[key] = val;
+            else
+                JService.Document.Add(key, val);
         }
         #endregion
 
@@ -588,6 +591,33 @@ namespace PointBlank.Framework
                 CommandTranslations.Whitelisted_Set = (string)JCommand.Document["Whitelisted_Set"];
             }
             #endregion
+
+            #region Service Translations
+            if (UniService.CreatedNew)
+            {
+                ServiceTranslations.CommandManager_Invalid = "Invalid command! Use the help command to get the list of commands!";
+                ServiceTranslations.CommandManager_NotEnoughPermissions = "You do not have enough permissions to execute this command!";
+
+                ServiceTranslations.CommandWrapper_Arguments = "Not enough arguments!";
+                ServiceTranslations.CommandWrapper_Cooldown = "This command currently has a cooldown!";
+                ServiceTranslations.CommandWrapper_NotConsole = "This command can only be executed from the console!";
+                ServiceTranslations.CommandWrapper_NotPlayer = "This command can only be executed by a player!";
+                ServiceTranslations.CommandWrapper_NotRunning = "This command can only be executed while the server is running!";
+                ServiceTranslations.CommandWrapper_Running = "This command can only be executed while the server is loading!";
+            }
+            else
+            {
+                ServiceTranslations.CommandManager_Invalid = (string)JService.Document["CommandManager_Invalid"];
+                ServiceTranslations.CommandManager_NotEnoughPermissions = (string)JService.Document["CommandManager_NotEnoughPermissions"];
+
+                ServiceTranslations.CommandWrapper_Arguments = (string)JService.Document["CommandWrapper_Arguments"];
+                ServiceTranslations.CommandWrapper_Cooldown = (string)JService.Document["CommandWrapper_Cooldown"];
+                ServiceTranslations.CommandWrapper_NotConsole = (string)JService.Document["CommandWrapper_NotConsole"];
+                ServiceTranslations.CommandWrapper_NotPlayer = (string)JService.Document["CommandWrapper_NotPlayer"];
+                ServiceTranslations.CommandWrapper_NotRunning = (string)JService.Document["CommandWrapper_NotRunning"];
+                ServiceTranslations.CommandWrapper_Running = (string)JService.Document["CommandWrapper_Running"];
+            }
+            #endregion
         }
 
         public static void Reload()
@@ -863,7 +893,20 @@ namespace PointBlank.Framework
             SetCommand("Whitelisted_Set", CommandTranslations.Whitelisted_Set);
             #endregion
 
+            #region Service Translations
+            SetService("CommandManager_Invalid", ServiceTranslations.CommandManager_Invalid);
+            SetService("CommandManager_NotEnoughPermissions", ServiceTranslations.CommandManager_NotEnoughPermissions);
+
+            SetService("CommandWrapper_Arguments", ServiceTranslations.CommandWrapper_Arguments);
+            SetService("CommandWrapper_Cooldown", ServiceTranslations.CommandWrapper_Cooldown);
+            SetService("CommandWrapper_NotConsole", ServiceTranslations.CommandWrapper_NotConsole);
+            SetService("CommandWrapper_NotPlayer", ServiceTranslations.CommandWrapper_NotPlayer);
+            SetService("CommandWrapper_NotRunning", ServiceTranslations.CommandWrapper_NotRunning);
+            SetService("CommandWrapper_Running", ServiceTranslations.CommandWrapper_Running);
+            #endregion
+
             UniCommand.Save();
+            UniService.Save();
         }
         #endregion
     }

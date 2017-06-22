@@ -11,6 +11,7 @@ using PointBlank.API.Unturned.Player;
 using Newtonsoft.Json.Linq;
 using SDG.Unturned;
 using UnityEngine;
+using PointBlank.Framework.Translations;
 
 namespace PointBlank.Services.CommandManager
 {
@@ -92,32 +93,32 @@ namespace PointBlank.Services.CommandManager
             {
                 if (CommandClass.AllowedServerState == EAllowedServerState.LOADING && Provider.isServer)
                 {
-                    CM.SendMessage(executor, "The command can't be execute while the server is running!", ConsoleColor.Red);
+                    CM.SendMessage(executor, ServiceTranslations.CommandWrapper_Running, ConsoleColor.Red);
                     return;
                 }
                 if (CommandClass.AllowedServerState == EAllowedServerState.RUNNING && !Provider.isServer)
                 {
-                    CM.SendMessage(executor, "The command can't be execute while the server is not running!", ConsoleColor.Red);
+                    CM.SendMessage(executor, ServiceTranslations.CommandWrapper_NotRunning, ConsoleColor.Red);
                     return;
                 }
                 if (CommandClass.AllowedCaller == EAllowedCaller.SERVER && executor != null)
                 {
-                    executor.SendMessage("The command can only be executed from the console!", Color.red);
+                    executor.SendMessage(ServiceTranslations.CommandWrapper_NotConsole, Color.red);
                     return;
                 }
                 if (CommandClass.AllowedCaller == EAllowedCaller.PLAYER && executor == null)
                 {
-                    executor.SendMessage("The command can only be executed by a player!", Color.red);
+                    executor.SendMessage(ServiceTranslations.CommandWrapper_NotPlayer, Color.red);
                     return;
                 }
                 if (Attribute.MinParams > args.Length)
                 {
-                    CM.SendMessage(executor, "Not enough arguments!", ConsoleColor.Red);
+                    CM.SendMessage(executor, ServiceTranslations.CommandWrapper_Arguments, ConsoleColor.Red);
                     return;
                 }
                 if(executor != null && executor.HasCooldown(CommandClass))
                 {
-                    executor.SendMessage("The command currently has a cooldown!", Color.red);
+                    executor.SendMessage(ServiceTranslations.CommandWrapper_Cooldown, Color.red);
                     return;
                 }
                 bool shouldExecute = true;

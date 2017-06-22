@@ -12,6 +12,7 @@ using PointBlank.API.DataManagment;
 using PointBlank.API.Unturned.Player;
 using Newtonsoft.Json.Linq;
 using PointBlank.Services.PluginManager;
+using PointBlank.Framework.Translations;
 using UnityEngine;
 using CMD = PointBlank.API.Commands.PointBlankCommand;
 
@@ -186,7 +187,7 @@ namespace PointBlank.Services.CommandManager
 
             if(wrapper == null || !wrapper.Enabled)
             {
-                CommandWindow.Log("Invalid command! Do help for the list of commands", ConsoleColor.Red);
+                CommandWindow.Log(ServiceTranslations.CommandManager_Invalid, ConsoleColor.Red);
                 return;
             }
             if (info.Length > 1)
@@ -210,12 +211,12 @@ namespace PointBlank.Services.CommandManager
 
                 if(wrapper == null || !wrapper.Enabled)
                 {
-                    ply.SendMessage("Invalid command! Do /help for the list of commands", Color.red);
+                    ply.SendMessage(ServiceTranslations.CommandManager_Invalid, Color.red);
                     return;
                 }
                 if (!ply.HasPermission(wrapper.Permission))
                 {
-                    ply.SendMessage("Not enough permissions!", Color.red);
+                    ply.SendMessage(ServiceTranslations.CommandManager_NotEnoughPermissions, Color.red);
                     return;
                 }
                 if (info.Length > 1)

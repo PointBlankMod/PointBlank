@@ -184,7 +184,6 @@
     <Compile Include="Framework\ServiceManager.cs" />
     <Compile Include="Framework\TranslationManager.cs" />
     <Compile Include="Framework\Translations\CommandTranslations.cs" />
-    <Compile Include="Framework\Translations\PointBlankTranslations.cs" />
     <Compile Include="Framework\Translations\ServiceTranslations.cs" />
     <Compile Include="Framework\Wrappers\ServiceWrapper.cs" />
     <Compile Include="PointBlank.cs" />
