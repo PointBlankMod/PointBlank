@@ -77,6 +77,28 @@ namespace PointBlank.API.Groups
             this.Color = color;
         }
 
+        #region Static Functions
+        /// <summary>
+        /// Finds and returns the instance of a group by ID
+        /// </summary>
+        /// <param name="ID">The ID to query</param>
+        /// <returns>The instance of the group the ID belongs to or null if not found</returns>
+        public static Group Find(string ID)
+        {
+            return GroupManager.Groups.FirstOrDefault(a => a.ID == ID);
+        }
+
+        /// <summary>
+        /// Checks if the specified group ID is already in use
+        /// </summary>
+        /// <param name="ID">The group ID to check for</param>
+        /// <returns>If the group ID is already in use</returns>
+        public static bool Exists(string ID)
+        {
+            return (Find(ID) != null);
+        }
+        #endregion
+
         #region Public Functions
         /// <summary>
         /// Add a permission to the group

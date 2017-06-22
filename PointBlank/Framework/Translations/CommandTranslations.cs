@@ -327,5 +327,22 @@ namespace PointBlank.Framework.Translations
         // Whitelisted command
         public static string Whitelisted_Help;
         public static string Whitelisted_Set;
+
+        // -------------------------------------------------------- POINTBLANK COMMANDS ----------------------------------------------------------------------- //
+        // Base translations
+        public static string Base_NotEnoughArgs;
+
+        // Group command
+        public static string Group_Help;
+        public static string Group_Usage;
+        public static string Group_NotFound;
+        public static string Group_Exists;
+        public static string Group_Usage_List;
+        public static string Group_Usage_IDs;
+        public static string Group_Usage_Add;
+        public static string Group_Usage_Remove;
+        public static string Group_Usage_Permissions;
+        public static string Group_Added;
+        public static string Group_Removed;
     }
 }

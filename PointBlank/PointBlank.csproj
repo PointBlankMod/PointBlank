@@ -129,6 +129,7 @@
     <Compile Include="Commands\CommandFlag.cs" />
     <Compile Include="Commands\CommandGameMode.cs" />
     <Compile Include="Commands\CommandGold.cs" />
+    <Compile Include="Commands\CommandGroup.cs" />
     <Compile Include="Commands\CommandHelp.cs" />
     <Compile Include="Commands\CommandHideAdmins.cs" />
     <Compile Include="Commands\CommandItem.cs" />
@@ -202,6 +203,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="API\Discord\" />
+    <Folder Include="API\Paypal\" />
     <Folder Include="API\Unturned\Item\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

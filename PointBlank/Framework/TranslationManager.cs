@@ -592,6 +592,41 @@ namespace PointBlank.Framework
             }
             #endregion
 
+            #region PointBlank Command Translations
+            if (UniCommand.CreatedNew)
+            {
+                CommandTranslations.Base_NotEnoughArgs = "Not enough arguments specified!";
+
+                CommandTranslations.Group_Help = "This allows you to get information on groups or modify them.";
+                CommandTranslations.Group_Usage = " help";
+                CommandTranslations.Group_NotFound = "The specified group has not been found!";
+                CommandTranslations.Group_Exists = "The specified group ID is already in use!";
+                CommandTranslations.Group_Usage_Add = " add <ID> <Name>";
+                CommandTranslations.Group_Usage_IDs = " IDs";
+                CommandTranslations.Group_Usage_List = " List";
+                CommandTranslations.Group_Usage_Permissions = " Permissions <ID>";
+                CommandTranslations.Group_Usage_Remove = " Remove <ID>";
+                CommandTranslations.Group_Added = "The group has been added!";
+                CommandTranslations.Group_Removed = "The group has been removed!";
+            }
+            else
+            {
+                CommandTranslations.Base_NotEnoughArgs = (string)JCommand.Document["Base_NotEnoughArgs"];
+
+                CommandTranslations.Group_Help = (string)JCommand.Document["Group_Help"];
+                CommandTranslations.Group_Usage = (string)JCommand.Document["Group_Usage"];
+                CommandTranslations.Group_NotFound = (string)JCommand.Document["Group_NotFound"];
+                CommandTranslations.Group_Exists = (string)JCommand.Document["Group_Exists"];
+                CommandTranslations.Group_Usage_Add = (string)JCommand.Document["Group_Usage_Add"];
+                CommandTranslations.Group_Usage_IDs = (string)JCommand.Document["Group_Usage_IDs"];
+                CommandTranslations.Group_Usage_List = (string)JCommand.Document["Group_Usage_List"];
+                CommandTranslations.Group_Usage_Permissions = (string)JCommand.Document["Group_Usage_Permissions"];
+                CommandTranslations.Group_Usage_Remove = (string)JCommand.Document["Group_Usage_Remove"];
+                CommandTranslations.Group_Added = (string)JCommand.Document["Group_Added"];
+                CommandTranslations.Group_Removed = (string)JCommand.Document["Group_Removed"];
+            }
+            #endregion
+
             #region Service Translations
             if (UniService.CreatedNew)
             {
@@ -891,6 +926,22 @@ namespace PointBlank.Framework
 
             SetCommand("Whitelisted_Help", CommandTranslations.Whitelisted_Help);
             SetCommand("Whitelisted_Set", CommandTranslations.Whitelisted_Set);
+            #endregion
+
+            #region PointBlank Command Translations
+            SetCommand("Base_NotEnoughArgs", CommandTranslations.Base_NotEnoughArgs);
+
+            SetCommand("Group_Help", CommandTranslations.Group_Help);
+            SetCommand("Group_Usage", CommandTranslations.Group_Usage);
+            SetCommand("Group_NotFound", CommandTranslations.Group_NotFound);
+            SetCommand("Group_Exists", CommandTranslations.Group_Exists);
+            SetCommand("Group_Usage_Add", CommandTranslations.Group_Usage_Add);
+            SetCommand("Group_Usage_IDs", CommandTranslations.Group_Usage_IDs);
+            SetCommand("Group_Usage_List", CommandTranslations.Group_Usage_List);
+            SetCommand("Group_Usage_Permissions", CommandTranslations.Group_Usage_Permissions);
+            SetCommand("Group_Usage_Remove", CommandTranslations.Group_Usage_Remove);
+            SetCommand("Group_Added", CommandTranslations.Group_Added);
+            SetCommand("Group_Removed", CommandTranslations.Group_Removed);
             #endregion
 
             #region Service Translations
