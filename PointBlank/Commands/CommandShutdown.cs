@@ -18,9 +18,9 @@ namespace PointBlank.Commands
             "shutdown"
         };
 
-        public override string Help => "Shuts down the unturned server";
+        public override string Help => Translation.Shutdown_Help;
 
-        public override string Usage => Commands[0] + " [seconds until shutdown]";
+        public override string Usage => Commands[0] + Translation.Shutdown_Usage;
 
         public override string DefaultPermission => "unturned.commands.admin.shutdown";
         #endregion

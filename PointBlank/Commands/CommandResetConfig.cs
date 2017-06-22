@@ -19,7 +19,7 @@ namespace PointBlank.Commands
             "ResetConfig"
         };
 
-        public override string Help => "Resets the unturned config";
+        public override string Help => Translation.ResetConfig_Help;
 
         public override string Usage => Commands[0];
 
@@ -29,7 +29,7 @@ namespace PointBlank.Commands
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
             Provider.resetConfig();
-            UnturnedChat.SendMessage(executor, "Configuration has been reset!", ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, Translation.ResetConfig_Reset, ConsoleColor.Green);
         }
     }
 }

@@ -224,5 +224,41 @@ namespace PointBlank.Framework.Translations
         public static string Queue_Invalid;
         public static string Queue_TooHigh;
         public static string Queue_Set;
+
+        // Reputation command
+        public static string Reputation_Help;
+        public static string Reputation_Usage;
+        public static string Reputation_Invalid;
+        public static string Reputation_Give;
+
+        // ResetConfig command
+        public static string ResetConfig_Help;
+        public static string ResetConfig_Reset;
+
+        // Save command
+        public static string Save_Help;
+        public static string Save_Save;
+
+        // Say command
+        public static string Say_Help;
+        public static string Say_Usage;
+
+        // Shutdown command
+        public static string Shutdown_Help;
+        public static string Shutdown_Usage;
+
+        // Slay command
+        public static string Slay_Help;
+        public static string Slay_Usage;
+        public static string Slay_Slay;
+
+        // Spy command
+        public static string Spy_Help;
+        public static string Spy_Usage;
+        public static string Spy_Spy;
+
+        // Storm command
+        public static string Storm_Help;
+        public static string Storm_Change;
     }
 }

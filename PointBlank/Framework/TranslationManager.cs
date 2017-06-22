@@ -234,6 +234,34 @@ namespace PointBlank.Framework
                 CommandTranslations.Queue_TooHigh = "The queue number cannot be higher than {0}!";
                 CommandTranslations.Queue_Set = "The server queue has been set to {0}!";
 
+                CommandTranslations.Reputation_Help = "This gives a player some reputation.";
+                CommandTranslations.Reputation_Usage = " <reputation> [player]";
+                CommandTranslations.Reputation_Invalid = "The specified amount of reputation is invalid!";
+                CommandTranslations.Reputation_Give = "{0} has been given {1} reputation!";
+
+                CommandTranslations.ResetConfig_Help = "This resets the config file to the default values.";
+                CommandTranslations.ResetConfig_Reset = "The server configuration has been reset!";
+
+                CommandTranslations.Save_Help = "This forces a proper save of the server state.";
+                CommandTranslations.Save_Save = "The server state has been successfully saved!";
+
+                CommandTranslations.Say_Help = "This broadcasts a message to all of the connected clients.";
+                CommandTranslations.Say_Usage = " <message> [red] [green] [blue]";
+
+                CommandTranslations.Shutdown_Help = "This properly saves the server state, disconnects the clients and closes the program.";
+                CommandTranslations.Shutdown_Usage = " [seconds until shutdown]";
+
+                CommandTranslations.Slay_Help = "This kills the specified player in-game and permanently bans them.";
+                CommandTranslations.Slay_Usage = " <player> [reason]";
+                CommandTranslations.Slay_Slay = "{0} has been slayed!";
+
+                CommandTranslations.Spy_Help = "This requests a screenshot from the target player and saves it on the caller's computer as Spy.jpg.";
+                CommandTranslations.Spy_Usage = " <player>";
+                CommandTranslations.Spy_Spy = "Successfully spyed {0}";
+
+                CommandTranslations.Storm_Help = "This starts or stops the current rain cycle.";
+                CommandTranslations.Storm_Change = "Weather has been chaged successfully!";
+
                 Save();
             }
             else
@@ -417,6 +445,34 @@ namespace PointBlank.Framework
                 CommandTranslations.Queue_Invalid = (string)JCommand.Document["Queue_Invalid"];
                 CommandTranslations.Queue_TooHigh = (string)JCommand.Document["Queue_TooHigh"];
                 CommandTranslations.Queue_Set = (string)JCommand.Document["Queue_Set"];
+
+                CommandTranslations.Reputation_Help = (string)JCommand.Document["Reputation_Help"];
+                CommandTranslations.Reputation_Usage = (string)JCommand.Document["Reputation_Usage"];
+                CommandTranslations.Reputation_Invalid = (string)JCommand.Document["Reputation_Invalid"];
+                CommandTranslations.Reputation_Give = (string)JCommand.Document["Reputation_Give"];
+
+                CommandTranslations.ResetConfig_Help = (string)JCommand.Document["ResetConfig_Help"];
+                CommandTranslations.ResetConfig_Reset = (string)JCommand.Document["ResetConfig_Reset"];
+
+                CommandTranslations.Save_Help = (string)JCommand.Document["Save_Help"];
+                CommandTranslations.Save_Save = (string)JCommand.Document["Save_Save"];
+
+                CommandTranslations.Say_Help = (string)JCommand.Document["Say_Help"];
+                CommandTranslations.Say_Usage = (string)JCommand.Document["Say_Usage"];
+
+                CommandTranslations.Shutdown_Help = (string)JCommand.Document["Shutdown_Help"];
+                CommandTranslations.Shutdown_Usage = (string)JCommand.Document["Shutdown_Usage"];
+
+                CommandTranslations.Slay_Help = (string)JCommand.Document["Slay_Help"];
+                CommandTranslations.Slay_Usage = (string)JCommand.Document["Slay_Usage"];
+                CommandTranslations.Slay_Slay = (string)JCommand.Document["Slay_Slay"];
+
+                CommandTranslations.Spy_Help = (string)JCommand.Document["Spy_Help"];
+                CommandTranslations.Spy_Usage = (string)JCommand.Document["Spy_Usage"];
+                CommandTranslations.Spy_Spy = (string)JCommand.Document["Spy_Spy"];
+
+                CommandTranslations.Storm_Help = (string)JCommand.Document["Storm_Help"];
+                CommandTranslations.Storm_Change = (string)JCommand.Document["Storm_Change"];
             }
         }
 
@@ -606,6 +662,34 @@ namespace PointBlank.Framework
             SetCommand("Queue_Invalid", CommandTranslations.Queue_Invalid);
             SetCommand("Queue_TooHigh", CommandTranslations.Queue_TooHigh);
             SetCommand("Queue_Set", CommandTranslations.Queue_Set);
+
+            SetCommand("Reputation_Help", CommandTranslations.Reputation_Help);
+            SetCommand("Reputation_Usage", CommandTranslations.Reputation_Usage);
+            SetCommand("Reputation_Invalid", CommandTranslations.Reputation_Invalid);
+            SetCommand("Reputation_Give", CommandTranslations.Reputation_Give);
+
+            SetCommand("ResetConfig_Help", CommandTranslations.ResetConfig_Help);
+            SetCommand("ResetConfig_Reset", CommandTranslations.ResetConfig_Reset);
+
+            SetCommand("Save_Help", CommandTranslations.Save_Help);
+            SetCommand("Save_Save", CommandTranslations.Save_Save);
+
+            SetCommand("Say_Help", CommandTranslations.Say_Help);
+            SetCommand("Say_Usage", CommandTranslations.Say_Usage);
+
+            SetCommand("Shutdown_Help", CommandTranslations.Shutdown_Help);
+            SetCommand("Shutdown_Usage", CommandTranslations.Shutdown_Usage);
+
+            SetCommand("Slay_Help", CommandTranslations.Slay_Help);
+            SetCommand("Slay_Usage", CommandTranslations.Slay_Usage);
+            SetCommand("Slay_Slay", CommandTranslations.Slay_Slay);
+
+            SetCommand("Spy_Help", CommandTranslations.Spy_Help);
+            SetCommand("Spy_Usage", CommandTranslations.Spy_Usage);
+            SetCommand("Spy_Spy", CommandTranslations.Spy_Spy);
+
+            SetCommand("Storm_Help", CommandTranslations.Storm_Help);
+            SetCommand("Storm_Change", CommandTranslations.Storm_Change);
 
             UniCommand.Save();
         }

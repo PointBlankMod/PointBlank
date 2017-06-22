@@ -19,7 +19,7 @@ namespace PointBlank.Commands
             "Storm"
         };
 
-        public override string Help => "Changes the weather";
+        public override string Help => Translation.Storm_Help;
 
         public override string Usage => Commands[0];
 
@@ -32,7 +32,7 @@ namespace PointBlank.Commands
                 LightingManager.rainFrequency = 0u;
             else if (LevelLighting.rainyness == ELightingRain.DRIZZLE)
                 LightingManager.rainDuration = 0u;
-            UnturnedChat.SendMessage(executor, "Weather has been changed!", ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, Translation.Storm_Change, ConsoleColor.Green);
         }
     }
 }
