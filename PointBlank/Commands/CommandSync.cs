@@ -19,7 +19,7 @@ namespace PointBlank.Commands
             "Sync"
         };
 
-        public override string Help => "Sets the server to sync mode";
+        public override string Help => Translation.Sync_Help;
 
         public override string Usage => Commands[0];
 
@@ -31,7 +31,7 @@ namespace PointBlank.Commands
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
             PlayerSavedata.hasSync = true;
-            UnturnedChat.SendMessage(executor, "The server has been set to sync!", ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, Translation.Sync_Sync, ConsoleColor.Green);
         }
     }
 }

@@ -19,9 +19,9 @@ namespace PointBlank.Commands
             "Time"
         };
 
-        public override string Help => "Sets the time";
+        public override string Help => Translation.Time_Help;
 
-        public override string Usage => Commands[0] + " <time>";
+        public override string Usage => Commands[0] + Translation.Time_Usage;
 
         public override string DefaultPermission => "unturned.commands.admin.time";
 
@@ -32,23 +32,23 @@ namespace PointBlank.Commands
         {
             if (Provider.isServer && Level.info.type == ELevelType.ARENA)
             {
-                UnturnedChat.SendMessage(executor, "Can't set time on arena!", ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translation.Base_NoArenaTime, ConsoleColor.Red);
                 return;
             }
             if (Provider.isServer && Level.info.type == ELevelType.HORDE)
             {
-                UnturnedChat.SendMessage(executor, "Can't set time on horde!", ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translation.Base_NoHordeTime, ConsoleColor.Red);
                 return;
             }
 
             if(!uint.TryParse(args[1], out uint time))
             {
-                UnturnedChat.SendMessage(executor, "Invalid time!", ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translation.Time_Invalid, ConsoleColor.Red);
                 return;
             }
 
             LightingManager.time = time;
-            UnturnedChat.SendMessage(executor, "Time set to " + time, ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, string.Format(Translation.Time_Set, time), ConsoleColor.Green);
         }
     }
 }

@@ -20,9 +20,9 @@ namespace PointBlank.Commands
             "Vehicle"
         };
 
-        public override string Help => "Spawns a vehicle";
+        public override string Help => Translation.Vehicle_Help;
 
-        public override string Usage => Commands[0] + " <vehicle> [player]";
+        public override string Usage => Commands[0] + Translation.Vehicle_Usage;
 
         public override string DefaultPermission => "unturned.commands.admin.vehicle";
 
@@ -47,7 +47,7 @@ namespace PointBlank.Commands
             }
             if(vehicle == null)
             {
-                UnturnedChat.SendMessage(executor, "Could not find vehicle!", ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translation.Vehicle_Invalid, ConsoleColor.Red);
                 return;
             }
 
@@ -55,7 +55,7 @@ namespace PointBlank.Commands
             {
                 if (executor == null)
                 {
-                    UnturnedChat.SendMessage(executor, "Player not found!", ConsoleColor.Red);
+                    UnturnedChat.SendMessage(executor, Translation.Base_InvalidPlayer, ConsoleColor.Red);
                     return;
                 }
 
@@ -63,10 +63,10 @@ namespace PointBlank.Commands
             }
             if(!VehicleTool.giveVehicle(ply.Player, vehicle.id))
             {
-                UnturnedChat.SendMessage(executor, "Could not spawn vehicle!", ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, string.Format(Translation.Vehicle_Fail, vehicle.vehicleName), ConsoleColor.Red);
                 return;
             }
-            UnturnedChat.SendMessage(executor, vehicle.vehicleName + " has been spawned!", ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, string.Format(Translation.Vehicle_Spawn, vehicle.vehicleName), ConsoleColor.Green);
         }
     }
 }

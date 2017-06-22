@@ -19,7 +19,7 @@ namespace PointBlank.Commands
             "Whitelisted"
         };
 
-        public override string Help => "Sets the server to whitelist only";
+        public override string Help => Translation.Whitelisted_Help;
 
         public override string Usage => Commands[0];
 
@@ -31,7 +31,7 @@ namespace PointBlank.Commands
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
             Provider.isWhitelisted = true;
-            UnturnedChat.SendMessage(executor, "Server now in whitelist only mode!", ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, Translation.Whitelisted_Set, ConsoleColor.Green);
         }
     }
 }

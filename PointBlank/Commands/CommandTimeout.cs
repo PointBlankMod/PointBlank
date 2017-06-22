@@ -24,9 +24,9 @@ namespace PointBlank.Commands
             "Timeout"
         };
 
-        public override string Help => "Sets the server timeout";
+        public override string Help => Translation.Timeout_Help;
 
-        public override string Usage => Commands[0] + " <timeout>";
+        public override string Usage => Commands[0] + Translation.Timeout_Usage;
 
         public override string DefaultPermission => "unturned.commands.server.timeout";
         #endregion
@@ -35,23 +35,23 @@ namespace PointBlank.Commands
         {
             if(!uint.TryParse(args[0], out uint timeout))
             {
-                UnturnedChat.SendMessage(executor, "Invalid timeout!", ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translation.Timeout_Invalid, ConsoleColor.Red);
                 return;
             }
             if(timeout > MAX_NUMBER)
             {
-                UnturnedChat.SendMessage(executor, "Timeout can't be higher than " + MAX_NUMBER, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, string.Format(Translation.Timeout_TooHigh, MAX_NUMBER), ConsoleColor.Red);
                 return;
             }
             else if(timeout < MIN_NUMBER)
             {
-                UnturnedChat.SendMessage(executor, "Timeout can't be lower than " + MIN_NUMBER, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, string.Format(Translation.Timeout_TooLow, MIN_NUMBER), ConsoleColor.Red);
                 return;
             }
 
             if (Provider.configData != null)
                 Provider.configData.Server.Max_Ping_Milliseconds = timeout;
-            UnturnedChat.SendMessage(executor, "Timeout set to " + timeout, ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, string.Format(Translation.Timeout_Set, timeout), ConsoleColor.Green);
         }
     }
 }

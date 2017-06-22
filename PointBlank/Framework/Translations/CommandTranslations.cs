@@ -260,5 +260,72 @@ namespace PointBlank.Framework.Translations
         // Storm command
         public static string Storm_Help;
         public static string Storm_Change;
+
+        // Sync command
+        public static string Sync_Help;
+        public static string Sync_Sync;
+
+        // Teleport command
+        public static string Teleport_Help;
+        public static string Teleport_Usage;
+        public static string Teleport_Invalid;
+        public static string Teleport_Teleport;
+
+        // Time command
+        public static string Time_Help;
+        public static string Time_Usage;
+        public static string Time_Invalid;
+        public static string Time_Set;
+
+        // Timeout command
+        public static string Timeout_Help;
+        public static string Timeout_Usage;
+        public static string Timeout_Invalid;
+        public static string Timeout_TooHigh;
+        public static string Timeout_TooLow;
+        public static string Timeout_Set;
+
+        // Unadmin command
+        public static string Unadmin_Help;
+        public static string Unadmin_Usage;
+        public static string Unadmin_Unadmin;
+
+        // Unban command
+        public static string Unban_Help;
+        public static string Unban_Usage;
+        public static string Unban_NotBanned;
+        public static string Unban_Unban;
+
+        // Unpermit command
+        public static string Unpermit_Help;
+        public static string Unpermit_Usage;
+        public static string Unpermit_NotWhitelisted;
+        public static string Unpermit_Unpermit;
+
+        // Vehicle command
+        public static string Vehicle_Help;
+        public static string Vehicle_Usage;
+        public static string Vehicle_Invalid;
+        public static string Vehicle_Fail;
+        public static string Vehicle_Spawn;
+
+        // Votify command
+        public static string Votify_Help;
+        public static string Votify_Usage;
+        public static string Votify_Pass;
+        public static string Votify_Fail;
+        public static string Votify_Duration;
+        public static string Votify_Percentage;
+        public static string Votify_Count;
+        public static string Votify_Set;
+
+        // Welcome command
+        public static string Welcome_Help;
+        public static string Welcome_Usage;
+        public static string Welcome_Set;
+
+        // Whitelisted command
+        public static string Whitelisted_Help;
+        public static string Whitelisted_Set;
     }
 }

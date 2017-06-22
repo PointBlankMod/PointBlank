@@ -20,9 +20,9 @@ namespace PointBlank.Commands
             "Teleport"
         };
 
-        public override string Help => "Teleports to a specific player or node";
+        public override string Help => Translation.Teleport_Help;
 
-        public override string Usage => Commands[0] + " <target/node> [player]";
+        public override string Usage => Commands[0] + Translation.Teleport_Usage;
 
         public override string DefaultPermission => "unturned.commands.admin.teleport";
 
@@ -39,7 +39,7 @@ namespace PointBlank.Commands
             {
                 if(executor == null)
                 {
-                    UnturnedChat.SendMessage(executor, "Invalid player to teleport!", ConsoleColor.Red);
+                    UnturnedChat.SendMessage(executor, Translation.Base_InvalidPlayer, ConsoleColor.Red);
                     return;
                 }
 
@@ -49,7 +49,7 @@ namespace PointBlank.Commands
             if(UnturnedPlayer.TryGetPlayer(args[0], out pTarget))
             {
                 ply.Teleport(pTarget.Player.transform.position);
-                UnturnedChat.SendMessage(executor, ply.PlayerName + " teleported to " + pTarget.PlayerName, ConsoleColor.Green);
+                UnturnedChat.SendMessage(executor, string.Format(Translation.Teleport_Teleport, ply.PlayerName, pTarget.PlayerName), ConsoleColor.Green);
             }
             else
             {
@@ -57,12 +57,12 @@ namespace PointBlank.Commands
 
                 if(nTarget == null)
                 {
-                    UnturnedChat.SendMessage(executor, "Invalid teleport location!", ConsoleColor.Red);
+                    UnturnedChat.SendMessage(executor, Translation.Teleport_Invalid, ConsoleColor.Red);
                     return;
                 }
 
                 ply.Teleport(nTarget.point);
-                UnturnedChat.SendMessage(executor, ply.PlayerName + " teleported to " + ((LocationNode)nTarget).name);
+                UnturnedChat.SendMessage(executor, string.Format(Translation.Teleport_Teleport, ply.PlayerName, ((LocationNode)nTarget).name), ConsoleColor.Green);
             }
         }
     }

@@ -149,7 +149,7 @@ namespace PointBlank.Framework
                 CommandTranslations.HideAdmins_Help = "This allows the recording of cinematic footage without the admin labels visible to players.";
                 CommandTranslations.HideAdmins_Set = "Admin labels are now hidden!";
 
-                CommandTranslations.Item_Help = "Gives the player the specified item.";
+                CommandTranslations.Item_Help = "This gives the player an item.";
                 CommandTranslations.Item_Usage = " <item> [amount] [player]";
                 CommandTranslations.Item_Invalid = "Failed to find the specified item!";
                 CommandTranslations.Item_Fail = "Failed to give the specified item to player!";
@@ -261,6 +261,62 @@ namespace PointBlank.Framework
 
                 CommandTranslations.Storm_Help = "This starts or stops the current rain cycle.";
                 CommandTranslations.Storm_Change = "Weather has been chaged successfully!";
+
+                CommandTranslations.Sync_Help = "This allows players to share savedata between your servers.";
+                CommandTranslations.Sync_Sync = "The server sync has been enabled!";
+
+                CommandTranslations.Teleport_Help = "This teleports the first player to the second or a location.";
+                CommandTranslations.Teleport_Usage = " <target/node> [player]";
+                CommandTranslations.Teleport_Invalid = "The specified teleport location is invalid!";
+                CommandTranslations.Teleport_Teleport = "{0} has been teleported to {1}";
+
+                CommandTranslations.Time_Help = "This assigns the current time in seconds of the day/night cycle.";
+                CommandTranslations.Time_Usage = " <time>";
+                CommandTranslations.Time_Invalid = "The specified time is invalid!";
+                CommandTranslations.Time_Set = "The server time has been set to {0}";
+
+                CommandTranslations.Timeout_Help = "This assigns a maximum ping threshhold to the server before a client is kicked.";
+                CommandTranslations.Timeout_Usage = " <timeout>";
+                CommandTranslations.Timeout_Invalid = "The specified timeout is invalid!";
+                CommandTranslations.Timeout_TooHigh = "The timeout cannot be higher than {0}";
+                CommandTranslations.Timeout_TooLow = "The timeout cannot be lower than {0}";
+                CommandTranslations.Timeout_Set = "The server timeout has been set to {0}";
+
+                CommandTranslations.Unadmin_Help = "This removes the specified player from the list of users allowed to use admin commands in the chat.";
+                CommandTranslations.Unadmin_Usage = " <player>";
+                CommandTranslations.Unadmin_Unadmin = "{0} is no longer admin!";
+
+                CommandTranslations.Unban_Help = "This removes the specified player from the list of users not allowed to join the server.";
+                CommandTranslations.Unban_Usage = " <player>";
+                CommandTranslations.Unban_NotBanned = "{0} is not on the ban list!";
+                CommandTranslations.Unban_Unban = "{0} is no longer banned!";
+
+                CommandTranslations.Unpermit_Help = "This removes the specified player from the list of users allowed to join the server.";
+                CommandTranslations.Unpermit_Usage = " <player>";
+                CommandTranslations.Unpermit_NotWhitelisted = "{0} is not on the whitelist!";
+                CommandTranslations.Unpermit_Unpermit = "{0} is no longer whitelisted!";
+
+                CommandTranslations.Vehicle_Help = "This gives a player a vehicle.";
+                CommandTranslations.Vehicle_Usage = " <vehicle> [player]";
+                CommandTranslations.Vehicle_Invalid = "The specified vehicle is invalid!";
+                CommandTranslations.Vehicle_Fail = "Failed to spawn a {0}";
+                CommandTranslations.Vehicle_Spawn = "{0} has been spawned!";
+
+                CommandTranslations.Votify_Help = "This configures voting for the server.";
+                CommandTranslations.Votify_Usage = " <allowed> <pass cooldown> <fail cooldown> <duration> <percentage> <player count>";
+                CommandTranslations.Votify_Pass = "Invalid cooldown for a passed vote!";
+                CommandTranslations.Votify_Fail = "Invalid cooldown for a failed vote!";
+                CommandTranslations.Votify_Duration = "Invalid vote duration!";
+                CommandTranslations.Votify_Percentage = "Invalid vote percentage!";
+                CommandTranslations.Votify_Count = "Invalid player count for vote!";
+                CommandTranslations.Votify_Set = "The server vote settings have been set!";
+
+                CommandTranslations.Welcome_Help = "This sets a welcome message shown to clients as they connect.";
+                CommandTranslations.Welcome_Usage = " <message>";
+                CommandTranslations.Welcome_Set = "The server welcome message has been set!";
+
+                CommandTranslations.Whitelisted_Help = "This makes only permited players allowed to join the server.";
+                CommandTranslations.Whitelisted_Set = "The server is now in whitelist only mode!";
 
                 Save();
             }
@@ -473,6 +529,62 @@ namespace PointBlank.Framework
 
                 CommandTranslations.Storm_Help = (string)JCommand.Document["Storm_Help"];
                 CommandTranslations.Storm_Change = (string)JCommand.Document["Storm_Change"];
+
+                CommandTranslations.Sync_Help = (string)JCommand.Document["Sync_Help"];
+                CommandTranslations.Sync_Sync = (string)JCommand.Document["Sync_Sync"];
+
+                CommandTranslations.Teleport_Help = (string)JCommand.Document["Teleport_Help"];
+                CommandTranslations.Teleport_Usage = (string)JCommand.Document["Teleport_Usage"];
+                CommandTranslations.Teleport_Invalid = (string)JCommand.Document["Teleport_Invalid"];
+                CommandTranslations.Teleport_Teleport = (string)JCommand.Document["Teleport_Teleport"];
+
+                CommandTranslations.Time_Help = (string)JCommand.Document["Time_Help"];
+                CommandTranslations.Time_Usage = (string)JCommand.Document["Time_Usage"];
+                CommandTranslations.Time_Invalid = (string)JCommand.Document["Time_Invalid"];
+                CommandTranslations.Time_Set = (string)JCommand.Document["Time_Set"];
+
+                CommandTranslations.Timeout_Help = (string)JCommand.Document["Timeout_Help"];
+                CommandTranslations.Timeout_Usage = (string)JCommand.Document["Timeout_Usage"];
+                CommandTranslations.Timeout_Invalid = (string)JCommand.Document["Timeout_Invalid"];
+                CommandTranslations.Timeout_TooHigh = (string)JCommand.Document["Timeout_TooHigh"];
+                CommandTranslations.Timeout_TooLow = (string)JCommand.Document["Timeout_TooLow"];
+                CommandTranslations.Timeout_Set = (string)JCommand.Document["Timeout_Set"];
+
+                CommandTranslations.Unadmin_Help = (string)JCommand.Document["Unadmin_Help"];
+                CommandTranslations.Unadmin_Usage = (string)JCommand.Document["Unadmin_Usage"];
+                CommandTranslations.Unadmin_Unadmin = (string)JCommand.Document["Unadmin_Unadmin"];
+
+                CommandTranslations.Unban_Help = (string)JCommand.Document["Unban_Help"];
+                CommandTranslations.Unban_Usage = (string)JCommand.Document["Unban_Usage"];
+                CommandTranslations.Unban_NotBanned = (string)JCommand.Document["Unban_NotBanned"];
+                CommandTranslations.Unban_Unban = (string)JCommand.Document["Unban_Unban"];
+
+                CommandTranslations.Unpermit_Help = (string)JCommand.Document["Unpermit_Help"];
+                CommandTranslations.Unpermit_Usage = (string)JCommand.Document["Unpermit_Usage"];
+                CommandTranslations.Unpermit_NotWhitelisted = (string)JCommand.Document["Unpermit_NotWhitelisted"];
+                CommandTranslations.Unpermit_Unpermit = (string)JCommand.Document["Unpermit_Unpermit"];
+
+                CommandTranslations.Vehicle_Help = (string)JCommand.Document["Vehicle_Help"];
+                CommandTranslations.Vehicle_Usage = (string)JCommand.Document["Vehicle_Usage"];
+                CommandTranslations.Vehicle_Invalid = (string)JCommand.Document["Vehicle_Invalid"];
+                CommandTranslations.Vehicle_Fail = (string)JCommand.Document["Vehicle_Fail"];
+                CommandTranslations.Vehicle_Spawn = (string)JCommand.Document["Vehicle_Spawn"];
+
+                CommandTranslations.Votify_Help = (string)JCommand.Document["Votify_Help"];
+                CommandTranslations.Votify_Usage = (string)JCommand.Document["Votify_Usage"];
+                CommandTranslations.Votify_Pass = (string)JCommand.Document["Votify_Pass"];
+                CommandTranslations.Votify_Fail = (string)JCommand.Document["Votify_Fail"];
+                CommandTranslations.Votify_Duration = (string)JCommand.Document["Votify_Duration"];
+                CommandTranslations.Votify_Percentage = (string)JCommand.Document["Votify_Percentage"];
+                CommandTranslations.Votify_Count = (string)JCommand.Document["Votify_Count"];
+                CommandTranslations.Votify_Set = (string)JCommand.Document["Votify_Set"];
+
+                CommandTranslations.Welcome_Help = (string)JCommand.Document["Welcome_Help"];
+                CommandTranslations.Welcome_Usage = (string)JCommand.Document["Welcome_Usage"];
+                CommandTranslations.Welcome_Set = (string)JCommand.Document["Welcome_Set"];
+
+                CommandTranslations.Whitelisted_Help = (string)JCommand.Document["Whitelisted_Help"];
+                CommandTranslations.Whitelisted_Set = (string)JCommand.Document["Whitelisted_Set"];
             }
         }
 
@@ -690,6 +802,62 @@ namespace PointBlank.Framework
 
             SetCommand("Storm_Help", CommandTranslations.Storm_Help);
             SetCommand("Storm_Change", CommandTranslations.Storm_Change);
+
+            SetCommand("Sync_Help", CommandTranslations.Sync_Help);
+            SetCommand("Sync_Sync", CommandTranslations.Sync_Sync);
+
+            SetCommand("Teleport_Help", CommandTranslations.Teleport_Help);
+            SetCommand("Teleport_Usage", CommandTranslations.Teleport_Usage);
+            SetCommand("Teleport_Invalid", CommandTranslations.Teleport_Invalid);
+            SetCommand("Teleport_Teleport", CommandTranslations.Teleport_Teleport);
+
+            SetCommand("Time_Help", CommandTranslations.Time_Help);
+            SetCommand("Time_Usage", CommandTranslations.Time_Usage);
+            SetCommand("Time_Invalid", CommandTranslations.Time_Invalid);
+            SetCommand("Time_Set", CommandTranslations.Time_Set);
+
+            SetCommand("Timeout_Help", CommandTranslations.Timeout_Help);
+            SetCommand("Timeout_Usage", CommandTranslations.Timeout_Usage);
+            SetCommand("Timeout_Invalid", CommandTranslations.Timeout_Invalid);
+            SetCommand("Timeout_TooHigh", CommandTranslations.Timeout_TooHigh);
+            SetCommand("Timeout_TooLow", CommandTranslations.Timeout_TooLow);
+            SetCommand("Timeout_Set", CommandTranslations.Timeout_Set);
+
+            SetCommand("Unadmin_Help", CommandTranslations.Unadmin_Help);
+            SetCommand("Unadmin_Usage", CommandTranslations.Unadmin_Usage);
+            SetCommand("Unadmin_Unadmin", CommandTranslations.Unadmin_Unadmin);
+
+            SetCommand("Unban_Help", CommandTranslations.Unban_Help);
+            SetCommand("Unban_Usage", CommandTranslations.Unban_Usage);
+            SetCommand("Unban_NotBanned", CommandTranslations.Unban_NotBanned);
+            SetCommand("Unban_Unban", CommandTranslations.Unban_Unban);
+
+            SetCommand("Unpermit_Help", CommandTranslations.Unpermit_Help);
+            SetCommand("Unpermit_Usage", CommandTranslations.Unpermit_Usage);
+            SetCommand("Unpermit_NotWhitelisted", CommandTranslations.Unpermit_NotWhitelisted);
+            SetCommand("Unpermit_Unpermit", CommandTranslations.Unpermit_Unpermit);
+
+            SetCommand("Vehicle_Help", CommandTranslations.Vehicle_Help);
+            SetCommand("Vehicle_Usage", CommandTranslations.Vehicle_Usage);
+            SetCommand("Vehicle_Invalid", CommandTranslations.Vehicle_Invalid);
+            SetCommand("Vehicle_Fail", CommandTranslations.Vehicle_Fail);
+            SetCommand("Vehicle_Spawn", CommandTranslations.Vehicle_Spawn);
+
+            SetCommand("Votify_Help", CommandTranslations.Votify_Help);
+            SetCommand("Votify_Usage", CommandTranslations.Votify_Usage);
+            SetCommand("Votify_Pass", CommandTranslations.Votify_Pass);
+            SetCommand("Votify_Fail", CommandTranslations.Votify_Fail);
+            SetCommand("Votify_Duration", CommandTranslations.Votify_Duration);
+            SetCommand("Votify_Percentage", CommandTranslations.Votify_Percentage);
+            SetCommand("Votify_Count", CommandTranslations.Votify_Count);
+            SetCommand("Votify_Set", CommandTranslations.Votify_Set);
+
+            SetCommand("Welcome_Help", CommandTranslations.Welcome_Help);
+            SetCommand("Welcome_Usage", CommandTranslations.Welcome_Usage);
+            SetCommand("Welcome_Set", CommandTranslations.Welcome_Set);
+
+            SetCommand("Whitelisted_Help", CommandTranslations.Whitelisted_Help);
+            SetCommand("Whitelisted_Set", CommandTranslations.Whitelisted_Set);
 
             UniCommand.Save();
         }

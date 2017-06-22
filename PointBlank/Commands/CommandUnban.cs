@@ -20,9 +20,9 @@ namespace PointBlank.Commands
             "Unban"
         };
 
-        public override string Help => "Unbans a player";
+        public override string Help => Translation.Unban_Help;
 
-        public override string Usage => Commands[0] + " <player>";
+        public override string Usage => Commands[0] + Translation.Unban_Usage;
 
         public override string DefaultPermission => "unturned.commands.admin.unban";
 
@@ -33,16 +33,16 @@ namespace PointBlank.Commands
         {
             if(!PlayerTool.tryGetSteamID(args[0], out CSteamID id))
             {
-                UnturnedChat.SendMessage(executor, "Invalid player!", ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translation.Base_InvalidPlayer, ConsoleColor.Red);
                 return;
             }
 
             if (!SteamBlacklist.unban(id))
             {
-                UnturnedChat.SendMessage(executor, "Player has not been banned!", ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, string.Format(Translation.Unban_NotBanned, id), ConsoleColor.Red);
                 return;
             }
-            UnturnedChat.SendMessage(executor, id + " has been unbanned!", ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, string.Format(Translation.Unban_Unban, id), ConsoleColor.Green);
         }
     }
 }
