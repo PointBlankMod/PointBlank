@@ -29,15 +29,12 @@ namespace PointBlank.Commands
 
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
-            UnturnedPlayer ply;
-            ushort quest;
-
-            if (!ushort.TryParse(args[0], out quest))
+            if (!ushort.TryParse(args[0], out ushort quest))
             {
                 UnturnedChat.SendMessage(executor, Translation.Quest_Invalid, ConsoleColor.Red);
                 return;
             }
-            if(args.Length < 2 || !UnturnedPlayer.TryGetPlayer(args[1], out ply))
+            if(args.Length < 2 || !UnturnedPlayer.TryGetPlayer(args[1], out UnturnedPlayer ply))
             {
                 if(executor == null)
                 {

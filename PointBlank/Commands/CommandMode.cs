@@ -30,16 +30,21 @@ namespace PointBlank.Commands
 
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
-            if (args[0].ToLower() == "easy")
-                Provider.mode = EGameMode.EASY;
-            else if (args[0].ToLower() == "normal")
-                Provider.mode = EGameMode.NORMAL;
-            else if (args[0].ToLower() == "hard")
-                Provider.mode = EGameMode.HARD;
-            else
+            switch(args[0].ToUpperInvariant())
             {
-                UnturnedChat.SendMessage(executor, Translation.Mode_Invalid, ConsoleColor.Red);
-                return;
+                case "EASY":
+                    Provider.mode = EGameMode.EASY;
+                    break;
+                case "NORMAL":
+                    Provider.mode = EGameMode.NORMAL;
+                    break;
+                case "HARD":
+                    Provider.mode = EGameMode.HARD;
+                    break;
+                default:
+                    UnturnedChat.SendMessage(executor, Translation.Mode_Invalid, ConsoleColor.Red);
+                    return;
+                    break;
             }
 
             UnturnedChat.SendMessage(executor, string.Format(Translation.Mode_Set, Provider.mode), ConsoleColor.Green);

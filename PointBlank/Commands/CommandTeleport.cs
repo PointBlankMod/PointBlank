@@ -31,11 +31,9 @@ namespace PointBlank.Commands
 
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
-            UnturnedPlayer ply;
-            UnturnedPlayer pTarget;
             Node nTarget;
 
-            if(args.Length < 2 || !UnturnedPlayer.TryGetPlayer(args[1], out ply))
+            if(args.Length < 2 || !UnturnedPlayer.TryGetPlayer(args[1], out UnturnedPlayer ply))
             {
                 if(executor == null)
                 {
@@ -46,7 +44,7 @@ namespace PointBlank.Commands
                 ply = executor;
             }
 
-            if(UnturnedPlayer.TryGetPlayer(args[0], out pTarget))
+            if(UnturnedPlayer.TryGetPlayer(args[0], out UnturnedPlayer pTarget))
             {
                 ply.Teleport(pTarget.Player.transform.position);
                 UnturnedChat.SendMessage(executor, string.Format(Translation.Teleport_Teleport, ply.PlayerName, pTarget.PlayerName), ConsoleColor.Green);

@@ -50,8 +50,8 @@ namespace PointBlank.Commands
             CommandWindow.Log(string.Format(Translation.Debug_APacketsSent, (uint)(Provider.packetsSent / Time.realtimeSinceStartup)));
             CommandWindow.Log(string.Format(Translation.Debug_APacketsReceived, (uint)(Provider.packetsReceived / Time.realtimeSinceStartup)));
 
-            CommandWindow.Log(string.Format(Translation.Debug_UPS, Mathf.CeilToInt((float)(Provider.debugUPS / 50f * 100f))));
-            CommandWindow.Log(string.Format(Translation.Debug_TPS, Mathf.CeilToInt((float)(Provider.debugTPS / 50f * 100f))));
+            CommandWindow.Log(string.Format(Translation.Debug_UPS, Mathf.CeilToInt(Provider.debugUPS / 50f * 100f)));
+            CommandWindow.Log(string.Format(Translation.Debug_TPS, Mathf.CeilToInt((Provider.debugTPS / 50f * 100f))));
 
             CommandWindow.Log(string.Format(Translation.Debug_Zombies, ZombieManager.tickingZombies.Count));
             CommandWindow.Log(string.Format(Translation.Debug_Animals, AnimalManager.tickingAnimals.Count));

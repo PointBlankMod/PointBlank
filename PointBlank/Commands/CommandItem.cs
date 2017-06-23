@@ -31,12 +31,9 @@ namespace PointBlank.Commands
 
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
-            UnturnedPlayer ply;
             ItemAsset item;
-            ushort id;
-            byte amount;
 
-            if(!ushort.TryParse(args[0], out id))
+            if(!ushort.TryParse(args[0], out ushort id))
             {
                 ItemAsset[] items = Assets.find(EAssetType.ITEM) as ItemAsset[];
 
@@ -52,10 +49,10 @@ namespace PointBlank.Commands
                 return;
             }
 
-            if(args.Length < 2 || !byte.TryParse(args[1], out amount))
+            if(args.Length < 2 || !byte.TryParse(args[1], out byte amount))
                 amount = 1;
 
-            if(args.Length < 3 || UnturnedPlayer.TryGetPlayer(args[2], out ply))
+            if(args.Length < 3 || UnturnedPlayer.TryGetPlayer(args[2], out UnturnedPlayer ply))
             {
                 if(executor == null)
                 {

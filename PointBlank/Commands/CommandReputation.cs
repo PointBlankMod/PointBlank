@@ -30,15 +30,12 @@ namespace PointBlank.Commands
 
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
-            UnturnedPlayer ply;
-            int rep;
-
-            if(!int.TryParse(args[0], out rep))
+            if(!int.TryParse(args[0], out int rep))
             {
                 UnturnedChat.SendMessage(executor, Translation.Reputation_Invalid, ConsoleColor.Red);
                 return;
             }
-            if(args.Length < 2 || !UnturnedPlayer.TryGetPlayer(args[1], out ply))
+            if(args.Length < 2 || !UnturnedPlayer.TryGetPlayer(args[1], out UnturnedPlayer ply))
             {
                 if(executor == null)
                 {

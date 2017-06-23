@@ -33,18 +33,18 @@ namespace PointBlank.Commands
             string pos = args[0].ToLower();
             ECameraMode mode;
 
-            switch (pos)
+            switch (pos.ToUpperInvariant()) // I know you like to use Lower, ati, but some characters cannot be converted to invariant as lowercase
             {
-                case "first":
+                case "FIRST":
                     mode = ECameraMode.FIRST;
                     break;
-                case "third":
+                case "THIRD":
                     mode = ECameraMode.THIRD;
                     break;
-                case "vehicle":
+                case "VEHICLE":
                     mode = ECameraMode.VEHICLE;
                     break;
-                case "both":
+                case "BOTH":
                     mode = ECameraMode.BOTH;
                     break;
                 default:

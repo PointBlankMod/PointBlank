@@ -28,7 +28,7 @@ namespace PointBlank.Commands
 
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
-            ChatManager.voteAllowed = (args[0].ToLower() == "y");
+            ChatManager.voteAllowed = (StringComparer.InvariantCultureIgnoreCase.Compare("y", args[0]) == 0);
 
             if(!float.TryParse(args[1], out float passCooldown))
             {

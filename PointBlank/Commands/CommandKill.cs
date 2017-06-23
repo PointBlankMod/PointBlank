@@ -30,9 +30,7 @@ namespace PointBlank.Commands
 
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
-            UnturnedPlayer ply;
-
-            if(args.Length < 1 || UnturnedPlayer.TryGetPlayer(args[0], out ply))
+            if(args.Length < 1 || UnturnedPlayer.TryGetPlayer(args[0], out UnturnedPlayer ply))
             {
                 if(executor == null)
                 {

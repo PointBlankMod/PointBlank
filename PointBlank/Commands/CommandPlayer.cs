@@ -30,20 +30,27 @@ namespace PointBlank.Commands
 
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
-            if (args[0].ToLower() == Translation.Player_Commands_Help.ToLower())
+            if (StringComparer.InvariantCultureIgnoreCase.Compare(args[0], Translation.Player_Commands_Help.ToLower()) == 0)
             {
                 UnturnedChat.SendMessage(executor, Commands[0] + string.Format(Translation.Player_Group, Translation.Player_Commands_Groups), ConsoleColor.Green);
                 UnturnedChat.SendMessage(executor, Commands[0] + string.Format(Translation.Player_Group_Add, Translation.Player_Commands_Groups_Add), ConsoleColor.Green);
                 UnturnedChat.SendMessage(executor, Commands[0] + string.Format(Translation.Player_Group_Remove, Translation.Player_Commands_Groups_Remove), ConsoleColor.Green);
                 UnturnedChat.SendMessage(executor, Commands[0] + string.Format(Translation.Player_Permissions, Translation.Player_Commands_Permissions), ConsoleColor.Green);
             }
-            else if(args[0].ToLower() == Translation.Player_Commands_Permissions.ToLower())
+            else if (StringComparer.InvariantCultureIgnoreCase.Compare(args[0], Translation.Player_Commands_Permissions.ToLower()) == 0)
             {
                 Permissions(executor, args);
             }
-            else if(args[0].ToLower() == Translation.Player_Commands_Groups.ToLower())
+            else if (StringComparer.InvariantCultureIgnoreCase.Compare(args[0], Translation.Player_Commands_Groups.ToLower()) == 0)
             {
                 Groups(executor, args);
+            }
+            else
+            {
+                UnturnedChat.SendMessage(executor, Commands[0] + Translation.Player_Group, ConsoleColor.Green);
+                UnturnedChat.SendMessage(executor, Commands[0] + Translation.Player_Group_Add, ConsoleColor.Green);
+                UnturnedChat.SendMessage(executor, Commands[0] + Translation.Player_Group_Remove, ConsoleColor.Green);
+                UnturnedChat.SendMessage(executor, Commands[0] + Translation.Player_Permissions, ConsoleColor.Green);
             }
         }
 
