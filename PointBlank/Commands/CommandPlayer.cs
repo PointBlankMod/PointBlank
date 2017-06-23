@@ -101,12 +101,12 @@ namespace PointBlank.Commands
                 return;
             }
 
-            if(args[2].ToLower() == Translation.Player_Commands_Groups_Add.ToLower())
+            if(StringComparer.InvariantCultureIgnoreCase.Compare(args[2], Translation.Player_Commands_Groups_Add.ToLower()) == 0)
             {
                 ply.AddGroup(group);
                 UnturnedChat.SendMessage(executor, Translation.Player_Group_Added, ConsoleColor.Green);
             }
-            else if(args[2].ToLower() == Translation.Player_Commands_Groups_Remove.ToLower())
+            else if(StringComparer.InvariantCultureIgnoreCase.Compare(args[2], Translation.Player_Commands_Groups_Remove.ToLower()) == 0)
             {
                 ply.RemoveGroup(group);
                 UnturnedChat.SendMessage(executor, Translation.Player_Group_Removed, ConsoleColor.Green);
