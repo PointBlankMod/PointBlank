@@ -33,7 +33,7 @@ namespace PointBlank.Commands
 
                 if(cmd == null)
                 {
-                    UnturnedChat.SendMessage(executor, Translation.Help_Invalid, ConsoleColor.Red);
+                    UnturnedChat.SendMessage(executor, Translation.Base_CommandInvalid, ConsoleColor.Red);
                     return;
                 }
                 UnturnedChat.SendMessage(executor, cmd.Help, ConsoleColor.Green);

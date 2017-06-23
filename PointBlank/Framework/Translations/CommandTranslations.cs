@@ -11,6 +11,7 @@ namespace PointBlank.Framework.Translations
         public static string Base_InvalidPlayer;
         public static string Base_NoArenaTime;
         public static string Base_NoHordeTime;
+        public static string Base_CommandInvalid;
 
         // Admin command
         public static string Admin_Help;
@@ -116,7 +117,6 @@ namespace PointBlank.Framework.Translations
         // Help command
         public static string Help_Help;
         public static string Help_Usage;
-        public static string Help_Invalid;
 
         // HideAdmins command
         public static string HideAdmins_Help;
@@ -360,5 +360,15 @@ namespace PointBlank.Framework.Translations
         public static string Player_Group_Remove;
         public static string Player_Group_Added;
         public static string Player_Group_Removed;
+        public static string Player_Group_Invalid;
+        public static string Player_Commands_Help;
+        public static string Player_Commands_Permissions;
+        public static string Player_Commands_Groups;
+        public static string Player_Commands_Groups_Add;
+        public static string Player_Commands_Groups_Remove;
+
+        // Usage command
+        public static string Usage_Help;
+        public static string Usage_Usage;
     }
 }

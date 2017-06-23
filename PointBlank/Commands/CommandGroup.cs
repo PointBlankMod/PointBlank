@@ -22,7 +22,7 @@ namespace PointBlank.Commands
 
         public override string Help => Translation.Group_Help;
 
-        public override string Usage => Commands[0] + Translation.Group_Usage;
+        public override string Usage => Commands[0] + string.Format(Translation.Group_Usage, Translation.Group_Commands_Help);
 
         public override string DefaultPermission => "pointblank.commands.admin.group";
 

@@ -144,6 +144,7 @@
     <Compile Include="Commands\CommandNight.cs" />
     <Compile Include="Commands\CommandOwner.cs" />
     <Compile Include="Commands\CommandPassword.cs" />
+    <Compile Include="Commands\CommandPermissions.cs" />
     <Compile Include="Commands\CommandPermit.cs" />
     <Compile Include="Commands\CommandPermits.cs" />
     <Compile Include="Commands\CommandPlayer.cs" />
@@ -166,6 +167,7 @@
     <Compile Include="Commands\CommandUnadmin.cs" />
     <Compile Include="Commands\CommandUnban.cs" />
     <Compile Include="Commands\CommandUnpermit.cs" />
+    <Compile Include="Commands\CommandUsage.cs" />
     <Compile Include="Commands\CommandVehicle.cs" />
     <Compile Include="Commands\CommandVotify.cs" />
     <Compile Include="Commands\CommandWelcome.cs" />
