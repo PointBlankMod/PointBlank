@@ -30,18 +30,18 @@ namespace PointBlank.Commands
 
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
-            if (StringComparer.InvariantCultureIgnoreCase.Compare(args[0], Translation.Player_Commands_Help.ToLower()) == 0)
+            if (StringComparer.InvariantCultureIgnoreCase.Compare(args[0], Translation.Player_Commands_Help) == 0)
             {
                 UnturnedChat.SendMessage(executor, Commands[0] + string.Format(Translation.Player_Group, Translation.Player_Commands_Groups), ConsoleColor.Green);
                 UnturnedChat.SendMessage(executor, Commands[0] + string.Format(Translation.Player_Group_Add, Translation.Player_Commands_Groups_Add), ConsoleColor.Green);
                 UnturnedChat.SendMessage(executor, Commands[0] + string.Format(Translation.Player_Group_Remove, Translation.Player_Commands_Groups_Remove), ConsoleColor.Green);
                 UnturnedChat.SendMessage(executor, Commands[0] + string.Format(Translation.Player_Permissions, Translation.Player_Commands_Permissions), ConsoleColor.Green);
             }
-            else if (StringComparer.InvariantCultureIgnoreCase.Compare(args[0], Translation.Player_Commands_Permissions.ToLower()) == 0)
+            else if (StringComparer.InvariantCultureIgnoreCase.Compare(args[0], Translation.Player_Commands_Permissions) == 0)
             {
                 Permissions(executor, args);
             }
-            else if (StringComparer.InvariantCultureIgnoreCase.Compare(args[0], Translation.Player_Commands_Groups.ToLower()) == 0)
+            else if (StringComparer.InvariantCultureIgnoreCase.Compare(args[0], Translation.Player_Commands_Groups) == 0)
             {
                 Groups(executor, args);
             }
@@ -101,12 +101,12 @@ namespace PointBlank.Commands
                 return;
             }
 
-            if(StringComparer.InvariantCultureIgnoreCase.Compare(args[2], Translation.Player_Commands_Groups_Add.ToLower()) == 0)
+            if(StringComparer.InvariantCultureIgnoreCase.Compare(args[2], Translation.Player_Commands_Groups_Add) == 0)
             {
                 ply.AddGroup(group);
                 UnturnedChat.SendMessage(executor, Translation.Player_Group_Added, ConsoleColor.Green);
             }
-            else if(StringComparer.InvariantCultureIgnoreCase.Compare(args[2], Translation.Player_Commands_Groups_Remove.ToLower()) == 0)
+            else if(StringComparer.InvariantCultureIgnoreCase.Compare(args[2], Translation.Player_Commands_Groups_Remove) == 0)
             {
                 ply.RemoveGroup(group);
                 UnturnedChat.SendMessage(executor, Translation.Player_Group_Removed, ConsoleColor.Green);
