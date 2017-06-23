@@ -31,27 +31,23 @@ namespace PointBlank.Commands
 
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
-            UnturnedPlayer ply;
             VehicleAsset vehicle;
-            ushort id;
 
-            if(!ushort.TryParse(args[0], out id))
+            if(!ushort.TryParse(args[0], out ushort id))
             {
                 VehicleAsset[] vehicles = Assets.find(EAssetType.VEHICLE) as VehicleAsset[];
 
                 vehicle = vehicles.Where(a => a != null).OrderBy(a => a.vehicleName.Length).FirstOrDefault(a => a.vehicleName.ToLower().Contains(args[0].ToLower()));
             }
             else
-            {
                 vehicle = Assets.find(EAssetType.VEHICLE, id) as VehicleAsset;
-            }
             if(vehicle == null)
             {
                 UnturnedChat.SendMessage(executor, Translation.Vehicle_Invalid, ConsoleColor.Red);
                 return;
             }
 
-            if (args.Length < 2 || UnturnedPlayer.TryGetPlayer(args[1], out ply))
+            if (args.Length < 2 || UnturnedPlayer.TryGetPlayer(args[1], out UnturnedPlayer ply))
             {
                 if (executor == null)
                 {

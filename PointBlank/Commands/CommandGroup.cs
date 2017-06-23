@@ -31,15 +31,11 @@ namespace PointBlank.Commands
 
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
-            if(args[0].ToLower() == Translation.Group_Commands_List.ToLower())
-            {
+            if(StringComparer.InvariantCultureIgnoreCase.Compare(Translation.Group_Commands_List, args[0]) == 0)
                 UnturnedChat.SendMessage(executor, string.Join(",", GroupManager.Groups.Select(a => a.Name).ToArray()), ConsoleColor.Green);
-            }
-            else if(args[0].ToLower() == Translation.Group_Commands_IDs.ToLower())
-            {
+            else if(StringComparer.InvariantCultureIgnoreCase.Compare(Translation.Group_Commands_IDs, args[0]) == 0)
                 UnturnedChat.SendMessage(executor, string.Join(",", GroupManager.Groups.Select(a => a.ID).ToArray()), ConsoleColor.Green);
-            }
-            else if(args[0].ToLower() == Translation.Group_Commands_Help.ToLower())
+            else if(StringComparer.InvariantCultureIgnoreCase.Compare(Translation.Group_Commands_Help, args[0]) == 0)
             {
                 UnturnedChat.SendMessage(executor, Commands[0] + string.Format(Translation.Group_Usage_Add, Translation.Group_Commands_Add), ConsoleColor.Green);
                 UnturnedChat.SendMessage(executor, Commands[0] + string.Format(Translation.Group_Usage_IDs, Translation.Group_Commands_IDs), ConsoleColor.Green);
@@ -47,18 +43,12 @@ namespace PointBlank.Commands
                 UnturnedChat.SendMessage(executor, Commands[0] + string.Format(Translation.Group_Usage_Permissions, Translation.Group_Commands_Permissions), ConsoleColor.Green);
                 UnturnedChat.SendMessage(executor, Commands[0] + string.Format(Translation.Group_Usage_Remove, Translation.Group_Commands_Remove), ConsoleColor.Green);
             }
-            else if(args[0].ToLower() == Translation.Group_Commands_Permissions.ToLower())
-            {
+            else if(StringComparer.InvariantCultureIgnoreCase.Compare(Translation.Group_Commands_Permissions, args[0]) == 0)
                 Permissions(executor, args);
-            }
-            else if(args[0].ToLower() == Translation.Group_Commands_Add.ToLower())
-            {
+            else if(StringComparer.InvariantCultureIgnoreCase.Compare(Translation.Group_Commands_Add, args[0]) == 0)
                 Add(executor, args);
-            }
-            else if(args[0].ToLower() == Translation.Group_Commands_Remove.ToLower())
-            {
+            else if(StringComparer.InvariantCultureIgnoreCase.Compare(Translation.Group_Commands_Remove, args[0]) == 0)
                 Remove(executor, args);
-            }
         }
 
         #region Funtions
