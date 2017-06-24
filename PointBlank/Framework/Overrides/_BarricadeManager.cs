@@ -22,13 +22,6 @@ namespace PointBlank.Framework.Overrides
             Transform result = null;
             if (itemBarricadeAsset != null)
             {
-            
-                bool cancel = false;
-                BarricadeEvents.RunBarricadeCreate(itemBarricadeAsset, point, owner, ref group, ref cancel);
-
-                if(cancel)
-                return null;
-
                 Vector3 eulerAngles = BarricadeManager.getRotation(itemBarricadeAsset, angle_x, angle_y, angle_z).eulerAngles;
                 angle_x = (float)(Mathf.RoundToInt(eulerAngles.x / 2f) * 2);
                 angle_y = (float)(Mathf.RoundToInt(eulerAngles.y / 2f) * 2);
@@ -96,18 +89,16 @@ namespace PointBlank.Framework.Overrides
         [SteamCall]
         [Detour(typeof(BarricadeManager), "askSalvageBarricade", BindingFlags.Public | BindingFlags.Instance)]
         public void askSalvageBarricade(CSteamID steamID, byte x, byte y, ushort plant, ushort index)
-       {
-            bool cancel = false;
+        {
             BarricadeRegion barricadeRegion;
             if (BarricadeManager.tryGetRegion(x, y, plant, out barricadeRegion))
             {
                 BarricadeData data = barricadeRegion.barricades[(int)index];
 
-                BarricadeEvents.RunBarricadeSalvage(UnturnedBarricade.Create(data), ref cancel);
+                BarricadeEvents.RunBarricadeSalvage(UnturnedBarricade.Create(data));
             }
-            if(!cancel)
+
             DetourManager.CallOriginal(typeof(BarricadeManager).GetMethod("askSalvageBarricade", BindingFlags.Public | BindingFlags.Instance), BarricadeManager.instance, steamID, x, y, plant, index);
         }
     }
 }
-

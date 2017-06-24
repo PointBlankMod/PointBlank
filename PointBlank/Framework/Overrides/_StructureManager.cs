@@ -20,12 +20,6 @@ namespace PointBlank.Framework.Overrides
             ItemStructureAsset itemStructureAsset = (ItemStructureAsset)Assets.find(EAssetType.ITEM, structure.id);
             if (itemStructureAsset != null)
             {
-                bool cancel = false;
-                StructureEvents.RunStructureCreate(itemStructureAsset, point, owner, ref group, ref cancel);
-
-                if(cancel)
-                return;
-
                 Vector3 eulerAngles = Quaternion.Euler(-90f, angle_y, 0f).eulerAngles;
                 angle_x = (float)(Mathf.RoundToInt(eulerAngles.x / 2f) * 2);
                 angle_y = (float)(Mathf.RoundToInt(eulerAngles.y / 2f) * 2);
@@ -59,15 +53,14 @@ namespace PointBlank.Framework.Overrides
         [Detour(typeof(StructureManager), "askSalvageStructure", BindingFlags.Public | BindingFlags.Instance)]
         public void askSalvageStructure(CSteamID steamID, byte x, byte y, ushort index)
         {
-            bool cancel = false;
             StructureRegion structureRegion;
             if (StructureManager.tryGetRegion(x, y, out structureRegion))
             {
                 StructureData data = structureRegion.structures[(int)index];
 
-                StructureEvents.RunSalvageStructure(UnturnedStructure.Create(data), ref cancel);
+                StructureEvents.RunSalvageStructure(UnturnedStructure.Create(data));
             }
-            if(!cancel)
+
             DetourManager.CallOriginal(typeof(StructureManager).GetMethod("askSalvageStructure", BindingFlags.Instance | BindingFlags.Public), StructureManager.instance, steamID, x, y, index);
         }
     }

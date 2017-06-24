@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using UnityEngine;
 
 namespace PointBlank.API.Unturned.Structure
 {
@@ -18,34 +17,19 @@ namespace PointBlank.API.Unturned.Structure
         /// <param name="structure">The structure that got damaged</param>
         /// <param name="damage">The amount of damage caused</param>
         /// <param name="dead">Did the structure die</param>
-        public delegate void StructureDamageHandler(UnturnedStructure structure, ref ushort damage, bool destroy, ref bool cancel);
+        public delegate void StructureDamageHandler(UnturnedStructure structure, ushort damage, bool dead);
         /// <summary>
         /// Used for handling structure repair events
         /// </summary>
         /// <param name="structure">The structure instance</param>
         /// <param name="repair">The structure repair amount</param>
-        public delegate void StructureRepairHandler(UnturnedStructure structure, ref ushort repair, ref bool cancel);
+        public delegate void StructureRepairHandler(UnturnedStructure structure, ushort repair);
 
         /// <summary>
         /// Used for handling structure destroy events
         /// </summary>
         /// <param name="structure">The structure that gets destroyed</param>
         public delegate void StructureDestroyHandler(UnturnedStructure structure);
-        
-
-        /// <summary>
-        /// Used for handling structure salvage events
-        /// </summary>
-        /// <param name="structure">The structure that gets destroyed</param>
-        public delegate void StructureSalvageHandler(UnturnedStructure structure, ref bool cancel);
-
-        /// <summary>
-        /// Used for handling structure salvage events
-        /// </summary>
-        /// <param name="structure">The structure that gets destroyed</param>
-        public delegate void StructureCreateHandler(SDG.Unturned.ItemStructureAsset structure, Vector3 point, ulong owner, ref ulong group, ref bool cancel);
-
-
         #endregion
 
         #region Events
@@ -62,44 +46,28 @@ namespace PointBlank.API.Unturned.Structure
         /// Called when a structure gets destroyed
         /// </summary>
         public static event StructureDestroyHandler OnDestroyStructure;
-       
         /// <summary>
         /// Called when a structure gets salvaged
         /// </summary>
-        public static event StructureSalvageHandler OnSalvageStructure;
-
-        /// <summary>
-        /// Called when a structure gets salvaged
-        /// </summary>
-        public static event StructureCreateHandler OnCreateStructure;
-
+        public static event StructureDestroyHandler OnSalvageStructure;
         #endregion
 
         #region Functions
-
-        internal static void RunStructureCreate(SDG.Unturned.ItemStructureAsset structure, Vector3 point, ulong owner, ref ulong group, ref bool cancel)
-        {
-            if(OnCreateStructure == null)
-            return;
-
-            OnCreateStructure(structure, point, owner, ref group, ref cancel);
-        }
-
-        internal static void RunDamageStructure(UnturnedStructure structure, ref ushort damage, ref bool cancel)
+        internal static void RunDamageStructure(UnturnedStructure structure, ushort damage)
         {
             if (OnDamageStructure == null)
                 return;
 
-            OnDamageStructure(structure, ref damage, (damage > structure.Health), ref cancel);
+            OnDamageStructure(structure, damage, (damage > structure.Health));
             if (damage > structure.Health)
                 RunDestroyStructure(structure);
         }
-        internal static void RunRepairStructure(UnturnedStructure structure, ref ushort repair, ref bool cancel)
+        internal static void RunRepairStructure(UnturnedStructure structure, ushort repair)
         {
             if (OnRepairStructure == null)
                 return;
 
-           OnRepairStructure(structure, ref repair, ref cancel);
+            OnRepairStructure(structure, repair);
         }
 
         internal static void RunDestroyStructure(UnturnedStructure structure)
@@ -109,12 +77,12 @@ namespace PointBlank.API.Unturned.Structure
 
             OnDestroyStructure(structure);
         }
-        internal static void RunSalvageStructure(UnturnedStructure structure, ref bool cancel)
+        internal static void RunSalvageStructure(UnturnedStructure structure)
         {
             if (OnSalvageStructure == null)
                 return;
 
-            OnSalvageStructure(structure, ref cancel);
+            OnSalvageStructure(structure);
         }
         #endregion
     }

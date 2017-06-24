@@ -14,26 +14,20 @@ namespace PointBlank.Framework.Overrides
         [Detour(typeof(Barricade), "askDamage", BindingFlags.Instance | BindingFlags.Public)]
         public static void askDamage(this Barricade barricade, ushort amount)
         {
-            bool cancel = false;
-
             // Run the events
-            BarricadeEvents.RunBarricadeDamage(UnturnedBarricade.FindBarricade(barricade), ref amount, ref cancel);
+            BarricadeEvents.RunBarricadeDamage(UnturnedBarricade.FindBarricade(barricade), amount);
 
             // Run the original function
-            if(!cancel)
             DetourManager.CallOriginal(typeof(Barricade).GetMethod("askDamage", BindingFlags.Instance | BindingFlags.Public), barricade, amount);
         }
 
         [Detour(typeof(Barricade), "askRepair", BindingFlags.Instance | BindingFlags.Public)]
         public static void askRepair(this Barricade barricade, ushort amount)
         {
-            bool cancel = false;
-
             // Run the events
-            BarricadeEvents.RunBarricadeRepair(UnturnedBarricade.FindBarricade(barricade), ref amount, ref cancel);
+            BarricadeEvents.RunBarricadeRepair(UnturnedBarricade.FindBarricade(barricade), amount);
 
             // Run the original function
-            if(!cancel)
             DetourManager.CallOriginal(typeof(Barricade).GetMethod("askRepair", BindingFlags.Instance | BindingFlags.Public), barricade, amount);
         }
     }

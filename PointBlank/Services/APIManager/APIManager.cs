@@ -12,7 +12,6 @@ using PointBlank.API.Unturned.Structure;
 using GM = PointBlank.API.Groups.GroupManager;
 using Steamworks;
 using UnityEngine;
-using PointBlank.API.Unturned.Barricade;
 
 namespace PointBlank.Services.APIManager
 {
@@ -43,7 +42,7 @@ namespace PointBlank.Services.APIManager
             LightingManager.onMoonUpdated += new MoonUpdated(ServerEvents.RunFullMoon);
             LightingManager.onRainUpdated += new RainUpdated(ServerEvents.RunRainUpdated);
             StructureEvents.OnDestroyStructure += new StructureEvents.StructureDestroyHandler(ServerEvents.RunStructureRemoved);
-            BarricadeEvents.OnBarricadeDestroy += new BarricadeEvents.BarricadeDestroyHandler(ServerEvents.RunBarricadeRemoved);
+            StructureEvents.OnSalvageStructure += new StructureEvents.StructureDestroyHandler(ServerEvents.RunStructureRemoved);
 
             // Setup pointblank events
             ServerEvents.OnPlayerConnected += new ServerEvents.PlayerConnectionHandler(OnPlayerJoin);
