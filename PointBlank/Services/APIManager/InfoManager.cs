@@ -368,10 +368,7 @@ namespace PointBlank.Services.APIManager
             UniSteamGoupConfig.Save();
         }
 
-        private void FirstPlayers()
-        {
-            PlayerConfig.Document.Add("Players", new JArray());
-        }
+        private void FirstPlayers() => PlayerConfig.Document.Add("Players", new JArray());
 
         private void SavePlayers() // Force save players
         {

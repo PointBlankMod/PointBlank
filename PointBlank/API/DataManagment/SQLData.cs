@@ -426,10 +426,7 @@ namespace PointBlank.API.DataManagment
         /// </summary>
         /// <param name="tableName">The name of the table to remove</param>
         /// <returns>If the table was successful</returns>
-        public bool DeleteTable(string tableName)
-        {
-            return SendCommand("DROP TABLE " + tableName + ";");
-        }
+        public bool DeleteTable(string tableName) => SendCommand("DROP TABLE " + tableName + ";");
 
         /// <summary>
         /// Adds an entry to the table
@@ -501,10 +498,7 @@ namespace PointBlank.API.DataManagment
         /// <param name="condition">The condition to find the correct entry</param>
         /// <param name="parameters">The option parameters for the condition</param>
         /// <returns>If the entry was deleted successfully</returns>
-        public bool DeleteEntry(string tableName, string condition, Dictionary<string, string> parameters = null)
-        {
-            return SendCommand("DELETE FROM " + tableName + " WHERE " + condition, parameters);
-        }
+        public bool DeleteEntry(string tableName, string condition, Dictionary<string, string> parameters = null) => SendCommand("DELETE FROM " + tableName + " WHERE " + condition, parameters);
         #endregion
     }
 }

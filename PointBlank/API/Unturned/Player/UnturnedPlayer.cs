@@ -79,10 +79,7 @@ namespace PointBlank.API.Unturned.Player
         /// </summary>
         public bool IsAdmin
         {
-            get
-            {
-                return SteamPlayer.isAdmin;
-            }
+            get => SteamPlayer.isAdmin;
             set
             {
                 if (value)
@@ -106,7 +103,11 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// Is the player muted
         /// </summary>
-        public bool IsMuted { get { return SteamPlayer.isMuted; } set { SteamPlayer.isMuted = value; } }
+        public bool IsMuted 
+        {
+            get => SteamPlayer.isMuted;
+            set => SteamPlayer.isMuted = value;
+        }
         /// <summary>
         /// Is the player the owner
         /// </summary>
@@ -118,10 +119,7 @@ namespace PointBlank.API.Unturned.Player
         /// </summary>
         public byte Health
         {
-            get
-            {
-                return Life.health;
-            }
+            get => Life.health;
             set
             {
                 // Do checks
@@ -149,10 +147,7 @@ namespace PointBlank.API.Unturned.Player
         /// </summary>
         public byte Food
         {
-            get
-            {
-                return Life.food;
-            }
+            get => Life.food;
             set
             {
                 // Checks
@@ -176,10 +171,7 @@ namespace PointBlank.API.Unturned.Player
         /// </summary>
         public byte Thirst
         {
-            get
-            {
-                return Life.water;
-            }
+            get => Life.water;
             set
             {
                 // Checks
@@ -203,10 +195,7 @@ namespace PointBlank.API.Unturned.Player
         /// </summary>
         public byte Virus
         {
-            get
-            {
-                return Life.virus;
-            }
+            get => Life.virus;
             set
             {
                 // Checks
@@ -230,10 +219,7 @@ namespace PointBlank.API.Unturned.Player
         /// </summary>
         public bool IsBroken
         {
-            get
-            {
-                return Life.isBroken;
-            }
+            get => Life.isBroken;
             set
             {
                 // Checks
@@ -257,10 +243,7 @@ namespace PointBlank.API.Unturned.Player
         /// </summary>
         public bool IsBleeding
         {
-            get
-            {
-                return Life.isBleeding;
-            }
+            get => Life.isBleeding;
             set
             {
                 // Checks
@@ -282,16 +265,13 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// Is the player dead
         /// </summary>
-        public bool IsDead { get { return Life.isDead; } }
+        public bool IsDead => Life.isDead;
         /// <summary>
         /// The player's skill boost
         /// </summary>
         public EPlayerBoost SkillBoost
         {
-            get
-            {
-                return Player.skills.boost;
-            }
+            get => Player.skills.boost;
             set
             {
                 // Data
@@ -309,10 +289,7 @@ namespace PointBlank.API.Unturned.Player
         /// </summary>
         public uint Experience
         {
-            get
-            {
-                return Player.skills.experience;
-            }
+            get => USkills.experience;
             set
             {
                 // Data
@@ -328,13 +305,7 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// Checks if player is in vehicle
         /// </summary>
-        public bool IsInVehicle
-        {
-            get
-            {
-                return Movement.getVehicle() != null;
-            }
-        }
+        public bool IsInVehicle => Movement.getVehicle() != null;
         /// <summary>
         /// The player current vehicle
         /// </summary>
@@ -344,10 +315,7 @@ namespace PointBlank.API.Unturned.Player
         /// </summary>
         public int Reputation
         {
-            get
-            {
-                return Player.skills.reputation;
-            }
+            get => Player.skills.reputation;
             set
             {
                 // Data
@@ -387,7 +355,11 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// Is the current equipment busy
         /// </summary>
-        public bool IsEquipmentBusy { get { return Equipment.isBusy; } set { Equipment.isBusy = value; } }
+        public bool IsEquipmentBusy
+        {
+            get => Equipment.isBusy;
+            set => Equipment.isBusy = value;
+        }
         /// <summary>
         /// Can the equipped item be inspected
         /// </summary>
@@ -423,15 +395,7 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// IP of the player
         ///</summary>
-        public string IP
-        {
-            get
-            {
-                
-
-                return Parser.getIPFromUInt32(SteamIP);
-            }
-        }
+        public string IP => Parser.getIPFromUInt32(SteamIP);
         /// <summary>
         /// The steam defined IP of the player
         /// </summary>
@@ -549,7 +513,13 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// Returns SteamChannel of Player
         /// </summary>
+
         public SteamChannel Channel => Player.channel;
+
+        /// <summary>
+        /// Returns Skills of Player
+        /// </summary>
+        public PlayerSkills USkills => Player.skills;
         #endregion
 
         private UnturnedPlayer(SPlayer steamplayer)
@@ -586,55 +556,37 @@ namespace PointBlank.API.Unturned.Player
         /// </summary>
         /// <param name="player">The steam player instance</param>
         /// <returns>The unturned player instance</returns>
-        public static UnturnedPlayer Get(SPlayer player)
-        {
-            return UnturnedServer.GetPlayer(player);
-        }
+        public static UnturnedPlayer Get(SPlayer player) => UnturnedServer.GetPlayer(player);
         /// <summary>
         /// Gets the unturned player instance based on player instance
         /// </summary>
         /// <param name="player">The player instance</param>
         /// <returns>The unturned player instace</returns>
-        public static UnturnedPlayer Get(UPlayer player)
-        {
-            return UnturnedServer.GetPlayer(player);
-        }
+        public static UnturnedPlayer Get(UPlayer player) => UnturnedServer.GetPlayer(player);
         /// <summary>
         /// Gets the unturned player instance based on arena player instance
         /// </summary>
         /// <param name="player">The unturned player instance</param>
         /// <returns>The unturned player instance</returns>
-        public static UnturnedPlayer Get(ArenaPlayer player)
-        {
-            return UnturnedServer.GetPlayer(player);
-        }
+        public static UnturnedPlayer Get(ArenaPlayer player) => UnturnedServer.GetPlayer(player);
         /// <summary>
         /// Gets the unturned player instance based on steam player id instance
         /// </summary>
         /// <param name="playerID">The steam player id instance</param>
         /// <returns>The unturned player instance</returns>
-        public static UnturnedPlayer Get(SteamPlayerID playerID)
-        {
-            return UnturnedServer.GetPlayer(playerID);
-        }
+        public static UnturnedPlayer Get(SteamPlayerID playerID) => UnturnedServer.GetPlayer(playerID);
         /// <summary>
         /// Gets the unturned player instance based on steam id instance
         /// </summary>
         /// <param name="steamID">The steam id instance</param>
         /// <returns>The unturned player instance</returns>
-        public static UnturnedPlayer Get(CSteamID steamID)
-        {
-            return UnturnedServer.GetPlayer(steamID);
-        }
+        public static UnturnedPlayer Get(CSteamID steamID) => UnturnedServer.GetPlayer(steamID);
         /// <summary>
         /// Gets the unturned player instance based on steam64 ID
         /// </summary>
         /// <param name="steam64">The steam64 ID</param>
         /// <returns>The unturned player instance</returns>
-        public static UnturnedPlayer Get(ulong steam64)
-        {
-            return UnturnedServer.GetPlayer(steam64);
-        }
+        public static UnturnedPlayer Get(ulong steam64) => UnturnedServer.GetPlayer(steam64);
 
         /// <summary>
         /// Tries to get the unturned player instance based on the paramater
@@ -927,19 +879,13 @@ namespace PointBlank.API.Unturned.Player
         /// <param name="message">The message to tell the player</param>
         /// <param name="color">The color of the message</param>
         /// <param name="mode">The mode of the message</param>
-        public void SendMessage(string message, Color color, EChatMode mode = EChatMode.SAY)
-        {
-            CM.Tell(SteamID, message, color, mode);
-        }
+        public void SendMessage(string message, Color color, EChatMode mode = EChatMode.SAY) => CM.Tell(SteamID, message, color, mode);
         /// <summary>
         /// Fake sends the message to look like the player sent it
         /// </summary>
         /// <param name="message">The message to send</param>
         /// <param name="color">The color of the message</param>
-        public void ForceSay(string message, Color color)
-        {
-            CM.FakeMessage(SteamID, message, color);
-        }
+        public void ForceSay(string message, Color color) => CM.FakeMessage(SteamID, message, color);
         #endregion
 
         #region Unturned Functions
@@ -959,47 +905,32 @@ namespace PointBlank.API.Unturned.Player
         /// </summary>
         /// <param name="Item">The item to find</param>
         /// <returns>If the player has the item in the inventory</returns>
-        public bool HasItem(Item Item)
-        {
-            return HasItem(Item.id);
-        }
+        public bool HasItem(Item Item) => HasItem(Item.id);
         /// <summary>
         /// Checks if the player has a specific item
         /// </summary>
         /// <param name="Name">The item to find</param>
         /// <returns>If the player has the item in the inventory</returns>
-        public bool HasItem(string Name)
-        {
-            return HasItem(((ItemAsset)Assets.find(EAssetType.ITEM, Name)).id);
-        }
+        public bool HasItem(string Name) => HasItem(((ItemAsset)Assets.find(EAssetType.ITEM, Name)).id);
 
         /// <summary>
         /// Gives the player an item
         /// </summary>
         /// <param name="ID">The ID of the item</param>
         /// <returns>If the item was given to the player</returns>
-        public bool GiveItem(ushort ID)
-        {
-            return ItemTool.tryForceGiveItem(Player, ID, 1);
-        }
+        public bool GiveItem(ushort ID) => ItemTool.tryForceGiveItem(Player, ID, 1);
         /// <summary>
         /// Gives the player an item
         /// </summary>
         /// <param name="ID">The item instance to give to the player</param>
         /// <returns>If the item was given to the player</returns>
-        public bool GiveItem(Item Item)
-        {
-            return GiveItem(Item.id);
-        }
+        public bool GiveItem(Item Item) => GiveItem(Item.id);
         /// <summary>
         /// Gives the player an item
         /// </summary>
         /// <param name="ID">The name of the item to give to the player</param>
         /// <returns>If the item was given to the player</returns>
-        public bool GiveItem(String Name)
-        {
-            return GiveItem((Assets.find(EAssetType.ITEM, Name) as ItemAsset).id);
-        }
+        public bool GiveItem(String Name) => GiveItem((Assets.find(EAssetType.ITEM, Name) as ItemAsset).id);
 
         /// <summary>
         /// Removes an item from the player's inventory
@@ -1024,36 +955,24 @@ namespace PointBlank.API.Unturned.Player
         /// </summary>
         /// <param name="Item">The item instance to remove</param>
         /// <returns>If the item was removed</returns>
-        public bool RemoveItem(Item Item)
-        {
-            return RemoveItem(Item.id);
-        }
+        public bool RemoveItem(Item Item) => RemoveItem(Item.id);
         /// <summary>
         /// Removes an item from the player's inventory
         /// </summary>
         /// <param name="Name">The item's name to remove</param>
         /// <returns>If the item was removed</returns>
-        public bool RemoveItem(string Name)
-        {
-            return RemoveItem((Assets.find(EAssetType.ITEM, Name) as ItemAsset).id);
-        }
+        public bool RemoveItem(string Name) => RemoveItem((Assets.find(EAssetType.ITEM, Name) as ItemAsset).id);
 
         /// <summary>
         /// Sends effect to the player
         /// </summary>
         /// <param name="id">The effect id to trigger</param>
-        public void SendEffect(ushort id)
-        {
-            EffectManager.instance.tellEffectPoint(SteamID, id, Position);
-        }
+        public void SendEffect(ushort id) => EffectManager.instance.tellEffectPoint(SteamID, id, Position);
         /// <summary>
         /// Clear effect by id
         /// </summary>
         /// <param name="id">The effect id to clear</param>
-        public void ClearEffect(ushort id)
-        {
-            EffectManager.instance.tellEffectClearByID(SteamID, id);
-        }
+        public void ClearEffect(ushort id) => EffectManager.instance.tellEffectClearByID(SteamID, id);
 
         /// <summary>
         /// Dequip the player's equipped item

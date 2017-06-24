@@ -50,20 +50,20 @@ namespace PointBlank.API.Steam
         /// <summary>
         /// The group permissions
         /// </summary>
-        public string[] Permissions { get { return _Permissions.ToArray(); } }
+        public string[] Permissions => _Permissions.ToArray();
         /// <summary>
         /// The group inherits
         /// </summary>
-        public SteamGroup[] Inherits { get { return _Inherits.ToArray(); } }
+        public SteamGroup[] Inherits => _Inherits.ToArray();
 
         /// <summary>
         /// The group prefixes
         /// </summary>
-        public string[] Prefixes { get { return _Prefixes.ToArray(); } }
+        public string[] Prefixes => _Prefixes.ToArray();
         /// <summary>
         /// The group suffixes
         /// </summary>
-        public string[] Suffixes { get { return _Suffixes.ToArray(); } }
+        public string[] Suffixes => _Suffixes.ToArray();
 
         /// <summary>
         /// The group cooldown for commands

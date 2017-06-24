@@ -27,14 +27,8 @@ namespace PointBlank.API.Collections
         /// <returns>The translation text</returns>
         public string this[string key]
         {
-            get
-            {
-                return translations[key];
-            }
-            set
-            {
-                translations[key] = value;
-            }
+            get => translations[key];
+            set => translations[key] = value;
         }
 
         /// <summary>
@@ -44,26 +38,14 @@ namespace PointBlank.API.Collections
         /// <returns>The translation KeyValuePair</returns>
         public KeyValuePair<string, string> this[int index]
         {
-            get
-            {
-                return translations.ElementAt(index);
-            }
-            set
-            {
-                translations[translations.ElementAt(index).Key] = value.Value;
-            }
+            get => translations.ElementAt(index);
+            set => translations[translations.ElementAt(index).Key] = value.Value;
         }
 
         /// <summary>
         /// Returns the amount of items in the translation list
         /// </summary>
-        public int Count
-        {
-            get
-            {
-                return translations.Count;
-            }
-        }
+        public int Count => translations.Count;
 
         public object SyncRoot => throw new NotImplementedException();
 
@@ -85,37 +67,25 @@ namespace PointBlank.API.Collections
         /// </summary>
         /// <param name="key">Key to save it as</param>
         /// <param name="value">Value of the text</param>
-        public void Add(string key, string value)
-        {
-            translations.Add(key, value);
-        }
+        public void Add(string key, string value) => translations.Add(key, value);
 
         /// <summary>
         /// Adds a translation entry using the KeyValuePair
         /// </summary>
         /// <param name="kvp">The KeyValuePair to extract the data from</param>
-        public void Add(KeyValuePair<string, string> kvp)
-        {
-            translations.Add(kvp.Key, kvp.Value);
-        }
+        public void Add(KeyValuePair<string, string> kvp) => translations.Add(kvp.Key, kvp.Value);
 
         /// <summary>
         /// Removes a translation entry using the key
         /// </summary>
         /// <param name="key">Key of translation entry</param>
-        public void Remove(string key)
-        {
-            translations.Remove(key);
-        }
+        public void Remove(string key) => translations.Remove(key);
 
         /// <summary>
         /// Removes a translation entry using the index
         /// </summary>
         /// <param name="index">Index of the entry</param>
-        public void RemoveAt(int index)
-        {
-            translations.Remove(this[index].Key);
-        }
+        public void RemoveAt(int index) => translations.Remove(this[index].Key)
 
         /// <summary>
         /// Adds a range of translations using the KeyValuePair list
@@ -123,8 +93,8 @@ namespace PointBlank.API.Collections
         /// <param name="list">The list of translations to add</param>
         public void AddRange(IEnumerable<KeyValuePair<string, string>> list)
         {
-            for (int i = 0; i < list.Count(); i++)
-                this.Add(list.ElementAt(i).Key, list.ElementAt(i).Value);
+            foreach (KeyValuePair<string, string> x in list)
+                this.Add(x.Key, x.Value);
         }
 
         /// <summary>
@@ -141,10 +111,7 @@ namespace PointBlank.API.Collections
         /// Gets the enumerator and returns it
         /// </summary>
         /// <returns>Enumerator for translation list</returns>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return translations.GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => translations.GetEnumerator();
 
         /// <summary>
         /// Copies the KeyValuePairs to the array

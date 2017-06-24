@@ -87,10 +87,7 @@ namespace PointBlank.API.DataManagment
         /// </summary>
         /// <param name="instance">The instance of the class</param>
         /// <returns>The JSON string</returns>
-        public static string Serialize(object instance)
-        {
-            return JsonConvert.SerializeObject(instance); // Serialize the object
-        }
+        public static string Serialize(object instance) => JsonConvert.SerializeObject(instance); // Serialize the object
 
         /// <summary>
         /// Serializes a class into a JSON
@@ -108,10 +105,7 @@ namespace PointBlank.API.DataManagment
         /// <param name="json">The JSON</param>
         /// <param name="type">The type to deserialize to</param>
         /// <returns>Instance of the deserialized file</returns>
-        public static object Deserialize(string json, Type type)
-        {
-            return JsonConvert.DeserializeObject(json, type); // Deserialize the file
-        }
+        public static object Deserialize(string json, Type type) => JsonConvert.DeserializeObject(json, type); // Deserialize the file
 
         /// <summary>
         /// Deserialize JSON into an instance of a class
@@ -119,10 +113,7 @@ namespace PointBlank.API.DataManagment
         /// <typeparam name="T">The class</typeparam>
         /// <param name="json">The JSON</param>
         /// <returns>Instance of the class deserialized from JSON</returns>
-        public static T Deserialize<T>(string json)
-        {
-            return JsonConvert.DeserializeObject<T>(json); // Deserialize the JSON
-        }
+        public static T Deserialize<T>(string json) => JsonConvert.DeserializeObject<T>(json); // Deserialize the JSON
         #endregion
 
         #region Public Functions
@@ -140,10 +131,7 @@ namespace PointBlank.API.DataManagment
         /// <summary>
         /// Saves the JSON file
         /// </summary>
-        internal void Save()
-        {
-            File.WriteAllText(Path, Document.ToString(Formatting.Indented)); // Write the file
-        }
+        internal void Save() => File.WriteAllText(Path, Document.ToString(Formatting.Indented)); // Write the file
 
         /// <summary>
         /// Verifies the document and adds missing information specified in information
@@ -174,10 +162,7 @@ namespace PointBlank.API.DataManagment
         /// </summary>
         /// <param name="key">The key you want to check</param>
         /// <returns>If it exists in the document</returns>
-        public bool CheckKey(string key)
-        {
-            return (Document[key] != null && Document[key].Type != JTokenType.Null);
-        }
+        public bool CheckKey(string key) => (Document[key] != null && Document[key].Type != JTokenType.Null);
         #endregion
     }
 }

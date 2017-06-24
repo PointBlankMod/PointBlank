@@ -64,10 +64,7 @@ namespace PointBlank.Services.APIManager
         #endregion
 
         #region Mono Functions
-        void Update()
-        {
-            ServerEvents.RunGameTick();
-        }
+        void Update() => ServerEvents.RunGameTick();
         #endregion
 
         #region Event Functions
@@ -80,10 +77,7 @@ namespace PointBlank.Services.APIManager
                     player.AddGroup(g);
         }
 
-        private void OnPlayerLeave(UnturnedPlayer player)
-        {
-            UnturnedServer.RemovePlayer(player);
-        }
+        private void OnPlayerLeave(UnturnedPlayer player) => UnturnedServer.RemovePlayer(player);
 
         private void OnPlayerChat(SteamPlayer player, EChatMode mode, ref Color color, string text, ref bool visible)
         {

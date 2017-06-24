@@ -96,20 +96,14 @@ namespace PointBlank.API.Unturned.Barricade
         /// </summary>
         /// <param name="Barricade">The unturned Barricade instance</param>
         /// <returns>The instance of the custom Barricade class</returns>
-        public static UnturnedBarricade FindBarricade(UBarricade Barricade)
-        {
-            return UnturnedServer.Barricades.FirstOrDefault(a => a.Barricade == Barricade);
-        }
+        public static UnturnedBarricade FindBarricade(UBarricade Barricade) => UnturnedServer.Barricades.FirstOrDefault(a => a.Barricade == Barricade);
 
         /// <summary>
         /// Finds a Barricade based on the Barricade data
         /// </summary>
         /// <param name="data">The Barricade data</param>
         /// <returns>The unturned Barricade instance</returns>
-        public static UnturnedBarricade FindBarricade(BarricadeData data)
-        {
-            return UnturnedServer.Barricades.FirstOrDefault(a => a.Data == data);
-        }
+        public static UnturnedBarricade FindBarricade(BarricadeData data) => UnturnedServer.Barricades.FirstOrDefault(a => a.Data == data);
         #endregion
 
         #region Public Functions

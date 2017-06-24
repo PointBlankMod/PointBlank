@@ -80,10 +80,7 @@ namespace PointBlank.Services.PluginManager
         #endregion
 
         #region Public Functions
-        public PluginWrapper GetWrapper(Plugin plugin)
-        {
-            return Plugins.First(a => a.PluginClass == plugin);
-        }
+        public PluginWrapper GetWrapper(Plugin plugin) => Plugins.First(a => a.PluginClass == plugin);
         #endregion
 
         #region Private Functions
@@ -119,10 +116,7 @@ namespace PointBlank.Services.PluginManager
             }
         }
 
-        private void SaveConfig()
-        {
-            UniConfig.Save();
-        }
+        private void SaveConfig() => UniConfig.Save();
         #endregion
     }
 }

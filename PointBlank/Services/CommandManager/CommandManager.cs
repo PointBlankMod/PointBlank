@@ -52,10 +52,7 @@ namespace PointBlank.Services.CommandManager
                     LoadCommand(tClass);
         }
 
-        public override void Unload()
-        {
-            SaveConfig();
-        }
+        public override void Unload() => SaveConfig();
         #endregion
 
         #region Private Functions

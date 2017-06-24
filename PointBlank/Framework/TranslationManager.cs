@@ -703,10 +703,7 @@ namespace PointBlank.Framework
             #endregion
         }
 
-        public static void Reload()
-        {
-            Load();
-        }
+        public static void Reload() => Load();
 
         public static void Save()
         {

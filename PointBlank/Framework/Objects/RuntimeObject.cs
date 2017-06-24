@@ -114,15 +114,9 @@ namespace PointBlank.Framework.Objects
             CodeObjects.Remove(comp.GetType().Name);
         }
 
-        public T GetCodeObject<T>() where T : MonoBehaviour // Returns code object
-        {
-            return (T)CodeObjects.First(a => a.Value.GetType() == typeof(T)).Value;
-        }
+        public T GetCodeObject<T>() where T : MonoBehaviour => (T)CodeObjects.First(a => a.Value.GetType() == typeof(T)).Value; // Returns code object
 
-        public MonoBehaviour GetCodeObject(string name) // Returns code object
-        {
-            return CodeObjects[name];
-        }
+        public MonoBehaviour GetCodeObject(string name) => CodeObjects[name]; // Returns code object
         #endregion
     }
 }

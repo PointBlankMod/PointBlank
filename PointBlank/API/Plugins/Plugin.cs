@@ -26,24 +26,12 @@ namespace PointBlank.API.Plugins
         /// <summary>
         /// The translations for the plugin
         /// </summary>
-        public static TranslationList Translations
-        {
-            get
-            {
-                return PluginManager.Plugins.First(a => a.PluginClass == Instance).Translations; // Get the plugin translations
-            }
-        }
+        public static TranslationList Translations => PluginManager.Plugins.First(a => a.PluginClass == Instance).Translations; // Get the plugin translations
 
         /// <summary>
         /// The configurations for the plugin
         /// </summary>
-        public static ConfigurationList Configurations
-        {
-            get
-            {
-                return PluginManager.Plugins.First(a => a.PluginClass == Instance).Configurations; // Get the plugin configuration
-            }
-        }
+        public static ConfigurationList Configurations => PluginManager.Plugins.First(a => a.PluginClass == Instance).Configurations; // Get the plugin configuration
         #endregion
 
         #region Abstract Properties
@@ -99,10 +87,7 @@ namespace PointBlank.API.Plugins
         /// <param name="key">The translation key</param>
         /// <param name="data">The arguments for string formatting</param>
         /// <returns>The formatted message</returns>
-        public string Translate(string key, params object[] data)
-        {
-            return string.Format(Translations[key], data);
-        }
+        public string Translate(string key, params object[] data) => string.Format(Translations[key], data);
         #endregion
     }
 }

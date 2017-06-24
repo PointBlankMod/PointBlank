@@ -36,20 +36,20 @@ namespace PointBlank.API.Groups
         /// <summary>
         /// The list of permissions this group has
         /// </summary>
-        public string[] Permissions { get { return _Permissions.ToArray(); } }
+        public string[] Permissions => Permissions.ToArray();
         /// <summary>
         /// List of permission inherits this group has
         /// </summary>
-        public Group[] Inherits { get { return _Inherits.ToArray(); } }
+        public Group[] Inherits => _Inherits.ToArray();
 
         /// <summary>
         /// List of prefixes the group has
         /// </summary>
-        public string[] Prefixes { get { return _Prefixes.ToArray(); } }
+        public string[] Prefixes => _Prefixes.ToArray();
         /// <summary>
         /// List of suffixes the group has
         /// </summary>
-        public string[] Suffixes { get { return _Suffixes.ToArray(); } }
+        public string[] Suffixes => _Suffixes.ToArray();
 
         /// <summary>
         /// The cooldown for the commands
@@ -83,20 +83,14 @@ namespace PointBlank.API.Groups
         /// </summary>
         /// <param name="ID">The ID to query</param>
         /// <returns>The instance of the group the ID belongs to or null if not found</returns>
-        public static Group Find(string ID)
-        {
-            return GroupManager.Groups.FirstOrDefault(a => a.ID == ID);
-        }
+        public static Group Find(string ID) => GroupManager.Groups.FirstOrDefault(a => a.ID == ID);
 
         /// <summary>
         /// Checks if the specified group ID is already in use
         /// </summary>
         /// <param name="ID">The group ID to check for</param>
         /// <returns>If the group ID is already in use</returns>
-        public static bool Exists(string ID)
-        {
-            return (Find(ID) != null);
-        }
+        public static bool Exists(string ID) => (Find(ID) != null);
         #endregion
 
         #region Public Functions

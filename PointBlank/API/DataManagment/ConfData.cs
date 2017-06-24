@@ -80,10 +80,7 @@ namespace PointBlank.API.DataManagment
         /// </summary>
         /// <typeparam name="T">The class</typeparam>
         /// <param name="filepath">Path to the file</param>
-        public static void Serialize<T>(string filepath)
-        {
-            Serialize(filepath, Activator.CreateInstance<T>()); // Create instance and serialize
-        }
+        public static void Serialize<T>(string filepath) => Serialize(filepath, Activator.CreateInstance<T>()); // Create instance and serialize
         #endregion
 
         #region Public Functions
@@ -154,49 +151,34 @@ namespace PointBlank.API.DataManagment
         /// Adds a comment to the file
         /// </summary>
         /// <param name="comment">The comment to add</param>
-        public void AddComment(string comment)
-        {
-            CONFs.Add(CONFs.Keys.Max(), comment); // Add the comment
-        }
+        public void AddComment(string comment) => CONFs.Add(CONFs.Keys.Max(), comment); // Add the comment
 
         /// <summary>
         /// Adds a comment to the line
         /// </summary>
         /// <param name="comment">The comment to add</param>
         /// <param name="line">The line position</param>
-        public void AddComment(string comment, int line)
-        {
-            CONFs.Add(line, comment); // Add the comment
-        }
+        public void AddComment(string comment, int line) => CONFs.Add(line, comment); // Add the comment
 
         /// <summary>
         /// Edits a comment on that line
         /// </summary>
         /// <param name="comment">The comment to do</param>
         /// <param name="line">The line to edit</param>
-        public void EditComment(string comment, int line)
-        {
-            CONFs[line] = comment; // Change to the comment
-        }
+        public void EditComment(string comment, int line) => CONFs[line] = comment; // Change to the comment
 
         /// <summary>
         /// Remove the comment from the line
         /// </summary>
         /// <param name="line">The line to remove</param>
-        public void RemoveCONF(int line)
-        {
-            CONFs.Remove(line); // Remove the CONF
-        }
+        public void RemoveCONF(int line) => CONFs.Remove(line); // Remove the CONF
 
         /// <summary>
         /// Adds a CONF to the file
         /// </summary>
         /// <param name="key">The key of the CONF</param>
         /// <param name="value">The value of the CONF</param>
-        public void AddCONF(string key, string value)
-        {
-            CONFs.Add(CONFs.Keys.Max(), new CONF(value, key)); // Add the CONF
-        }
+        public void AddCONF(string key, string value) => CONFs.Add(CONFs.Keys.Max(), new CONF(value, key)); // Add the CONF
 
         /// <summary>
         /// Adds a CONF to the line
@@ -204,10 +186,7 @@ namespace PointBlank.API.DataManagment
         /// <param name="key">The key of the CONF</param>
         /// <param name="value">The value of the CONF</param>
         /// <param name="line">The line to add the CONF to</param>
-        public void AddCONF(string key, string value, int line)
-        {
-            CONFs.Add(line, new CONF(value, key)); // Add the CONF
-        }
+        public void AddCONF(string key, string value, int line) => CONFs.Add(line, new CONF(value, key)); // Add the CONF
 
         /// <summary>
         /// Edits a CONF on that line
@@ -215,10 +194,7 @@ namespace PointBlank.API.DataManagment
         /// <param name="key">The key of the CONF</param>
         /// <param name="value">The value of the CONF</param>
         /// <param name="line">The CONF line</param>
-        public void EditCONF(string key, string value, int line)
-        {
-            CONFs[line] = new CONF(value, key); // Edit the CONF
-        }
+        public void EditCONF(string key, string value, int line) => CONFs[line] = new CONF(value, key); // Edit the CONF
         #endregion
     }
 
@@ -252,10 +228,7 @@ namespace PointBlank.API.DataManagment
         }
 
         #region Functions
-        public override string ToString()
-        {
-            return Key + "=" + Value;
-        }
+        public override string ToString() => Key + "=" + Value;
         #endregion
     }
 }

@@ -19,7 +19,7 @@ namespace PointBlank.API.Groups
         /// <summary>
         /// Array of groups in the server
         /// </summary>
-        public static Group[] Groups { get { return _Groups.Values.ToArray(); } }
+        public static Group[] Groups => _Groups.Values.ToArray();
         #endregion
 
         #region Handlers

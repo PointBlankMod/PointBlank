@@ -18,10 +18,7 @@ namespace PointBlank.Framework.Permissions.Ring
         #region Properties
         public RingPermissionRing ring
         {
-            get
-            {
-                return _ring;
-            }
+            get => _ring;
             set
             {
                 VerifyRing(value);
@@ -52,10 +49,7 @@ namespace PointBlank.Framework.Permissions.Ring
         }
 
         #region IUnrestrictedPermission Functions
-        public bool IsUnrestricted()
-        {
-            return (_ring == RingPermissionRing.Framework);
-        }
+        public bool IsUnrestricted() => (_ring == RingPermissionRing.Framework);
         #endregion
 
         #region CodeAccessPermission Functions
@@ -100,10 +94,7 @@ namespace PointBlank.Framework.Permissions.Ring
             return new RingPermission(ringPermissionsRing);
         }
 
-        public override IPermission Copy()
-        {
-            return new RingPermission(_ring);
-        }
+        public override IPermission Copy() => RingPermission(_ring);
 
         public override SecurityElement ToXml()
         {

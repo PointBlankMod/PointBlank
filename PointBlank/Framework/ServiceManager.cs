@@ -95,15 +95,9 @@ namespace PointBlank.Framework
             RunService(service, attribute); // Run the service
         }
 
-        public void UnloadService(string name) // Unload the service using the name
-        {
-            StopService(Enviroment.services[name]);
-        }
+        public void UnloadService(string name) => StopService(Enviroment.services[name]); // Unload the service using the name
 
-        public void UnloadService(ServiceWrapper wrapper) // Unload the service using the wrapper
-        {
-            StopService(wrapper);
-        }
+        public void UnloadService(ServiceWrapper wrapper) => StopService(wrapper); // Unload the service using the wrapper
 
         public void Init() // Initializes the service manager
         {

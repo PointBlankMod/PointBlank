@@ -50,26 +50,14 @@ namespace PointBlank.API.Collections
         /// <returns>The KeyValuePair of the configuration</returns>
         public KeyValuePair<string, object> this[int index]
         {
-            get
-            {
-                return Configurations.ElementAt(index);
-            }
-            set
-            {
-                Configurations[Configurations.ElementAt(index).Key] = value.Value;
-            }
+            get => Configurations.ElementAt(index);
+            set => Configurations[Configurations.ElementAt(index).Key] = value.Value;
         }
 
         /// <summary>
         /// Returns the amount of items in the configuration list
         /// </summary>
-        public int Count
-        {
-            get
-            {
-                return Configurations.Count;
-            }
-        }
+        public int Count => Configurations.Count;
 
         public object SyncRoot => throw new NotImplementedException();
 
@@ -91,37 +79,25 @@ namespace PointBlank.API.Collections
         /// </summary>
         /// <param name="configuration_name">Configuration name</param>
         /// <param name="configuration">Configuration object</param>
-        public void Add(string configuration_name, object configuration)
-        {
-            Configurations.Add(configuration_name, configuration);
-        }
+        public void Add(string configuration_name, object configuration) => Configurations.Add(configuration_name, configuration);
 
         /// <summary>
         /// Adds a configuration entry using the KeyValuePair
         /// </summary>
         /// <param name="kvp">KeyValuePair of the entry</param>
-        public void Add(KeyValuePair<string, object> kvp)
-        {
-            Configurations.Add(kvp.Key, kvp.Value);
-        }
+        public void Add(KeyValuePair<string, object> kvp) => Configurations.Add(kvp.Key, kvp.Value);
 
         /// <summary>
         /// Removes a configuration entry using the configuration name
         /// </summary>
         /// <param name="configuration_name">Configuration name</param>
-        public void Remove(string configuration_name)
-        {
-            Configurations.Remove(configuration_name);
-        }
+        public void Remove(string configuration_name) => Configurations.Remove(configuration_name);
 
         /// <summary>
         /// Removes a configuration entry using the index
         /// </summary>
         /// <param name="index">Index of the entry</param>
-        public void RemoveAt(int index)
-        {
-            Configurations.Remove(this[index].Key);
-        }
+        public void RemoveAt(int index) => Configurations.Remove(this[index].Key);
 
         /// <summary>
         /// Adds a range of configurations using the KeyValuePair list
@@ -129,8 +105,8 @@ namespace PointBlank.API.Collections
         /// <param name="list">KeyValuePair list</param>
         public void AddRange(IEnumerable<KeyValuePair<string, object>> list)
         {
-            for (int i = 0; i < list.Count(); i++)
-                this.Add(list.ElementAt(i).Key, list.ElementAt(i).Value);
+            foreach(KeyValuePair<string, object> x in list)
+                this.Add(x.Key, x.Value);
         }
 
         /// <summary>
@@ -147,10 +123,7 @@ namespace PointBlank.API.Collections
         /// Gets the enumerator and returns it
         /// </summary>
         /// <returns>List enumerator</returns>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return Configurations.GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => Configurations.GetEnumerator();
 
         /// <summary>
         /// Copies the KeyValuePairs into the array
@@ -166,10 +139,7 @@ namespace PointBlank.API.Collections
         /// <summary>
         /// Clears the list
         /// </summary>
-        public void Clear()
-        {
-            Configurations.Clear();
-        }
+        public void Clear() => Configurations.Clear();
         #endregion
     }
 }

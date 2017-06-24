@@ -88,146 +88,98 @@ namespace PointBlank.API.Unturned.Vehicle
         /// </summary>
         public bool IsLocked
         {
-            get
-            {
-                return Vehicle.isLocked;
-            }
-            set
-            {
-                VehicleManager.instance.channel.send("tellVehicleLock", ESteamCall.ALL, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
+            get => Vehicle.isLocked;
+            set => VehicleManager.instance.channel.send("tellVehicleLock", ESteamCall.ALL, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
                 {
                     InstanceID,
                     LockedOwner,
                     LockedGroup,
                     value
                 });
-            }
         }
         /// <summary>
         /// The player who locked the vehicle
         /// </summary>
         public CSteamID LockedOwner
         {
-            get
-            {
-                return Vehicle.lockedOwner;
-            }
-            set
-            {
-                VehicleManager.instance.channel.send("tellVehicleLock", ESteamCall.ALL, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
+            get => Vehicle.lockedOwner;
+            set => VehicleManager.instance.channel.send("tellVehicleLock", ESteamCall.ALL, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
                 {
                     InstanceID,
                     value,
                     LockedGroup,
                     IsLocked
                 });
-            }
         }
         /// <summary>
         /// The group who locked the vehicle
         /// </summary>
         public CSteamID LockedGroup
         {
-            get
-            {
-                return Vehicle.lockedGroup;
-            }
-            set
-            {
-                VehicleManager.instance.channel.send("tellVehicleLock", ESteamCall.ALL, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
+            get => Vehicle.lockedGroup;
+            set => VehicleManager.instance.channel.send("tellVehicleLock", ESteamCall.ALL, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
                 {
                     InstanceID,
                     LockedOwner,
                     value,
                     IsLocked
                 });
-            }
         }
         /// <summary>
         /// The current battery charge
         /// </summary>
         public ushort Battery
         {
-            get
-            {
-                return Vehicle.batteryCharge;
-            }
-            set
-            {
-                Vehicle.batteryCharge = value;
-            }
+            get => Vehicle.batteryCharge;
+            set => Vehicle.batteryCharge = value;
         }
         /// <summary>
         /// Are the headlights turned on
         /// </summary>
         public bool HeadlightsOn
         {
-            get
-            {
-                return Vehicle.headlightsOn;
-            }
-            set
-            {
-                VehicleManager.instance.channel.send("tellVehicleHeadlights", ESteamCall.ALL, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
+            get => Vehicle.headlightsOn;
+            set => VehicleManager.instance.channel.send("tellVehicleHeadlights", ESteamCall.ALL, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
                 {
                     InstanceID,
                     value
                 });
-            }
         }
         /// <summary>
         /// Are the sirens turned on
         /// </summary>
         public bool SirensOn
         {
-            get
-            {
-                return Vehicle.sirensOn;
-            }
-            set
-            {
-                VehicleManager.instance.channel.send("tellVehicleSirens", ESteamCall.ALL, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
+            get => Vehicle.sirensOn;
+            set => VehicleManager.instance.channel.send("tellVehicleSirens", ESteamCall.ALL, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
                 {
                     InstanceID,
                     value
                 });
-            }
         }
         /// <summary>
         /// The vehicle fuel
         /// </summary>
         public ushort Fuel
         {
-            get
-            {
-                return Vehicle.fuel;
-            }
-            set
-            {
-                VehicleManager.instance.channel.send("tellVehicleFuel", ESteamCall.ALL, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
+            get => Vehicle.fuel;
+            set => VehicleManager.instance.channel.send("tellVehicleFuel", ESteamCall.ALL, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
                 {
                     InstanceID,
                     value
                 });
-            }
         }
         /// <summary>
         /// The vehicle health
         /// </summary>
         public ushort Health
         {
-            get
-            {
-                return Vehicle.health;
-            }
-            set
-            {
-                VehicleManager.instance.channel.send("tellVehicleHealth", ESteamCall.ALL, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
+            get => Vehicle.health;
+            set => VehicleManager.instance.channel.send("tellVehicleHealth", ESteamCall.ALL, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
                 {
                     InstanceID,
                     value
                 });
-            }
         }
 
         // Asset information

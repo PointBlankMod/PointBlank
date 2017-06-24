@@ -21,10 +21,7 @@ namespace PointBlank.API.Unturned.Chat
         /// </summary>
         /// <param name="text">The text to broadcast</param>
         /// <param name="color">The color of the broadcast</param>
-        public static void Broadcast(string text, Color color)
-        {
-            CM.say(text, color);
-        }
+        public static void Broadcast(string text, Color color) => CM.say(text, color);
 
         /// <summary>
         /// Sends a private message to a player
@@ -33,10 +30,7 @@ namespace PointBlank.API.Unturned.Chat
         /// <param name="text">The message text to send</param>
         /// <param name="color">The message color to send</param>
         /// <param name="mode">The message mode</param>
-        public static void Tell(CSteamID user, string text, Color color, EChatMode mode = EChatMode.SAY)
-        {
-            CM.say(user, text, color, mode);
-        }
+        public static void Tell(CSteamID user, string text, Color color, EChatMode mode = EChatMode.SAY) => CM.say(user, text, color, mode);
 
         /// <summary>
         /// Sends a fake global message as a user

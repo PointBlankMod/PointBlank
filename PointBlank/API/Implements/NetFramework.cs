@@ -20,9 +20,6 @@ namespace PointBlank.API.Implements
         /// <param name="input">The flag to compare</param>
         /// <param name="matchTo">The flag to compare it to</param>
         /// <returns>If the input flag contains the matching flag</returns>
-        public static bool HasFlag(this Enum input, Enum matchTo)
-        {
-            return (Convert.ToUInt32(input) & Convert.ToUInt32(matchTo)) != 0;
-        }
+        public static bool HasFlag(this Enum input, Enum matchTo) => (Convert.ToUInt32(input) & Convert.ToUInt32(matchTo)) != 0;
     }
 }

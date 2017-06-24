@@ -219,10 +219,7 @@ namespace PointBlank.API.DataManagment
         /// <summary>
         /// Saves the XML file
         /// </summary>
-        internal void Save()
-        {
-            Document.Save(File);
-        }
+        internal void Save() => Document.Save(File);
 
         /// <summary>
         /// Merges 2 XmlDocuments into 1
@@ -247,20 +244,14 @@ namespace PointBlank.API.DataManagment
         /// </summary>
         /// <param name="nodepath">The path to the node</param>
         /// <returns>The value in the node</returns>
-        public string GetValue(string nodepath)
-        {
-            return GetNode(nodepath).InnerText;
-        }
+        public string GetValue(string nodepath) => GetNode(nodepath).InnerText;
 
         /// <summary>
         /// Gets the node
         /// </summary>
         /// <param name="nodepath">The path to the node</param>
         /// <returns>The node</returns>
-        public XmlNode GetNode(string nodepath)
-        {
-            return RootNode.SelectSingleNode(nodepath);
-        }
+        public XmlNode GetNode(string nodepath) => RootNode.SelectSingleNode(nodepath);
 
         /// <summary>
         /// Gets the values of the nodes with the same path
@@ -282,10 +273,7 @@ namespace PointBlank.API.DataManagment
         /// </summary>
         /// <param name="nodepath">The path to the node</param>
         /// <returns>The list of the nodes with the same path</returns>
-        public XmlNodeList GetNodes(string nodepath)
-        {
-            return RootNode.SelectNodes(nodepath);
-        }
+        public XmlNodeList GetNodes(string nodepath) => RootNode.SelectNodes(nodepath);
 
         /// <summary>
         /// Gets the values of all the child nodes
@@ -307,10 +295,7 @@ namespace PointBlank.API.DataManagment
         /// </summary>
         /// <param name="nodepath">The path to the node</param>
         /// <returns>The list of child nodes of the node</returns>
-        public XmlNodeList GetChildNodes(string nodepath)
-        {
-            return RootNode.SelectSingleNode(nodepath).ChildNodes;
-        }
+        public XmlNodeList GetChildNodes(string nodepath) => RootNode.SelectSingleNode(nodepath).ChildNodes;
 
         /// <summary>
         /// Gets the attribute value of an attribute on a node
@@ -318,10 +303,7 @@ namespace PointBlank.API.DataManagment
         /// <param name="nodepath">The path to the node</param>
         /// <param name="attribute">The name of the attribute</param>
         /// <returns>The attribute value on the node</returns>
-        public string GetAttributeValue(string nodepath, string attribute)
-        {
-            return GetAttribute(nodepath, attribute).InnerText;
-        }
+        public string GetAttributeValue(string nodepath, string attribute) => GetAttribute(nodepath, attribute).InnerText;
 
         /// <summary>
         /// Gets the attribute on a node
@@ -329,30 +311,21 @@ namespace PointBlank.API.DataManagment
         /// <param name="nodepath">The path to the node</param>
         /// <param name="attribute">The name of the attribute</param>
         /// <returns>The attribute on the node</returns>
-        public XmlAttribute GetAttribute(string nodepath, string attribute)
-        {
-            return GetAttributes(nodepath)[attribute];
-        }
+        public XmlAttribute GetAttribute(string nodepath, string attribute) => GetAttributes(nodepath)[attribute];
 
         /// <summary>
         /// Gets all the attributes on a node
         /// </summary>
         /// <param name="nodepath">The path to the node</param>
         /// <returns>The list of the attributes on the node</returns>
-        public XmlAttributeCollection GetAttributes(string nodepath)
-        {
-            return GetNode(nodepath).Attributes;
-        }
+        public XmlAttributeCollection GetAttributes(string nodepath) => GetNode(nodepath).Attributes;
 
         /// <summary>
         /// Sets the value of a node
         /// </summary>
         /// <param name="nodepath">The path to the node</param>
         /// <param name="value">The value to store in the node</param>
-        public void SetValue(string nodepath, string value)
-        {
-            RootNode.SelectSingleNode(nodepath).InnerText = value;
-        }
+        public void SetValue(string nodepath, string value) => RootNode.SelectSingleNode(nodepath).InnerText = value;
 
         /// <summary>
         /// Adds a node to the parent node and optionally sets the value of the node
@@ -373,20 +346,14 @@ namespace PointBlank.API.DataManagment
         /// Removes a node
         /// </summary>
         /// <param name="nodepath">The path to the node</param>
-        public void RemoveNode(string nodepath)
-        {
-            Document.RemoveChild(RootNode.SelectSingleNode(nodepath));
-        }
+        public void RemoveNode(string nodepath) => Document.RemoveChild(RootNode.SelectSingleNode(nodepath));
 
         /// <summary>
         /// Checks if a node exists
         /// </summary>
         /// <param name="nodepath">The path to the node</param>
         /// <returns>If the node exists</returns>
-        public bool CheckNode(string nodepath)
-        {
-            return (RootNode.SelectSingleNode(nodepath) != null);
-        }
+        public bool CheckNode(string nodepath) => (RootNode.SelectSingleNode(nodepath) != null);
         #endregion
     }
 }

@@ -24,46 +24,22 @@ namespace PointBlank.API.Commands
         /// <summary>
         /// The commands used to execute this command
         /// </summary>
-        public string[] Commands
-        {
-            get
-            {
-                return CM.Commands.FirstOrDefault(a => a.Value.CommandClass == this).Value.Commands;
-            }
-        }
+        public string[] Commands => CM.Commands.FirstOrDefault(a => a.Value.CommandClass == this).Value.Commands;
 
         /// <summary>
         /// The permissions needed to execute the command
         /// </summary>
-        public string Permission
-        {
-            get
-            {
-                return CM.Commands.FirstOrDefault(a => a.Value.CommandClass == this).Value.Permission;
-            }
-        }
+        public string Permission => CM.Commands.FirstOrDefault(a => a.Value.CommandClass == this).Value.Permission;
 
         /// <summary>
         /// The cooldown needed to execute the command
         /// </summary>
-        public int Cooldown
-        {
-            get
-            {
-                return CM.Commands.FirstOrDefault(a => a.Value.CommandClass == this).Value.Cooldown;
-            }
-        }
+        public int Cooldown => CM.Commands.FirstOrDefault(a => a.Value.CommandClass == this).Value.Cooldown;
 
         /// <summary>
         /// Is the command enabled
         /// </summary>
-        public bool Enabled
-        {
-            get
-            {
-                return CM.Commands.FirstOrDefault(a => a.Value.CommandClass == this).Value.Enabled;
-            }
-        }
+        public bool Enabled => CM.Commands.FirstOrDefault(a => a.Value.CommandClass == this).Value.Enabled;
         #endregion
 
         #region Abstract Properties
@@ -92,13 +68,7 @@ namespace PointBlank.API.Commands
         /// <summary>
         /// The default cooldown(-1 to not override cooldown)
         /// </summary>
-        public virtual int DefaultCooldown
-        {
-            get
-            {
-                return -1;
-            }
-        }
+        public virtual int DefaultCooldown => -1;
 
         /// <summary>
         /// At what state is the command allowed to be executed

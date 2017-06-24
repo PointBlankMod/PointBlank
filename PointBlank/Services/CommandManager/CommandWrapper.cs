@@ -82,10 +82,7 @@ namespace PointBlank.Services.CommandManager
             }
         }
 
-        public void Save()
-        {
-            Config["Enabled"] = Enabled;
-        }
+        public void Save() => Config["Enabled"] = Enabled;
 
         public void Execute(UnturnedPlayer executor, string[] args)
         {

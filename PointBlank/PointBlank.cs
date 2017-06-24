@@ -102,10 +102,7 @@ namespace PointBlank
         #endregion
 
         #region Functions
-        private void ApplyPatches()
-        {
-            new I18N.West.CP1250(); // Fix the SQL error with mono
-        }
+        private void ApplyPatches() => new I18N.West.CP1250();
 
         private void RunRequirements()
         {
@@ -153,10 +150,7 @@ namespace PointBlank
         #endregion
 
         #region Event Functions
-        internal static bool ValidateCertificate(object sender, X509Certificate cert, X509Chain chain, SslPolicyErrors errors)
-        {
-            return (errors == SslPolicyErrors.None);
-        }
+        internal static bool ValidateCertificate(object sender, X509Certificate cert, X509Chain chain, SslPolicyErrors errors) => (errors == SslPolicyErrors.None);
         #endregion
     }
 }
