@@ -630,8 +630,12 @@ namespace PointBlank.Framework
                 CommandTranslations.Player_Commands_Help = "Help";
                 CommandTranslations.Player_Commands_Permissions = "Permissions";
 
-                CommandTranslations.Usage_Help = "This provides information on how to use the specified command";
+                CommandTranslations.Usage_Help = "This provides information on how to use the specified command.";
                 CommandTranslations.Usage_Usage = " <command>";
+
+                CommandTranslations.Permissions_Help = "This allows you to view or modify permissions of groups or players.";
+                CommandTranslations.Permissions_Usage = " {0}";
+                CommandTranslations.Permissions_Commands_Help = "Help";
             }
             else
             {

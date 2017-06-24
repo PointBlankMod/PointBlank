@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Player;
+using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
 {
@@ -17,16 +18,16 @@ namespace PointBlank.Commands
             "Permissions"
         };
 
-        public override string Help => throw new NotImplementedException();
+        public override string Help => Translation.Permissions_Help;
 
-        public override string Usage => throw new NotImplementedException();
+        public override string Usage => string.Format(Translation.Permissions_Usage, Translation.Permissions_Commands_Help);
 
-        public override string DefaultPermission => throw new NotImplementedException();
+        public override string DefaultPermission => "pointblank.commands.admin.permissions";
         #endregion
 
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

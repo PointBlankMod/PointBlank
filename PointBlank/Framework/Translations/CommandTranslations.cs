@@ -370,5 +370,10 @@ namespace PointBlank.Framework.Translations
         // Usage command
         public static string Usage_Help;
         public static string Usage_Usage;
+
+        // Permissions command
+        public static string Permissions_Help;
+        public static string Permissions_Usage;
+        public static string Permissions_Commands_Help;
     }
 }
