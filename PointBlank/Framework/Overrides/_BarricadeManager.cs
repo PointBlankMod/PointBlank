@@ -29,6 +29,8 @@ namespace PointBlank.Framework.Overrides
                 byte b3;
                 byte b4;
                 BarricadeRegion barricadeRegion2;
+                bool cancel = false;
+
                 if (hit != null && hit.transform.CompareTag("Vehicle")) // Placed on vehicle???
                 {
                     byte b;
@@ -38,6 +40,9 @@ namespace PointBlank.Framework.Overrides
                     if (BarricadeManager.tryGetPlant(hit, out b, out b2, out num, out barricadeRegion))
                     {
                         BarricadeData barricadeData = new BarricadeData(barricade, point, MeasurementTool.angleToByte(angle_x), MeasurementTool.angleToByte(angle_y), MeasurementTool.angleToByte(angle_z), owner, group, Provider.time);
+                        ServerEvents.RunBarricadeCreated(barricadeData, ref cancel);
+                        if (cancel)
+                            return null;
                         barricadeRegion.barricades.Add(barricadeData);
                         uint num2 = (uint)typeof(BarricadeManager).GetField("", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null) + 1u;
                         result = (Transform)typeof(BarricadeManager).GetMethod("spawnBarricade", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(BarricadeManager.instance, new object[] { barricadeRegion, barricade.id, barricade.state, barricadeData.point, barricadeData.angle_x, barricadeData.angle_y, barricadeData.angle_z, 100, barricadeData.owner, barricadeData.group, num2 });
@@ -56,12 +61,14 @@ namespace PointBlank.Framework.Overrides
                             barricadeData.group,
                             num2
                         });
-                        ServerEvents.RunBarricadeCreated(barricadeData);
                     }
                 }
                 else if (Regions.tryGetCoordinate(point, out b3, out b4) && BarricadeManager.tryGetRegion(b3, b4, 65535, out barricadeRegion2))
                 {
                     BarricadeData barricadeData2 = new BarricadeData(barricade, point, MeasurementTool.angleToByte(angle_x), MeasurementTool.angleToByte(angle_y), MeasurementTool.angleToByte(angle_z), owner, group, Provider.time);
+                    ServerEvents.RunBarricadeCreated(barricadeData2, ref cancel);
+                    if (cancel)
+                        return null;
                     barricadeRegion2.barricades.Add(barricadeData2);
                     uint num3 = (uint)typeof(BarricadeManager).GetField("", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null) + 1u;
                     result = (Transform)typeof(BarricadeManager).GetMethod("spawnBarricade", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(BarricadeManager.instance, new object[] { barricadeRegion2, barricade.id, barricade.state, barricadeData2.point, barricadeData2.angle_x, barricadeData2.angle_y, barricadeData2.angle_z, 100, barricadeData2.owner, barricadeData2.group, num3 });
@@ -80,7 +87,6 @@ namespace PointBlank.Framework.Overrides
                         barricadeData2.group,
                         num3
                     });
-                    ServerEvents.RunBarricadeCreated(barricadeData2);
                 }
             }
             return result;
@@ -91,14 +97,17 @@ namespace PointBlank.Framework.Overrides
         public void askSalvageBarricade(CSteamID steamID, byte x, byte y, ushort plant, ushort index)
         {
             BarricadeRegion barricadeRegion;
+            bool cancel = false;
+
             if (BarricadeManager.tryGetRegion(x, y, plant, out barricadeRegion))
             {
                 BarricadeData data = barricadeRegion.barricades[(int)index];
 
-                BarricadeEvents.RunBarricadeSalvage(UnturnedBarricade.Create(data));
+                BarricadeEvents.RunBarricadeSalvage(UnturnedBarricade.Create(data), ref cancel);
             }
 
-            DetourManager.CallOriginal(typeof(BarricadeManager).GetMethod("askSalvageBarricade", BindingFlags.Public | BindingFlags.Instance), BarricadeManager.instance, steamID, x, y, plant, index);
+            if (!cancel)
+                DetourManager.CallOriginal(typeof(BarricadeManager).GetMethod("askSalvageBarricade", BindingFlags.Public | BindingFlags.Instance), BarricadeManager.instance, steamID, x, y, plant, index);
         }
     }
 }

@@ -27,9 +27,14 @@ namespace PointBlank.Framework.Overrides
                 byte b;
                 byte b2;
                 StructureRegion structureRegion;
+                bool cancel = false;
+
                 if (Regions.tryGetCoordinate(point, out b, out b2) && StructureManager.tryGetRegion(b, b2, out structureRegion))
                 {
                     StructureData structureData = new StructureData(structure, point, MeasurementTool.angleToByte(angle_x), MeasurementTool.angleToByte(angle_y), MeasurementTool.angleToByte(angle_z), owner, group, Provider.time);
+                    ServerEvents.RunStructureCreated(structureData, ref cancel);
+                    if (cancel)
+                        return;
                     structureRegion.structures.Add(structureData);
                     StructureManager.instance.channel.send("tellStructure", ESteamCall.ALL, b, b2, StructureManager.STRUCTURE_REGIONS, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
                     {
@@ -44,7 +49,6 @@ namespace PointBlank.Framework.Overrides
                         group,
                         (uint)typeof(StructureManager).GetField("instanceCount", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null)
                     });
-                    ServerEvents.RunStructureCreated(structureData);
                 }
             }
         }
@@ -54,14 +58,17 @@ namespace PointBlank.Framework.Overrides
         public void askSalvageStructure(CSteamID steamID, byte x, byte y, ushort index)
         {
             StructureRegion structureRegion;
+            bool cancel = false;
+
             if (StructureManager.tryGetRegion(x, y, out structureRegion))
             {
                 StructureData data = structureRegion.structures[(int)index];
 
-                StructureEvents.RunSalvageStructure(UnturnedStructure.Create(data));
+                StructureEvents.RunSalvageStructure(UnturnedStructure.Create(data), ref cancel);
             }
 
-            DetourManager.CallOriginal(typeof(StructureManager).GetMethod("askSalvageStructure", BindingFlags.Instance | BindingFlags.Public), StructureManager.instance, steamID, x, y, index);
+            if (!cancel)
+                DetourManager.CallOriginal(typeof(StructureManager).GetMethod("askSalvageStructure", BindingFlags.Instance | BindingFlags.Public), StructureManager.instance, steamID, x, y, index);
         }
     }
 }

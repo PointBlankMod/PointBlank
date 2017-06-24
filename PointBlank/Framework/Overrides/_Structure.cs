@@ -15,21 +15,29 @@ namespace PointBlank.Framework.Overrides
         [Detour(typeof(Structure), "askDamage", BindingFlags.Public | BindingFlags.Instance)]
         public static void askDamage(this Structure stru, ushort amount)
         {
+            // Set the variables
+            bool cancel = false;
+
             // Run the events
-            StructureEvents.RunDamageStructure(UnturnedStructure.FindStructure(stru), amount);
+            StructureEvents.RunDamageStructure(UnturnedStructure.FindStructure(stru), ref amount, ref cancel);
 
             // Run the original function
-            DetourManager.CallOriginal(typeof(Structure).GetMethod("askDamage", BindingFlags.Instance | BindingFlags.Public), stru, amount);
+            if (!cancel)
+                DetourManager.CallOriginal(typeof(Structure).GetMethod("askDamage", BindingFlags.Instance | BindingFlags.Public), stru, amount);
         }
 
         [Detour(typeof(Structure), "askRepair", BindingFlags.Public | BindingFlags.Instance)]
         public static void askRepair(this Structure stru, ushort amount)
         {
+            // Set the events
+            bool cancel = false;
+
             // Run the events
-            StructureEvents.RunRepairStructure(UnturnedStructure.FindStructure(stru), amount);
+            StructureEvents.RunRepairStructure(UnturnedStructure.FindStructure(stru), ref amount, ref cancel);
 
             // Run the original function
-            DetourManager.CallOriginal(typeof(Structure).GetMethod("askRepair", BindingFlags.Instance | BindingFlags.Public), stru, amount);
+            if (!cancel)
+                DetourManager.CallOriginal(typeof(Structure).GetMethod("askRepair", BindingFlags.Instance | BindingFlags.Public), stru, amount);
         }
     }
 }

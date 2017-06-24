@@ -38,13 +38,15 @@ namespace PointBlank.API.Unturned.Server
         /// Used for handling structures
         /// </summary>
         /// <param name="structure">The structure instance</param>
-        public delegate void StructureStatusHandler(UnturnedStructure structure);
+        /// <param name="cancel">Should the event be canceled</param>
+        public delegate void StructureStatusHandler(UnturnedStructure structure, ref bool cancel);
 
         /// <summary>
         /// Used for handling barricades
         /// </summary>
         /// <param name="barricade">The affected barricade</param>
-        public delegate void BarricadeStatusHandler(UnturnedBarricade barricade);
+        /// <param name="cancel">Should the event be canceled</param>
+        public delegate void BarricadeStatusHandler(UnturnedBarricade barricade, ref bool cancel);
         #endregion
 
         #region Events
@@ -234,34 +236,34 @@ namespace PointBlank.API.Unturned.Server
             OnVehicleRemoved(UnturnedVehicle.Create(vehicle));
         }
 
-        internal static void RunStructureCreated(StructureData structure)
+        internal static void RunStructureCreated(StructureData structure, ref bool cancel)
         {
             if (OnStructureCreated == null)
                 return;
 
-            OnStructureCreated(UnturnedStructure.Create(structure));
+            OnStructureCreated(UnturnedStructure.Create(structure), ref cancel);
         }
-        internal static void RunStructureRemoved(UnturnedStructure structure)
+        internal static void RunStructureRemoved(UnturnedStructure structure, ref bool cancel)
         {
             if (OnStructureRemoved == null)
                 return;
 
-            OnStructureRemoved(structure);
+            OnStructureRemoved(structure, ref cancel);
         }
 
-        internal static void RunBarricadeCreated(BarricadeData barricade)
+        internal static void RunBarricadeCreated(BarricadeData barricade, ref bool cancel)
         {
             if (OnBarricadeCreated == null)
                 return;
 
-            OnBarricadeCreated(UnturnedBarricade.Create(barricade));
+            OnBarricadeCreated(UnturnedBarricade.Create(barricade), ref cancel);
         }
-        internal static void RunBarricadeRemoved(UnturnedBarricade barricade)
+        internal static void RunBarricadeRemoved(UnturnedBarricade barricade, ref bool cancel)
         {
             if (OnBarricadeRemoved == null)
                 return;
 
-            OnBarricadeRemoved(barricade);
+            OnBarricadeRemoved(barricade, ref cancel);
         }
         #endregion
     }

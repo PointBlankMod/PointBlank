@@ -17,19 +17,22 @@ namespace PointBlank.API.Unturned.Barricade
         /// <param name="barricade">The affected barricade</param>
         /// <param name="damage">The amount of damage caused</param>
         /// <param name="dead">Did the barricade die</param>
-        public delegate void BarricadeDamageHandler(UnturnedBarricade barricade, ushort damage, bool dead);
+        /// <param name="cancel">Should the event be canceled</param>
+        public delegate void BarricadeDamageHandler(UnturnedBarricade barricade, ref ushort damage, bool dead, ref bool cancel);
         /// <summary>
         /// Handles all barricade repair events
         /// </summary>
         /// <param name="barricade">The affected barricade</param>
         /// <param name="repair">The amount the barricade was repaired</param>
-        public delegate void BarricadeRepairHandler(UnturnedBarricade barricade, ushort repair);
+        /// <param name="cancel">Should the event be canceled</param>
+        public delegate void BarricadeRepairHandler(UnturnedBarricade barricade, ref ushort repair, ref bool cancel);
 
         /// <summary>
         /// Handles the barricade destroy events
         /// </summary>
         /// <param name="barricade">The affected barricade</param>
-        public delegate void BarricadeDestroyHandler(UnturnedBarricade barricade);
+        /// <param name="cancel">Should the event be canceled</param>
+        public delegate void BarricadeDestroyHandler(UnturnedBarricade barricade, ref bool cancel);
         #endregion
 
         #region Events
@@ -53,36 +56,36 @@ namespace PointBlank.API.Unturned.Barricade
         #endregion
 
         #region Functions
-        internal static void RunBarricadeDamage(UnturnedBarricade barricade, ushort damage)
+        internal static void RunBarricadeDamage(UnturnedBarricade barricade, ref ushort damage, ref bool cancel)
         {
             if (OnBarricadeDamage == null)
                 return;
 
-            OnBarricadeDamage(barricade, damage, (damage > barricade.Health));
-            if (damage > barricade.Health)
-                RunBarricadeDestroy(barricade);
+            OnBarricadeDamage(barricade, ref damage, (damage > barricade.Health), ref cancel);
+            if (damage > barricade.Health && !cancel)
+                RunBarricadeDestroy(barricade, ref cancel);
         }
-        internal static void RunBarricadeRepair(UnturnedBarricade barricade, ushort repair)
+        internal static void RunBarricadeRepair(UnturnedBarricade barricade, ref ushort repair, ref bool cancel)
         {
             if (OnBarricadeRepair == null)
                 return;
 
-            OnBarricadeRepair(barricade, repair);
+            OnBarricadeRepair(barricade, ref repair, ref cancel);
         }
 
-        internal static void RunBarricadeDestroy(UnturnedBarricade barricade)
+        internal static void RunBarricadeDestroy(UnturnedBarricade barricade, ref bool cancel)
         {
             if (OnBarricadeDestroy == null)
                 return;
 
-            OnBarricadeDestroy(barricade);
+            OnBarricadeDestroy(barricade, ref cancel);
         }
-        internal static void RunBarricadeSalvage(UnturnedBarricade barricade)
+        internal static void RunBarricadeSalvage(UnturnedBarricade barricade, ref bool cancel)
         {
             if (OnBarricadeSalvage == null)
                 return;
 
-            OnBarricadeSalvage(barricade);
+            OnBarricadeSalvage(barricade, ref cancel);
         }
         #endregion
     }

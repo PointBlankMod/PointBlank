@@ -17,19 +17,22 @@ namespace PointBlank.API.Unturned.Structure
         /// <param name="structure">The structure that got damaged</param>
         /// <param name="damage">The amount of damage caused</param>
         /// <param name="dead">Did the structure die</param>
-        public delegate void StructureDamageHandler(UnturnedStructure structure, ushort damage, bool dead);
+        /// <param name="cancel">Should the event be canceled</param>
+        public delegate void StructureDamageHandler(UnturnedStructure structure, ref ushort damage, bool dead, ref bool cancel);
         /// <summary>
         /// Used for handling structure repair events
         /// </summary>
         /// <param name="structure">The structure instance</param>
         /// <param name="repair">The structure repair amount</param>
-        public delegate void StructureRepairHandler(UnturnedStructure structure, ushort repair);
+        /// <param name="cancel">Should the event be canceled</param>
+        public delegate void StructureRepairHandler(UnturnedStructure structure, ref ushort repair, ref bool cancel);
 
         /// <summary>
         /// Used for handling structure destroy events
         /// </summary>
         /// <param name="structure">The structure that gets destroyed</param>
-        public delegate void StructureDestroyHandler(UnturnedStructure structure);
+        /// <param name="cancel">Should the event be canceled</param>
+        public delegate void StructureDestroyHandler(UnturnedStructure structure, ref bool cancel);
         #endregion
 
         #region Events
@@ -53,36 +56,36 @@ namespace PointBlank.API.Unturned.Structure
         #endregion
 
         #region Functions
-        internal static void RunDamageStructure(UnturnedStructure structure, ushort damage)
+        internal static void RunDamageStructure(UnturnedStructure structure, ref ushort damage, ref bool cancel)
         {
             if (OnDamageStructure == null)
                 return;
 
-            OnDamageStructure(structure, damage, (damage > structure.Health));
-            if (damage > structure.Health)
+            OnDamageStructure(structure, ref damage, (damage > structure.Health), ref cancel);
+            if (damage > structure.Health && !cancel)
                 RunDestroyStructure(structure);
         }
-        internal static void RunRepairStructure(UnturnedStructure structure, ushort repair)
+        internal static void RunRepairStructure(UnturnedStructure structure, ref ushort repair, ref bool cancel)
         {
             if (OnRepairStructure == null)
                 return;
 
-            OnRepairStructure(structure, repair);
+            OnRepairStructure(structure, ref repair, ref cancel);
         }
 
-        internal static void RunDestroyStructure(UnturnedStructure structure)
+        internal static void RunDestroyStructure(UnturnedStructure structure, ref bool cancel)
         {
             if (OnDestroyStructure == null)
                 return;
 
-            OnDestroyStructure(structure);
+            OnDestroyStructure(structure, ref cancel);
         }
-        internal static void RunSalvageStructure(UnturnedStructure structure)
+        internal static void RunSalvageStructure(UnturnedStructure structure, ref bool cancel)
         {
             if (OnSalvageStructure == null)
                 return;
 
-            OnSalvageStructure(structure);
+            OnSalvageStructure(structure, ref cancel);
         }
         #endregion
     }
