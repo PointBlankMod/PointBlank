@@ -7,6 +7,7 @@ using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Structure;
 using PointBlank.API.Unturned.Vehicle;
 using PointBlank.API.Unturned.Barricade;
+using PointBlank.API.Unturned.Item;
 using Steamworks;
 using UStructure = SDG.Unturned.Structure;
 using UPlayer = SDG.Unturned.Player;
@@ -24,7 +25,7 @@ namespace PointBlank.API.Unturned.Server
         private static HashSet<UnturnedVehicle> _Vehicles = new HashSet<UnturnedVehicle>();
         private static HashSet<UnturnedStructure> _Structures = new HashSet<UnturnedStructure>();
         private static HashSet<UnturnedBarricade> _Barricades = new HashSet<UnturnedBarricade>();
-        private static HashSet<Item> _Items = new HashSet<Item>();
+        private static HashSet<UnturnedItem> _Items = new HashSet<UnturnedItem>();
         #endregion
 
         #region Properties
@@ -51,7 +52,7 @@ namespace PointBlank.API.Unturned.Server
         /// <summary>
         /// Items within the server
         /// </summary>
-        public static Item[] Items => _Items.ToArray();
+        public static UnturnedItem[] Items => _Items.ToArray();
         /// <summary>
         /// Current game time
         /// </summary>
@@ -123,7 +124,6 @@ namespace PointBlank.API.Unturned.Server
             _Barricades.Add(Barricade);
             return Barricade;
         }
-
         internal static bool RemoveBarricade(UnturnedBarricade Barricade)
         {
             UnturnedBarricade barricade = Barricades.FirstOrDefault(a => a.Data == Barricade.Data);
@@ -153,6 +153,27 @@ namespace PointBlank.API.Unturned.Server
                 return false;
 
             _Vehicles.Remove(vehicle);
+            return true;
+        }
+
+        internal static UnturnedItem AddItem(UnturnedItem item)
+        {
+            UnturnedItem itm = Items.FirstOrDefault(a => a.Item == item.Item);
+
+            if (itm != null)
+                return itm;
+
+            _Items.Add(item);
+            return item;
+        }
+        internal static bool RemoveItem(UnturnedItem item)
+        {
+            UnturnedItem itm = Items.FirstOrDefault(a => a.Item == item.Item);
+
+            if (itm == null)
+                return false;
+
+            _Items.Remove(itm);
             return true;
         }
         #endregion

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using SDG.Unturned;
 using UnityEngine;
+using PointBlank.API.Unturned.Server;
 using UItem = SDG.Unturned.Item;
 
 namespace PointBlank.API.Unturned.Item
@@ -78,7 +80,23 @@ namespace PointBlank.API.Unturned.Item
 
         private UnturnedItem(ItemJar jar)
         {
+            // Set the variables
             Jar = jar;
+
+            // Run the code
+            UnturnedServer.AddItem(this);
         }
+
+        #region Static Functions
+        internal static UnturnedItem Create(ItemJar jar)
+        {
+            UnturnedItem itm = UnturnedServer.Items.FirstOrDefault(a => a.Item == jar.item);
+
+            if (itm != null)
+                return itm;
+
+            return new UnturnedItem(jar);
+        }
+        #endregion
     }
 }

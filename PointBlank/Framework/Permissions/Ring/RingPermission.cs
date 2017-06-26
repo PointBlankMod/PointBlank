@@ -94,7 +94,7 @@ namespace PointBlank.Framework.Permissions.Ring
             return new RingPermission(ringPermissionsRing);
         }
 
-        public override IPermission Copy() => RingPermission(_ring);
+        public override IPermission Copy() => new RingPermission(_ring);
 
         public override SecurityElement ToXml()
         {

@@ -78,6 +78,13 @@
     <Compile Include="API\DataManagment\XMLData.cs" />
     <Compile Include="API\Detour\DetourAttribute.cs" />
     <Compile Include="API\Detour\DetourManager.cs" />
+    <Compile Include="API\Discord\DiscordAPI.cs" />
+    <Compile Include="API\Discord\DiscordClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="API\Discord\DiscordWebhook.cs" />
+    <Compile Include="API\Discord\EDiscordHttpCodes.cs" />
+    <Compile Include="API\Discord\EDiscordJsonCodes.cs" />
     <Compile Include="API\Groups\Group.cs" />
     <Compile Include="API\Groups\GroupEvents.cs" />
     <Compile Include="API\Groups\GroupManager.cs" />
@@ -206,7 +213,6 @@
     <Compile Include="Services\PluginManager\PluginManager.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="API\Discord\" />
     <Folder Include="API\Paypal\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

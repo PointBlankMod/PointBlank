@@ -63,7 +63,7 @@ namespace PointBlank.API.Unturned.Structure
 
             OnDamageStructure(structure, ref damage, (damage > structure.Health), ref cancel);
             if (damage > structure.Health && !cancel)
-                RunDestroyStructure(structure);
+                RunDestroyStructure(structure, ref cancel);
         }
         internal static void RunRepairStructure(UnturnedStructure structure, ref ushort repair, ref bool cancel)
         {

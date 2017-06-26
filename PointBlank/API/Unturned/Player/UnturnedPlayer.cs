@@ -16,6 +16,7 @@ using Newtonsoft.Json.Linq;
 using System.Globalization;
 using RG = PointBlank.API.Steam.SteamGroup;
 using PointBlank.API.Unturned.Vehicle;
+using PointBlank.API.Unturned.Item;
 using CM = PointBlank.API.Unturned.Chat.UnturnedChat;
 using CMD = PointBlank.API.Commands.PointBlankCommand;
 
@@ -411,18 +412,18 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// Array of items in the player's inventory
         ///</summary>
-        public Item[] Items
+        public UnturnedItem[] Items
         {
             get
             {
-                List<Item> retval = new List<Item>();
+                List<UnturnedItem> retval = new List<UnturnedItem>();
                 for (byte page = 0; page < (PlayerInventory.PAGES - 1); page++)
                 {
                     byte count = Inventory.getItemCount(page);
                     if (count > 0)
                     {
                         for (byte index = 0; index < count; index++)
-                            retval.Add(Inventory.getItem(page, index).item);
+                            retval.Add(UnturnedItem.Create(Inventory.getItem(page, index)));
                     }
                 }
                 return retval.ToArray();
@@ -513,7 +514,6 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// Returns SteamChannel of Player
         /// </summary>
-
         public SteamChannel Channel => Player.channel;
 
         /// <summary>
@@ -905,7 +905,7 @@ namespace PointBlank.API.Unturned.Player
         /// </summary>
         /// <param name="Item">The item to find</param>
         /// <returns>If the player has the item in the inventory</returns>
-        public bool HasItem(Item Item) => HasItem(Item.id);
+        public bool HasItem(UnturnedItem Item) => HasItem(Item.ID);
         /// <summary>
         /// Checks if the player has a specific item
         /// </summary>
@@ -924,7 +924,7 @@ namespace PointBlank.API.Unturned.Player
         /// </summary>
         /// <param name="ID">The item instance to give to the player</param>
         /// <returns>If the item was given to the player</returns>
-        public bool GiveItem(Item Item) => GiveItem(Item.id);
+        public bool GiveItem(UnturnedItem Item) => GiveItem(Item.ID);
         /// <summary>
         /// Gives the player an item
         /// </summary>
@@ -955,7 +955,7 @@ namespace PointBlank.API.Unturned.Player
         /// </summary>
         /// <param name="Item">The item instance to remove</param>
         /// <returns>If the item was removed</returns>
-        public bool RemoveItem(Item Item) => RemoveItem(Item.id);
+        public bool RemoveItem(UnturnedItem Item) => RemoveItem(Item.ID);
         /// <summary>
         /// Removes an item from the player's inventory
         /// </summary>

@@ -85,7 +85,7 @@ namespace PointBlank.API.Collections
         /// Removes a translation entry using the index
         /// </summary>
         /// <param name="index">Index of the entry</param>
-        public void RemoveAt(int index) => translations.Remove(this[index].Key)
+        public void RemoveAt(int index) => translations.Remove(this[index].Key);
 
         /// <summary>
         /// Adds a range of translations using the KeyValuePair list
