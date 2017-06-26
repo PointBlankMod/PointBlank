@@ -79,8 +79,24 @@ namespace PointBlank.API.Discord
                     using (StreamReader reader = new StreamReader(((HttpWebResponse)response).GetResponseStream()))
                         ParseJsonCode(reader.ReadToEnd());
             }
+            URL = response.ResponseUri;
 
             return response;
+        }
+
+        protected override void OnUploadStringCompleted(UploadStringCompletedEventArgs e)
+        {
+            if(e.Error != null)
+            {
+
+                LastHTTPCode = (EDiscordHttpCodes)((HttpWebResponse)((WebException)e.Error).Response).StatusCode;
+                if(LastHTTPCode != EDiscordHttpCodes.NO_CONTENT)
+                    using (StreamReader reader = new StreamReader(((HttpWebResponse)((WebException)e.Error).Response).GetResponseStream()))
+                        ParseJsonCode(reader.ReadToEnd());
+                return;
+            }
+
+            base.OnUploadStringCompleted(e);
         }
         #endregion
     }

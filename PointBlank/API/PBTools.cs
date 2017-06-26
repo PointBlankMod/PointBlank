@@ -106,6 +106,17 @@ namespace PointBlank.API
             f = Mathf.Clamp01(f);
             return (byte)(f * 255);
         }
+
+        /// <summary>
+        /// Converts the unix time to date time
+        /// </summary>
+        /// <param name="unix">The unix time to convert</param>
+        /// <returns>The date time from the unix time</returns>
+        public static DateTime FromUnixTime(long unix)
+        {
+            DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            return epoch.AddSeconds(unix).ToLocalTime();
+        }
         #endregion
     }
 }

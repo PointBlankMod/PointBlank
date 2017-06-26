@@ -89,6 +89,7 @@
     <Compile Include="API\Groups\GroupEvents.cs" />
     <Compile Include="API\Groups\GroupManager.cs" />
     <Compile Include="API\Implements\NetFramework.cs" />
+    <Compile Include="API\Implements\Unturned.cs" />
     <Compile Include="API\Logging.cs" />
     <Compile Include="API\Optimization\Parallel.cs" />
     <Compile Include="API\Plugins\Plugin.cs" />
