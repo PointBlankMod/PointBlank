@@ -55,6 +55,42 @@ namespace PointBlank.API.Unturned.Player
         /// The steam information about the player
         /// </summary>
         public SP Steam { get; private set; }
+        /// <summary>
+        /// The movement instance of the player
+        /// </summary>
+        public PlayerMovement Movement => Player.movement;
+        /// <summary>
+        /// The life instance of the player
+        /// </summary>
+        public PlayerLife Life => Player.life;
+        /// <summary>
+        /// The look instance of the player
+        /// </summary>
+        public PlayerLook Look => Player.look;
+        /// <summary>
+        /// The clothing instance of the player
+        /// </summary>
+        public PlayerClothing Clothing => Player.clothing;
+        /// <summary>
+        /// The inventory instance of the player
+        /// </summary>
+        public PlayerInventory Inventory => Player.inventory;
+        /// <summary>
+        /// The equipment instance of the player
+        /// </summary>
+        public PlayerEquipment Equipment => Player.equipment;
+        /// <summary>
+        /// The stance instance of the player
+        /// </summary>
+        public PlayerStance Stance => Player.stance;
+        /// <summary>
+        /// The steam channel instance of the player
+        /// </summary>
+        public SteamChannel Channel => Player.channel;
+        /// <summary>
+        /// The skills instance of the player
+        /// </summary>
+        public PlayerSkills USkills => Player.skills;
 
         // Steam player ID information
         /// <summary>
@@ -412,18 +448,18 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// Array of items in the player's inventory
         ///</summary>
-        public UnturnedItem[] Items
+        public UnturnedStoredItem[] Items
         {
             get
             {
-                List<UnturnedItem> retval = new List<UnturnedItem>();
+                List<UnturnedStoredItem> retval = new List<UnturnedStoredItem>();
                 for (byte page = 0; page < (PlayerInventory.PAGES - 1); page++)
                 {
                     byte count = Inventory.getItemCount(page);
                     if (count > 0)
                     {
                         for (byte index = 0; index < count; index++)
-                            retval.Add(UnturnedItem.Create(Inventory.getItem(page, index)));
+                            retval.Add(new UnturnedStoredItem(Inventory.getItem(page, index)));
                     }
                 }
                 return retval.ToArray();
@@ -475,51 +511,6 @@ namespace PointBlank.API.Unturned.Player
         /// The permissions of the player
         /// </summary>
         public string[] Permissions => _Permissions.ToArray();
-
-        /// <summary>
-        /// Return PlayerMovement of Player
-        /// </summary>
-        public PlayerMovement Movement => Player.movement;  
-
-        /// <summary>
-        /// Return PlayerLife of Player
-        /// </summary>
-        public PlayerLife Life => Player.life;
-
-        /// <summary>
-        /// Return PlayerLook of Player
-        /// </summary>
-        public PlayerLook Look => Player.look;
-
-        /// <summary>
-        /// Return PlayerClothing of Player
-        /// </summary>
-        public PlayerClothing Clothing => Player.clothing;
-
-        /// <summary>
-        /// Return PlayerInventory of Player
-        /// </summary>
-        public PlayerInventory Inventory => Player.inventory;
-
-        /// <summary>
-        /// Return PlayerEquipment of Player
-        /// </summary>
-        public PlayerEquipment Equipment => Player.equipment;
-
-        /// <summary>
-        /// Return PlayerStance of Player
-        /// </summary>
-        public PlayerStance Stance => Player.stance;
-
-        /// <summary>
-        /// Returns SteamChannel of Player
-        /// </summary>
-        public SteamChannel Channel => Player.channel;
-
-        /// <summary>
-        /// Returns Skills of Player
-        /// </summary>
-        public PlayerSkills USkills => Player.skills;
         #endregion
 
         private UnturnedPlayer(SPlayer steamplayer)
@@ -905,7 +896,7 @@ namespace PointBlank.API.Unturned.Player
         /// </summary>
         /// <param name="Item">The item to find</param>
         /// <returns>If the player has the item in the inventory</returns>
-        public bool HasItem(UnturnedItem Item) => HasItem(Item.ID);
+        public bool HasItem(UnturnedStoredItem Item) => HasItem(Item.ID);
         /// <summary>
         /// Checks if the player has a specific item
         /// </summary>
@@ -924,7 +915,7 @@ namespace PointBlank.API.Unturned.Player
         /// </summary>
         /// <param name="ID">The item instance to give to the player</param>
         /// <returns>If the item was given to the player</returns>
-        public bool GiveItem(UnturnedItem Item) => GiveItem(Item.ID);
+        public bool GiveItem(UnturnedStoredItem Item) => GiveItem(Item.ID);
         /// <summary>
         /// Gives the player an item
         /// </summary>
@@ -955,7 +946,7 @@ namespace PointBlank.API.Unturned.Player
         /// </summary>
         /// <param name="Item">The item instance to remove</param>
         /// <returns>If the item was removed</returns>
-        public bool RemoveItem(UnturnedItem Item) => RemoveItem(Item.ID);
+        public bool RemoveItem(UnturnedStoredItem Item) => RemoveItem(Item.ID);
         /// <summary>
         /// Removes an item from the player's inventory
         /// </summary>
