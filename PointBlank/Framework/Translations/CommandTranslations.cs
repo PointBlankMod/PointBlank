@@ -356,8 +356,7 @@ namespace PointBlank.Framework.Translations
         public static string Player_Usage;
         public static string Player_Permissions;
         public static string Player_Group;
-        public static string Player_Group_Add;
-        public static string Player_Group_Remove;
+        public static string Player_Group_Modify;
         public static string Player_Group_Added;
         public static string Player_Group_Removed;
         public static string Player_Group_Invalid;
@@ -374,6 +373,14 @@ namespace PointBlank.Framework.Translations
         // Permissions command
         public static string Permissions_Help;
         public static string Permissions_Usage;
+        public static string Permissions_Group;
+        public static string Permissions_Group_Modify;
+        public static string Permissions_Player;
+        public static string Permissions_Player_Modify;
         public static string Permissions_Commands_Help;
+        public static string Permissions_Commands_Add;
+        public static string Permissions_Commands_Remove;
+        public static string Permissions_Commands_Group;
+        public static string Permissions_Commands_Player;
     }
 }

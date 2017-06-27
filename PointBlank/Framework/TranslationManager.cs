@@ -618,9 +618,8 @@ namespace PointBlank.Framework
                 CommandTranslations.Player_Help = "This allows you to get information on the player or modify it.";
                 CommandTranslations.Player_Usage = " {0}";
                 CommandTranslations.Player_Group = " {0} <player>";
-                CommandTranslations.Player_Group_Add = " {0} <player> {1} <group ID>";
+                CommandTranslations.Player_Group_Modify = " {0} <player> {1} <group ID>";
                 CommandTranslations.Player_Group_Added = "The group has been added to player!";
-                CommandTranslations.Player_Group_Remove = " {0} <player> {1} <group ID>";
                 CommandTranslations.Player_Group_Removed = "The group has been removed from the player!";
                 CommandTranslations.Player_Permissions = " {0} <player>";
                 CommandTranslations.Player_Group_Invalid = "The specified group ID is invalid!";
@@ -636,6 +635,12 @@ namespace PointBlank.Framework
                 CommandTranslations.Permissions_Help = "This allows you to view or modify permissions of groups or players.";
                 CommandTranslations.Permissions_Usage = " {0}";
                 CommandTranslations.Permissions_Commands_Help = "Help";
+                CommandTranslations.Permissions_Group = " {0} <group ID>";
+                CommandTranslations.Permissions_Group_Modify = " {0} <group ID> {1} <permission>";
+                CommandTranslations.Permissions_Player = " {0} <player>";
+                CommandTranslations.Permissions_Player_Modify = " {0} <player> {1} <permission>";
+                CommandTranslations.Permissions_Commands_Group = "Group";
+                CommandTranslations.Permissions_Commands_Player = "Player";
             }
             else
             {
@@ -662,9 +667,8 @@ namespace PointBlank.Framework
                 CommandTranslations.Player_Help = (string)JCommand.Document["Player_Help"];
                 CommandTranslations.Player_Usage = (string)JCommand.Document["Player_Usage"];
                 CommandTranslations.Player_Group = (string)JCommand.Document["Player_Group"];
-                CommandTranslations.Player_Group_Add = (string)JCommand.Document["Player_Group_Add"];
+                CommandTranslations.Player_Group_Modify = (string)JCommand.Document["Player_Group_Modify"];
                 CommandTranslations.Player_Group_Added = (string)JCommand.Document["Player_Group_Added"];
-                CommandTranslations.Player_Group_Remove = (string)JCommand.Document["Player_Group_Remove"];
                 CommandTranslations.Player_Group_Removed = (string)JCommand.Document["Player_Group_Removed"];
                 CommandTranslations.Player_Permissions = (string)JCommand.Document["Player_Permissions"];
                 CommandTranslations.Player_Group_Invalid = (string)JCommand.Document["Player_Group_Invalid"];
@@ -676,6 +680,10 @@ namespace PointBlank.Framework
 
                 CommandTranslations.Usage_Help = (string)JCommand.Document["Usage_Help"];
                 CommandTranslations.Usage_Usage = (string)JCommand.Document["Usage_Usage"];
+
+                CommandTranslations.Permissions_Help = (string)JCommand.Document["Permissions_Help"];
+                CommandTranslations.Permissions_Usage = (string)JCommand.Document["Permissions_Usage"];
+                CommandTranslations.Permissions_Commands_Help = (string)JCommand.Document["Permissions_Commands_Help"];
             }
             #endregion
 
@@ -1001,9 +1009,8 @@ namespace PointBlank.Framework
             SetCommand("Player_Help", CommandTranslations.Player_Help);
             SetCommand("Player_Usage", CommandTranslations.Player_Usage);
             SetCommand("Player_Group", CommandTranslations.Player_Group);
-            SetCommand("Player_Group_Add", CommandTranslations.Player_Group_Add);
+            SetCommand("Player_Group_Modify", CommandTranslations.Player_Group_Modify);
             SetCommand("Player_Group_Added", CommandTranslations.Player_Group_Added);
-            SetCommand("Player_Group_Remove", CommandTranslations.Player_Group_Remove);
             SetCommand("Player_Group_Removed", CommandTranslations.Player_Group_Removed);
             SetCommand("Player_Permissions", CommandTranslations.Player_Permissions);
             SetCommand("Player_Group_Invalid", CommandTranslations.Player_Group_Invalid);
@@ -1015,6 +1022,10 @@ namespace PointBlank.Framework
 
             SetCommand("Usage_Help", CommandTranslations.Usage_Help);
             SetCommand("Usage_Usage", CommandTranslations.Usage_Usage);
+
+            SetCommand("Permissions_Help", CommandTranslations.Permissions_Help);
+            SetCommand("Permissions_Usage", CommandTranslations.Permissions_Usage);
+            SetCommand("Permissions_Commands_Help", CommandTranslations.Permissions_Commands_Help);
             #endregion
 
             #region Service Translations
