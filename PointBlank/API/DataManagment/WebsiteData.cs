@@ -31,14 +31,11 @@ namespace PointBlank.API.DataManagment
                 {
                     using(WeebClient wc = new WeebClient())
                     {
-                        ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(PointBlank.ValidateCertificate);
-
                         data = wc.DownloadString(URL);
                         return true;
                     }
                 }
 
-                ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(PointBlank.ValidateCertificate);
                 data = client.DownloadString(URL);
                 return true;
             }
@@ -64,7 +61,6 @@ namespace PointBlank.API.DataManagment
                 if (useNewClient || client == null)
                 {
                     WeebClient wc = new WeebClient();
-                    ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(PointBlank.ValidateCertificate);
 
                     wc.DownloadStringCompleted += new DownloadStringCompletedEventHandler(OnDownloadString);
                     wc.DownloadStringCompleted += method;
@@ -72,7 +68,6 @@ namespace PointBlank.API.DataManagment
                     return true;
                 }
 
-                ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(PointBlank.ValidateCertificate);
                 client.DownloadStringCompleted += method;
                 client.DownloadStringAsync(new Uri(URL));
                 return true;
@@ -100,14 +95,11 @@ namespace PointBlank.API.DataManagment
                 {
                     using (WeebClient wc = new WeebClient())
                     {
-                        ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(PointBlank.ValidateCertificate);
-
                         returnData = Encoding.Unicode.GetString(wc.UploadValues(URL, postData));
                         return true;
                     }
                 }
 
-                ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(PointBlank.ValidateCertificate);
                 returnData = Encoding.Unicode.GetString(client.UploadValues(URL, postData));
                 return true;
             }
@@ -134,7 +126,6 @@ namespace PointBlank.API.DataManagment
                 if (useNewClient || client == null)
                 {
                     WeebClient wc = new WeebClient();
-                    ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(PointBlank.ValidateCertificate);
 
                     wc.UploadValuesCompleted += new UploadValuesCompletedEventHandler(OnUploadValues);
                     wc.UploadValuesCompleted += method;
@@ -142,7 +133,6 @@ namespace PointBlank.API.DataManagment
                     return true;
                 }
 
-                ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(PointBlank.ValidateCertificate);
                 client.UploadValuesAsync(new Uri(URL), postData);
                 return true;
             }
@@ -168,14 +158,11 @@ namespace PointBlank.API.DataManagment
                 {
                     using (WeebClient wc = new WeebClient())
                     {
-                        ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(PointBlank.ValidateCertificate);
-
                         wc.DownloadFile(URL, path);
                         return true;
                     }
                 }
 
-                ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(PointBlank.ValidateCertificate);
                 client.DownloadFile(URL, path);
                 return true;
             }
@@ -201,7 +188,6 @@ namespace PointBlank.API.DataManagment
                 if (useNewClient || client == null)
                 {
                     WeebClient wc = new WeebClient();
-                    ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(PointBlank.ValidateCertificate);
 
                     wc.DownloadFileCompleted += new AsyncCompletedEventHandler(OnDownloadFile);
                     if (method != null)
@@ -210,7 +196,6 @@ namespace PointBlank.API.DataManagment
                     return true;
                 }
 
-                ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(PointBlank.ValidateCertificate);
                 client.DownloadFileAsync(new Uri(URL), path);
                 return true;
             }
@@ -292,6 +277,8 @@ namespace PointBlank.API.DataManagment
 
         protected override WebRequest GetWebRequest(Uri address)
         {
+            ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(PointBlank.ValidateCertificate);
+
             WebRequest request = base.GetWebRequest(address);
 
             if (request is HttpWebRequest)
