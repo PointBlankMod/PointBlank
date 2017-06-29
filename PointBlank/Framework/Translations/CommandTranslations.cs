@@ -331,6 +331,7 @@ namespace PointBlank.Framework.Translations
         // -------------------------------------------------------- POINTBLANK COMMANDS ----------------------------------------------------------------------- //
         // Base translations
         public static string Base_NotEnoughArgs;
+        public static string Base_InvalidGroup;
 
         // Group command
         public static string Group_Help;
@@ -377,6 +378,8 @@ namespace PointBlank.Framework.Translations
         public static string Permissions_Group_Modify;
         public static string Permissions_Player;
         public static string Permissions_Player_Modify;
+        public static string Permissions_Add_Success;
+        public static string Permissions_Remove_Success;
         public static string Permissions_Commands_Help;
         public static string Permissions_Commands_Add;
         public static string Permissions_Commands_Remove;

@@ -107,6 +107,30 @@ namespace PointBlank.API.Groups
                 return;
             OnGroupRemoved(group);
         }
+
+        /// <summary>
+        /// Find a server group and returns it
+        /// </summary>
+        /// <param name="ID">The ID of the group</param>
+        /// <returns>The group instance</returns>
+        public static Group Find(string ID) => Groups.FirstOrDefault(a => a.ID == ID);
+
+        /// <summary>
+        /// Tries to find the group by ID and returns it
+        /// </summary>
+        /// <param name="ID">The group ID to look for</param>
+        /// <param name="group">The group instance</param>
+        /// <returns>If the group was found</returns>
+        public static bool TryFindGroup(string ID, out Group group)
+        {
+            Group g = Find(ID);
+
+            group = g;
+            if (g == null)
+                return false;
+            else
+                return true;
+        }
         #endregion
     }
 }

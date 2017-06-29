@@ -596,6 +596,7 @@ namespace PointBlank.Framework
             if (UniCommand.CreatedNew)
             {
                 CommandTranslations.Base_NotEnoughArgs = "Not enough arguments specified!";
+                CommandTranslations.Base_InvalidGroup = "The specified group is invalid!";
 
                 CommandTranslations.Group_Help = "This allows you to get information on groups or modify them.";
                 CommandTranslations.Group_Usage = " {0}";
@@ -641,10 +642,15 @@ namespace PointBlank.Framework
                 CommandTranslations.Permissions_Player_Modify = " {0} <player> {1} <permission>";
                 CommandTranslations.Permissions_Commands_Group = "Group";
                 CommandTranslations.Permissions_Commands_Player = "Player";
+                CommandTranslations.Permissions_Add_Success = "{0} has been successfully added to {1}!";
+                CommandTranslations.Permissions_Remove_Success = "{0} has been successfully removed from {1}!";
+                CommandTranslations.Permissions_Commands_Add = "Add";
+                CommandTranslations.Permissions_Commands_Remove = "Remove";
             }
             else
             {
                 CommandTranslations.Base_NotEnoughArgs = (string)JCommand.Document["Base_NotEnoughArgs"];
+                CommandTranslations.Base_InvalidGroup = (string)JCommand.Document["Base_InvalidGroup"];
 
                 CommandTranslations.Group_Help = (string)JCommand.Document["Group_Help"];
                 CommandTranslations.Group_Usage = (string)JCommand.Document["Group_Usage"];
@@ -684,6 +690,16 @@ namespace PointBlank.Framework
                 CommandTranslations.Permissions_Help = (string)JCommand.Document["Permissions_Help"];
                 CommandTranslations.Permissions_Usage = (string)JCommand.Document["Permissions_Usage"];
                 CommandTranslations.Permissions_Commands_Help = (string)JCommand.Document["Permissions_Commands_Help"];
+                CommandTranslations.Permissions_Group = (string)JCommand.Document["Permissions_Group"];
+                CommandTranslations.Permissions_Group_Modify = (string)JCommand.Document["Permissions_Group_Modify"];
+                CommandTranslations.Permissions_Player = (string)JCommand.Document["Permissions_Player"];
+                CommandTranslations.Permissions_Player_Modify = (string)JCommand.Document["Permissions_Player_Modify"];
+                CommandTranslations.Permissions_Add_Success = (string)JCommand.Document["Permissions_Add_Success"];
+                CommandTranslations.Permissions_Remove_Success = (string)JCommand.Document["Permissions_Remove_Success"];
+                CommandTranslations.Permissions_Commands_Add = (string)JCommand.Document["Permissions_Commands_Add"];
+                CommandTranslations.Permissions_Commands_Remove = (string)JCommand.Document["Permissions_Commands_Remove"];
+                CommandTranslations.Permissions_Commands_Group = (string)JCommand.Document["Permissions_Commands_Group"];
+                CommandTranslations.Permissions_Commands_Player = (string)JCommand.Document["Permissions_Commands_Player"];
             }
             #endregion
 
@@ -987,6 +1003,7 @@ namespace PointBlank.Framework
 
             #region PointBlank Command Translations
             SetCommand("Base_NotEnoughArgs", CommandTranslations.Base_NotEnoughArgs);
+            SetCommand("Base_InvalidGroup", CommandTranslations.Base_InvalidGroup);
 
             SetCommand("Group_Help", CommandTranslations.Group_Help);
             SetCommand("Group_Usage", CommandTranslations.Group_Usage);
@@ -1026,6 +1043,16 @@ namespace PointBlank.Framework
             SetCommand("Permissions_Help", CommandTranslations.Permissions_Help);
             SetCommand("Permissions_Usage", CommandTranslations.Permissions_Usage);
             SetCommand("Permissions_Commands_Help", CommandTranslations.Permissions_Commands_Help);
+            SetCommand("Permissions_Group", CommandTranslations.Permissions_Group);
+            SetCommand("Permissions_Group_Modify", CommandTranslations.Permissions_Group_Modify);
+            SetCommand("Permissions_Player", CommandTranslations.Permissions_Player);
+            SetCommand("Permissions_Player_Modify", CommandTranslations.Permissions_Player_Modify);
+            SetCommand("Permissions_Add_Success", CommandTranslations.Permissions_Add_Success);
+            SetCommand("Permissions_Remove_Success", CommandTranslations.Permissions_Remove_Success);
+            SetCommand("Permissions_Commands_Add", CommandTranslations.Permissions_Commands_Add);
+            SetCommand("Permissions_Commands_Remove", CommandTranslations.Permissions_Commands_Remove);
+            SetCommand("Permissions_Commands_Group", CommandTranslations.Permissions_Commands_Group);
+            SetCommand("Permissions_Commands_Player", CommandTranslations.Permissions_Commands_Player);
             #endregion
 
             #region Service Translations

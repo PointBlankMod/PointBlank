@@ -83,7 +83,15 @@ namespace PointBlank.API.Groups
         /// </summary>
         /// <param name="ID">The ID to query</param>
         /// <returns>The instance of the group the ID belongs to or null if not found</returns>
-        public static Group Find(string ID) => GroupManager.Groups.FirstOrDefault(a => a.ID == ID);
+        public static Group Find(string ID) => GroupManager.Find(ID);
+
+        /// <summary>
+        /// Tries to find the group by ID and returns it
+        /// </summary>
+        /// <param name="ID">The group ID to look for</param>
+        /// <param name="group">The group instance</param>
+        /// <returns>If the group was found</returns>
+        public static bool TryFindGroup(string ID, out Group group) => Group.TryFindGroup(ID, out group);
 
         /// <summary>
         /// Checks if the specified group ID is already in use
