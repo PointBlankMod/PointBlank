@@ -16,6 +16,7 @@ using PointBlank.Framework;
 using PointBlank.API.DataManagment;
 using PointBlank.Services.PluginManager;
 using Newtonsoft.Json.Linq;
+using Steamworks;
 
 namespace PointBlank
 {

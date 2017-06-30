@@ -30,6 +30,10 @@ namespace PointBlank.API.Plugins
         /// Called when the plugin has loaded
         /// </summary>
         public static event PluginEventHandler OnPluginLoaded;
+        /// <summary>
+        /// Called when all plugins have been loaded
+        /// </summary>
+        public static event OnVoidDelegate OnPluginsLoaded;
 
         /// <summary>
         /// Called when the plugin is being stopped
@@ -39,6 +43,10 @@ namespace PointBlank.API.Plugins
         /// Called when the plugin has unloaded
         /// </summary>
         public static event PluginEventHandler OnPluginUnloaded;
+        /// <summary>
+        /// Called when all plugins have been unloaded
+        /// </summary>
+        public static event OnVoidDelegate OnPluginsUnloaded;
         #endregion
 
         #region Functions
@@ -49,13 +57,19 @@ namespace PointBlank.API.Plugins
 
             OnPluginStart(plugin);
         }
-
         internal static void RunPluginLoaded(Plugin plugin)
         {
             if (OnPluginLoaded == null)
                 return;
 
             OnPluginLoaded(plugin);
+        }
+        internal static void RunPluginsLoaded()
+        {
+            if (OnPluginsLoaded == null)
+                return;
+
+            OnPluginsLoaded();
         }
 
         internal static void RunPluginStop(Plugin plugin)
@@ -65,13 +79,19 @@ namespace PointBlank.API.Plugins
 
             OnPluginStop(plugin);
         }
-
         internal static void RunPluginUnloaded(Plugin plugin)
         {
             if (OnPluginUnloaded == null)
                 return;
 
             OnPluginUnloaded(plugin);
+        }
+        internal static void RunPluginsUnloaded()
+        {
+            if (OnPluginsUnloaded == null)
+                return;
+
+            OnPluginsUnloaded();
         }
         #endregion
     }

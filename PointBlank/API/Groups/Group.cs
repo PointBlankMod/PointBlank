@@ -36,7 +36,7 @@ namespace PointBlank.API.Groups
         /// <summary>
         /// The list of permissions this group has
         /// </summary>
-        public string[] Permissions => Permissions.ToArray();
+        public string[] Permissions => _Permissions.ToArray();
         /// <summary>
         /// List of permission inherits this group has
         /// </summary>

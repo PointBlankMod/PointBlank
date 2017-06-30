@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SDG.Unturned;
+using PointBlank.API.Plugins;
 using PointBlank.API.Groups;
 using PointBlank.API.Services;
 using PointBlank.API.Unturned.Server;
@@ -12,6 +13,7 @@ using PointBlank.API.Unturned.Structure;
 using GM = PointBlank.API.Groups.GroupManager;
 using Steamworks;
 using UnityEngine;
+using PM = PointBlank.Services.PluginManager.PluginManager;
 
 namespace PointBlank.Services.APIManager
 {
@@ -38,6 +40,7 @@ namespace PointBlank.Services.APIManager
             Provider.onEnemyConnected += new Provider.EnemyConnected(ServerEvents.RunPlayerConnected);
             Provider.onEnemyDisconnected += new Provider.EnemyDisconnected(ServerEvents.RunPlayerDisconnected);
             Provider.onServerShutdown += new Provider.ServerShutdown(ServerEvents.RunServerShutdown);
+            Provider.onServerHosted += new Provider.ServerHosted(ServerEvents.RunServerInitialized);
             LightingManager.onDayNightUpdated += new DayNightUpdated(ServerEvents.RunDayNight);
             LightingManager.onMoonUpdated += new MoonUpdated(ServerEvents.RunFullMoon);
             LightingManager.onRainUpdated += new RainUpdated(ServerEvents.RunRainUpdated);
@@ -50,6 +53,8 @@ namespace PointBlank.Services.APIManager
             ChatManager.onChatted += new Chatted(OnPlayerChat);
             PlayerEvents.OnInvisiblePlayerAdded += new PlayerEvents.InvisiblePlayersChangedHandler(OnSetInvisible);
             PlayerEvents.OnInvisiblePlayerRemoved += new PlayerEvents.InvisiblePlayersChangedHandler(OnSetVisible);
+            PluginEvents.OnPluginsLoaded += new OnVoidDelegate(OnPluginsLoaded);
+            ServerEvents.OnServerInitialized += new OnVoidDelegate(OnServerInitialized);
 
             // Run code
             tGame.Start();
@@ -139,6 +144,18 @@ namespace PointBlank.Services.APIManager
             });
 
             Provider.send(player.SteamID, ESteamPacket.CONNECTED, bytes, size, 0);
+        }
+
+        private void OnPluginsLoaded()
+        {
+            string plugins = string.Join(",", PM.Plugins.Select(a => a.Name).ToArray());
+            SteamGameServer.SetKeyValue("pointblankplugins", plugins);
+        }
+
+        private void OnServerInitialized()
+        {
+            SteamGameServer.SetKeyValue("untured", Provider.APP_VERSION);
+            SteamGameServer.SetKeyValue("pointblank", PointBlankInfo.Version);
         }
         #endregion
     }

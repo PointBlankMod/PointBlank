@@ -110,7 +110,6 @@
     <Compile Include="API\Unturned\Chat\UnturnedChat.cs" />
     <Compile Include="API\Unturned\Item\UnturnedItem.cs" />
     <Compile Include="API\Unturned\Item\UnturnedStoredItem.cs" />
-    <Compile Include="API\Unturned\Player\BotPlayer.cs" />
     <Compile Include="API\Unturned\Player\PlayerEvents.cs" />
     <Compile Include="API\Unturned\Structure\StructureEvents.cs" />
     <Compile Include="API\Unturned\Structure\UnturnedStructure.cs" />
@@ -189,6 +188,7 @@
     <Compile Include="Framework\Overrides\_BarricadeManager.cs" />
     <Compile Include="Framework\Overrides\_ChatManager.cs" />
     <Compile Include="Framework\Overrides\_InteractableVehicle.cs" />
+    <Compile Include="Framework\Overrides\_Provider.cs" />
     <Compile Include="Framework\Overrides\_Structure.cs" />
     <Compile Include="Framework\Overrides\_StructureManager.cs" />
     <Compile Include="Framework\Overrides\_VehicleManager.cs" />

@@ -69,12 +69,14 @@ namespace PointBlank.Services.PluginManager
                         break;
                 }
             }
+            PluginEvents.RunPluginsLoaded();
         }
 
         public override void Unload()
         {
             foreach (PluginWrapper wrapper in _plugins)
                 wrapper.Unload(); // Unload the wrapper
+            PluginEvents.RunPluginsUnloaded();
             SaveConfig();
         }
         #endregion

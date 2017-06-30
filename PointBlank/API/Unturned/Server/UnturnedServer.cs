@@ -21,7 +21,6 @@ namespace PointBlank.API.Unturned.Server
     {
         #region Variables
         private static HashSet<UnturnedPlayer> _Players = new HashSet<UnturnedPlayer>();
-        private static HashSet<BotPlayer> _Bots = new HashSet<BotPlayer>();
         private static HashSet<UnturnedVehicle> _Vehicles = new HashSet<UnturnedVehicle>();
         private static HashSet<UnturnedStructure> _Structures = new HashSet<UnturnedStructure>();
         private static HashSet<UnturnedBarricade> _Barricades = new HashSet<UnturnedBarricade>();
@@ -33,10 +32,6 @@ namespace PointBlank.API.Unturned.Server
         /// The currently online players
         /// </summary>
         public static UnturnedPlayer[] Players => _Players.ToArray(); // Does this assign at runtime? bad if so
-        /// <summary>
-        /// The current existing bots
-        /// </summary>
-        public static BotPlayer[] Bots => _Bots.ToArray();
         /// <summary>
         /// All vehicles on the server
         /// </summary>

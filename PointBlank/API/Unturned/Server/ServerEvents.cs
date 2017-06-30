@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SDG.Unturned;
+using Steamworks;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Vehicle;
 using PointBlank.API.Unturned.Structure;
@@ -23,12 +24,6 @@ namespace PointBlank.API.Unturned.Server
         public delegate void PlayerConnectionHandler(UnturnedPlayer player);
 
         /// <summary>
-        /// Used for handling bots
-        /// </summary>
-        /// <param name="bot">The bot instance</param>
-        public delegate void BotStatusHandler(BotPlayer bot);
-
-        /// <summary>
         /// Used for handling vehicles
         /// </summary>
         /// <param name="vehicle">The vehicle instance</param>
@@ -47,6 +42,17 @@ namespace PointBlank.API.Unturned.Server
         /// <param name="barricade">The affected barricade</param>
         /// <param name="cancel">Should the event be canceled</param>
         public delegate void BarricadeStatusHandler(UnturnedBarricade barricade, ref bool cancel);
+
+        /// <summary>
+        /// Used for handling unturned packet sending
+        /// </summary>
+        /// <param name="steamID">The steamID to send to</param>
+        /// <param name="type">The packet type to send</param>
+        /// <param name="packet">The packet bytes to send</param>
+        /// <param name="size">The size of the packet</param>
+        /// <param name="channel">The channel to send it on</param>
+        /// <param name="cancel">Should the packet be canceled</param>
+        public delegate void PacketSentHandler(ref CSteamID steamID, ref ESteamPacket type, ref byte[] packet, ref int size, ref int channel, ref bool cancel);
         #endregion
 
         #region Events
@@ -63,6 +69,10 @@ namespace PointBlank.API.Unturned.Server
         /// Called when the server is shutting down
         /// </summary>
         public static event OnVoidDelegate OnServerShutdown;
+        /// <summary>
+        /// Called when the server is initialized
+        /// </summary>
+        public static event OnVoidDelegate OnServerInitialized;
 
         /// <summary>
         /// Called when a player connected to the server
@@ -72,15 +82,6 @@ namespace PointBlank.API.Unturned.Server
         /// Called when a player disconnected from the server
         /// </summary>
         public static event PlayerConnectionHandler OnPlayerDisconnected;
-
-        /// <summary>
-        /// Called when a bot is created
-        /// </summary>
-        public static event BotStatusHandler OnBotCreated;
-        /// <summary>
-        /// Called when a bot is removed
-        /// </summary>
-        public static event BotStatusHandler OnBotRemoved;
 
         /// <summary>
         /// Called when the time is officially day
@@ -131,6 +132,11 @@ namespace PointBlank.API.Unturned.Server
         /// Called when a barricade is removed
         /// </summary>
         public static event BarricadeStatusHandler OnBarricadeRemoved;
+
+        /// <summary>
+        /// Called when a packet is sent
+        /// </summary>
+        public static event PacketSentHandler OnPacketSent;
         #endregion
 
         #region Functions
@@ -156,6 +162,13 @@ namespace PointBlank.API.Unturned.Server
 
             OnServerShutdown();
         }
+        internal static void RunServerInitialized()
+        {
+            if (OnServerInitialized == null)
+                return;
+
+            OnServerInitialized();
+        }
 
         internal static void RunPlayerConnected(SteamPlayer player)
         {
@@ -170,21 +183,6 @@ namespace PointBlank.API.Unturned.Server
                 return;
 
             OnPlayerDisconnected(UnturnedPlayer.Create(player));
-        }
-
-        internal static void RunBotCreated(BotPlayer bot)
-        {
-            if (OnBotCreated == null)
-                return;
-
-            OnBotCreated(bot);
-        }
-        internal static void RunBotRemoved(BotPlayer bot)
-        {
-            if (OnBotRemoved == null)
-                return;
-
-            OnBotRemoved(bot);
         }
 
         internal static void RunDayNight(bool isDay)
@@ -264,6 +262,14 @@ namespace PointBlank.API.Unturned.Server
                 return;
 
             OnBarricadeRemoved(barricade, ref cancel);
+        }
+
+        internal static void RunPacketSent(ref CSteamID steamID, ref ESteamPacket type, ref byte[] packet, ref int size, ref int channel, ref bool cancel)
+        {
+            if (OnPacketSent == null)
+                return;
+
+            OnPacketSent(ref steamID, ref type, ref packet, ref size, ref channel, ref cancel);
         }
         #endregion
     }
