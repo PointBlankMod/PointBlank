@@ -240,7 +240,8 @@ namespace PointBlank.API.Unturned.Server
                 Players[i].Kick("Map is changing.");
 
             Provider.map = mapName;
-            Provider.launch();
+            Provider.disconnect();
+            Provider.host();
 
             return true;
         }
