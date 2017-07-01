@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using SDG.Unturned;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Structure;
@@ -9,7 +8,6 @@ using PointBlank.API.Unturned.Vehicle;
 using PointBlank.API.Unturned.Barricade;
 using PointBlank.API.Unturned.Item;
 using Steamworks;
-using UStructure = SDG.Unturned.Structure;
 using UPlayer = SDG.Unturned.Player;
 
 namespace PointBlank.API.Unturned.Server
@@ -31,7 +29,7 @@ namespace PointBlank.API.Unturned.Server
         /// <summary>
         /// The currently online players
         /// </summary>
-        public static UnturnedPlayer[] Players => _Players.ToArray(); // Does this assign at runtime? bad if so
+        public static UnturnedPlayer[] Players => _Players.ToArray(); 
         /// <summary>
         /// All vehicles on the server
         /// </summary>
@@ -43,7 +41,7 @@ namespace PointBlank.API.Unturned.Server
         /// <summary>
         /// Barricades within the server
         /// </summary>
-        public static UnturnedBarricade[] Barricades = _Barricades.ToArray();
+        public static UnturnedBarricade[] Barricades => _Barricades.ToArray();
         /// <summary>
         /// Items within the server
         /// </summary>
@@ -51,7 +49,11 @@ namespace PointBlank.API.Unturned.Server
         /// <summary>
         /// Current game time
         /// </summary>
-        public static uint GameTime { get { return LightingManager.time; } set { LightingManager.time = value; } }
+        public static uint GameTime
+        {
+            get => LightingManager.time;
+            set => LightingManager.time = value;
+        }
         /// <summary>
         /// Is it day time on the server
         /// </summary>
@@ -59,7 +61,11 @@ namespace PointBlank.API.Unturned.Server
         /// <summary>
         /// Is it currently full moon on the server
         /// </summary>
-        public static bool IsFullMoon { get { return LightingManager.isFullMoon; } set { LightingManager.isFullMoon = value; } }
+        public static bool IsFullMoon
+        {
+            get => LightingManager.isFullMoon;
+            set => LightingManager.isFullMoon = value;
+        }
         /// <summary>
         /// Is it currently raining/snowing
         /// </summary>
@@ -220,6 +226,24 @@ namespace PointBlank.API.Unturned.Server
         /// <param name="steam64">The steam64 ID</param>
         /// <returns>The unturned player instance</returns>
         public static UnturnedPlayer GetPlayer(ulong steam64) => Players.FirstOrDefault(a => a.SteamID.m_SteamID == steam64);
+        /// <summary
+        /// Changes the map
+        /// </summary>
+        /// <param name="mapName">The name of the map to change to</param>
+        /// <returns>Whether the map was successfully changed or not</returns>
+        public static bool ChangeMap(string mapName)
+        {
+            if (!Level.exists(mapName))
+                return false;
+
+            for (int i = 0; i < Players.Length; i++)
+                Players[i].Kick("Map is changing.");
+
+            Provider.map = mapName;
+            Provider.launch();
+
+            return true;
+        }
         #endregion
     }
 }

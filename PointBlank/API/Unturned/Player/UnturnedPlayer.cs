@@ -2,7 +2,6 @@
 using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using SDG.Unturned;
 using UPlayer = SDG.Unturned.Player;
 using SPlayer = SDG.Unturned.SteamPlayer;
@@ -10,10 +9,7 @@ using Steamworks;
 using UnityEngine;
 using PointBlank.API.Groups;
 using PointBlank.API.Unturned.Server;
-using PointBlank.API.DataManagment;
 using SP = PointBlank.API.Steam.SteamPlayer;
-using Newtonsoft.Json.Linq;
-using System.Globalization;
 using RG = PointBlank.API.Steam.SteamGroup;
 using PointBlank.API.Unturned.Vehicle;
 using PointBlank.API.Unturned.Item;
@@ -974,7 +970,13 @@ namespace PointBlank.API.Unturned.Player
         /// Teleports the player to a specific position
         /// </summary>
         /// <param name="position">The position to teleport the player to</param>
-        public void Teleport(Vector3 position) => Player.sendTeleport(position, MeasurementTool.angleToByte(Player.transform.rotation.eulerAngles.y));  
+        public void Teleport(Vector3 position) => Player.sendTeleport(position, MeasurementTool.angleToByte(Player.transform.rotation.eulerAngles.y));
+
+        /// <summary>
+        /// Disconnects the player
+        /// </summary>
+        /// <param name="message">Message displayed when kicked</param>
+        public void Kick(string message) => Provider.kick(SteamID, message);
         #endregion
     }
 }
