@@ -90,216 +90,324 @@ namespace PointBlank.API.DataManagment
         /// <returns>Converted string</returns>
         public static string DataTypeToString(ESQLDataType dataType)
         {
-            if (dataType == ESQLDataType.BIGINT)
-                return "BIGINT";
-            else if (dataType == ESQLDataType.CHAR_128)
-                return "CHAR(128)";
-            else if (dataType == ESQLDataType.CHAR_16)
-                return "CHAR(16)";
-            else if (dataType == ESQLDataType.CHAR_255)
-                return "CHAR(255)";
-            else if (dataType == ESQLDataType.CHAR_32)
-                return "CHAR(32)";
-            else if (dataType == ESQLDataType.CHAR_64)
-                return "CHAR(64)";
-            else if (dataType == ESQLDataType.DATE)
-                return "DATE";
-            else if (dataType == ESQLDataType.DATETIME)
-                return "DATETIME";
-            else if (dataType == ESQLDataType.DECIMAL_128_128)
-                return "DECIMAL(128,128)";
-            else if (dataType == ESQLDataType.DECIMAL_128_16)
-                return "DECIMAL(128,16)";
-            else if (dataType == ESQLDataType.DECIMAL_128_255)
-                return "DECIMAL(128,255)";
-            else if (dataType == ESQLDataType.DECIMAL_128_32)
-                return "DECIMAL(128,32)";
-            else if (dataType == ESQLDataType.DECIMAL_128_64)
-                return "DECIMAL(128,64)";
-            else if (dataType == ESQLDataType.DECIMAL_16_128)
-                return "DECIMAL(16,128)";
-            else if (dataType == ESQLDataType.DECIMAL_16_16)
-                return "DECIMAL(16,16)";
-            else if (dataType == ESQLDataType.DECIMAL_16_255)
-                return "DECIMAL(16,255)";
-            else if (dataType == ESQLDataType.DECIMAL_16_32)
-                return "DECIMAL(16,32)";
-            else if (dataType == ESQLDataType.DECIMAL_16_64)
-                return "DECIMAL(16,64)";
-            else if (dataType == ESQLDataType.DECIMAL_255_128)
-                return "DECIMAL(255,128)";
-            else if (dataType == ESQLDataType.DECIMAL_255_16)
-                return "DECIMAL(255,16)";
-            else if (dataType == ESQLDataType.DECIMAL_255_255)
-                return "DECIMAL(255,255)";
-            else if (dataType == ESQLDataType.DECIMAL_255_32)
-                return "DECIMAL(255,32)";
-            else if (dataType == ESQLDataType.DECIMAL_255_64)
-                return "DECIMAL(255,64)";
-            else if (dataType == ESQLDataType.DECIMAL_32_128)
-                return "DECIMAL(32,128)";
-            else if (dataType == ESQLDataType.DECIMAL_32_16)
-                return "DECIMAL(32,16)";
-            else if (dataType == ESQLDataType.DECIMAL_32_255)
-                return "DECIMAL(32,255)";
-            else if (dataType == ESQLDataType.DECIMAL_32_32)
-                return "DECIMAL(32,32)";
-            else if (dataType == ESQLDataType.DECIMAL_32_64)
-                return "DECIMAL(32,64)";
-            else if (dataType == ESQLDataType.DECIMAL_64_128)
-                return "DECIMAL(64,128)";
-            else if (dataType == ESQLDataType.DECIMAL_64_16)
-                return "DECIMAL(64,16)";
-            else if (dataType == ESQLDataType.DECIMAL_64_255)
-                return "DECIMAL(64,255)";
-            else if (dataType == ESQLDataType.DECIMAL_64_32)
-                return "DECIMAL(64,32)";
-            else if (dataType == ESQLDataType.DECIMAL_64_64)
-                return "DECIMAL(64,64)";
-            else if (dataType == ESQLDataType.DOUBLE_128_10)
-                return "DOUBLE(128,10)";
-            else if (dataType == ESQLDataType.DOUBLE_128_20)
-                return "DOUBLE(128,20)";
-            else if (dataType == ESQLDataType.DOUBLE_128_30)
-                return "DOUBLE(128,30)";
-            else if (dataType == ESQLDataType.DOUBLE_128_4)
-                return "DOUBLE(128,4)";
-            else if (dataType == ESQLDataType.DOUBLE_128_40)
-                return "DOUBLE(128,40)";
-            else if (dataType == ESQLDataType.DOUBLE_128_50)
-                return "DOUBLE(128,50)";
-            else if (dataType == ESQLDataType.DOUBLE_128_53)
-                return "DOUBLE(128,53)";
-            else if (dataType == ESQLDataType.DOUBLE_16_10)
-                return "DOUBLE(16,10)";
-            else if (dataType == ESQLDataType.DOUBLE_16_20)
-                return "DOUBLE(16,20)";
-            else if (dataType == ESQLDataType.DOUBLE_16_30)
-                return "DOUBLE(16,30)";
-            else if (dataType == ESQLDataType.DOUBLE_16_4)
-                return "DOUBLE(16,4)";
-            else if (dataType == ESQLDataType.DOUBLE_16_40)
-                return "DOUBLE(16,40)";
-            else if (dataType == ESQLDataType.DOUBLE_16_50)
-                return "DOUBLE(16,50)";
-            else if (dataType == ESQLDataType.DOUBLE_16_53)
-                return "DOUBLE(16,53)";
-            else if (dataType == ESQLDataType.DOUBLE_255_10)
-                return "DOUBLE(255,10)";
-            else if (dataType == ESQLDataType.DOUBLE_255_20)
-                return "DOUBLE(255,20)";
-            else if (dataType == ESQLDataType.DOUBLE_255_30)
-                return "DOUBLE(255,30)";
-            else if (dataType == ESQLDataType.DOUBLE_255_4)
-                return "DOUBLE(255,4)";
-            else if (dataType == ESQLDataType.DOUBLE_255_40)
-                return "DOUBLE(255,40)";
-            else if (dataType == ESQLDataType.DOUBLE_255_50)
-                return "DOUBLE(255,50)";
-            else if (dataType == ESQLDataType.DOUBLE_255_53)
-                return "DOUBLE(255,53)";
-            else if (dataType == ESQLDataType.DOUBLE_32_10)
-                return "DOUBLE(32,10)";
-            else if (dataType == ESQLDataType.DOUBLE_32_20)
-                return "DOUBLE(32,20)";
-            else if (dataType == ESQLDataType.DOUBLE_32_30)
-                return "DOUBLE(32,30)";
-            else if (dataType == ESQLDataType.DOUBLE_32_4)
-                return "DOUBLE(32,4)";
-            else if (dataType == ESQLDataType.DOUBLE_32_40)
-                return "DOUBLE(32,40)";
-            else if (dataType == ESQLDataType.DOUBLE_32_50)
-                return "DOUBLE(32,50)";
-            else if (dataType == ESQLDataType.DOUBLE_32_53)
-                return "DOUBLE(32,53)";
-            else if (dataType == ESQLDataType.DOUBLE_64_10)
-                return "DOUBLE(64,10)";
-            else if (dataType == ESQLDataType.DOUBLE_64_20)
-                return "DOUBLE(64,20)";
-            else if (dataType == ESQLDataType.DOUBLE_64_30)
-                return "DOUBLE(64,30)";
-            else if (dataType == ESQLDataType.DOUBLE_64_4)
-                return "DOUBLE(64,4)";
-            else if (dataType == ESQLDataType.DOUBLE_64_40)
-                return "DOUBLE(64,40)";
-            else if (dataType == ESQLDataType.DOUBLE_64_50)
-                return "DOUBLE(64,50)";
-            else if (dataType == ESQLDataType.DOUBLE_64_53)
-                return "DOUBLE(64,53)";
-            else if (dataType == ESQLDataType.ENUM)
-                return "ENUM";
-            else if (dataType == ESQLDataType.FLOAT_10_10)
-                return "FLOAT(10,10)";
-            else if (dataType == ESQLDataType.FLOAT_10_2)
-                return "FLOAT(10,2)";
-            else if (dataType == ESQLDataType.FLOAT_10_20)
-                return "FLOAT(10,20)";
-            else if (dataType == ESQLDataType.FLOAT_10_24)
-                return "FLOAT(10,24)";
-            else if (dataType == ESQLDataType.FLOAT_128_10)
-                return "FLOAT(128,10)";
-            else if (dataType == ESQLDataType.FLOAT_128_2)
-                return "FLOAT(128,2)";
-            else if (dataType == ESQLDataType.FLOAT_128_20)
-                return "FLOAT(128,20)";
-            else if (dataType == ESQLDataType.FLOAT_128_24)
-                return "FLOAT(128,24)";
-            else if (dataType == ESQLDataType.FLOAT_255_10)
-                return "FLOAT(255,10)";
-            else if (dataType == ESQLDataType.FLOAT_255_2)
-                return "FLOAT(255,2)";
-            else if (dataType == ESQLDataType.FLOAT_255_20)
-                return "FLOAT(255,20)";
-            else if (dataType == ESQLDataType.FLOAT_255_24)
-                return "FLOAT(255,24)";
-            else if (dataType == ESQLDataType.FLOAT_32_10)
-                return "FLOAT(32,10)";
-            else if (dataType == ESQLDataType.FLOAT_32_2)
-                return "FLOAT(32,2)";
-            else if (dataType == ESQLDataType.FLOAT_32_20)
-                return "FLOAT(32,20)";
-            else if (dataType == ESQLDataType.FLOAT_32_24)
-                return "FLOAT(32,24)";
-            else if (dataType == ESQLDataType.FLOAT_64_10)
-                return "FLOAT(64,10)";
-            else if (dataType == ESQLDataType.FLOAT_64_2)
-                return "FLOAT(64,2)";
-            else if (dataType == ESQLDataType.FLOAT_64_20)
-                return "FLOAT(64,20)";
-            else if (dataType == ESQLDataType.FLOAT_64_24)
-                return "FLOAT(64,24)";
-            else if (dataType == ESQLDataType.INT)
-                return "INT";
-            else if (dataType == ESQLDataType.LONGTEXT)
-                return "LONGTEXT";
-            else if (dataType == ESQLDataType.MEDIUMINT)
-                return "MEDIUMINT";
-            else if (dataType == ESQLDataType.MEDIUMTEXT)
-                return "MEDIUMTEXT";
-            else if (dataType == ESQLDataType.SMALLINT)
-                return "SMALLINT";
-            else if (dataType == ESQLDataType.TEXT)
-                return "TEXT";
-            else if (dataType == ESQLDataType.TIME)
-                return "TIME";
-            else if (dataType == ESQLDataType.TIMESTAMP)
-                return "TIMESTAMP";
-            else if (dataType == ESQLDataType.TINYINT)
-                return "TINYINT";
-            else if (dataType == ESQLDataType.TINYTEXT)
-                return "TINYTEXT";
-            else if (dataType == ESQLDataType.VARCHAR_128)
-                return "VARCHAR(128)";
-            else if (dataType == ESQLDataType.VARCHAR_16)
-                return "VARCHAR(16)";
-            else if (dataType == ESQLDataType.VARCHAR_255)
-                return "VARCHAR(255)";
-            else if (dataType == ESQLDataType.VARCHAR_32)
-                return "VARCHAR(32)";
-            else if (dataType == ESQLDataType.VARCHAR_64)
-                return "VARCHAR(64)";
-            else
-                return "TEXT";
+            switch(dataType)
+            {
+                case ESQLDataType.BIGINT:
+                    return "BIGINT";
+                    break;
+                case ESQLDataType.CHAR_128:
+                    return "CHAR(128)";
+                    break;
+                case ESQLDataType.CHAR_16:
+                    return "CHAR(16)";
+                    break;
+                case ESQLDataType.CHAR_255:
+                    return "CHAR(255)";
+                    break;
+                case ESQLDataType.CHAR_32:
+                    return "CHAR(32)";
+                    break;
+                case ESQLDataType.CHAR_64:
+                    return "CHAR(64)";
+                    break;
+                case ESQLDataType.DATE:
+                    return "DATE";
+                    break;
+                case ESQLDataType.DATETIME:
+                    return "DATETIME";
+                    break;
+                case ESQLDataType.DECIMAL_128_128:
+                    return "DECIMAL(128,128)";
+                    break;
+                case ESQLDataType.DECIMAL_128_16:
+                    return "DECIMAL(128,16)";
+                    break;
+                case ESQLDataType.DECIMAL_128_255:
+                    return "DECIMAL(128,255)";
+                    break;
+                case ESQLDataType.DECIMAL_128_32:
+                    return "DECIMAL(128,32)";
+                    break;
+                case ESQLDataType.DECIMAL_128_64:
+                    return "DECIMAL(128,64)";
+                    break;
+                case ESQLDataType.DECIMAL_16_128:
+                    return "DECIMAL(16,128)";
+                    break;
+                case ESQLDataType.DECIMAL_16_16:
+                    return "DECIMAL(16,16)";
+                    break;
+                case ESQLDataType.DECIMAL_16_255:
+                    return "DECIMAL(16,255)";
+                    break;
+                case ESQLDataType.DECIMAL_16_32:
+                    return "DECIMAL(16,32)";
+                    break;
+                case ESQLDataType.DECIMAL_16_64:
+                    return "DECIMAL(16,64)";
+                    break;
+                case ESQLDataType.DECIMAL_255_128:
+                    return "DECIMAL(255,128)";
+                    break;
+                case ESQLDataType.DECIMAL_255_16:
+                    return "DECIMAL(255,16)";
+                    break;
+                case ESQLDataType.DECIMAL_255_255:
+                    return "DECIMAL(255,255)";
+                    break;
+                case ESQLDataType.DECIMAL_255_32:
+                    return "DECIMAL(255,32)";
+                    break;
+                case ESQLDataType.DECIMAL_255_64:
+                    return "DECIMAL(255,64)";
+                    break;
+                case ESQLDataType.DECIMAL_32_128:
+                    return "DECIMAL(32,128)";
+                    break;
+                case ESQLDataType.DECIMAL_32_16:
+                    return "DECIMAL(32,16)";
+                    break;
+                case ESQLDataType.DECIMAL_32_255:
+                    return "DECIMAL(32,255)";
+                    break;
+                case ESQLDataType.DECIMAL_32_32:
+                    return "DECIMAL(32,32)";
+                    break;
+                case ESQLDataType.DECIMAL_32_64:
+                    return "DECIMAL(32,64)";
+                    break;
+                case ESQLDataType.DECIMAL_64_128:
+                    return "DECIMAL(64,128)";
+                    break;
+                case ESQLDataType.DECIMAL_64_16:
+                    return "DECIMAL(64,16)";
+                    break;
+                case ESQLDataType.DECIMAL_64_255:
+                    return "DECIMAL(64,255)";
+                    break;
+                case ESQLDataType.DECIMAL_64_32:
+                    return "DECIMAL(64,32)";
+                    break;
+                case ESQLDataType.DECIMAL_64_64:
+                    return "DECIMAL(64,64)";
+                    break;
+                case ESQLDataType.DOUBLE_128_10:
+                    return "DOUBLE(128,10)";
+                    break;
+                case ESQLDataType.DOUBLE_128_20:
+                    return "DOUBLE(128,20)";
+                    break;
+                case ESQLDataType.DOUBLE_128_30:
+                    return "DOUBLE(128,30)";
+                    break;
+                case ESQLDataType.DOUBLE_128_4:
+                    return "DOUBLE(128,4)";
+                    break;
+                case ESQLDataType.DOUBLE_128_40:
+                    return "DOUBLE(128,40)";
+                    break;
+                case ESQLDataType.DOUBLE_128_50:
+                    return "DOUBLE(128,50)";
+                    break;
+                case ESQLDataType.DOUBLE_128_53:
+                    return "DOUBLE(128,53)";
+                    break;
+                case ESQLDataType.DOUBLE_16_10:
+                    return "DOUBLE(16,10)";
+                    break;
+                case ESQLDataType.DOUBLE_16_20:
+                    return "DOUBLE(16,20)";
+                    break;
+                case ESQLDataType.DOUBLE_16_30:
+                    return "DOUBLE(16,30)";
+                    break;
+                case ESQLDataType.DOUBLE_16_4:
+                    return "DOUBLE(16,4)";
+                    break;
+                case ESQLDataType.DOUBLE_16_40:
+                    return "DOUBLE(16,40)";
+                    break;
+                case ESQLDataType.DOUBLE_16_50:
+                    return "DOUBLE(16,50)";
+                    break;
+                case ESQLDataType.DOUBLE_16_53:
+                    return "DOUBLE(16,53)";
+                    break;
+                case ESQLDataType.DOUBLE_255_10:
+                    return "DOUBLE(255,10)";
+                    break;
+                case ESQLDataType.DOUBLE_255_20:
+                    return "DOUBLE(255,20)";
+                    break;
+                case ESQLDataType.DOUBLE_255_30:
+                    return "DOUBLE(255,30)";
+                    break;
+                case ESQLDataType.DOUBLE_255_4:
+                    return "DOUBLE(255,4)";
+                    break;
+                case ESQLDataType.DOUBLE_255_40:
+                    return "DOUBLE(255,40)";
+                    break;
+                case ESQLDataType.DOUBLE_255_50:
+                    return "DOUBLE(255,50)";
+                    break;
+                case ESQLDataType.DOUBLE_255_53:
+                    return "DOUBLE(255,53)";
+                    break;
+                case ESQLDataType.DOUBLE_32_10:
+                    return "DOUBLE(32,10)";
+                    break;
+                case ESQLDataType.DOUBLE_32_20:
+                    return "DOUBLE(32,20)";
+                    break;
+                case ESQLDataType.DOUBLE_32_30:
+                    return "DOUBLE(32,30)";
+                    break;
+                case ESQLDataType.DOUBLE_32_4:
+                    return "DOUBLE(32,4)";
+                    break;
+                case ESQLDataType.DOUBLE_32_40:
+                    return "DOUBLE(32,40)";
+                    break;
+                case ESQLDataType.DOUBLE_32_50:
+                    return "DOUBLE(32,50)";
+                    break;
+                case ESQLDataType.DOUBLE_32_53:
+                    return "DOUBLE(32,53)";
+                    break;
+                case ESQLDataType.DOUBLE_64_10:
+                    return "DOUBLE(64,10)";
+                    break;
+                case ESQLDataType.DOUBLE_64_20:
+                    return "DOUBLE(64,20)";
+                    break;
+                case ESQLDataType.DOUBLE_64_30:
+                    return "DOUBLE(64,30)";
+                    break;
+                case ESQLDataType.DOUBLE_64_4:
+                    return "DOUBLE(64,4)";
+                    break;
+                case ESQLDataType.DOUBLE_64_40:
+                    return "DOUBLE(64,40)";
+                    break;
+                case ESQLDataType.DOUBLE_64_50:
+                    return "DOUBLE(64,50)";
+                    break;
+                case ESQLDataType.DOUBLE_64_53:
+                    return "DOUBLE(64,53)";
+                    break;
+                case ESQLDataType.ENUM:
+                    return "ENUM";
+                    break;
+                case ESQLDataType.FLOAT_10_10:
+                    return "FLOAT(10,10)";
+                    break;
+                case ESQLDataType.FLOAT_10_2:
+                    return "FLOAT(10,2)";
+                    break;
+                case ESQLDataType.FLOAT_10_20:
+                    return "FLOAT(10,20)";
+                    break;
+                case ESQLDataType.FLOAT_10_24:
+                    return "FLOAT(10,24)";
+                    break;
+                case ESQLDataType.FLOAT_128_10:
+                    return "FLOAT(128,10)";
+                    break;
+                case ESQLDataType.FLOAT_128_2:
+                    return "FLOAT(128,2)";
+                    break;
+                case ESQLDataType.FLOAT_128_20:
+                    return "FLOAT(128,20)";
+                    break;
+                case ESQLDataType.FLOAT_128_24:
+                    return "FLOAT(128,24)";
+                    break;
+                case ESQLDataType.FLOAT_255_10:
+                    return "FLOAT(255,10)";
+                    break;
+                case ESQLDataType.FLOAT_255_2:
+                    return "FLOAT(255,2)";
+                    break;
+                case ESQLDataType.FLOAT_255_20:
+                    return "FLOAT(255,20)";
+                    break;
+                case ESQLDataType.FLOAT_255_24:
+                    return "FLOAT(255,24)";
+                    break;
+                case ESQLDataType.FLOAT_32_10:
+                    return "FLOAT(32,10)";
+                    break;
+                case ESQLDataType.FLOAT_32_2:
+                    return "FLOAT(32,2)";
+                    break;
+                case ESQLDataType.FLOAT_32_20:
+                    return "FLOAT(32,20)";
+                    break;
+                case ESQLDataType.FLOAT_32_24:
+                    return "FLOAT(32,24)";
+                    break;
+                case ESQLDataType.FLOAT_64_10:
+                    return "FLOAT(64,10)";
+                    break;
+                case ESQLDataType.FLOAT_64_2:
+                    return "FLOAT(64,2)";
+                    break;
+                case ESQLDataType.FLOAT_64_20:
+                    return "FLOAT(64,20)";
+                    break;
+                case ESQLDataType.FLOAT_64_24:
+                    return "FLOAT(64,24)";
+                    break;
+                case ESQLDataType.INT:
+                    return "INT";
+                    break;
+                case ESQLDataType.LONGTEXT:
+                    return "LONGTEXT";
+                    break;
+                case ESQLDataType.MEDIUMINT:
+                    return "MEDIUMINT";
+                    break;
+                case ESQLDataType.MEDIUMTEXT:
+                    return "MEDIUMTEXT";
+                    break;
+                case ESQLDataType.SMALLINT:
+                    return "SMALLINT";
+                    break;
+                case ESQLDataType.TEXT:
+                    return "TEXT";
+                    break;
+                case ESQLDataType.TIME:
+                    return "TIME";
+                    break;
+                case ESQLDataType.TIMESTAMP:
+                    return "TIMESTAMP";
+                    break;
+                case ESQLDataType.TINYINT:
+                    return "TINYINT";
+                    break;
+                case ESQLDataType.TINYTEXT:
+                    return "TINYTEXT";
+                    break;
+                case ESQLDataType.VARCHAR_128:
+                    return "VARCHAR(128)";
+                    break;
+                case ESQLDataType.VARCHAR_16:
+                    return "VARCHAR(16)";
+                    break;
+                case ESQLDataType.VARCHAR_255:
+                    return "VARCHAR(255)";
+                    break;
+                case ESQLDataType.VARCHAR_32:
+                    return "VARCHAR(32)";
+                    break;
+                case ESQLDataType.VARCHAR_64:
+                    return "VARCHAR(64)";
+                    break;
+                default:
+                    return "TEXT";
+                    break;
+            }
         }
         #endregion
 
