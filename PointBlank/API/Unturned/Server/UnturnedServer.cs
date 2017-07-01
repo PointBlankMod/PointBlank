@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
 using SDG.Unturned;
@@ -226,7 +227,7 @@ namespace PointBlank.API.Unturned.Server
         /// <param name="steam64">The steam64 ID</param>
         /// <returns>The unturned player instance</returns>
         public static UnturnedPlayer GetPlayer(ulong steam64) => Players.FirstOrDefault(a => a.SteamID.m_SteamID == steam64);
-        /// <summary
+        /// <summary>
         /// Changes the map
         /// </summary>
         /// <param name="mapName">The name of the map to change to</param>
@@ -240,8 +241,95 @@ namespace PointBlank.API.Unturned.Server
                 Players[i].Kick("Map is changing.");
 
             Provider.map = mapName;
-            Level.exit();
             Level.load(Level.getLevel(Provider.map));
+            typeof(Provider).GetMethod("loadGameMode", BindingFlags.Static | BindingFlags.NonPublic).Invoke(null, new object[0]);
+            SteamGameServer.SetMapName(Provider.map);
+            SteamGameServer.SetGameTags(string.Concat(new object[]
+            {
+                (!Provider.isPvP) ? "PVE" : "PVP",
+                ",GAMEMODE:",
+                Provider.gameMode.GetType().Name,
+                ',',
+                (!Provider.hasCheats) ? "STAEHC" : "CHEATS",
+                ',',
+                Provider.mode.ToString(),
+                ",",
+                Provider.cameraMode.ToString(),
+                ",",
+                (Provider.serverWorkshopFileIDs.Count <= 0) ? "KROW" : "WORK",
+                ",",
+                (!Provider.isGold) ? "YLNODLOG" : "GOLDONLY",
+                ",",
+                (!Provider.configData.Server.BattlEye_Secure) ? "BATTLEYE_OFF" : "BATTLEYE_ON"
+            }));
+            if (Provider.serverWorkshopFileIDs.Count > 0)
+            {
+                string text = string.Empty;
+                for (int l = 0; l < Provider.serverWorkshopFileIDs.Count; l++)
+                {
+                    if (text.Length > 0)
+                    {
+                        text += ',';
+                    }
+                    text += Provider.serverWorkshopFileIDs[l];
+                }
+                int num4 = (text.Length - 1) / 120 + 1;
+                int num5 = 0;
+                SteamGameServer.SetKeyValue("Browser_Workshop_Count", num4.ToString());
+                for (int m = 0; m < text.Length; m += 120)
+                {
+                    int num6 = 120;
+                    if (m + num6 > text.Length)
+                    {
+                        num6 = text.Length - m;
+                    }
+                    string pValue2 = text.Substring(m, num6);
+                    SteamGameServer.SetKeyValue("Browser_Workshop_Line_" + num5, pValue2);
+                    num5++;
+                }
+            }
+            string text2 = string.Empty;
+            Type type = Provider.modeConfigData.GetType();
+            FieldInfo[] fields = type.GetFields();
+            for (int n = 0; n < fields.Length; n++)
+            {
+                FieldInfo fieldInfo = fields[n];
+                object value = fieldInfo.GetValue(Provider.modeConfigData);
+                Type type2 = value.GetType();
+                FieldInfo[] fields2 = type2.GetFields();
+                for (int num7 = 0; num7 < fields2.Length; num7++)
+                {
+                    FieldInfo fieldInfo2 = fields2[num7];
+                    object value2 = fieldInfo2.GetValue(value);
+                    if (text2.Length > 0)
+                    {
+                        text2 += ',';
+                    }
+                    if (value2 is bool)
+                    {
+                        text2 += ((!(bool)value2) ? "F" : "T");
+                    }
+                    else
+                    {
+                        text2 += value2;
+                    }
+                }
+            }
+            int num8 = (text2.Length - 1) / 120 + 1;
+            int num9 = 0;
+
+            SteamGameServer.SetKeyValue("Browser_Config_Count", num8.ToString());
+            for (int num10 = 0; num10 < text2.Length; num10 += 120)
+            {
+                int num11 = 120;
+
+                if (num10 + num11 > text2.Length)
+                    num11 = text2.Length - num10;
+                string pValue3 = text2.Substring(num10, num11);
+
+                SteamGameServer.SetKeyValue("Browser_Config_Line_" + num9, pValue3);
+                num9++;
+            }
 
             return true;
         }
