@@ -183,7 +183,7 @@ namespace PointBlank.Services.APIManager
             admin.AddPermission("unturned.commands.admin.*");
             admin.AddPrefix("Admin");
             admin.AddSuffix("Admin");
-            //admin.AddInherit(guest);
+            admin.AddInherit(guest);
             GroupManager.AddGroup(admin);
 
             // Save the groups

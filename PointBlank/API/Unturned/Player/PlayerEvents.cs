@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using PointBlank.API.Groups;
+using SDG.Unturned;
 
 namespace PointBlank.API.Unturned.Player
 {
@@ -11,7 +12,7 @@ namespace PointBlank.API.Unturned.Player
     /// </summary>
     public static class PlayerEvents
     {
-        #region PointBlank Handlers
+        #region Handlers
         /// <summary>
         /// Handles permission changes of the player
         /// </summary>
@@ -43,9 +44,34 @@ namespace PointBlank.API.Unturned.Player
         /// <param name="player">The affected player</param>
         /// <param name="suffix">The changed suffix</param>
         public delegate void SuffixesChangedHandler(UnturnedPlayer player, string suffix);
+
+        /// <summary>
+        /// Handles player deaths
+        /// </summary>
+        /// <param name="player">The player that got killed</param>
+        /// <param name="cause">The cause of death</param>
+        /// <param name="killer">The person who killed the player</param>
+        public delegate void PlayerDeathHandler(UnturnedPlayer player, ref EDeathCause cause, ref UnturnedPlayer killer);
+        /// <summary>
+        /// Handles player hurt events
+        /// </summary>
+        /// <param name="player">The player that got hurt</param>
+        /// <param name="damage">The amount of damage done to the player</param>
+        /// <param name="cause">The cause of the damage</param>
+        /// <param name="limb">The limb that got hurt</param>
+        /// <param name="damager">The person that caused damage</param>
+        /// <param name="cancel">Should the damage be canceled</param>
+        public delegate void PlayerHurtHandler(UnturnedPlayer player, ref byte damage, ref EDeathCause cause, ref ELimb limb, ref UnturnedPlayer damager, ref bool cancel);
+        /// <summary>
+        /// Handles player kills
+        /// </summary>
+        /// <param name="player">The player that killed another player</param>
+        /// <param name="cause">The cause of the kill</param>
+        /// <param name="victim">The player that got killed</param>
+        public delegate void PlayerKillHandler(UnturnedPlayer player, ref EDeathCause cause, ref UnturnedPlayer victim);
         #endregion
 
-        #region PointBlank Events
+        #region Events
         /// <summary>
         /// Called when a permission is added
         /// </summary>
@@ -90,6 +116,19 @@ namespace PointBlank.API.Unturned.Player
         /// Called when a suffix is removed
         /// </summary>
         public static event SuffixesChangedHandler OnSuffixRemoved;
+
+        /// <summary>
+        /// Called when a player dies
+        /// </summary>
+        public static event PlayerDeathHandler OnPlayerDied;
+        /// <summary>
+        /// Called when a player is hurt
+        /// </summary>
+        public static event PlayerHurtHandler OnPlayerHurt;
+        /// <summary>
+        /// Called when a player kills another player
+        /// </summary>
+        public static event PlayerKillHandler OnPlayerKill;
         #endregion
 
         #region Functions
@@ -166,6 +205,22 @@ namespace PointBlank.API.Unturned.Player
                 return;
 
             OnSuffixRemoved(player, suffix);
+        }
+
+        internal static void RunPlayerHurt(SteamPlayer player, ref byte damage, ref EDeathCause cause, ref ELimb limb, ref UnturnedPlayer damager, ref bool cancel)
+        {
+            if (OnPlayerHurt == null)
+                return;
+            UnturnedPlayer ply = UnturnedPlayer.Get(player);
+
+            OnPlayerHurt(ply, ref damage, ref cause, ref limb, ref damager, ref cancel);
+            if (cancel)
+                return;
+            if((ply.Health - damage) < 0)
+            {
+                OnPlayerDied(ply, ref cause, ref damager);
+                OnPlayerKill(damager, ref cause, ref ply);
+            }
         }
         #endregion
     }

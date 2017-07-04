@@ -507,6 +507,22 @@ namespace PointBlank.API.Unturned.Player
         /// The permissions of the player
         /// </summary>
         public string[] Permissions => _Permissions.ToArray();
+        /// <summary>
+        /// The number of kills since the player connected
+        /// </summary>
+        public int Kills { get; private set; }
+        /// <summary>
+        /// The number of deaths since the player connected
+        /// </summary>
+        public int Deaths { get; private set; }
+        /// <summary>
+        /// The number of kills since the player first joined the server
+        /// </summary>
+        public int TotalKills { get; private set; }
+        /// <summary>
+        /// The number of deaths since the player first joined the server
+        /// </summary>
+        public int TotalDeaths { get; private set; }
         #endregion
 
         private UnturnedPlayer(SPlayer steamplayer)
