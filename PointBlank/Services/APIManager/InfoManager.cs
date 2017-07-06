@@ -478,6 +478,9 @@ namespace PointBlank.Services.APIManager
                         player.AddSuffix((string)token["Suffixes"]);
                 }
             }
+
+            player.CharacterName = player.GetPrefix() + player.CharacterName + player.GetSuffix();
+            player.NickName = player.GetPrefix() + player.NickName + player.GetSuffix();
         }
 
         private void OnPlayerLeave(UnturnedPlayer player)

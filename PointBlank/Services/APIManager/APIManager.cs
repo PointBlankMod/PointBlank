@@ -12,7 +12,7 @@ using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Structure;
 using GM = PointBlank.API.Groups.GroupManager;
 using Steamworks;
-using UnityEngine;
+//using UnityEngine;
 using PM = PointBlank.Services.PluginManager.PluginManager;
 
 namespace PointBlank.Services.APIManager
@@ -55,6 +55,7 @@ namespace PointBlank.Services.APIManager
             PlayerEvents.OnInvisiblePlayerRemoved += new PlayerEvents.InvisiblePlayersChangedHandler(OnSetVisible);
             PluginEvents.OnPluginsLoaded += new OnVoidDelegate(OnPluginsLoaded);
             ServerEvents.OnServerInitialized += new OnVoidDelegate(OnServerInitialized);
+            ServerEvents.OnPacketSent += new ServerEvents.PacketSentHandler(OnPacketSend);
 
             // Run code
             tGame.Start();
@@ -84,12 +85,12 @@ namespace PointBlank.Services.APIManager
 
         private void OnPlayerLeave(UnturnedPlayer player) => UnturnedServer.RemovePlayer(player);
 
-        private void OnPlayerChat(SteamPlayer player, EChatMode mode, ref Color color, string text, ref bool visible)
+        private void OnPlayerChat(SteamPlayer player, EChatMode mode, ref UnityEngine.Color color, string text, ref bool visible)
         {
             UnturnedPlayer ply = UnturnedPlayer.Get(player);
-            Color c = ply.GetColor();
+            UnityEngine.Color c = ply.GetColor();
 
-            if (c != Color.clear)
+            if (c != UnityEngine.Color.clear)
                 color = c;
         }
 
@@ -156,6 +157,51 @@ namespace PointBlank.Services.APIManager
         {
             SteamGameServer.SetKeyValue("untured", Provider.APP_VERSION);
             SteamGameServer.SetKeyValue("pointblank", PointBlankInfo.Version);
+        }
+
+        private void OnPacketSend(ref CSteamID steamID, ref ESteamPacket type, ref byte[] packet, ref int size, ref int channel, ref bool cancel)
+        {
+            if (type != ESteamPacket.CONNECTED)
+                return;
+
+            object[] info = SteamPacker.getObjects(steamID, 0, 0, packet, new Type[]
+            {
+                Types.BYTE_TYPE,
+                Types.STEAM_ID_TYPE,
+                Types.BYTE_TYPE,
+                Types.STRING_TYPE,
+                Types.STRING_TYPE,
+                Types.VECTOR3_TYPE,
+                Types.BYTE_TYPE,
+                Types.BOOLEAN_TYPE,
+                Types.BOOLEAN_TYPE,
+                Types.INT32_TYPE,
+                Types.STEAM_ID_TYPE,
+                Types.STRING_TYPE,
+                Types.BYTE_TYPE,
+                Types.BYTE_TYPE,
+                Types.BYTE_TYPE,
+                Types.COLOR_TYPE,
+                Types.COLOR_TYPE,
+                Types.BOOLEAN_TYPE,
+                Types.INT32_TYPE,
+                Types.INT32_TYPE,
+                Types.INT32_TYPE,
+                Types.INT32_TYPE,
+                Types.INT32_TYPE,
+                Types.INT32_TYPE,
+                Types.INT32_TYPE,
+                Types.INT32_ARRAY_TYPE,
+                Types.BYTE_TYPE,
+                Types.STRING_TYPE
+            });
+            UnturnedPlayer player = UnturnedPlayer.Get((CSteamID)info[1]);
+
+            info[3] = player.PlayerName;
+            info[4] = player.CharacterName;
+            info[11] = player.NickName;
+
+            packet = SteamPacker.getBytes(0, out size, info);
         }
         #endregion
     }

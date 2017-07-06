@@ -24,6 +24,8 @@ namespace PointBlank.API.Unturned.Player
     public class UnturnedPlayer
     {
         #region Variables
+        internal bool loaded = false;
+
         private List<UnturnedPlayer> _InvisiblePlayers = new List<UnturnedPlayer>();
         private List<Group> _Groups = new List<Group>();
         private List<string> _Prefixes = new List<string>();
@@ -96,7 +98,11 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// The character's name
         /// </summary>
-        public string CharacterName => SteamPlayerID.characterName;
+        public string CharacterName
+        {
+            get => SteamPlayerID.characterName;
+            set => SteamPlayerID.characterName = value;
+        }
         /// <summary>
         /// The player's steam ID
         /// </summary>
@@ -104,7 +110,19 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// The character's ID
         /// </summary>
-        public byte CharacterID => SteamPlayerID.characterID;
+        public byte CharacterID
+        {
+            get => SteamPlayerID.characterID;
+            set => SteamPlayerID.characterID = value;
+        }
+        /// <summary>
+        /// The player's nick name
+        /// </summary>
+        public string NickName
+        {
+            get => SteamPlayerID.nickName;
+            set => SteamPlayerID.nickName = value;
+        }
 
         // Steam player information
         /// <summary>
@@ -654,7 +672,8 @@ namespace PointBlank.API.Unturned.Player
                 return;
 
             _Groups.Add(group);
-            PlayerEvents.RunGroupAdd(this, group);
+            if (loaded)
+                PlayerEvents.RunGroupAdd(this, group);
         }
         /// <summary>
         /// Remove the player from a group
@@ -666,7 +685,8 @@ namespace PointBlank.API.Unturned.Player
                 return;
 
             _Groups.Remove(group);
-            PlayerEvents.RunGroupRemove(this, group);
+            if (loaded)
+                PlayerEvents.RunGroupRemove(this, group);
         }
 
         /// <summary>
@@ -679,7 +699,8 @@ namespace PointBlank.API.Unturned.Player
                 return;
 
             _Prefixes.Add(prefix);
-            PlayerEvents.RunPrefixAdd(this, prefix);
+            if (loaded)
+                PlayerEvents.RunPrefixAdd(this, prefix);
         }
         /// <summary>
         /// Removes a prefix from the player
@@ -691,7 +712,21 @@ namespace PointBlank.API.Unturned.Player
                 return;
 
             _Prefixes.Remove(prefix);
-            PlayerEvents.RunPrefixRemove(this, prefix);
+            if (loaded)
+                PlayerEvents.RunPrefixRemove(this, prefix);
+        }
+        /// <summary>
+        /// Gets the prefix string of the player
+        /// </summary>
+        /// <returns>The prefix string</returns>
+        public string GetPrefix()
+        {
+            string prefix = "";
+
+            for(int i = 0; i < Prefixes.Length; i++)
+                prefix += "[" + Prefixes[i] + "]";
+
+            return prefix;
         }
 
         /// <summary>
@@ -704,7 +739,8 @@ namespace PointBlank.API.Unturned.Player
                 return;
 
             _Suffixes.Add(suffix);
-            PlayerEvents.RunSuffixAdd(this, suffix);
+            if (loaded)
+                PlayerEvents.RunSuffixAdd(this, suffix);
         }
         /// <summary>
         /// Removes a suffix from the player
@@ -716,7 +752,21 @@ namespace PointBlank.API.Unturned.Player
                 return;
 
             _Suffixes.Remove(suffix);
-            PlayerEvents.RunSuffixRemove(this, suffix);
+            if (loaded)
+                PlayerEvents.RunSuffixRemove(this, suffix);
+        }
+        /// <summary>
+        /// Gets the suffix string of the player
+        /// </summary>
+        /// <returns>The suffix string</returns>
+        public string GetSuffix()
+        {
+            string suffix = "";
+
+            for(int i = 0; i < Suffixes.Length; i++)
+                suffix += "[" + Suffixes[i] + "]";
+
+            return suffix;
         }
 
         /// <summary>
@@ -729,7 +779,8 @@ namespace PointBlank.API.Unturned.Player
                 return;
 
             _Permissions.Add(permission);
-            PlayerEvents.RunPermissionAdd(this, permission);
+            if (loaded)
+                PlayerEvents.RunPermissionAdd(this, permission);
         }
         /// <summary>
         /// Removes a permission from the player
@@ -741,7 +792,8 @@ namespace PointBlank.API.Unturned.Player
                 return;
 
             _Permissions.Remove(permission);
-            PlayerEvents.RunPermissionRemove(this, permission);
+            if (loaded)
+                PlayerEvents.RunPermissionRemove(this, permission);
         }
 
         /// <summary>

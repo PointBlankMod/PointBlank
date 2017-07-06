@@ -188,6 +188,7 @@
     <Compile Include="Framework\Overrides\_BarricadeManager.cs" />
     <Compile Include="Framework\Overrides\_ChatManager.cs" />
     <Compile Include="Framework\Overrides\_InteractableVehicle.cs" />
+    <Compile Include="Framework\Overrides\_PlayerLife.cs" />
     <Compile Include="Framework\Overrides\_Provider.cs" />
     <Compile Include="Framework\Overrides\_Structure.cs" />
     <Compile Include="Framework\Overrides\_StructureManager.cs" />
