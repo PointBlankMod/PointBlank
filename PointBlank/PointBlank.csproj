@@ -110,6 +110,7 @@
     <Compile Include="API\Unturned\Chat\UnturnedChat.cs" />
     <Compile Include="API\Unturned\Item\UnturnedItem.cs" />
     <Compile Include="API\Unturned\Item\UnturnedStoredItem.cs" />
+    <Compile Include="API\Unturned\OwnershipTool.cs" />
     <Compile Include="API\Unturned\Player\PlayerEvents.cs" />
     <Compile Include="API\Unturned\Structure\StructureEvents.cs" />
     <Compile Include="API\Unturned\Structure\UnturnedStructure.cs" />

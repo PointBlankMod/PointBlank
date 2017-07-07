@@ -247,6 +247,8 @@ namespace PointBlank.API.Unturned.Server
                 return;
 
             OnStructureRemoved(structure, ref cancel);
+            if (!cancel)
+                UnturnedServer.RemoveStructure(structure);
         }
 
         internal static void RunBarricadeCreated(BarricadeData barricade, ref bool cancel)
@@ -262,6 +264,8 @@ namespace PointBlank.API.Unturned.Server
                 return;
 
             OnBarricadeRemoved(barricade, ref cancel);
+            if (!cancel)
+                UnturnedServer.RemoveBarricade(barricade);
         }
 
         internal static void RunPacketSent(ref CSteamID steamID, ref ESteamPacket type, ref byte[] packet, ref int size, ref int channel, ref bool cancel)

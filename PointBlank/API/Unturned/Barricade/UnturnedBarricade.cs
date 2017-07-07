@@ -16,51 +16,91 @@ namespace PointBlank.API.Unturned.Barricade
     public class UnturnedBarricade
     {
         #region Properties
+        // Important information
         /// <summary>
         /// The Barricade Data
         /// </summary>
         public BarricadeData Data { get; private set; }
-
         /// <summary>
         /// The Barricade
         /// </summary>
         public UBarricade Barricade => Data.barricade;
-
         /// <summary>
-        /// Location of Barricade
+        /// The barricade asset
         /// </summary>
-        public Vector3 Position => Barricade.asset.barricade.transform.position;
+        public ItemBarricadeAsset Asset => Barricade.asset;
+        /// <summary>
+        /// The gameobject of the barricade
+        /// </summary>
+        public GameObject GameObject => Asset.barricade;
 
+        // Data information
         /// <summary>
         /// SteamID of owner
         /// </summary>
         public ulong Owner => Data.owner;
-
         /// <summary>
         /// ID of Group possessing ownership of barricade
         /// </summary>
         public ulong Group => Data.group;
 
+        // Asset information
         /// <summary>
         /// ID of barricade
         /// </summary>
-        public ushort ID => Barricade.asset.id;
+        public ushort ID => Asset.id;
 
+        // GameObject information
+        /// <summary>
+        /// Location of Barricade
+        /// </summary>
+        public Vector3 Position
+        {
+            get => Data.point;
+            set
+            {
+                bool cancel = false;
+
+                BarricadeEvents.RunBarricadeDestroy(this, ref cancel);
+                if (cancel)
+                    return;
+                BarricadeManager.dropBarricade(Barricade, null, Data.point, MeasurementTool.byteToAngle(Data.angle_x), MeasurementTool.byteToAngle(Data.angle_y), MeasurementTool.byteToAngle(Data.angle_z), Owner, Group);
+                GameObject.transform.position.Set(value.x, value.y, value.z);
+                if (!BarricadeManager.tryGetInfo(GameObject.transform, out byte x, out byte y, out ushort plant, out ushort index, out BarricadeRegion region))
+                    return;
+                region.barricades.RemoveAt(index);
+                if (plant == 65535)
+                {
+                    BarricadeManager.instance.channel.send("tellTakeBarricade", ESteamCall.ALL, x, y, BarricadeManager.BARRICADE_REGIONS, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
+                    {
+                        x,
+                        y,
+                        plant,
+                        index
+                    });
+                }
+                else
+                {
+                    BarricadeManager.instance.channel.send("tellTakeBarricade", ESteamCall.ALL, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
+                    {
+                        x,
+                        y,
+                        plant,
+                        index
+                    });
+                }
+            }
+        }
+        /// <summary>
+        /// Rotation of barricade
+        /// </summary>
+        public Quaternion Rotation => Quaternion.Euler((Data.angle_x * 2), (Data.angle_y * 2), (Data.angle_z * 2));
+
+        // Barricade information
         /// <summary>
         /// Health of barricade
         /// </summary>
         public ushort Health => Barricade.health;
-
-        /// <summary>
-        /// Rotation of barricade
-        /// </summary>
-        public Quaternion Rotation => Barricade.asset.barricade.transform.rotation;
-
-        /// <summary>
-        /// ID of barricade asset
-        /// </summary>
-        public ushort AssetID => Barricade.asset.id;
-
         /// <summary>
         /// State of barricade
         /// </summary>

@@ -10,6 +10,7 @@ using PointBlank.API.Services;
 using PointBlank.API.Unturned.Server;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Structure;
+using PointBlank.API.Unturned.Barricade;
 using GM = PointBlank.API.Groups.GroupManager;
 using Steamworks;
 using PM = PointBlank.Services.PluginManager.PluginManager;
@@ -45,6 +46,8 @@ namespace PointBlank.Services.APIManager
             LightingManager.onRainUpdated += new RainUpdated(ServerEvents.RunRainUpdated);
             StructureEvents.OnDestroyStructure += new StructureEvents.StructureDestroyHandler(ServerEvents.RunStructureRemoved);
             StructureEvents.OnSalvageStructure += new StructureEvents.StructureDestroyHandler(ServerEvents.RunStructureRemoved);
+            BarricadeEvents.OnBarricadeDestroy += new BarricadeEvents.BarricadeDestroyHandler(ServerEvents.RunBarricadeRemoved);
+            BarricadeEvents.OnBarricadeSalvage += new BarricadeEvents.BarricadeDestroyHandler(ServerEvents.RunBarricadeRemoved);
 
             // Setup pointblank events
             ServerEvents.OnPlayerConnected += new ServerEvents.PlayerConnectionHandler(OnPlayerJoin);
@@ -87,9 +90,7 @@ namespace PointBlank.Services.APIManager
                 if (!player.Groups.Contains(g))
                     player.AddGroup(g);
         }
-
         private void OnPlayerLeave(UnturnedPlayer player) => UnturnedServer.RemovePlayer(player);
-
         private void OnPlayerChat(SteamPlayer player, EChatMode mode, ref UnityEngine.Color color, string text, ref bool visible)
         {
             UnturnedPlayer ply = UnturnedPlayer.Get(player);
@@ -98,7 +99,6 @@ namespace PointBlank.Services.APIManager
             if (c != UnityEngine.Color.clear)
                 color = c;
         }
-
         private void OnSetInvisible(UnturnedPlayer player, UnturnedPlayer target)
         {
             List<SteamPlayer> plys = Provider.clients.ToList();
@@ -113,7 +113,6 @@ namespace PointBlank.Services.APIManager
                 (byte)index
             }, 2, 0);
         }
-
         private void OnSetVisible(UnturnedPlayer player, UnturnedPlayer target)
         {
             int size;
@@ -151,19 +150,67 @@ namespace PointBlank.Services.APIManager
 
             Provider.send(player.SteamID, ESteamPacket.CONNECTED, bytes, size, 0);
         }
+        private void OnPrefixChange(UnturnedPlayer player, string prefix)
+        {
+            for (int i = 0; i < UnturnedServer.Players.Length; i++)
+            {
+                if (UnturnedServer.Players[i].SteamID == player.SteamID)
+                    continue;
+
+                OnSetInvisible(UnturnedServer.Players[i], player);
+                OnSetVisible(UnturnedServer.Players[i], player);
+            }
+        }
+        private void OnSuffixChange(UnturnedPlayer player, string suffix)
+        {
+            for (int i = 0; i < UnturnedServer.Players.Length; i++)
+            {
+                if (UnturnedServer.Players[i].SteamID == player.SteamID)
+                    continue;
+
+                OnSetInvisible(UnturnedServer.Players[i], player);
+                OnSetVisible(UnturnedServer.Players[i], player);
+            }
+        }
+        private void OnGroupChange(UnturnedPlayer player, Group group)
+        {
+            player.loaded = false;
+            for (int i = 0; i < group.Prefixes.Length; i++)
+            {
+                if (player.Prefixes.Contains(group.Prefixes[i]))
+                    continue;
+
+                player.AddPrefix(group.Prefixes[i]);
+            }
+            for (int i = 0; i < group.Suffixes.Length; i++)
+            {
+                if (player.Suffixes.Contains(group.Suffixes[i]))
+                    continue;
+
+                player.AddSuffix(group.Suffixes[i]);
+            }
+            player.loaded = true;
+
+            for (int i = 0; i < UnturnedServer.Players.Length; i++)
+            {
+                if (UnturnedServer.Players[i].SteamID == player.SteamID)
+                    continue;
+
+                OnSetInvisible(UnturnedServer.Players[i], player);
+                OnSetVisible(UnturnedServer.Players[i], player);
+            }
+        }
 
         private void OnPluginsLoaded()
         {
             string plugins = string.Join(",", PM.Plugins.Select(a => a.Name).ToArray());
             SteamGameServer.SetKeyValue("pointblankplugins", plugins);
         }
-
         private void OnServerInitialized()
         {
             SteamGameServer.SetKeyValue("untured", Provider.APP_VERSION);
             SteamGameServer.SetKeyValue("pointblank", PointBlankInfo.Version);
         }
-
         private void OnPacketSend(ref CSteamID steamID, ref ESteamPacket type, ref byte[] packet, ref int size, ref int channel, ref bool cancel)
         {
             if (type != ESteamPacket.CONNECTED)
@@ -207,59 +254,6 @@ namespace PointBlank.Services.APIManager
             info[11] = player.NickName;
 
             packet = SteamPacker.getBytes(0, out size, info);
-        }
-
-        private void OnPrefixChange(UnturnedPlayer player, string prefix)
-        {
-            for (int i = 0; i < UnturnedServer.Players.Length; i++)
-            {
-                if (UnturnedServer.Players[i].SteamID == player.SteamID)
-                    continue;
-
-                OnSetInvisible(UnturnedServer.Players[i], player);
-                OnSetVisible(UnturnedServer.Players[i], player);
-            }
-        }
-
-        private void OnSuffixChange(UnturnedPlayer player, string suffix)
-        {
-            for (int i = 0; i < UnturnedServer.Players.Length; i++)
-            {
-                if (UnturnedServer.Players[i].SteamID == player.SteamID)
-                    continue;
-
-                OnSetInvisible(UnturnedServer.Players[i], player);
-                OnSetVisible(UnturnedServer.Players[i], player);
-            }
-        }
-
-        private void OnGroupChange(UnturnedPlayer player, Group group)
-        {
-            player.loaded = false;
-            for(int i = 0; i < group.Prefixes.Length; i++)
-            {
-                if (player.Prefixes.Contains(group.Prefixes[i]))
-                    continue;
-
-                player.AddPrefix(group.Prefixes[i]);
-            }
-            for(int i = 0; i < group.Suffixes.Length; i++)
-            {
-                if (player.Suffixes.Contains(group.Suffixes[i]))
-                    continue;
-
-                player.AddSuffix(group.Suffixes[i]);
-            }
-            player.loaded = true;
-
-            for (int i = 0; i < UnturnedServer.Players.Length; i++)
-            {
-                if (UnturnedServer.Players[i].SteamID == player.SteamID)
-                    continue;
-
-                OnSetInvisible(UnturnedServer.Players[i], player);
-                OnSetVisible(UnturnedServer.Players[i], player);
-            }
         }
         #endregion
     }
