@@ -481,6 +481,7 @@ namespace PointBlank.Services.APIManager
 
             player.CharacterName = player.GetPrefix() + player.CharacterName + player.GetSuffix();
             player.NickName = player.GetPrefix() + player.NickName + player.GetSuffix();
+            player.loaded = true;
         }
 
         private void OnPlayerLeave(UnturnedPlayer player)

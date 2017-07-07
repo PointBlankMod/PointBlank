@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Security.Permissions;
@@ -31,7 +32,41 @@ namespace PointBlank.API.Detour
 
             // Do the checks
             if (wrapper == null)
-                return null;
+                throw new Exception("The detour specified was not found!");
+
+            return wrapper.CallOriginal(args, instance);
+        }
+
+        /// <summary>
+        /// Calls the original method that was detoured
+        /// </summary>
+        /// <param name="instance">The instance for the method(null if static)</param>
+        /// <param name="args">The arguments for the method</param>
+        /// <returns>The value tahat the original function returns</returns>
+        public static object CallOriginal(object instance = null, params object[] args)
+        {
+            StackTrace trace = new StackTrace();
+
+            if (trace.FrameCount < 1)
+                throw new Exception("Invalid trace back to the original method! Please provide the methodinfo instead!");
+
+            MethodBase modded = trace.GetFrame(1).GetMethod();
+            MethodInfo original = null;
+
+            if (!Attribute.IsDefined(modded, typeof(DetourAttribute)))
+                modded = trace.GetFrame(2).GetMethod();
+            DetourAttribute att = (DetourAttribute)Attribute.GetCustomAttribute(modded, typeof(DetourAttribute));
+
+            if (att == null)
+                throw new Exception("This method can only be called from an overwritten method!");
+            if (!att.MethodFound)
+                throw new Exception("The original method was never found!");
+            original = att.Method;
+
+            DetourWrapper wrapper = DM.Detours.First(a => a.Value.Original == original).Value;
+
+            if (wrapper == null)
+                throw new Exception("The detour specified was not found!");
 
             return wrapper.CallOriginal(args, instance);
         }
