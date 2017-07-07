@@ -104,6 +104,10 @@ namespace PointBlank.API.Unturned.Player
             set => SteamPlayerID.characterName = value;
         }
         /// <summary>
+        /// The character name without modifications
+        /// </summary>
+        public string UnturnedCharacterName { get; internal set; }
+        /// <summary>
         /// The player's steam ID
         /// </summary>
         public CSteamID SteamID => SteamPlayerID.steamID;
@@ -123,6 +127,10 @@ namespace PointBlank.API.Unturned.Player
             get => SteamPlayerID.nickName;
             set => SteamPlayerID.nickName = value;
         }
+        /// <summary>
+        /// The nickname without modifications
+        /// </summary>
+        public string UnturnedNickName { get; internal set; }
 
         // Steam player information
         /// <summary>
@@ -723,7 +731,10 @@ namespace PointBlank.API.Unturned.Player
         {
             string prefix = "";
 
-            for(int i = 0; i < Prefixes.Length; i++)
+            for (int a = 0; a < Groups.Length; a++)
+                for (int b = 0; b < Groups[a].Prefixes.Length; b++)
+                    prefix += "[" + Groups[a].Prefixes[b] + "]";
+            for (int i = 0; i < Prefixes.Length; i++)
                 prefix += "[" + Prefixes[i] + "]";
 
             return prefix;
@@ -763,6 +774,9 @@ namespace PointBlank.API.Unturned.Player
         {
             string suffix = "";
 
+            for(int a = 0; a < Groups.Length; a++)
+                for(int b = 0; b < Groups[a].Suffixes.Length; b++)
+                    suffix += "[" + Groups[a].Suffixes[b] + "]";
             for(int i = 0; i < Suffixes.Length; i++)
                 suffix += "[" + Suffixes[i] + "]";
 

@@ -152,6 +152,9 @@ namespace PointBlank.Services.APIManager
         }
         private void OnPrefixChange(UnturnedPlayer player, string prefix)
         {
+            player.CharacterName = player.GetPrefix() + player.UnturnedCharacterName + player.GetSuffix();
+            player.NickName = player.GetPrefix() + player.UnturnedNickName + player.GetSuffix();
+
             for (int i = 0; i < UnturnedServer.Players.Length; i++)
             {
                 if (UnturnedServer.Players[i].SteamID == player.SteamID)
@@ -163,6 +166,9 @@ namespace PointBlank.Services.APIManager
         }
         private void OnSuffixChange(UnturnedPlayer player, string suffix)
         {
+            player.CharacterName = player.GetPrefix() + player.UnturnedCharacterName + player.GetSuffix();
+            player.NickName = player.GetPrefix() + player.UnturnedNickName + player.GetSuffix();
+
             for (int i = 0; i < UnturnedServer.Players.Length; i++)
             {
                 if (UnturnedServer.Players[i].SteamID == player.SteamID)
@@ -174,22 +180,8 @@ namespace PointBlank.Services.APIManager
         }
         private void OnGroupChange(UnturnedPlayer player, Group group)
         {
-            player.loaded = false;
-            for (int i = 0; i < group.Prefixes.Length; i++)
-            {
-                if (player.Prefixes.Contains(group.Prefixes[i]))
-                    continue;
-
-                player.AddPrefix(group.Prefixes[i]);
-            }
-            for (int i = 0; i < group.Suffixes.Length; i++)
-            {
-                if (player.Suffixes.Contains(group.Suffixes[i]))
-                    continue;
-
-                player.AddSuffix(group.Suffixes[i]);
-            }
-            player.loaded = true;
+            player.CharacterName = player.GetPrefix() + player.UnturnedCharacterName + player.GetSuffix();
+            player.NickName = player.GetPrefix() + player.UnturnedNickName + player.GetSuffix();
 
             for (int i = 0; i < UnturnedServer.Players.Length; i++)
             {
@@ -249,9 +241,18 @@ namespace PointBlank.Services.APIManager
             });
             UnturnedPlayer player = UnturnedPlayer.Get((CSteamID)info[1]);
 
-            info[3] = player.PlayerName;
-            info[4] = player.CharacterName;
-            info[11] = player.NickName;
+            if(player.SteamID != steamID)
+            {
+                info[3] = player.PlayerName;
+                info[4] = player.CharacterName;
+                info[11] = player.NickName;
+            }
+            else
+            {
+                info[3] = player.PlayerName;
+                info[4] = player.UnturnedCharacterName;
+                info[11] = player.UnturnedNickName;
+            }
 
             packet = SteamPacker.getBytes(0, out size, info);
         }

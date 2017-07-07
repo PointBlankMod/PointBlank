@@ -479,8 +479,10 @@ namespace PointBlank.Services.APIManager
                 }
             }
 
-            player.CharacterName = player.GetPrefix() + player.CharacterName + player.GetSuffix();
-            player.NickName = player.GetPrefix() + player.NickName + player.GetSuffix();
+            player.UnturnedCharacterName = player.CharacterName;
+            player.UnturnedNickName = player.NickName;
+            player.CharacterName = player.GetPrefix() + player.UnturnedCharacterName + player.GetSuffix();
+            player.NickName = player.GetPrefix() + player.UnturnedNickName + player.GetSuffix();
             player.loaded = true;
         }
 

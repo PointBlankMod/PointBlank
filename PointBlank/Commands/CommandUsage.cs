@@ -34,7 +34,7 @@ namespace PointBlank.Commands
                 UnturnedChat.SendMessage(executor, Translation.Base_CommandInvalid, ConsoleColor.Red);
                 return;
             }
-            UnturnedChat.SendMessage(executor, cmd.Usage, ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, (executor == null ? "" : "/") + cmd.Usage, ConsoleColor.Green);
         }
     }
 }

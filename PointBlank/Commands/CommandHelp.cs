@@ -39,8 +39,26 @@ namespace PointBlank.Commands
                 UnturnedChat.SendMessage(executor, cmd.Help, ConsoleColor.Green);
                 return;
             }
+            int pos = 0;
+            int prevPos = 0;
+            string send = "";
+            while (true)
+            {
+                if(pos >= CommandManager.Commands.Length)
+                {
+                    UnturnedChat.SendMessage(executor, send, ConsoleColor.Green);
+                    break;
+                }
+                if(pos - prevPos >= 3)
+                {
+                    UnturnedChat.SendMessage(executor, send, ConsoleColor.Green);
+                    send = "";
+                    prevPos = pos;
+                }
 
-            UnturnedChat.SendMessage(executor, string.Join(",", CommandManager.Commands.Where(a => a.Enabled).Select(a => a.Commands[0]).ToArray()), ConsoleColor.Green);
+                send += (string.IsNullOrEmpty(send) ? "" : ",") + CommandManager.Commands[pos].Commands[0];
+                pos++;
+            }
         }
     }
 }
