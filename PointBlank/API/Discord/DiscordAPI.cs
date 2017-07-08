@@ -167,5 +167,77 @@ namespace PointBlank.API.Discord
             // Return the data
             return obj;
         }
+
+        /// <summary>
+        /// Creates a thumbnail for the rich embed
+        /// </summary>
+        /// <param name="url">The URL to the thumbnail</param>
+        /// <param name="alt_url">The alternative URL to the thumbnail</param>
+        /// <param name="width">The width of the thumbnail</param>
+        /// <param name="height">The height of the thumbnail</param>
+        /// <returns>The thumbnail object</returns>
+        public static JObject CreateThumbnail(string url = "", string alt_url = "", int width = -1, int height = -1)
+        {
+            // Setup the variables
+            JObject obj = new JObject();
+
+            // Set the data
+            if (!string.IsNullOrEmpty(url))
+                obj.Add("url", url);
+            if (!string.IsNullOrEmpty(alt_url))
+                obj.Add("proxy_url", alt_url);
+            if (width > -1)
+                obj.Add("width", width);
+            if (height > -1)
+                obj.Add("height", height);
+
+            // Return the data
+            return obj;
+        }
+
+        /// <summary>
+        /// Creates a video for the rich embed
+        /// </summary>
+        /// <param name="url">The URL to the video</param>
+        /// <param name="width">The width of the video</param>
+        /// <param name="height">The height of the video</param>
+        /// <returns>The video object</returns>
+        public static JObject CreateVideo(string url = "", int width = -1, int height = -1)
+        {
+            // Setup the variables
+            JObject obj = new JObject();
+
+            // Set the data
+            if (!string.IsNullOrEmpty(url))
+                obj.Add("url", url);
+            if (width > -1)
+                obj.Add("width", width);
+            if (height > -1)
+                obj.Add("height", height);
+
+            // Return the data
+            return obj;
+        }
+
+        /// <summary>
+        /// Creates a provider for the rich embed
+        /// </summary>
+        /// <param name="name">The name of the provider</param>
+        /// <param name="url">The URL to the provider</param>
+        /// <returns>The provider object</returns>
+        public static JObject CreateProvider(string name = "", string url = "")
+        {
+            // Setup the variables
+            JObject obj = new JObject();
+
+            // Set the data
+            if (!string.IsNullOrEmpty(name))
+                obj.Add("name", name);
+            if (!string.IsNullOrEmpty(url))
+                obj.Add("url", url);
+
+            // Return the data
+            return obj;
+        }
     }
 }

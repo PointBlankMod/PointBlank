@@ -78,6 +78,7 @@ namespace PointBlank.API.DataManagment
             }
             catch (Exception ex)
             {
+                Logging.LogError("Error checking " + filepath, ex, false, false);
                 return false; // Failed to validate
             }
         }

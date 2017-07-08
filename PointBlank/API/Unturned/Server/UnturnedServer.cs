@@ -198,17 +198,7 @@ namespace PointBlank.API.Unturned.Server
         /// </summary>
         /// <param name="player">The unturned player instance</param>
         /// <returns>The unturned player instance</returns>
-        public static UnturnedPlayer GetPlayer(ArenaPlayer player)
-        {
-            try
-            {
-                return Players.FirstOrDefault(a => a.SteamPlayer == player.steamPlayer);
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
+        public static UnturnedPlayer GetPlayer(ArenaPlayer player) => Players.FirstOrDefault(a => a.SteamPlayer == player.steamPlayer);
         /// <summary>
         /// Gets the unturned player instance based on steam player id instance
         /// </summary>

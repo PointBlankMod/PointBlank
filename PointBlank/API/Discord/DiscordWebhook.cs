@@ -14,7 +14,7 @@ namespace PointBlank.API.Discord
     public class DiscordWebhook : IDisposable
     {
         #region Variables
-        private Queue<JObject> QueuedMessages = new Queue<JObject>();
+        private Queue<object> QueuedMessages = new Queue<object>();
         #endregion
 
         #region Properties
@@ -26,6 +26,10 @@ namespace PointBlank.API.Discord
         /// The name of the webhook(it will be displayed when sending messages)
         /// </summary>
         public string Name { get; set; }
+        /// <summary>
+        /// The avatar image URL for the webhook
+        /// </summary>
+        public string Avatar { get; set; }
 
         /// <summary>
         /// The client responsible for interacting with discord
@@ -46,11 +50,12 @@ namespace PointBlank.API.Discord
         /// </summary>
         /// <param name="URL">The URL of the discord webhook</param>
         /// <param name="Name">The name of the discord webhook(can be changed later)</param>
-        public DiscordWebhook(Uri URL, string Name = "Unturned Server")
+        public DiscordWebhook(Uri URL, string Name = "Unturned Server", string Avatar = null)
         {
             // Set the variables
             this.URL = URL;
             this.Name = Name;
+            this.Avatar = Avatar;
 
             // Setup the variables
             Client = new DiscordClient();
@@ -68,22 +73,66 @@ namespace PointBlank.API.Discord
         {
             if (message == null)
                 return false;
-            if((DateTime.Now - LastLimit).TotalMilliseconds < 0)
+            if ((DateTime.Now - LastLimit).TotalMilliseconds < 0)
             {
                 QueuedMessages.Enqueue(message);
                 return false;
             }
+            JObject obj = new JObject();
+
+            obj.Add("username", Name);
+            if (!string.IsNullOrEmpty(Avatar))
+                obj.Add("avatar_url", Avatar);
+            obj.Add("tts", false);
+            obj.Add("embeds", new JArray() { message });
 
             FlushQueue(Async);
             if (Async)
-                Client.UploadStringAsync(URL, message.ToString(Formatting.None));
+                Client.UploadStringAsync(URL, obj.ToString(Formatting.None));
             else
-                Client.UploadString(URL.AbsoluteUri, message.ToString(Formatting.None));
+                Client.UploadString(URL.AbsoluteUri, obj.ToString(Formatting.None));
 
+            if (int.Parse(Client.ResponseHeaders["X-RateLimit-Remaining"]) < 1)
+                LastLimit = PBTools.FromUnixTime(long.Parse(Client.ResponseHeaders["X-RateLimit-Reset"]));
             if (Client.LastHTTPCode != EDiscordHttpCodes.OK || Client.LastHTTPCode != EDiscordHttpCodes.NO_CONTENT)
                 return false;
-            if(int.Parse(Client.ResponseHeaders["X-RateLimit-Remaining"]) < 1)
+
+            return true;
+        }
+
+        /// <summary>
+        /// Sends the text message to the discord webhook
+        /// </summary>
+        /// <param name="message">The text message to send</param>
+        /// <param name="Async">Should sending be asynced</param>
+        /// <returns>Was the message sent successfully</returns>
+        public bool Send(string message, bool Async = true)
+        {
+            if (message == null)
+                return false;
+            if ((DateTime.Now - LastLimit).TotalMilliseconds < 0)
+            {
+                QueuedMessages.Enqueue(message);
+                return false;
+            }
+            JObject obj = new JObject();
+
+            obj.Add("username", Name);
+            if (!string.IsNullOrEmpty(Avatar))
+                obj.Add("avatar_url", Avatar);
+            obj.Add("tts", false);
+            obj.Add("embeds", new JArray() { message });
+
+            FlushQueue(Async);
+            if (Async)
+                Client.UploadStringAsync(URL, obj.ToString(Formatting.None));
+            else
+                Client.UploadString(URL.AbsoluteUri, obj.ToString(Formatting.None));
+
+            if (int.Parse(Client.ResponseHeaders["X-RateLimit-Remaining"]) < 1)
                 LastLimit = PBTools.FromUnixTime(long.Parse(Client.ResponseHeaders["X-RateLimit-Reset"]));
+            if (Client.LastHTTPCode != EDiscordHttpCodes.OK || Client.LastHTTPCode != EDiscordHttpCodes.NO_CONTENT)
+                return false;
 
             return true;
         }
@@ -96,7 +145,12 @@ namespace PointBlank.API.Discord
         {
             while(QueuedMessages.Count > 0)
             {
-                bool result = Send(QueuedMessages.Dequeue(), Async);
+                object msg = QueuedMessages.Dequeue();
+                bool result = true;
+                if (msg is string)
+                    result = Send((string)msg, Async);
+                else if (msg is JObject)
+                    result = Send((JObject)msg, Async);
 
                 if(!result && Client.LastHTTPCode == EDiscordHttpCodes.TOO_MANY_REQUESTS)
                     break;

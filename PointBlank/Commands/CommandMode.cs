@@ -43,7 +43,6 @@ namespace PointBlank.Commands
                     break;
                 default:
                     UnturnedChat.SendMessage(executor, Translation.Mode_Invalid, ConsoleColor.Red);
-                    return;
                     break;
             }
 

@@ -101,6 +101,7 @@ namespace PointBlank.Services.PluginManager
                 }
                 catch(Exception ex)
                 {
+                    Logging.LogError("Failed to find configuration " + obj.Name, ex, false, false);
                     ConfigurationData.Document[obj.Name] = JToken.FromObject(Configurations[obj.Name]);
                 }
             }

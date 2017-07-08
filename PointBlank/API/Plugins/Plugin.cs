@@ -6,7 +6,7 @@ using System.Text;
 using System.Security.Permissions;
 using PointBlank.API.Collections;
 using PointBlank.Framework.Permissions.Ring;
-using PointBlank.Services.PluginManager;
+using PM = PointBlank.Services.PluginManager.PluginManager;
 using UnityEngine;
 
 namespace PointBlank.API.Plugins
@@ -26,12 +26,12 @@ namespace PointBlank.API.Plugins
         /// <summary>
         /// The translations for the plugin
         /// </summary>
-        public static TranslationList Translations => PluginManager.Plugins.First(a => a.PluginClass == Instance).Translations; // Get the plugin translations
+        public static TranslationList Translations => PM.Plugins.First(a => a.PluginClass == Instance).Translations; // Get the plugin translations
 
         /// <summary>
         /// The configurations for the plugin
         /// </summary>
-        public static ConfigurationList Configurations => PluginManager.Plugins.First(a => a.PluginClass == Instance).Configurations; // Get the plugin configuration
+        public static ConfigurationList Configurations => PM.Plugins.First(a => a.PluginClass == Instance).Configurations; // Get the plugin configuration
         #endregion
 
         #region Abstract Properties

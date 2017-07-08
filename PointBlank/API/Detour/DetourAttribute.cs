@@ -58,6 +58,7 @@ namespace PointBlank.API.Detour
             }
             catch (Exception ex)
             {
+                Logging.LogError("Method not found! " + MethodName + " in class " + Class.FullName, ex, false, false);
                 MethodFound = false;
             }
         }

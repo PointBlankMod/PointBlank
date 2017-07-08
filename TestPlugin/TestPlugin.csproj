@@ -41,7 +41,7 @@
       <HintPath>..\Libraries\Assembly-UnityScript-firstpass.dll</HintPath>
     </Reference>
     <Reference Include="PointBlank">
-      <HintPath>..\bin\Release\PointBlank.dll</HintPath>
+      <HintPath>..\bin\Debug\PointBlank.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

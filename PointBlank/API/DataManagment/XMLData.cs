@@ -92,6 +92,7 @@ namespace PointBlank.API.DataManagment
             }
             catch (Exception ex)
             {
+                Logging.LogError("Failed to validate file! " + filepath, ex, false, false);
                 return false; // An error occured
             }
         }

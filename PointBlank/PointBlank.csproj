@@ -94,6 +94,7 @@
     <Compile Include="API\Optimization\Parallel.cs" />
     <Compile Include="API\Plugins\Plugin.cs" />
     <Compile Include="API\Plugins\PluginEvents.cs" />
+    <Compile Include="API\Plugins\PluginManager.cs" />
     <Compile Include="API\ServerInfo.cs" />
     <Compile Include="API\Services\Service.cs" />
     <Compile Include="API\Services\ServiceAttribute.cs" />
