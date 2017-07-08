@@ -22,25 +22,6 @@ namespace PointBlank.API.Groups
         public static Group[] Groups => _Groups.Values.ToArray();
         #endregion
 
-        #region Handlers
-        /// <summary>
-        /// Handler for all group events such as OnGroupAdded and OnGroupRemoved
-        /// </summary>
-        /// <param name="group">The group that the event affects</param>
-        public delegate void GroupEventHandler(Group group);
-        #endregion
-
-        #region Events
-        /// <summary>
-        /// Called when a group is added to the server
-        /// </summary>
-        public static event GroupEventHandler OnGroupAdded;
-        /// <summary>
-        /// Called when a group is removed from the server
-        /// </summary>
-        public static event GroupEventHandler OnGroupRemoved;
-        #endregion
-
         #region Public Functions
         /// <summary>
         /// Adds a group to the server groups
@@ -52,9 +33,7 @@ namespace PointBlank.API.Groups
                 return;
             _Groups.Add(group.ID, group);
 
-            if (OnGroupAdded == null)
-                return;
-            OnGroupAdded(group);
+            GroupEvents.RunGroupAdded(group);
         }
 
         /// <summary>
@@ -71,9 +50,7 @@ namespace PointBlank.API.Groups
 
             _Groups.Add(ID, group);
 
-            if (OnGroupAdded == null)
-                return;
-            OnGroupAdded(group);
+            GroupEvents.RunGroupAdded(group);
         }
 
         /// <summary>
@@ -86,9 +63,7 @@ namespace PointBlank.API.Groups
                 return;
             _Groups.Remove(group.ID);
 
-            if (OnGroupRemoved == null)
-                return;
-            OnGroupRemoved(group);
+            GroupEvents.RunGroupRemoved(group);
         }
 
         /// <summary>
@@ -103,9 +78,7 @@ namespace PointBlank.API.Groups
 
             _Groups.Remove(ID);
 
-            if (OnGroupRemoved == null)
-                return;
-            OnGroupRemoved(group);
+            GroupEvents.RunGroupRemoved(group);
         }
 
         /// <summary>
@@ -130,6 +103,11 @@ namespace PointBlank.API.Groups
                 return false;
             else
                 return true;
+        }
+
+        public static void Reload()
+        {
+
         }
         #endregion
     }

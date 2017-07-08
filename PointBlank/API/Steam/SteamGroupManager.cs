@@ -18,26 +18,6 @@ namespace PointBlank.API.Steam
         public static SteamGroup[] Groups { get { return _Groups.Values.ToArray(); } }
         #endregion
 
-        #region Handlers
-        /// <summary>
-        /// The handler for all steam group based events
-        /// </summary>
-        /// <param name="group">The affected steam group</param>
-        public delegate void SteamGroupEventHandler(SteamGroup group);
-        #endregion
-
-        #region Events
-        /// <summary>
-        /// Called when a steam group is added
-        /// </summary>
-        public static event SteamGroupEventHandler OnSteamGroupAdded;
-
-        /// <summary>
-        /// Called when a steam group is removed
-        /// </summary>
-        public static event SteamGroupEventHandler OnSteamGroupRemoved;
-        #endregion
-
         #region Public Functions
         /// <summary>
         /// Adds a steam group to the server
@@ -49,9 +29,7 @@ namespace PointBlank.API.Steam
                 return;
             _Groups.Add(group.ID, group);
 
-            if (OnSteamGroupAdded == null)
-                return;
-            OnSteamGroupAdded(group);
+            SteamGroupEvents.RunSteamGroupAdded(group);
         }
 
         /// <summary>
@@ -67,9 +45,7 @@ namespace PointBlank.API.Steam
 
             _Groups.Add(ID, group);
 
-            if (OnSteamGroupAdded == null)
-                return;
-            OnSteamGroupAdded(group);
+            SteamGroupEvents.RunSteamGroupAdded(group);
         }
 
         /// <summary>
@@ -82,9 +58,7 @@ namespace PointBlank.API.Steam
                 return;
             _Groups.Remove(group.ID);
 
-            if (OnSteamGroupRemoved == null)
-                return;
-            OnSteamGroupRemoved(group);
+            SteamGroupEvents.RunSteamGroupRemoved(group);
         }
 
         /// <summary>
@@ -99,9 +73,36 @@ namespace PointBlank.API.Steam
 
             _Groups.Remove(ID);
 
-            if (OnSteamGroupRemoved == null)
-                return;
-            OnSteamGroupRemoved(group);
+            SteamGroupEvents.RunSteamGroupRemoved(group);
+        }
+
+        /// <summary>
+        /// Finds a steam group in the server and returns it
+        /// </summary>
+        /// <param name="ID">The steam64 ID of the group</param>
+        /// <returns>The steam group instance</returns>
+        public static SteamGroup Find(ulong ID) => Groups.FirstOrDefault(a => a.ID == ID);
+
+        /// <summary>
+        /// Tries to find the steam group by ID and returns it
+        /// </summary>
+        /// <param name="ID">The steam64 of the steam group</param>
+        /// <param name="group">The returned instace of the found steam group</param>
+        /// <returns>Has the group been found</returns>
+        public static bool TryFindSteamGroup(ulong ID, out SteamGroup group)
+        {
+            SteamGroup g = Find(ID);
+
+            group = g;
+            if (g == null)
+                return false;
+            else
+                return true;
+        }
+
+        public static void Reload()
+        {
+
         }
         #endregion
     }

@@ -12,6 +12,12 @@ namespace PointBlank.API.Groups
     {
         #region Handlers
         /// <summary>
+        /// Handler for all group events such as OnGroupAdded and OnGroupRemoved
+        /// </summary>
+        /// <param name="group">The group that the event affects</param>
+        public delegate void GroupEventHandler(Group group);
+
+        /// <summary>
         /// Handler for group permission events
         /// </summary>
         /// <param name="permission">The affected permission</param>
@@ -39,6 +45,15 @@ namespace PointBlank.API.Groups
         #endregion
 
         #region Events
+        /// <summary>
+        /// Called when a group is added to the server
+        /// </summary>
+        public static event GroupEventHandler OnGroupAdded;
+        /// <summary>
+        /// Called when a group is removed from the server
+        /// </summary>
+        public static event GroupEventHandler OnGroupRemoved;
+
         /// <summary>
         /// Called when a permission is added
         /// </summary>
@@ -77,6 +92,21 @@ namespace PointBlank.API.Groups
         #endregion
 
         #region Functions
+        internal static void RunGroupAdded(Group g)
+        {
+            if (OnGroupAdded == null)
+                return;
+
+            OnGroupAdded(g);
+        }
+        internal static void RunGroupRemoved(Group g)
+        {
+            if (OnGroupRemoved == null)
+                return;
+
+            OnGroupRemoved(g);
+        }
+
         internal static void RunPermissionAdded(Group instance, string permission)
         {
             if (OnPermissionAdded == null)

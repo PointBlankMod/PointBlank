@@ -12,6 +12,12 @@ namespace PointBlank.API.Steam
     {
         #region Handlers
         /// <summary>
+        /// The handler for all steam group based events
+        /// </summary>
+        /// <param name="group">The affected steam group</param>
+        public delegate void SteamGroupEventHandler(SteamGroup group);
+
+        /// <summary>
         /// Handler for any permission based event
         /// </summary>
         /// <param name="permission">The permission affected</param>
@@ -39,6 +45,16 @@ namespace PointBlank.API.Steam
         #endregion
 
         #region Events
+        /// <summary>
+        /// Called when a steam group is added
+        /// </summary>
+        public static event SteamGroupEventHandler OnSteamGroupAdded;
+
+        /// <summary>
+        /// Called when a steam group is removed
+        /// </summary>
+        public static event SteamGroupEventHandler OnSteamGroupRemoved;
+
         /// <summary>
         /// Called when a permission is added
         /// </summary>
@@ -77,6 +93,21 @@ namespace PointBlank.API.Steam
         #endregion
 
         #region Functions
+        internal static void RunSteamGroupAdded(SteamGroup g)
+        {
+            if (OnSteamGroupAdded == null)
+                return;
+
+            OnSteamGroupAdded(g);
+        }
+        internal static void RunSteamGroupRemoved(SteamGroup g)
+        {
+            if (OnSteamGroupRemoved == null)
+                return;
+
+            OnSteamGroupRemoved(g);
+        }
+
         internal static void RunPermissionAdded(SteamGroup instance, string permission)
         {
             if (OnPermissionAdded == null)

@@ -31,6 +31,16 @@ namespace PointBlank.API.Services
         #endregion
 
         #region Functions
+        public static void Reload()
+        {
+
+        }
+
+        public static void Reload(string serviceName)
+        {
+
+        }
+
         /// <summary>
         /// Attempts to stop a running service
         /// </summary>
