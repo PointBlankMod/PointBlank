@@ -64,6 +64,8 @@ namespace PointBlank.Services.APIManager
             PlayerEvents.OnSuffixRemoved += new PlayerEvents.SuffixesChangedHandler(OnSuffixChange);
             PlayerEvents.OnGroupAdded += new PlayerEvents.GroupsChangedHandler(OnGroupChange);
             PlayerEvents.OnGroupRemoved += new PlayerEvents.GroupsChangedHandler(OnGroupChange);
+            PlayerEvents.OnPlayerDied += new PlayerEvents.PlayerDeathHandler(OnPlayerDie);
+            PlayerEvents.OnPlayerKill += new PlayerEvents.PlayerKillHandler(OnPlayerKill);
 
             // Run code
             tGame.Start();
@@ -115,8 +117,7 @@ namespace PointBlank.Services.APIManager
         }
         private void OnSetVisible(UnturnedPlayer player, UnturnedPlayer target)
         {
-            int size;
-            byte[] bytes = SteamPacker.getBytes(0, out size, new object[]
+            byte[] bytes = SteamPacker.getBytes(0, out int size, new object[]
             {
                 11,
                 target.SteamPlayerID.steamID,
@@ -191,6 +192,16 @@ namespace PointBlank.Services.APIManager
                 OnSetInvisible(UnturnedServer.Players[i], player);
                 OnSetVisible(UnturnedServer.Players[i], player);
             }
+        }
+        private void OnPlayerDie(UnturnedPlayer player, ref EDeathCause cause, ref UnturnedPlayer killer)
+        {
+            player.Deaths++;
+            player.TotalDeaths++;
+        }
+        private void OnPlayerKill(UnturnedPlayer player, ref EDeathCause cause, ref UnturnedPlayer victim)
+        {
+            player.Kills++;
+            player.TotalKills++;
         }
 
         private void OnPluginsLoaded()

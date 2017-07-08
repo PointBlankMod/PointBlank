@@ -80,9 +80,7 @@ namespace PointBlank.Services.APIManager
                 if (GroupManager.Groups.Count(a => a.ID == obj.Name) > 0)
                     continue;
 
-                Color color;
-
-                if(!ColorUtility.TryParseHtmlString((string)obj.Value["Color"], out color))
+                if(!ColorUtility.TryParseHtmlString((string)obj.Value["Color"], out Color color))
                     color = Color.clear;
 
                 Group g = new Group(obj.Name, (string)obj.Value["Name"], (bool)obj.Value["Default"], (int)obj.Value["Cooldown"], color);
@@ -385,6 +383,8 @@ namespace PointBlank.Services.APIManager
                     token["Prefixes"] = JToken.FromObject(player.Prefixes);
                     token["Suffixes"] = JToken.FromObject(player.Suffixes);
                     token["Groups"] = JToken.FromObject(player.Groups.Select(a => a.ID));
+                    token["Kills"] = player.TotalKills;
+                    token["Deaths"] = player.TotalDeaths;
                 }
                 else
                 {
@@ -396,6 +396,8 @@ namespace PointBlank.Services.APIManager
                     obj.Add("Prefixes", JToken.FromObject(player.Prefixes));
                     obj.Add("Suffixes", JToken.FromObject(player.Suffixes));
                     obj.Add("Cooldown", player.Cooldown);
+                    obj.Add("Kills", player.TotalKills);
+                    obj.Add("Deaths", player.TotalDeaths);
 
                     arr.Add(obj);
                 }
@@ -413,6 +415,8 @@ namespace PointBlank.Services.APIManager
             if(token != null)
             {
                 player.Cooldown = (int)token["Cooldown"];
+                player.TotalKills = (int)token["Kills"];
+                player.TotalDeaths = (int)token["Deaths"];
 
                 if (token["Permissions"] is JArray)
                 {
@@ -498,6 +502,8 @@ namespace PointBlank.Services.APIManager
                 token["Prefixes"] = JToken.FromObject(player.Prefixes);
                 token["Suffixes"] = JToken.FromObject(player.Suffixes);
                 token["Groups"] = JToken.FromObject(player.Groups.Select(a => a.ID));
+                token["Kills"] = player.TotalKills;
+                token["Deaths"] = player.TotalDeaths;
             }
             else
             {
@@ -509,6 +515,8 @@ namespace PointBlank.Services.APIManager
                 obj.Add("Prefixes", JToken.FromObject(player.Prefixes));
                 obj.Add("Suffixes", JToken.FromObject(player.Suffixes));
                 obj.Add("Cooldown", player.Cooldown);
+                obj.Add("Kills", player.TotalKills);
+                obj.Add("Deaths", player.TotalDeaths);
 
                 arr.Add(obj);
             }

@@ -536,19 +536,19 @@ namespace PointBlank.API.Unturned.Player
         /// <summary>
         /// The number of kills since the player connected
         /// </summary>
-        public int Kills { get; private set; }
+        public int Kills { get; internal set; }
         /// <summary>
         /// The number of deaths since the player connected
         /// </summary>
-        public int Deaths { get; private set; }
+        public int Deaths { get; internal set; }
         /// <summary>
         /// The number of kills since the player first joined the server
         /// </summary>
-        public int TotalKills { get; private set; }
+        public int TotalKills { get; internal set; }
         /// <summary>
         /// The number of deaths since the player first joined the server
         /// </summary>
-        public int TotalDeaths { get; private set; }
+        public int TotalDeaths { get; internal set; }
         #endregion
 
         private UnturnedPlayer(SPlayer steamplayer)
@@ -560,6 +560,10 @@ namespace PointBlank.API.Unturned.Player
             this.SteamPlayer = steamplayer;
             this.Steam = new SP(SteamID.m_SteamID);
             this.Cooldown = -1;
+            this.Deaths = 0;
+            this.TotalDeaths = 0;
+            this.Kills = 0;
+            this.TotalKills = 0;
 
             // Run code
             UnturnedServer.AddPlayer(this);
