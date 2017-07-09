@@ -92,80 +92,21 @@ namespace PointBlank.API.Groups
         #endregion
 
         #region Functions
-        internal static void RunGroupAdded(Group g)
-        {
-            if (OnGroupAdded == null)
-                return;
+        internal static void RunGroupAdded(Group g) => OnGroupAdded?.Invoke(g);
+        internal static void RunGroupRemoved(Group g) => OnGroupRemoved?.Invoke(g);
 
-            OnGroupAdded(g);
-        }
-        internal static void RunGroupRemoved(Group g)
-        {
-            if (OnGroupRemoved == null)
-                return;
+        internal static void RunPermissionAdded(Group instance, string permission) => OnPermissionAdded?.Invoke(instance, permission);
+        internal static void RunPermissionRemoved(Group instance, string permission) => OnPermissionRemoved?.Invoke(instance, permission);
 
-            OnGroupRemoved(g);
-        }
+        internal static void RunPrefixAdded(Group instance, string prefix) => OnPrefixAdded?.Invoke(instance, prefix);
+        internal static void RunPrefixRemoved(Group instance, string prefix) => OnPrefixRemoved?.Invoke(instance, prefix);
 
-        internal static void RunPermissionAdded(Group instance, string permission)
-        {
-            if (OnPermissionAdded == null)
-                return;
+        internal static void RunSuffixAdded(Group instance, string suffix) => OnSuffixAdded?.Invoke(instance, suffix);
+        internal static void RunSuffixRemoved(Group instance, string suffix) => OnSuffixRemoved?.Invoke(instance, suffix);
 
-            OnPermissionAdded(instance, permission);
-        }
-        internal static void RunPermissionRemoved(Group instance, string permission)
-        {
-            if (OnPermissionRemoved == null)
-                return;
+        internal static void RunInheritAdded(Group instance, Group group) => OnInheritAdded?.Invoke(instance, @group);
+        internal static void RunInheritRemoved(Group instance, Group group) => OnInheritRemoved?.Invoke(instance, @group);
 
-            OnPermissionRemoved(instance, permission);
-        }
-
-        internal static void RunPrefixAdded(Group instance, string prefix)
-        {
-            if (OnPrefixAdded == null)
-                return;
-
-            OnPrefixAdded(instance, prefix);
-        }
-        internal static void RunPrefixRemoved(Group instance, string prefix)
-        {
-            if (OnPrefixRemoved == null)
-                return;
-
-            OnPrefixRemoved(instance, prefix);
-        }
-
-        internal static void RunSuffixAdded(Group instance, string suffix)
-        {
-            if (OnSuffixAdded == null)
-                return;
-
-            OnSuffixAdded(instance, suffix);
-        }
-        internal static void RunSuffixRemoved(Group instance, string suffix)
-        {
-            if (OnSuffixRemoved == null)
-                return;
-
-            OnSuffixRemoved(instance, suffix);
-        }
-
-        internal static void RunInheritAdded(Group instance, Group group)
-        {
-            if (OnInheritAdded == null)
-                return;
-
-            OnInheritAdded(instance, group);
-        }
-        internal static void RunInheritRemoved(Group instance, Group group)
-        {
-            if (OnInheritRemoved == null)
-                return;
-
-            OnInheritRemoved(instance, group);
-        }
         #endregion
     }
 }

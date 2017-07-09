@@ -22,9 +22,7 @@ namespace PointBlank.Framework.Permissions.Ring
         #region CodeAccessSecurityAttribute Functions
         public override IPermission CreatePermission()
         {
-            if (Unrestricted)
-                return new RingPermission(PermissionState.Unrestricted);
-            return new RingPermission(ring);
+            return Unrestricted ? new RingPermission(PermissionState.Unrestricted) : new RingPermission(ring);
         }
         #endregion
     }

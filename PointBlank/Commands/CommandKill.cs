@@ -41,7 +41,7 @@ namespace PointBlank.Commands
                 ply = executor;
             }
 
-            ply.Player.life.askDamage(255, Vector3.up * 10f, EDeathCause.KILL, ELimb.SKULL, (executor == null ? CSteamID.Nil : executor.SteamID), out EPlayerKill kill);
+            ply.Player.life.askDamage(255, Vector3.up * 10f, EDeathCause.KILL, ELimb.SKULL, executor?.SteamID ?? CSteamID.Nil, out EPlayerKill kill);
             UnturnedChat.SendMessage(executor, string.Format(Translation.Kill_Killed, ply.PlayerName), ConsoleColor.Green);
         }
     }

@@ -50,30 +50,14 @@ namespace PointBlank.API.DataManagment
         /// </summary>
         /// <param name="filepath">The path to the file</param>
         /// <returns>If the file is a CONF</returns>
-        public static bool CheckFile(string filepath)
-        {
-            if (!File.Exists(filepath))
-                return false;
-            if (File.ReadAllText(filepath).Contains("="))
-                return true;
-
-            return false;
-        }
+        public static bool CheckFile(string filepath) => File.Exists(filepath) && File.ReadAllText(filepath).Contains("=");
 
         /// <summary>
         /// Serializes class instance to CONF file
         /// </summary>
         /// <param name="filepath">The path to CONF file</param>
         /// <param name="instance">The instance of the class</param>
-        public static void Serialize(string filepath, object instance)
-        {
-            List<string> lines = new List<string>(); // The lines to be written
-
-            foreach(FieldInfo field in instance.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic)) // Get the fields
-                lines.Add(field.Name + "=" + field.GetValue(instance)); // Add the line
-
-            File.WriteAllLines(filepath, lines.ToArray()); // Write the file
-        }
+        public static void Serialize(string filepath, object instance) => File.WriteAllLines(filepath, instance.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic).Select(field => field.Name + "=" + field.GetValue(instance)).ToArray());
 
         /// <summary>
         /// Serializes class to CONF file
@@ -96,25 +80,23 @@ namespace PointBlank.API.DataManagment
 
             for(int i = 0; i < lines.Length; i++)
             {
-                if (lines[i][0] == '\n') // Is it empty?
-                    continue; // Skip if empty
-
-                if(lines[i][0] == '#') // Is it a comment?
+                switch (lines[i][0])
                 {
-                    CONFs.Add(i, lines[i].Substring(1, lines[i].Length - 1)); // It's a comment add it
-                    continue;
+                    case '\n':
+                        continue; // Skip if empty
+                    case '#':
+                        CONFs.Add(i, lines[i].Substring(1, lines[i].Length - 1)); // It's a comment add it
+                        continue;
                 }
 
-                if (lines[i].Contains("=")) // Is it a CONF?
-                {
-                    string[] spl = lines[i].Split('='); // Split the CONF
-                    string Value = ""; // Set the value
+                if (!lines[i].Contains("=")) continue;
+                string[] spl = lines[i].Split('='); // Split the CONF
+                string Value = ""; // Set the value
 
-                    for(int a = 1; a < spl.Length; a++)
-                        Value += spl[a] + ((a + 1) == spl.Length ? "" : "="); // Add to the value
-                    CONFs.Add(i, new CONF(Value, spl[0])); // Add the CONF
-                    continue;
-                }
+                for(int a = 1; a < spl.Length; a++)
+                    Value += spl[a] + ((a + 1) == spl.Length ? "" : "="); // Add to the value
+                CONFs.Add(i, new CONF(Value, spl[0])); // Add the CONF
+                continue;
             }
         }
 

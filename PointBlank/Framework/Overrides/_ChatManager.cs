@@ -27,9 +27,7 @@ namespace PointBlank.Framework.Overrides
             ChatEvents.RunChatted(ref player, ref mode, ref text, ref cancel);
 
             // Do checks
-            if (player == null)
-                return;
-            if (player.SteamID == null || player.SteamID == CSteamID.Nil)
+            if (player?.SteamID == null || player.SteamID == CSteamID.Nil)
                 return;
             if (string.IsNullOrEmpty(text))
                 return;

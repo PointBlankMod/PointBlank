@@ -37,10 +37,7 @@ namespace PointBlank.Commands
                 UnturnedChat.SendMessage(executor, Translation.Base_InvalidPlayer, ConsoleColor.Red);
                 return;
             }
-            if (args.Length < 2)
-                reason = Translation.Kick_Reason;
-            else
-                reason = args[1];
+            reason = args.Length < 2 ? Translation.Kick_Reason : args[1];
 
             Provider.kick(ply.SteamID, reason);
             UnturnedChat.SendMessage(executor, string.Format(Translation.Kick_Kicked, ply.PlayerName), ConsoleColor.Green);

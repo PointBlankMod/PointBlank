@@ -24,7 +24,7 @@ namespace PointBlank.API.Unturned.Player
     public class UnturnedPlayer
     {
         #region Variables
-        internal bool loaded = false;
+        internal bool Loaded = false;
 
         private List<UnturnedPlayer> _InvisiblePlayers = new List<UnturnedPlayer>();
         private List<Group> _Groups = new List<Group>();
@@ -32,7 +32,7 @@ namespace PointBlank.API.Unturned.Player
         private List<string> _Suffixes = new List<string>();
         private List<string> _Permissions = new List<string>();
 
-        private Dictionary<CMD, DateTime> _Cooldowns = new Dictionary<CMD, DateTime>();
+        private readonly Dictionary<CMD, DateTime> _Cooldowns = new Dictionary<CMD, DateTime>();
         #endregion
 
         #region Properties
@@ -478,11 +478,9 @@ namespace PointBlank.API.Unturned.Player
                 for (byte page = 0; page < (PlayerInventory.PAGES - 1); page++)
                 {
                     byte count = Inventory.getItemCount(page);
-                    if (count > 0)
-                    {
-                        for (byte index = 0; index < count; index++)
-                            retval.Add(new UnturnedStoredItem(Inventory.getItem(page, index)));
-                    }
+                    if (count <= 0) continue;
+                    for (byte index = 0; index < count; index++)
+                        retval.Add(new UnturnedStoredItem(Inventory.getItem(page, index)));
                 }
                 return retval.ToArray();
             }
@@ -575,14 +573,7 @@ namespace PointBlank.API.Unturned.Player
         /// </summary>
         /// <param name="steamplayer">The steam player to build from</param>
         /// <returns>An unturned player instance</returns>
-        internal static UnturnedPlayer Create(SPlayer steamplayer)
-        {
-            UnturnedPlayer ply = UnturnedServer.Players.FirstOrDefault(a => a.SteamPlayer == steamplayer);
-
-            if (ply != null)
-                return ply;
-            return new UnturnedPlayer(steamplayer);
-        }
+        internal static UnturnedPlayer Create(SPlayer steamplayer) => UnturnedServer.Players.FirstOrDefault(a => a.SteamPlayer == steamplayer) ?? new UnturnedPlayer(steamplayer);
 
         /// <summary>
         /// Gets the unturned player instance based on steam player instance
@@ -637,11 +628,10 @@ namespace PointBlank.API.Unturned.Player
 
             for(int i = 0; i < UnturnedServer.Players.Length; i++)
             {
-                if(NameTool.checkNames(param, UnturnedServer.Players[i].PlayerName) || NameTool.checkNames(param, UnturnedServer.Players[i].CharacterName))
-                {
-                    player = UnturnedServer.Players[i];
-                    return true;
-                }
+                if (!NameTool.checkNames(param, UnturnedServer.Players[i].PlayerName) &&
+                    !NameTool.checkNames(param, UnturnedServer.Players[i].CharacterName)) continue;
+                player = UnturnedServer.Players[i];
+                return true;
             }
             player = null;
             return false;
@@ -684,7 +674,7 @@ namespace PointBlank.API.Unturned.Player
                 return;
 
             _Groups.Add(group);
-            if (loaded)
+            if (Loaded)
                 PlayerEvents.RunGroupAdd(this, group);
         }
         /// <summary>
@@ -697,7 +687,7 @@ namespace PointBlank.API.Unturned.Player
                 return;
 
             _Groups.Remove(group);
-            if (loaded)
+            if (Loaded)
                 PlayerEvents.RunGroupRemove(this, group);
         }
 
@@ -711,7 +701,7 @@ namespace PointBlank.API.Unturned.Player
                 return;
 
             _Prefixes.Add(prefix);
-            if (loaded)
+            if (Loaded)
                 PlayerEvents.RunPrefixAdd(this, prefix);
         }
         /// <summary>
@@ -724,7 +714,7 @@ namespace PointBlank.API.Unturned.Player
                 return;
 
             _Prefixes.Remove(prefix);
-            if (loaded)
+            if (Loaded)
                 PlayerEvents.RunPrefixRemove(this, prefix);
         }
         /// <summary>
@@ -754,7 +744,7 @@ namespace PointBlank.API.Unturned.Player
                 return;
 
             _Suffixes.Add(suffix);
-            if (loaded)
+            if (Loaded)
                 PlayerEvents.RunSuffixAdd(this, suffix);
         }
         /// <summary>
@@ -767,7 +757,7 @@ namespace PointBlank.API.Unturned.Player
                 return;
 
             _Suffixes.Remove(suffix);
-            if (loaded)
+            if (Loaded)
                 PlayerEvents.RunSuffixRemove(this, suffix);
         }
         /// <summary>
@@ -797,7 +787,7 @@ namespace PointBlank.API.Unturned.Player
                 return;
 
             _Permissions.Add(permission);
-            if (loaded)
+            if (Loaded)
                 PlayerEvents.RunPermissionAdd(this, permission);
         }
         /// <summary>
@@ -810,7 +800,7 @@ namespace PointBlank.API.Unturned.Player
                 return;
 
             _Permissions.Remove(permission);
-            if (loaded)
+            if (Loaded)
                 PlayerEvents.RunPermissionRemove(this, permission);
         }
 
@@ -898,22 +888,13 @@ namespace PointBlank.API.Unturned.Player
 
             if (cooldown != -1)
             {
-                if((DateTime.Now - _Cooldowns[command]).TotalSeconds >= cooldown)
-                {
-                    _Cooldowns.Remove(command);
-                    return false;
-                }
-                return true;
+                if (!((DateTime.Now - _Cooldowns[command]).TotalSeconds >= cooldown)) return true;
+                _Cooldowns.Remove(command);
+                return false;
             }
-            if(command.Cooldown != -1)
-            {
-                if((DateTime.Now - _Cooldowns[command]).TotalSeconds >= command.Cooldown)
-                {
-                    _Cooldowns.Remove(command);
-                    return false;
-                }
-                return true;
-            }
+            if (command.Cooldown == -1) return false;
+            if (!((DateTime.Now - _Cooldowns[command]).TotalSeconds >= command.Cooldown)) return true;
+            _Cooldowns.Remove(command);
             return false;
         }
         /// <summary>

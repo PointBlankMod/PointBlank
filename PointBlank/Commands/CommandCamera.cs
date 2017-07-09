@@ -30,10 +30,10 @@ namespace PointBlank.Commands
 
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
-            string pos = args[0].ToLower();
+            string pos = args[0].ToUpperInvariant();
             ECameraMode mode;
 
-            switch (pos.ToUpperInvariant()) // I know you like to use Lower, ati, but some characters cannot be converted to invariant as lowercase
+            switch (pos)
             {
                 case "FIRST":
                     mode = ECameraMode.FIRST;

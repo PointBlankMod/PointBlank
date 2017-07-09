@@ -94,7 +94,7 @@ namespace PointBlank.API.DataManagment
         /// Serializes a class into a JSON
         /// </summary>
         /// <typeparam name="T">The class to serialize</typeparam>
-        /// <returns>The JSON string/returns>
+        /// <returns>The JSON string</returns>
         public static string Serialize<T>()
         {
             return JsonConvert.SerializeObject(Activator.CreateInstance<T>()); // Instentate the class and serialize the instance
@@ -121,13 +121,7 @@ namespace PointBlank.API.DataManagment
         /// <summary>
         /// Reloads the JSON file
         /// </summary>
-        public void Reload()
-        {
-            if (CreatedNew)
-                Document = new JObject(); // Create a new JObject
-            else
-                Document = JObject.Parse(File.ReadAllText(Path)); // Parse the JSON file
-        }
+        public void Reload() => Document = CreatedNew ? new JObject() : JObject.Parse(File.ReadAllText(Path));
 
         /// <summary>
         /// Saves the JSON file

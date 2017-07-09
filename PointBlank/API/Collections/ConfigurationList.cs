@@ -27,13 +27,7 @@ namespace PointBlank.API.Collections
         /// <returns>The configuration object</returns>
         public object this[string configuration_name]
         {
-            get
-            {
-                if (!Configurations.ContainsKey(configuration_name))
-                    return null;
-
-                return Configurations[configuration_name];
-            }
+            get => !Configurations.ContainsKey(configuration_name) ? null : Configurations[configuration_name];
             set
             {
                 if (Configurations.ContainsKey(configuration_name))

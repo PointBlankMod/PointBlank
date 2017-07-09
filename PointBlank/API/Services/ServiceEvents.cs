@@ -58,37 +58,14 @@ namespace PointBlank.API.Services
         #endregion
 
         #region Functions
-        internal static void RunServiceStart(Service service)
-        {
-            if (OnServiceStart == null)
-                return;
+        internal static void RunServiceStart(Service service) => OnServiceStart?.Invoke(service);
 
-            OnServiceStart(service);
-        }
+        internal static void RunServiceLoaded(Service service) => OnServiceLoaded?.Invoke(service);
 
-        internal static void RunServiceLoaded(Service service)
-        {
-            if (OnServiceLoaded == null)
-                return;
+        internal static void RunServiceStop(Service service) => OnServiceStop?.Invoke(service);
 
-            OnServiceLoaded(service);
-        }
+        internal static void RunServiceUnloaded(Service service) => OnServiceUnloaded?.Invoke(service);
 
-        internal static void RunServiceStop(Service service)
-        {
-            if (OnServiceStop == null)
-                return;
-
-            OnServiceStop(service);
-        }
-
-        internal static void RunServiceUnloaded(Service service)
-        {
-            if (OnServiceUnloaded == null)
-                return;
-
-            OnServiceUnloaded(service);
-        }
         #endregion
     }
 }

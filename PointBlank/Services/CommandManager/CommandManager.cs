@@ -197,35 +197,33 @@ namespace PointBlank.Services.CommandManager
         {
             shouldExecuteCommand = false;
 
-            if(text.StartsWith("/") || text.StartsWith("@"))
+            if (!text.StartsWith("/") && !text.StartsWith("@")) return;
+            shouldList = false;
+
+            string[] info = ParseCommand(text);
+            CommandWrapper wrapper = Commands.Select(a => a.Value).FirstOrDefault(a => a.Commands.FirstOrDefault(b => b.ToLower() == info[0].ToLower()) != null);
+            UnturnedPlayer ply = UnturnedPlayer.Get(player);
+            List<string> args = new List<string>();
+            string permission = "";
+
+            if(wrapper == null || !wrapper.Enabled)
             {
-                shouldList = false;
-
-                string[] info = ParseCommand(text);
-                CommandWrapper wrapper = Commands.Select(a => a.Value).FirstOrDefault(a => a.Commands.FirstOrDefault(b => b.ToLower() == info[0].ToLower()) != null);
-                UnturnedPlayer ply = UnturnedPlayer.Get(player);
-                List<string> args = new List<string>();
-                string permission = "";
-
-                if(wrapper == null || !wrapper.Enabled)
-                {
-                    ply.SendMessage(ServiceTranslations.CommandManager_Invalid, Color.red);
-                    return;
-                }
-                permission = wrapper.Permission;
-                if (info.Length > 1)
-                    for (int i = 1; i < info.Length; i++)
-                        args.Add(info[i]);
-                if(args.Count > 0)
-                    permission += "." + string.Join(".", args.ToArray());
-                if (!ply.HasPermission(permission))
-                {
-                    ply.SendMessage(ServiceTranslations.CommandManager_NotEnoughPermissions, Color.red);
-                    return;
-                }
-
-                wrapper.Execute(ply, args.ToArray());
+                ply.SendMessage(ServiceTranslations.CommandManager_Invalid, Color.red);
+                return;
             }
+            permission = wrapper.Permission;
+            if (info.Length > 1)
+                for (int i = 1; i < info.Length; i++)
+                    args.Add(info[i]);
+            if(args.Count > 0)
+                permission += "." + string.Join(".", args.ToArray());
+            if (!ply.HasPermission(permission))
+            {
+                ply.SendMessage(ServiceTranslations.CommandManager_NotEnoughPermissions, Color.red);
+                return;
+            }
+
+            wrapper.Execute(ply, args.ToArray());
         }
         #endregion
     }

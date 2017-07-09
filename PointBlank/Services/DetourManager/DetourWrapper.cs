@@ -73,7 +73,7 @@ namespace PointBlank.Services.DetourManager
             object result = null;
             try
             {
-                result = Original.Invoke((instance == null ? Instance : instance), args);
+                result = Original.Invoke(instance ?? Instance, args);
             }
             catch (Exception ex)
             {

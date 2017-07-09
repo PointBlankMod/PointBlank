@@ -26,8 +26,9 @@ namespace PointBlank.Services.PluginManager
         #endregion
 
         #region Properties
-        public static PluginWrapper[] Plugins { get { return _plugins.ToArray(); } } // Returns the plugins
-        public static Assembly[] Libraries { get { return _libraries.ToArray();  } } // Returns the libraries
+        public static PluginWrapper[] Plugins => _plugins.ToArray(); // Returns the plugins
+
+        public static Assembly[] Libraries => _libraries.ToArray(); // Returns the libraries
 
         public UniversalData UniConfig { get; private set; } // The universal config data
         public JsonData JSONConfig { get; private set; } // The JSON config data

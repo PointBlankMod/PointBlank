@@ -54,14 +54,12 @@ namespace PointBlank.API.Discord
                 obj.Add("video", video);
             if (provider != null)
                 obj.Add("provider", provider);
-            if(fields != null && fields.Length > 0)
-            {
-                JArray arr = new JArray();
+            if (fields == null || fields.Length <= 0) return obj;
+            JArray arr = new JArray();
 
-                for(int i = 0; i < fields.Length; i++)
-                    arr.Add(fields[i]);
-                obj.Add("fields", arr);
-            }
+            for(int i = 0; i < fields.Length; i++)
+                arr.Add(fields[i]);
+            obj.Add("fields", arr);
 
             // Return the data
             return obj;

@@ -55,12 +55,13 @@ namespace PointBlank.API.Plugins
         /// <summary>
         /// The latest version of the plugin(for auto-update)(Leave null if you don't want a version check)
         /// </summary>
-        public virtual string VersionURL { get { return null; } }
+        public virtual string VersionURL => null;
 
         /// <summary>
         /// The latest build of the plugin(for auto-update)(Leave null if you don't want an auto-update system)
         /// </summary>
-        public virtual string BuildURL { get { return null; } }
+        public virtual string BuildURL => null;
+
         #endregion
 
         public Plugin()

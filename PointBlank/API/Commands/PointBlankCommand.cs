@@ -85,7 +85,8 @@ namespace PointBlank.API.Commands
         /// <summary>
         /// Called when the player executes the command
         /// </summary>
-        /// <param name="arguments">The arguments the player inputted</param>
+        /// <param name="args">The arguments the player inputted</param>
+        /// <param name="executor">The player executing the command</param>
         public abstract void Execute(UnturnedPlayer executor, string[] args);
         #endregion
 

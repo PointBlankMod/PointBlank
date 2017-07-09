@@ -63,7 +63,7 @@ namespace PointBlank.API.Steam
             try
             {
                 XmlDocument document = new XmlDocument();
-                document.Load(string.Format("http://steamcommunity.com/profiles/{0}/?xml=1", ID.ToString()));
+                document.Load($"http://steamcommunity.com/profiles/{ID.ToString()}/?xml=1");
                 XmlNode root = document.DocumentElement;
 
                 // Set the data
@@ -76,14 +76,21 @@ namespace PointBlank.API.Steam
                     IsLimited = (int.Parse(root.SelectSingleNode("isLimitedAccount").InnerText) > 0);
 
                     string privacystate = root.SelectSingleNode("privacyState").InnerText;
-                    if (privacystate == "public")
-                        PrivacyState = EPrivacyState.PUBLIC;
-                    else if (privacystate == "friendsonly")
-                        PrivacyState = EPrivacyState.FRIENDS_ONLY;
-                    else if (privacystate == "private")
-                        PrivacyState = EPrivacyState.PRIVATE;
-                    else
-                        PrivacyState = EPrivacyState.NONE;
+                    switch (privacystate)
+                    {
+                        case "public":
+                            PrivacyState = EPrivacyState.PUBLIC;
+                            break;
+                        case "friendsonly":
+                            PrivacyState = EPrivacyState.FRIENDS_ONLY;
+                            break;
+                        case "private":
+                            PrivacyState = EPrivacyState.PRIVATE;
+                            break;
+                        default:
+                            PrivacyState = EPrivacyState.NONE;
+                            break;
+                    }
 
                     if(PrivacyState == EPrivacyState.PUBLIC)
                     {

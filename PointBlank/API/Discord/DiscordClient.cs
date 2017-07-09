@@ -90,9 +90,9 @@ namespace PointBlank.API.Discord
             {
 
                 LastHTTPCode = (EDiscordHttpCodes)((HttpWebResponse)((WebException)e.Error).Response).StatusCode;
-                if(LastHTTPCode != EDiscordHttpCodes.NO_CONTENT)
-                    using (StreamReader reader = new StreamReader(((HttpWebResponse)((WebException)e.Error).Response).GetResponseStream()))
-                        ParseJsonCode(reader.ReadToEnd());
+                if (LastHTTPCode == EDiscordHttpCodes.NO_CONTENT) return;
+                using (StreamReader reader = new StreamReader(((HttpWebResponse)((WebException)e.Error).Response).GetResponseStream()))
+                    ParseJsonCode(reader.ReadToEnd());
                 return;
             }
 

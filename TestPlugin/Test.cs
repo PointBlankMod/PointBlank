@@ -7,39 +7,27 @@ namespace TestPlugin
 {
     public class Test : Plugin
     {
-        public override TranslationList DefaultTranslations
+        public override TranslationList DefaultTranslations => new TranslationList()
         {
-            get
-            {
-                return new TranslationList()
-                {
-                    { "test", "This is a test" }
-                };
-            }
-        }
+            { "test", "This is a test" }
+        };
 
-        public override ConfigurationList DefaultConfigurations
+        public override ConfigurationList DefaultConfigurations => new ConfigurationList()
         {
-            get
+            { "test", "hello" },
+            { "lolz", "smth" },
+            { "testList", new List<object>()
             {
-                return new ConfigurationList()
-                {
-                    { "test", "hello" },
-                    { "lolz", "smth" },
-                    { "testList", new List<object>()
-                    {
-                        "test string 1",
-                        69,
-                        "test string 2"
-                    } },
-                    { "adding", "just a test" }
-                };
-            }
-        }
+                "test string 1",
+                69,
+                "test string 2"
+            } },
+            { "adding", "just a test" }
+        };
 
-        public override string Version { get { return "1.0.0.1"; } }
+        public override string Version => "1.0.0.1";
 
-        public override string VersionURL { get { return "http://pastebin.com/raw/uYUr6pPN"; } }
+        public override string VersionURL => "http://pastebin.com/raw/uYUr6pPN";
 
         public override void Load()
         {

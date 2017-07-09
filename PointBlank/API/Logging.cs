@@ -40,10 +40,7 @@ namespace PointBlank.API
             StackTrace stack = new StackTrace();
             string asm = "";
 
-            if (stack.FrameCount > 0)
-                asm = stack.GetFrame(1).GetMethod().DeclaringType.Assembly.GetName().Name;
-            else
-                asm = "Not Found";
+            asm = stack.FrameCount > 0 ? stack.GetFrame(1).GetMethod().DeclaringType.Assembly.GetName().Name : "Not Found";
 
             if (stack.FrameCount > 1 && (asm == "PointBlank" || asm == "Assembly-CSharp" || asm == "UnityEngine"))
                 asm = stack.GetFrame(2).GetMethod().DeclaringType.Assembly.GetName().Name;
@@ -68,10 +65,7 @@ namespace PointBlank.API
             StackTrace stack = new StackTrace();
             string asm = "";
 
-            if (stack.FrameCount > 0)
-                asm = stack.GetFrame(1).GetMethod().DeclaringType.Assembly.GetName().Name;
-            else
-                asm = "Not Found";
+            asm = stack.FrameCount > 0 ? stack.GetFrame(1).GetMethod().DeclaringType.Assembly.GetName().Name : "Not Found";
 
             if (stack.FrameCount > 1 && (asm == "PointBlank" || asm == "Assembly-CSharp" || asm == "UnityEngine"))
                 asm = stack.GetFrame(2).GetMethod().DeclaringType.Assembly.GetName().Name;
@@ -97,10 +91,7 @@ namespace PointBlank.API
             StackTrace stack = new StackTrace();
             string asm = "";
 
-            if (stack.FrameCount > 0)
-                asm = stack.GetFrame(1).GetMethod().DeclaringType.Assembly.GetName().Name;
-            else
-                asm = "Not Found";
+            asm = stack.FrameCount > 0 ? stack.GetFrame(1).GetMethod().DeclaringType.Assembly.GetName().Name : "Not Found";
 
             if (stack.FrameCount > 1 && (asm == "PointBlank" || asm == "Assembly-CSharp" || asm == "UnityEngine"))
                 asm = stack.GetFrame(2).GetMethod().DeclaringType.Assembly.GetName().Name;
@@ -123,10 +114,7 @@ namespace PointBlank.API
             StackTrace stack = new StackTrace();
             string asm = "";
 
-            if (stack.FrameCount > 0)
-                asm = stack.GetFrame(1).GetMethod().DeclaringType.Assembly.GetName().Name;
-            else
-                asm = "Not Found";
+            asm = stack.FrameCount > 0 ? stack.GetFrame(1).GetMethod().DeclaringType.Assembly.GetName().Name : "Not Found";
 
             if (stack.FrameCount > 1 && (asm == "PointBlank" || asm == "Assembly-CSharp" || asm == "UnityEngine"))
                 asm = stack.GetFrame(2).GetMethod().DeclaringType.Assembly.GetName().Name;

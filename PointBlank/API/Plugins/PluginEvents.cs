@@ -50,49 +50,18 @@ namespace PointBlank.API.Plugins
         #endregion
 
         #region Functions
-        internal static void RunPluginStart(Plugin plugin)
-        {
-            if (OnPluginStart == null)
-                return;
+        internal static void RunPluginStart(Plugin plugin) => OnPluginStart?.Invoke(plugin);
 
-            OnPluginStart(plugin);
-        }
-        internal static void RunPluginLoaded(Plugin plugin)
-        {
-            if (OnPluginLoaded == null)
-                return;
+        internal static void RunPluginLoaded(Plugin plugin) => OnPluginLoaded?.Invoke(plugin);
 
-            OnPluginLoaded(plugin);
-        }
-        internal static void RunPluginsLoaded()
-        {
-            if (OnPluginsLoaded == null)
-                return;
+        internal static void RunPluginsLoaded() => OnPluginsLoaded?.Invoke();
 
-            OnPluginsLoaded();
-        }
+        internal static void RunPluginStop(Plugin plugin) => OnPluginStop?.Invoke(plugin);
 
-        internal static void RunPluginStop(Plugin plugin)
-        {
-            if (OnPluginStop == null)
-                return;
+        internal static void RunPluginUnloaded(Plugin plugin) => OnPluginUnloaded?.Invoke(plugin);
 
-            OnPluginStop(plugin);
-        }
-        internal static void RunPluginUnloaded(Plugin plugin)
-        {
-            if (OnPluginUnloaded == null)
-                return;
+        internal static void RunPluginsUnloaded() => OnPluginsUnloaded?.Invoke();
 
-            OnPluginUnloaded(plugin);
-        }
-        internal static void RunPluginsUnloaded()
-        {
-            if (OnPluginsUnloaded == null)
-                return;
-
-            OnPluginsUnloaded();
-        }
         #endregion
     }
 }

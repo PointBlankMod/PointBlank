@@ -47,25 +47,16 @@ namespace PointBlank.API.Commands
         #region Functions
         internal static void RunCommandEnable(PointBlankCommand command)
         {
-            if (OnCommandEnabled == null)
-                return;
-
-            OnCommandEnabled(command);
+            OnCommandEnabled?.Invoke(command);
         }
         internal static void RunCommandDisable(PointBlankCommand command)
         {
-            if (OnCommandDisabled == null)
-                return;
-
-            OnCommandDisabled(command);
+            OnCommandDisabled?.Invoke(command);
         }
 
         internal static void RunCommandExecute(PointBlankCommand command, string[] args, UnturnedPlayer executor, ref bool allowExecute)
         {
-            if (OnCommandExecuted == null)
-                return;
-
-            OnCommandExecuted(command, args, executor, ref allowExecute);
+            OnCommandExecuted?.Invoke(command, args, executor, ref allowExecute);
         }
         #endregion
     }

@@ -93,80 +93,26 @@ namespace PointBlank.API.Steam
         #endregion
 
         #region Functions
-        internal static void RunSteamGroupAdded(SteamGroup g)
-        {
-            if (OnSteamGroupAdded == null)
-                return;
+        internal static void RunSteamGroupAdded(SteamGroup g) => OnSteamGroupAdded?.Invoke(g);
 
-            OnSteamGroupAdded(g);
-        }
-        internal static void RunSteamGroupRemoved(SteamGroup g)
-        {
-            if (OnSteamGroupRemoved == null)
-                return;
+        internal static void RunSteamGroupRemoved(SteamGroup g) => OnSteamGroupRemoved?.Invoke(g);
 
-            OnSteamGroupRemoved(g);
-        }
+        internal static void RunPermissionAdded(SteamGroup instance, string permission) => OnPermissionAdded?.Invoke(instance, permission);
 
-        internal static void RunPermissionAdded(SteamGroup instance, string permission)
-        {
-            if (OnPermissionAdded == null)
-                return;
+        internal static void RunPermissionRemoved(SteamGroup instance, string permission) => OnPermissionRemoved?.Invoke(instance, permission);
 
-            OnPermissionAdded(instance, permission);
-        }
-        internal static void RunPermissionRemoved(SteamGroup instance, string permission)
-        {
-            if (OnPermissionRemoved == null)
-                return;
+        internal static void RunPrefixAdded(SteamGroup instance, string prefix) => OnPrefixAdded?.Invoke(instance, prefix);
 
-            OnPermissionRemoved(instance, permission);
-        }
+        internal static void RunPrefixRemoved(SteamGroup instance, string prefix) => OnPrefixRemoved?.Invoke(instance, prefix);
 
-        internal static void RunPrefixAdded(SteamGroup instance, string prefix)
-        {
-            if (OnPrefixAdded == null)
-                return;
+        internal static void RunSuffixAdded(SteamGroup instance, string suffix) => OnSuffixAdded?.Invoke(instance, suffix);
 
-            OnPrefixAdded(instance, prefix);
-        }
-        internal static void RunPrefixRemoved(SteamGroup instance, string prefix)
-        {
-            if (OnPrefixRemoved == null)
-                return;
+        internal static void RunSuffixRemoved(SteamGroup instance, string suffix) => OnSuffixRemoved?.Invoke(instance, suffix);
 
-            OnPrefixRemoved(instance, prefix);
-        }
+        internal static void RunInheritAdded(SteamGroup instance, SteamGroup group) => OnInheritAdded?.Invoke(instance, @group);
 
-        internal static void RunSuffixAdded(SteamGroup instance, string suffix)
-        {
-            if (OnSuffixAdded == null)
-                return;
+        internal static void RunInheritRemoved(SteamGroup instance, SteamGroup group) => OnInheritRemoved?.Invoke(instance, @group);
 
-            OnSuffixAdded(instance, suffix);
-        }
-        internal static void RunSuffixRemoved(SteamGroup instance, string suffix)
-        {
-            if (OnSuffixRemoved == null)
-                return;
-
-            OnSuffixRemoved(instance, suffix);
-        }
-
-        internal static void RunInheritAdded(SteamGroup instance, SteamGroup group)
-        {
-            if (OnInheritAdded == null)
-                return;
-
-            OnInheritAdded(instance, group);
-        }
-        internal static void RunInheritRemoved(SteamGroup instance, SteamGroup group)
-        {
-            if (OnInheritRemoved == null)
-                return;
-
-            OnInheritRemoved(instance, group);
-        }
         #endregion
     }
 }

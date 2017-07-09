@@ -102,7 +102,7 @@ namespace PointBlank.API.Steam
         public void DownloadData()
         {
             XmlDocument document = new XmlDocument();
-            document.Load(string.Format("http://steamcommunity.com/gid/{0}/memberslistxml/?xml=1", ID.ToString()));
+            document.Load($"http://steamcommunity.com/gid/{ID.ToString()}/memberslistxml/?xml=1");
             XmlNode root = document.DocumentElement;
 
             // Set the data
@@ -273,11 +273,9 @@ namespace PointBlank.API.Steam
 
                     if (sPerm[a] == "*")
                         return true;
-                    if (sPerm[a] == sPermission[a])
-                    {
-                        found = true;
-                        break;
-                    }
+                    if (sPerm[a] != sPermission[a]) continue;
+                    found = true;
+                    break;
                 }
 
                 if (!found)

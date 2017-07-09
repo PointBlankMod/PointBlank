@@ -260,9 +260,7 @@ namespace PointBlank.API.Unturned.Vehicle
         {
             UnturnedVehicle veh = UnturnedServer.Vehicles.FirstOrDefault(a => a.Vehicle == vehicle);
 
-            if (veh != null)
-                return veh;
-            return new UnturnedVehicle(vehicle);
+            return veh ?? new UnturnedVehicle(vehicle);
         }
 
         /// <summary>

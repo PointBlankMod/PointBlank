@@ -34,7 +34,7 @@ namespace PointBlank.Commands
                 return;
             }
 
-            ply.Player.sendScreenshot((executor == null ? CSteamID.Nil : executor.SteamID), null);
+            ply.Player.sendScreenshot(executor?.SteamID ?? CSteamID.Nil, null);
             UnturnedChat.SendMessage(executor, string.Format(Translation.Spy_Spy, ply.PlayerName), ConsoleColor.Red);
         }
     }

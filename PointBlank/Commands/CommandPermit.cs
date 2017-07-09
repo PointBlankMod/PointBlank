@@ -35,7 +35,7 @@ namespace PointBlank.Commands
                 return;
             }
 
-            SteamWhitelist.whitelist(id, args[1], (executor == null ? CSteamID.Nil : executor.SteamID));
+            SteamWhitelist.whitelist(id, args[1], executor?.SteamID ?? CSteamID.Nil);
             UnturnedChat.SendMessage(executor, string.Format(Translation.Permit_Added, id), ConsoleColor.Green);
         }
     }

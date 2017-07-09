@@ -35,35 +35,34 @@ namespace PointBlank.Services.DetourManager
         {
             try
             {
-                if(IntPtr.Size == sizeof(Int32))
+                switch (IntPtr.Size)
                 {
-                    unsafe
-                    {
-                        byte* ptrFrom = (byte*)ptrOriginal.ToPointer();
+                    case sizeof(Int32):
+                        unsafe
+                        {
+                            byte* ptrFrom = (byte*)ptrOriginal.ToPointer();
 
-                        *(ptrFrom + 1) = 0xBB;
-                        *((uint*)(ptrFrom + 2)) = (uint)ptrModified.ToInt32();
-                        *(ptrFrom + 11) = 0xFF;
-                        *(ptrFrom + 12) = 0xE3;
-                    }
-                }
-                else if(IntPtr.Size == sizeof(Int64))
-                {
-                    unsafe
-                    {
-                        byte* ptrFrom = (byte*)ptrOriginal.ToPointer();
+                            *(ptrFrom + 1) = 0xBB;
+                            *((uint*)(ptrFrom + 2)) = (uint)ptrModified.ToInt32();
+                            *(ptrFrom + 11) = 0xFF;
+                            *(ptrFrom + 12) = 0xE3;
+                        }
+                        break;
+                    case sizeof(Int64):
+                        unsafe
+                        {
+                            byte* ptrFrom = (byte*)ptrOriginal.ToPointer();
 
-                        *ptrFrom = 0x49;
-                        *(ptrFrom + 1) = 0xBB;
-                        *((ulong*)(ptrFrom + 2)) = (ulong)ptrModified.ToInt64();
-                        *(ptrFrom + 10) = 0x41;
-                        *(ptrFrom + 11) = 0xFF;
-                        *(ptrFrom + 12) = 0xE3;
-                    }
-                }
-                else
-                {
-                    return false;
+                            *ptrFrom = 0x49;
+                            *(ptrFrom + 1) = 0xBB;
+                            *((ulong*)(ptrFrom + 2)) = (ulong)ptrModified.ToInt64();
+                            *(ptrFrom + 10) = 0x41;
+                            *(ptrFrom + 11) = 0xFF;
+                            *(ptrFrom + 12) = 0xE3;
+                        }
+                        break;
+                    default:
+                        return false;
                 }
 
                 return true;

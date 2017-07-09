@@ -28,10 +28,15 @@ namespace PointBlank.Commands
 
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
-            if (LevelLighting.rainyness == ELightingRain.NONE)
-                LightingManager.rainFrequency = 0u;
-            else if (LevelLighting.rainyness == ELightingRain.DRIZZLE)
-                LightingManager.rainDuration = 0u;
+            switch (LevelLighting.rainyness)
+            {
+                case ELightingRain.NONE:
+                    LightingManager.rainFrequency = 0u;
+                    break;
+                case ELightingRain.DRIZZLE:
+                    LightingManager.rainDuration = 0u;
+                    break;
+            }
             UnturnedChat.SendMessage(executor, Translation.Storm_Change, ConsoleColor.Green);
         }
     }

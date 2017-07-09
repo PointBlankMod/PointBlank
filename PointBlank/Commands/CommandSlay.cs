@@ -38,9 +38,9 @@ namespace PointBlank.Commands
                 return;
             }
 
-            SteamBlacklist.ban(ply.SteamID, ply.SteamIP, (executor == null ? CSteamID.Nil : executor.SteamID), (args.Length > 1 ? args[1] : "Undefined"), SteamBlacklist.PERMANENT);
+            SteamBlacklist.ban(ply.SteamID, ply.SteamIP, executor?.SteamID ?? CSteamID.Nil, (args.Length > 1 ? args[1] : "Undefined"), SteamBlacklist.PERMANENT);
             if (ply.SteamPlayer.player != null)
-                ply.Player.life.askDamage(255, Vector3.up * 101f, EDeathCause.KILL, ELimb.SKULL, (executor == null ? CSteamID.Nil : executor.SteamID), out EPlayerKill ePlayerKill);
+                ply.Player.life.askDamage(255, Vector3.up * 101f, EDeathCause.KILL, ELimb.SKULL, executor?.SteamID ?? CSteamID.Nil, out EPlayerKill ePlayerKill);
             UnturnedChat.SendMessage(executor, string.Format(Translation.Slay_Slay, ply.PlayerName), ConsoleColor.Red);
         }
     }

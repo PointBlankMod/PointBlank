@@ -121,12 +121,9 @@ namespace PointBlank.Services.CommandManager
                 bool shouldExecute = true;
 
                 CommandEvents.RunCommandExecute(CommandClass, args, executor, ref shouldExecute);
-                if (shouldExecute)
-                {
-                    if (executor != null)
-                        executor.SetCooldown(CommandClass, DateTime.Now);
-                    CommandClass.Execute(executor, args);
-                }
+                if (!shouldExecute) return;
+                executor?.SetCooldown(CommandClass, DateTime.Now);
+                CommandClass.Execute(executor, args);
             }
             catch (Exception ex)
             {

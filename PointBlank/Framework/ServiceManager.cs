@@ -72,21 +72,19 @@ namespace PointBlank.Framework
 
             if (ServicesData.CheckKey(attribute.Name))
             {
-                if (((string)ServicesData.Document[attribute.Name]["AutoStart"]).ToLower() == "true")
-                    attribute.AutoStart = true; // Set the autostart to true
-                else
-                    attribute.AutoStart = false; // Set the autostart to false
-                if (((string)ServicesData.Document[attribute.Name]["Replace"]).ToLower() == "true")
-                    attribute.Replace = true; // Set the replace to true
-                else
-                    attribute.Replace = false; // Set the replace to false
+                attribute.AutoStart = ((string)ServicesData.Document[attribute.Name]["AutoStart"]).ToLower() == "true";
+                attribute.Replace = ((string)ServicesData.Document[attribute.Name]["Replace"]).ToLower() == "true";
             }
             else
             {
-                JObject jObj = new JObject(); // Create a jobject
+                JObject jObj = new JObject
+                {
+                    {"AutoStart", (attribute.AutoStart ? "true" : "false")},
+                    {"Replace", (attribute.Replace ? "true" : "false")}
+                }; // Create a jobject
 
-                jObj.Add("AutoStart", (attribute.AutoStart ? "true" : "false")); // Add the autostart
-                jObj.Add("Replace", (attribute.Replace ? "true" : "false")); //  Add the replace
+                // Add the autostart
+                //  Add the replace
 
                 ServicesData.Document.Add(attribute.Name, jObj); // Add the jobject
                 UniServicesData.Save();

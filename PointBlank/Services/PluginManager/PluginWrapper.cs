@@ -63,18 +63,17 @@ namespace PointBlank.Services.PluginManager
             {
                 while (Enabled)
                 {
-                    if(LastUpdateCheck == null || (DateTime.Now - LastUpdateCheck).TotalSeconds >= PluginConfiguration.CheckUpdateTimeSeconds)
+                    if (LastUpdateCheck != null && !((DateTime.Now - LastUpdateCheck).TotalSeconds >=
+                                                     PluginConfiguration.CheckUpdateTimeSeconds)) continue;
+                    if (CheckUpdates())
                     {
-                        if (CheckUpdates())
-                        {
-                            if (PluginConfiguration.NotifyUpdates)
-                                Notify();
-                            if (PluginConfiguration.AutoUpdate)
-                                Update();
-                        }
-
-                        LastUpdateCheck = DateTime.Now;
+                        if (PluginConfiguration.NotifyUpdates)
+                            Notify();
+                        if (PluginConfiguration.AutoUpdate)
+                            Update();
                     }
+
+                    LastUpdateCheck = DateTime.Now;
                 }
             }));
         }

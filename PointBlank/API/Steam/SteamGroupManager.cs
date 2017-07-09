@@ -15,7 +15,8 @@ namespace PointBlank.API.Steam
         /// <summary>
         /// The steam group list on the server
         /// </summary>
-        public static SteamGroup[] Groups { get { return _Groups.Values.ToArray(); } }
+        public static SteamGroup[] Groups => _Groups.Values.ToArray();
+
         #endregion
 
         #region Public Functions
@@ -94,10 +95,7 @@ namespace PointBlank.API.Steam
             SteamGroup g = Find(ID);
 
             group = g;
-            if (g == null)
-                return false;
-            else
-                return true;
+            return g != null;
         }
 
         public static void Reload()

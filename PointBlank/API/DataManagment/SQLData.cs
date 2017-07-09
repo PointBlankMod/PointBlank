@@ -69,14 +69,8 @@ namespace PointBlank.API.DataManagment
             this.Timeout = timeout; // Set the timeout
             this.Trusted = trusted; // Set the trusted
 
-            Connection = new SqlConnection(string.Format("user id={0};password={1};server={2};Trusted_Connection={3};database={4};connection timeout={5}", // Create the connection
-                username,
-                password,
-                server,
-                (trusted ? "yes" : "no"),
-                database,
-                timeout.ToString()
-            ));
+            Connection = new SqlConnection(
+                $"user id={username};password={password};server={server};Trusted_Connection={(trusted ? "yes" : "no")};database={database};connection timeout={timeout.ToString()}");
             Command.Connection = Connection; // Set the connection
 
             Enviroment.SQLConnections.Add(this); // Add to the list

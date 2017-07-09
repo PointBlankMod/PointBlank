@@ -65,28 +65,12 @@ namespace PointBlank.API.Unturned.Barricade
             if (damage > barricade.Health && !cancel)
                 RunBarricadeDestroy(barricade, ref cancel);
         }
-        internal static void RunBarricadeRepair(UnturnedBarricade barricade, ref ushort repair, ref bool cancel)
-        {
-            if (OnBarricadeRepair == null)
-                return;
+        internal static void RunBarricadeRepair(UnturnedBarricade barricade, ref ushort repair, ref bool cancel) => OnBarricadeRepair?.Invoke(barricade, ref repair, ref cancel);
 
-            OnBarricadeRepair(barricade, ref repair, ref cancel);
-        }
+        internal static void RunBarricadeDestroy(UnturnedBarricade barricade, ref bool cancel) => OnBarricadeDestroy?.Invoke(barricade, ref cancel);
 
-        internal static void RunBarricadeDestroy(UnturnedBarricade barricade, ref bool cancel)
-        {
-            if (OnBarricadeDestroy == null)
-                return;
+        internal static void RunBarricadeSalvage(UnturnedBarricade barricade, ref bool cancel) => OnBarricadeSalvage?.Invoke(barricade, ref cancel);
 
-            OnBarricadeDestroy(barricade, ref cancel);
-        }
-        internal static void RunBarricadeSalvage(UnturnedBarricade barricade, ref bool cancel)
-        {
-            if (OnBarricadeSalvage == null)
-                return;
-
-            OnBarricadeSalvage(barricade, ref cancel);
-        }
         #endregion
     }
 }

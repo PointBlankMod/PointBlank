@@ -126,9 +126,7 @@ namespace PointBlank.API.Unturned.Barricade
         {
             UnturnedBarricade barricade = UnturnedServer.Barricades.FirstOrDefault(a => a.Data == data);
 
-            if (barricade != null)
-                return barricade;
-            return new UnturnedBarricade(data);
+            return barricade ?? new UnturnedBarricade(data);
         }
 
         /// <summary>

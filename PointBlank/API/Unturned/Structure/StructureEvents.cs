@@ -65,28 +65,12 @@ namespace PointBlank.API.Unturned.Structure
             if (damage > structure.Health && !cancel)
                 RunDestroyStructure(structure, ref cancel);
         }
-        internal static void RunRepairStructure(UnturnedStructure structure, ref ushort repair, ref bool cancel)
-        {
-            if (OnRepairStructure == null)
-                return;
+        internal static void RunRepairStructure(UnturnedStructure structure, ref ushort repair, ref bool cancel) => OnRepairStructure?.Invoke(structure, ref repair, ref cancel);
 
-            OnRepairStructure(structure, ref repair, ref cancel);
-        }
+        internal static void RunDestroyStructure(UnturnedStructure structure, ref bool cancel) => OnDestroyStructure?.Invoke(structure, ref cancel);
 
-        internal static void RunDestroyStructure(UnturnedStructure structure, ref bool cancel)
-        {
-            if (OnDestroyStructure == null)
-                return;
+        internal static void RunSalvageStructure(UnturnedStructure structure, ref bool cancel) => OnSalvageStructure?.Invoke(structure, ref cancel);
 
-            OnDestroyStructure(structure, ref cancel);
-        }
-        internal static void RunSalvageStructure(UnturnedStructure structure, ref bool cancel)
-        {
-            if (OnSalvageStructure == null)
-                return;
-
-            OnSalvageStructure(structure, ref cancel);
-        }
         #endregion
     }
 }

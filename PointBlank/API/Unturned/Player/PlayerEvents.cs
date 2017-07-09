@@ -132,80 +132,25 @@ namespace PointBlank.API.Unturned.Player
         #endregion
 
         #region Functions
-        internal static void RunPermissionAdd(UnturnedPlayer player, string permission)
-        {
-            if (OnPermissionAdded == null)
-                return;
+        internal static void RunPermissionAdd(UnturnedPlayer player, string permission) => OnPermissionAdded?.Invoke(player, permission);
 
-            OnPermissionAdded(player, permission);
-        }
-        internal static void RunPermissionRemove(UnturnedPlayer player, string permission)
-        {
-            if (OnPermissionRemoved == null)
-                return;
+        internal static void RunPermissionRemove(UnturnedPlayer player, string permission) => OnPermissionRemoved?.Invoke(player, permission);
 
-            OnPermissionRemoved(player, permission);
-        }
+        internal static void RunGroupAdd(UnturnedPlayer player, Group group) => OnGroupAdded?.Invoke(player, @group);
 
-        internal static void RunGroupAdd(UnturnedPlayer player, Group group)
-        {
-            if (OnGroupAdded == null)
-                return;
+        internal static void RunGroupRemove(UnturnedPlayer player, Group group) => OnGroupRemoved?.Invoke(player, @group);
 
-            OnGroupAdded(player, group);
-        }
-        internal static void RunGroupRemove(UnturnedPlayer player, Group group)
-        {
-            if (OnGroupRemoved == null)
-                return;
+        internal static void RunInvisiblePlayerAdd(UnturnedPlayer player, UnturnedPlayer target) => OnInvisiblePlayerAdded?.Invoke(player, target);
 
-            OnGroupRemoved(player, group);
-        }
+        internal static void RunInvisiblePlayerRemove(UnturnedPlayer player, UnturnedPlayer target) => OnInvisiblePlayerRemoved?.Invoke(player, target);
 
-        internal static void RunInvisiblePlayerAdd(UnturnedPlayer player, UnturnedPlayer target)
-        {
-            if (OnInvisiblePlayerAdded == null)
-                return;
+        internal static void RunPrefixAdd(UnturnedPlayer player, string prefix) => OnPrefixAdded?.Invoke(player, prefix);
 
-            OnInvisiblePlayerAdded(player, target);
-        }
-        internal static void RunInvisiblePlayerRemove(UnturnedPlayer player, UnturnedPlayer target)
-        {
-            if (OnInvisiblePlayerRemoved == null)
-                return;
+        internal static void RunPrefixRemove(UnturnedPlayer player, string prefix) => OnPrefixRemoved?.Invoke(player, prefix);
 
-            OnInvisiblePlayerRemoved(player, target);
-        }
+        internal static void RunSuffixAdd(UnturnedPlayer player, string suffix) => OnSuffixAdded?.Invoke(player, suffix);
 
-        internal static void RunPrefixAdd(UnturnedPlayer player, string prefix)
-        {
-            if (OnPrefixAdded == null)
-                return;
-
-            OnPrefixAdded(player, prefix);
-        }
-        internal static void RunPrefixRemove(UnturnedPlayer player, string prefix)
-        {
-            if (OnPrefixRemoved == null)
-                return;
-
-            OnPrefixRemoved(player, prefix);
-        }
-
-        internal static void RunSuffixAdd(UnturnedPlayer player, string suffix)
-        {
-            if (OnSuffixAdded == null)
-                return;
-
-            OnSuffixAdded(player, suffix);
-        }
-        internal static void RunSuffixRemove(UnturnedPlayer player, string suffix)
-        {
-            if (OnSuffixRemoved == null)
-                return;
-
-            OnSuffixRemoved(player, suffix);
-        }
+        internal static void RunSuffixRemove(UnturnedPlayer player, string suffix) => OnSuffixRemoved?.Invoke(player, suffix);
 
         internal static void RunPlayerHurt(SteamPlayer player, ref byte damage, ref EDeathCause cause, ref ELimb limb, ref UnturnedPlayer damager, ref bool cancel)
         {
@@ -216,11 +161,9 @@ namespace PointBlank.API.Unturned.Player
             OnPlayerHurt(ply, ref damage, ref cause, ref limb, ref damager, ref cancel);
             if (cancel)
                 return;
-            if((ply.Health - damage) < 0)
-            {
-                OnPlayerDied(ply, ref cause, ref damager);
-                OnPlayerKill(damager, ref cause, ref ply);
-            }
+            if ((ply.Health - damage) >= 0) return;
+            OnPlayerDied(ply, ref cause, ref damager);
+            OnPlayerKill(damager, ref cause, ref ply);
         }
         #endregion
     }

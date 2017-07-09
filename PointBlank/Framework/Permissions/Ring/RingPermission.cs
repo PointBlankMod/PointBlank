@@ -29,15 +29,14 @@ namespace PointBlank.Framework.Permissions.Ring
 
         public RingPermission(PermissionState state)
         {
-            if(state == PermissionState.None)
+            switch (state)
             {
-                SetUnrestricted(false);
-                return;
-            }
-            if(state == PermissionState.Unrestricted)
-            {
-                SetUnrestricted(true);
-                return;
+                case PermissionState.None:
+                    SetUnrestricted(false);
+                    return;
+                case PermissionState.Unrestricted:
+                    SetUnrestricted(true);
+                    return;
             }
             throw new ArgumentException("Invalid permission state!");
         }
@@ -76,9 +75,7 @@ namespace PointBlank.Framework.Permissions.Ring
             RingPermission ringPermissions = (RingPermission)target;
             RingPermissionRing ringPermissionsRing = (_ring < ringPermissions.ring ? _ring : ringPermissions.ring);
 
-            if (ringPermissionsRing == RingPermissionRing.None)
-                return null;
-            return new RingPermission(ringPermissionsRing);
+            return ringPermissionsRing == RingPermissionRing.None ? null : new RingPermission(ringPermissionsRing);
         }
 
         public override IPermission Union(IPermission target)
@@ -89,9 +86,7 @@ namespace PointBlank.Framework.Permissions.Ring
             RingPermission ringPermissions = (RingPermission)target;
             RingPermissionRing ringPermissionsRing = (_ring < ringPermissions.ring ? _ring : ringPermissions.ring);
 
-            if (ringPermissionsRing == RingPermissionRing.None)
-                return null;
-            return new RingPermission(ringPermissionsRing);
+            return ringPermissionsRing == RingPermissionRing.None ? null : new RingPermission(ringPermissionsRing);
         }
 
         public override IPermission Copy() => new RingPermission(_ring);
@@ -146,12 +141,7 @@ namespace PointBlank.Framework.Permissions.Ring
         {
             if (_ring == RingPermissionRing.None)
                 return true;
-            if (rp.ring == RingPermissionRing.None)
-                return false;
-            if (rp.ring.HasFlag(_ring))
-                return true;
-
-            return false;
+            return rp.ring != RingPermissionRing.None && rp.ring.HasFlag(_ring);
         }
         #endregion
     }

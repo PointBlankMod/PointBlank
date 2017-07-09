@@ -20,7 +20,7 @@ namespace PointBlank.Services.DetourManager
         #endregion
 
         #region Properties
-        public static Dictionary<DetourAttribute, DetourWrapper> Detours { get { return _Detours; } } // The public detours
+        public static Dictionary<DetourAttribute, DetourWrapper> Detours => _Detours; // The public detours
 
         public bool Initialized { get; private set; } = false; // Is the detour manager initialized
         #endregion

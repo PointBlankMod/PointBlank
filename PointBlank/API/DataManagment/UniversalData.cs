@@ -60,13 +60,14 @@ namespace PointBlank.API.DataManagment
             {
                 DataType = DefaultDataType; // Set the data type
 
-                if(DefaultDataType == EDataType.JSON)
+                switch (DefaultDataType)
                 {
-                    JSON = new JsonData(Path); // Create the JSON file
-                }
-                else if(DefaultDataType == EDataType.XML)
-                {
-                    XML = new XMLData(Path); // Create the XML file
+                    case EDataType.JSON:
+                        JSON = new JsonData(Path); // Create the JSON file
+                        break;
+                    case EDataType.XML:
+                        XML = new XMLData(Path); // Create the XML file
+                        break;
                 }
 
                 return; // No need to continue
@@ -99,17 +100,16 @@ namespace PointBlank.API.DataManagment
             if (DataType == EDataType.UNKNOWN || ExtractType == EDataType.UNKNOWN) // Unknown data type error
                 return null;
 
-            if(DataType == EDataType.JSON) // If the data type is JSON
+            switch (DataType)
             {
-                if (ExtractType == EDataType.XML)
-                    return JSONToXML(); // Convert the JSON to XML
-                return JSON; // Return the JSON
-            }
-            if(DataType == EDataType.XML) // If the data type is XML
-            {
-                if (ExtractType == EDataType.JSON)
-                    return XMLToJSON(); // Convert the XML to JSON
-                return XML; // Return the XML
+                case EDataType.JSON:
+                    if (ExtractType == EDataType.XML)
+                        return JSONToXML(); // Convert the JSON to XML
+                    return JSON; // Return the JSON
+                case EDataType.XML:
+                    if (ExtractType == EDataType.JSON)
+                        return XMLToJSON(); // Convert the XML to JSON
+                    return XML; // Return the XML
             }
 
             return null;
@@ -120,19 +120,20 @@ namespace PointBlank.API.DataManagment
         /// </summary>
         public void Save()
         {
-            if(Configuration.SaveDataType == EDataType.JSON)
+            switch (Configuration.SaveDataType)
             {
-                if (DataType == EDataType.XML || XML != null)
-                    XMLToJSON(); // Convert to JSON
+                case EDataType.JSON:
+                    if (DataType == EDataType.XML || XML != null)
+                        XMLToJSON(); // Convert to JSON
 
-                JSON.Save(); // Save the JSON
-            }
-            else if(Configuration.SaveDataType == EDataType.XML)
-            {
-                if (DataType == EDataType.JSON || JSON != null)
-                    JSONToXML(); // Convert to XML
+                    JSON.Save(); // Save the JSON
+                    break;
+                case EDataType.XML:
+                    if (DataType == EDataType.JSON || JSON != null)
+                        JSONToXML(); // Convert to XML
 
-                XML.Save(); // Save the XML
+                    XML.Save(); // Save the XML
+                    break;
             }
         }
         #endregion

@@ -78,9 +78,8 @@ namespace PointBlank.API.Discord
                 QueuedMessages.Enqueue(message);
                 return false;
             }
-            JObject obj = new JObject();
+            JObject obj = new JObject {{"username", Name}};
 
-            obj.Add("username", Name);
             if (!string.IsNullOrEmpty(Avatar))
                 obj.Add("avatar_url", Avatar);
             obj.Add("tts", false);
@@ -94,10 +93,7 @@ namespace PointBlank.API.Discord
 
             if (int.Parse(Client.ResponseHeaders["X-RateLimit-Remaining"]) < 1)
                 LastLimit = PBTools.FromUnixTime(long.Parse(Client.ResponseHeaders["X-RateLimit-Reset"]));
-            if (Client.LastHTTPCode != EDiscordHttpCodes.OK || Client.LastHTTPCode != EDiscordHttpCodes.NO_CONTENT)
-                return false;
-
-            return true;
+            return Client.LastHTTPCode == EDiscordHttpCodes.OK && Client.LastHTTPCode == EDiscordHttpCodes.NO_CONTENT;
         }
 
         /// <summary>
@@ -115,9 +111,8 @@ namespace PointBlank.API.Discord
                 QueuedMessages.Enqueue(message);
                 return false;
             }
-            JObject obj = new JObject();
+            JObject obj = new JObject {{"username", Name}};
 
-            obj.Add("username", Name);
             if (!string.IsNullOrEmpty(Avatar))
                 obj.Add("avatar_url", Avatar);
             obj.Add("tts", false);
@@ -131,10 +126,7 @@ namespace PointBlank.API.Discord
 
             if (int.Parse(Client.ResponseHeaders["X-RateLimit-Remaining"]) < 1)
                 LastLimit = PBTools.FromUnixTime(long.Parse(Client.ResponseHeaders["X-RateLimit-Reset"]));
-            if (Client.LastHTTPCode != EDiscordHttpCodes.OK || Client.LastHTTPCode != EDiscordHttpCodes.NO_CONTENT)
-                return false;
-
-            return true;
+            return Client.LastHTTPCode == EDiscordHttpCodes.OK && Client.LastHTTPCode == EDiscordHttpCodes.NO_CONTENT;
         }
 
         /// <summary>

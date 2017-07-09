@@ -29,9 +29,7 @@ namespace PointBlank.API.Commands
         {
             CommandWrapper wrapper = CM.Commands.Values.FirstOrDefault(a => a.Class == typeof(T));
 
-            if (wrapper == null)
-                return null;
-            return (T)wrapper.CommandClass;
+            return (T) wrapper?.CommandClass;
         }
 
         /// <summary>
@@ -43,9 +41,7 @@ namespace PointBlank.API.Commands
         {
             CommandWrapper wrapper = CM.Commands.Values.FirstOrDefault(a => a.Class == Class);
 
-            if (wrapper == null)
-                return null;
-            return wrapper.CommandClass;
+            return wrapper?.CommandClass;
         }
 
         /// <summary>
@@ -56,9 +52,7 @@ namespace PointBlank.API.Commands
         {
             CommandWrapper wrapper = CM.Commands.Values.FirstOrDefault(a => a.CommandClass == command);
 
-            if (wrapper == null)
-                return;
-            wrapper.Enable();
+            wrapper?.Enable();
         }
 
         /// <summary>
@@ -69,9 +63,7 @@ namespace PointBlank.API.Commands
         {
             CommandWrapper wrapper = CM.Commands.Values.FirstOrDefault(a => a.CommandClass == command);
 
-            if (wrapper == null)
-                return;
-            wrapper.Disable();
+            wrapper?.Disable();
         }
         #endregion
     }

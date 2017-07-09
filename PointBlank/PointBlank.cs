@@ -123,12 +123,18 @@ namespace PointBlank
                 {
                     { "ConfigFormat", "JSON" }
                 });
-                if (((string)data.Document["ConfigFormat"]).ToLower() == "xml")
-                    Configuration.SaveDataType = EDataType.XML;
-                else if (((string)data.Document["ConfigFormat"]).ToLower() == "json")
-                    Configuration.SaveDataType = EDataType.JSON;
-                else
-                    Configuration.SaveDataType = EDataType.UNKNOWN;
+                switch (((string)data.Document["ConfigFormat"]).ToLower())
+                {
+                    case "xml":
+                        Configuration.SaveDataType = EDataType.XML;
+                        break;
+                    case "json":
+                        Configuration.SaveDataType = EDataType.JSON;
+                        break;
+                    default:
+                        Configuration.SaveDataType = EDataType.UNKNOWN;
+                        break;
+                }
             }
             else
             {

@@ -205,16 +205,18 @@ namespace PointBlank.Services.APIManager
                 }
                 else
                 {
-                    JObject obj = new JObject();
+                    JObject obj = new JObject
+                    {
+                        {"Name", g.Name},
+                        {"Default", g.Default},
+                        {"Permissions", JToken.FromObject(g.Permissions)},
+                        {"Prefixes", JToken.FromObject(g.Prefixes)},
+                        {"Suffixes", JToken.FromObject(g.Suffixes)},
+                        {"Inherits", JToken.FromObject(g.Inherits.Select(a => a.ID))},
+                        {"Cooldown", g.Cooldown},
+                        {"Color", (g.Color == Color.clear ? "none" : "#" + ColorUtility.ToHtmlStringRGB(g.Color))}
+                    };
 
-                    obj.Add("Name", g.Name);
-                    obj.Add("Default", g.Default);
-                    obj.Add("Permissions", JToken.FromObject(g.Permissions));
-                    obj.Add("Prefixes", JToken.FromObject(g.Prefixes));
-                    obj.Add("Suffixes", JToken.FromObject(g.Suffixes));
-                    obj.Add("Inherits", JToken.FromObject(g.Inherits.Select(a => a.ID)));
-                    obj.Add("Cooldown", g.Cooldown);
-                    obj.Add("Color", (g.Color == Color.clear ? "none" : "#" + ColorUtility.ToHtmlStringRGB(g.Color)));
 
                     GroupConfig.Document.Add(g.ID, obj);
                 }
@@ -388,16 +390,18 @@ namespace PointBlank.Services.APIManager
                 }
                 else
                 {
-                    JObject obj = new JObject();
+                    JObject obj = new JObject
+                    {
+                        {"Steam64", player.SteamID.ToString()},
+                        {"Permissions", JToken.FromObject(player.Permissions)},
+                        {"Groups", JToken.FromObject(player.Groups.Select(a => a.ID))},
+                        {"Prefixes", JToken.FromObject(player.Prefixes)},
+                        {"Suffixes", JToken.FromObject(player.Suffixes)},
+                        {"Cooldown", player.Cooldown},
+                        {"Kills", player.TotalKills},
+                        {"Deaths", player.TotalDeaths}
+                    };
 
-                    obj.Add("Steam64", player.SteamID.ToString());
-                    obj.Add("Permissions", JToken.FromObject(player.Permissions));
-                    obj.Add("Groups", JToken.FromObject(player.Groups.Select(a => a.ID)));
-                    obj.Add("Prefixes", JToken.FromObject(player.Prefixes));
-                    obj.Add("Suffixes", JToken.FromObject(player.Suffixes));
-                    obj.Add("Cooldown", player.Cooldown);
-                    obj.Add("Kills", player.TotalKills);
-                    obj.Add("Deaths", player.TotalDeaths);
 
                     arr.Add(obj);
                 }
@@ -487,7 +491,7 @@ namespace PointBlank.Services.APIManager
             player.UnturnedNickName = player.NickName;
             player.CharacterName = player.GetPrefix() + player.UnturnedCharacterName + player.GetSuffix();
             player.NickName = player.GetPrefix() + player.UnturnedNickName + player.GetSuffix();
-            player.loaded = true;
+            player.Loaded = true;
         }
 
         private void OnPlayerLeave(UnturnedPlayer player)
@@ -507,16 +511,18 @@ namespace PointBlank.Services.APIManager
             }
             else
             {
-                JObject obj = new JObject();
+                JObject obj = new JObject
+                {
+                    {"Steam64", player.SteamID.ToString()},
+                    {"Permissions", JToken.FromObject(player.Permissions)},
+                    {"Groups", JToken.FromObject(player.Groups.Select(a => a.ID))},
+                    {"Prefixes", JToken.FromObject(player.Prefixes)},
+                    {"Suffixes", JToken.FromObject(player.Suffixes)},
+                    {"Cooldown", player.Cooldown},
+                    {"Kills", player.TotalKills},
+                    {"Deaths", player.TotalDeaths}
+                };
 
-                obj.Add("Steam64", player.SteamID.ToString());
-                obj.Add("Permissions", JToken.FromObject(player.Permissions));
-                obj.Add("Groups", JToken.FromObject(player.Groups.Select(a => a.ID)));
-                obj.Add("Prefixes", JToken.FromObject(player.Prefixes));
-                obj.Add("Suffixes", JToken.FromObject(player.Suffixes));
-                obj.Add("Cooldown", player.Cooldown);
-                obj.Add("Kills", player.TotalKills);
-                obj.Add("Deaths", player.TotalDeaths);
 
                 arr.Add(obj);
             }

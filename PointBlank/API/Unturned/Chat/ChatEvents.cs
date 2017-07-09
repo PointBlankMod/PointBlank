@@ -23,13 +23,8 @@ namespace PointBlank.API.Unturned.Chat
         #endregion
 
         #region Functions
-        internal static void RunChatted(ref UnturnedPlayer player, ref byte mode, ref string text, ref bool cancel)
-        {
-            if (OnChatted == null)
-                return;
+        internal static void RunChatted(ref UnturnedPlayer player, ref byte mode, ref string text, ref bool cancel) => OnChatted?.Invoke(ref player, ref mode, ref text, ref cancel);
 
-            OnChatted(ref player, ref mode, ref text, ref cancel);
-        }
         #endregion
     }
 }
