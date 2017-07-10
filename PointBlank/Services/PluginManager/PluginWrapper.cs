@@ -37,11 +37,6 @@ namespace PointBlank.Services.PluginManager
         public JsonData TranslationData { get; private set; }
         #endregion
 
-        #region Plugin Data
-        public TranslationList Translations { get; private set; }
-        public ConfigurationList Configurations { get; private set; }
-        #endregion
-
         public PluginWrapper(string pluginPath)
         {
             Location = pluginPath;
@@ -54,9 +49,6 @@ namespace PointBlank.Services.PluginManager
             ConfigurationData = UniConfigurationData.GetData(EDataType.JSON) as JsonData; // Get the JSON
             UniTranslationData = new UniversalData(PluginManager.TranslationPath + "\\" + Name); // Load the translation data
             TranslationData = UniTranslationData.GetData(EDataType.JSON) as JsonData; // Get the JSON
-
-            Translations = new TranslationList(); // Create the translation list
-            Configurations = new ConfigurationList(); // Create the configuration list
 
             // Setup the thread
             t = new Thread(new ThreadStart(delegate ()
@@ -81,34 +73,32 @@ namespace PointBlank.Services.PluginManager
         #region Private Functions
         internal void LoadConfiguration()
         {
-            Configurations.AddRange(PluginClass.DefaultConfigurations); // Add the default configurations
-
             if (ConfigurationData.CreatedNew)
             {
                 SaveConfiguration();
-                return; // If it was just created don't bother loading
+                return;
             }
 
             foreach(JProperty obj in ConfigurationData.Document.Properties())
             {
-                if (Configurations[obj.Name] == null)
+                if (PluginClass.Configurations[obj.Name] == null)
                     continue;
 
                 try
                 {
-                    Configurations[obj.Name] = obj.Value.ToObject(Configurations[obj.Name].GetType());
+                    PluginClass.Configurations[obj.Name] = obj.Value.ToObject(PluginClass.Configurations[obj.Name].GetType());
                 }
                 catch(Exception ex)
                 {
-                    Logging.LogError("Failed to find configuration " + obj.Name, ex, false, false);
-                    ConfigurationData.Document[obj.Name] = JToken.FromObject(Configurations[obj.Name]);
+                    Logging.LogError("Failed to set the configuration " + obj.Name, ex, false, false);
+                    ConfigurationData.Document[obj.Name] = JToken.FromObject(PluginClass.Configurations[obj.Name]);
                 }
             }
         }
 
         internal void SaveConfiguration()
         {
-            foreach(KeyValuePair<string, object> config in Configurations)
+            foreach(KeyValuePair<string, object> config in PluginClass.Configurations)
             {
                 if (ConfigurationData.CheckKey(config.Key))
                     ConfigurationData.Document[config.Key] = JToken.FromObject(config.Value);
@@ -120,18 +110,19 @@ namespace PointBlank.Services.PluginManager
 
         internal void LoadTranslation()
         {
-            Translations.AddRange(PluginClass.DefaultTranslations); // Add the default translations
-
             if (TranslationData.CreatedNew)
-                return; // If it was just created don't bother loading
+            {
+                SaveTranslation();
+                return;
+            }
 
             foreach (KeyValuePair<string, JToken> kvp in TranslationData.Document)
-                Translations[kvp.Key] = (string)kvp.Value; // Add the translation
+                PluginClass.Translations[kvp.Key] = (string)kvp.Value;
         }
 
         internal void SaveTranslation()
         {
-            foreach(KeyValuePair<string, string> translation in Translations)
+            foreach(KeyValuePair<string, string> translation in PluginClass.Translations)
             {
                 if (TranslationData.CheckKey(translation.Key))
                     TranslationData.Document[translation.Key] = translation.Value;

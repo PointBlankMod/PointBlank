@@ -40,8 +40,9 @@
     <Reference Include="Assembly-UnityScript-firstpass">
       <HintPath>..\Libraries\Assembly-UnityScript-firstpass.dll</HintPath>
     </Reference>
-    <Reference Include="PointBlank">
-      <HintPath>..\bin\Release\PointBlank.dll</HintPath>
+    <Reference Include="PointBlank, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\bin\Debug\PointBlank.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

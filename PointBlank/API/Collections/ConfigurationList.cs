@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Reflection;
 using System.Linq;
 using System.Text;
 using System.Security.Permissions;
@@ -63,8 +65,21 @@ namespace PointBlank.API.Collections
         /// </summary>
         public ConfigurationList()
         {
-            // Initialize the variables
-            Configurations = new Dictionary<string, object>();
+            StackTrace stack = new StackTrace(false);
+            if (stack.FrameCount <= 0)
+            {
+                Configurations = new Dictionary<string, object>();
+                return;
+            }
+            MethodBase jumpMethod = stack.GetFrame(1).GetMethod();
+
+            if (!Memory.ConfigurationCollection.ContainsKey(jumpMethod))
+            {
+                Configurations = new Dictionary<string, object>();
+                Memory.ConfigurationCollection.Add(jumpMethod, this);
+                return;
+            }
+            Configurations = Memory.ConfigurationCollection[jumpMethod].Configurations;
         }
 
         #region Collection Functions
@@ -73,25 +88,33 @@ namespace PointBlank.API.Collections
         /// </summary>
         /// <param name="configuration_name">Configuration name</param>
         /// <param name="configuration">Configuration object</param>
-        public void Add(string configuration_name, object configuration) => Configurations.Add(configuration_name, configuration);
+        public void Add(string configuration_name, object configuration)
+        {
+            if (!Configurations.ContainsKey(configuration_name))
+                Configurations.Add(configuration_name, configuration);
+        }
 
         /// <summary>
         /// Adds a configuration entry using the KeyValuePair
         /// </summary>
         /// <param name="kvp">KeyValuePair of the entry</param>
-        public void Add(KeyValuePair<string, object> kvp) => Configurations.Add(kvp.Key, kvp.Value);
+        public void Add(KeyValuePair<string, object> kvp) => this.Add(kvp.Key, kvp.Value);
 
         /// <summary>
         /// Removes a configuration entry using the configuration name
         /// </summary>
         /// <param name="configuration_name">Configuration name</param>
-        public void Remove(string configuration_name) => Configurations.Remove(configuration_name);
+        public void Remove(string configuration_name)
+        {
+            if (Configurations.ContainsKey(configuration_name))
+                Configurations.Remove(configuration_name);
+        }
 
         /// <summary>
         /// Removes a configuration entry using the index
         /// </summary>
         /// <param name="index">Index of the entry</param>
-        public void RemoveAt(int index) => Configurations.Remove(this[index].Key);
+        public void RemoveAt(int index) => this.Remove(this[index].Key);
 
         /// <summary>
         /// Adds a range of configurations using the KeyValuePair list
@@ -134,6 +157,13 @@ namespace PointBlank.API.Collections
         /// Clears the list
         /// </summary>
         public void Clear() => Configurations.Clear();
+        #endregion
+
+        #region SubClasses
+        private static class Memory
+        {
+            public static Dictionary<MethodBase, ConfigurationList> ConfigurationCollection = new Dictionary<MethodBase, ConfigurationList>();
+        }
         #endregion
     }
 }

@@ -90,6 +90,8 @@
     <Compile Include="API\Groups\GroupManager.cs" />
     <Compile Include="API\Implements\NetFramework.cs" />
     <Compile Include="API\Implements\Unturned.cs" />
+    <Compile Include="API\Interfaces\IConfigurable.cs" />
+    <Compile Include="API\Interfaces\ITranslatable.cs" />
     <Compile Include="API\Logging.cs" />
     <Compile Include="API\Optimization\Parallel.cs" />
     <Compile Include="API\Plugins\Plugin.cs" />
@@ -185,6 +187,7 @@
     <Compile Include="Commands\CommandWhitelisted.cs" />
     <Compile Include="Enviroment.cs" />
     <Compile Include="Framework\Configuration.cs" />
+    <Compile Include="Framework\InterfaceManager.cs" />
     <Compile Include="Framework\Objects\RuntimeObject.cs" />
     <Compile Include="Framework\Overrides\_Barricade.cs" />
     <Compile Include="Framework\Overrides\_BarricadeManager.cs" />

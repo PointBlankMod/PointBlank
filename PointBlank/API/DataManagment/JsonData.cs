@@ -76,9 +76,10 @@ namespace PointBlank.API.DataManagment
 
                 return true; // Parse successful, file valid
             }
+#pragma warning disable CS0168 // Variable is declared but never used
             catch (Exception ex)
+#pragma warning restore CS0168 // Variable is declared but never used
             {
-                Logging.LogError("Error checking " + filepath, ex, false, false);
                 return false; // Failed to validate
             }
         }

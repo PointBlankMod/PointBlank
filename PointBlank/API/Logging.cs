@@ -37,7 +37,7 @@ namespace PointBlank.API
         /// <param name="inConsole">Should the text be printed into the console</param>
         public static void Log(object log, bool inConsole = true)
         {
-            StackTrace stack = new StackTrace();
+            StackTrace stack = new StackTrace(false);
             string asm = "";
 
             asm = stack.FrameCount > 0 ? stack.GetFrame(1).GetMethod().DeclaringType.Assembly.GetName().Name : "Not Found";
@@ -62,7 +62,7 @@ namespace PointBlank.API
         /// <param name="inConsole">Should the text be printed into the console</param>
         public static void LogError(object log, Exception ex, bool exInConsole = false, bool inConsole = true)
         {
-            StackTrace stack = new StackTrace();
+            StackTrace stack = new StackTrace(false);
             string asm = "";
 
             asm = stack.FrameCount > 0 ? stack.GetFrame(1).GetMethod().DeclaringType.Assembly.GetName().Name : "Not Found";
@@ -88,7 +88,7 @@ namespace PointBlank.API
         /// <param name="inConsole">Should the text be printed into the console</param>
         public static void LogWarning(object log, bool inConsole = true)
         {
-            StackTrace stack = new StackTrace();
+            StackTrace stack = new StackTrace(false);
             string asm = "";
 
             asm = stack.FrameCount > 0 ? stack.GetFrame(1).GetMethod().DeclaringType.Assembly.GetName().Name : "Not Found";
@@ -111,7 +111,7 @@ namespace PointBlank.API
         /// <param name="inConsole">Should the text be printed into the console</param>
         public static void LogImportant(object log, bool inConsole = true)
         {
-            StackTrace stack = new StackTrace();
+            StackTrace stack = new StackTrace(false);
             string asm = "";
 
             asm = stack.FrameCount > 0 ? stack.GetFrame(1).GetMethod().DeclaringType.Assembly.GetName().Name : "Not Found";

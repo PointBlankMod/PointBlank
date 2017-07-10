@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Reflection;
 using System.Linq;
 using System.Text;
 using System.Security.Permissions;
@@ -18,7 +20,7 @@ namespace PointBlank.API.Collections
         /// <summary>
         /// The list of transaltions
         /// </summary>
-        protected Dictionary<string, string> translations { get; private set; }
+        protected Dictionary<string, string> Translations { get; private set; }
 
         /// <summary>
         /// Gets/Sets the translation text using the key provided
@@ -27,8 +29,8 @@ namespace PointBlank.API.Collections
         /// <returns>The translation text</returns>
         public string this[string key]
         {
-            get => translations[key];
-            set => translations[key] = value;
+            get => Translations[key];
+            set => Translations[key] = value;
         }
 
         /// <summary>
@@ -38,14 +40,14 @@ namespace PointBlank.API.Collections
         /// <returns>The translation KeyValuePair</returns>
         public KeyValuePair<string, string> this[int index]
         {
-            get => translations.ElementAt(index);
-            set => translations[translations.ElementAt(index).Key] = value.Value;
+            get => Translations.ElementAt(index);
+            set => Translations[Translations.ElementAt(index).Key] = value.Value;
         }
 
         /// <summary>
         /// Returns the amount of items in the translation list
         /// </summary>
-        public int Count => translations.Count;
+        public int Count => Translations.Count;
 
         public object SyncRoot => throw new NotImplementedException();
 
@@ -57,8 +59,21 @@ namespace PointBlank.API.Collections
         /// </summary>
         public TranslationList()
         {
-            // Initialize the variables
-            translations = new Dictionary<string, string>();
+            StackTrace stack = new StackTrace(false);
+            if (stack.FrameCount <= 0)
+            {
+                Translations = new Dictionary<string, string>();
+                return;
+            }
+            MethodBase jumpMethod = stack.GetFrame(1).GetMethod();
+
+            if (!Memory.TranslationCollection.ContainsKey(jumpMethod))
+            {
+                Translations = new Dictionary<string, string>();
+                Memory.TranslationCollection.Add(jumpMethod, this);
+                return;
+            }
+            Translations = Memory.TranslationCollection[jumpMethod].Translations;
         }
 
         #region Collection Functions
@@ -67,25 +82,33 @@ namespace PointBlank.API.Collections
         /// </summary>
         /// <param name="key">Key to save it as</param>
         /// <param name="value">Value of the text</param>
-        public void Add(string key, string value) => translations.Add(key, value);
+        public void Add(string key, string value)
+        {
+            if (!Translations.ContainsKey(key))
+                Translations.Add(key, value);
+        }
 
         /// <summary>
         /// Adds a translation entry using the KeyValuePair
         /// </summary>
         /// <param name="kvp">The KeyValuePair to extract the data from</param>
-        public void Add(KeyValuePair<string, string> kvp) => translations.Add(kvp.Key, kvp.Value);
+        public void Add(KeyValuePair<string, string> kvp) => this.Add(kvp.Key, kvp.Value);
 
         /// <summary>
         /// Removes a translation entry using the key
         /// </summary>
         /// <param name="key">Key of translation entry</param>
-        public void Remove(string key) => translations.Remove(key);
+        public void Remove(string key)
+        {
+            if (Translations.ContainsKey(key))
+                Translations.Remove(key);
+        }
 
         /// <summary>
         /// Removes a translation entry using the index
         /// </summary>
         /// <param name="index">Index of the entry</param>
-        public void RemoveAt(int index) => translations.Remove(this[index].Key);
+        public void RemoveAt(int index) => this.Remove(this[index].Key);
 
         /// <summary>
         /// Adds a range of translations using the KeyValuePair list
@@ -111,7 +134,7 @@ namespace PointBlank.API.Collections
         /// Gets the enumerator and returns it
         /// </summary>
         /// <returns>Enumerator for translation list</returns>
-        IEnumerator IEnumerable.GetEnumerator() => translations.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => Translations.GetEnumerator();
 
         /// <summary>
         /// Copies the KeyValuePairs to the array
@@ -122,6 +145,13 @@ namespace PointBlank.API.Collections
         {
             for (int i = 0; i < (this.Count - index); i++)
                 array.SetValue(this[index + i], i);
+        }
+        #endregion
+
+        #region SubClasses
+        private static class Memory
+        {
+            public static Dictionary<MethodBase, TranslationList> TranslationCollection = new Dictionary<MethodBase, TranslationList>();
         }
         #endregion
     }

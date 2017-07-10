@@ -41,21 +41,23 @@ namespace PointBlank
 
             // Run required methods
             ApplyPatches();
-            RunRequirements();
 
             // Setup the runtime objects
             Enviroment.runtimeObjects.Add("Framework", new RuntimeObject(new GameObject("Framework")));
             Enviroment.runtimeObjects.Add("Extensions", new RuntimeObject(new GameObject("Extensions")));
             Enviroment.runtimeObjects.Add("Services", new RuntimeObject(new GameObject("Services")));
-            Enviroment.runtimeObjects.Add("Mods", new RuntimeObject(new GameObject("Mods")));
             Enviroment.runtimeObjects.Add("Plugins", new RuntimeObject(new GameObject("Plugins")));
-            Enviroment.runtimeObjects.Add("Extras", new RuntimeObject(new GameObject("Extras")));
 
             // Add the code objects
             Enviroment.runtimeObjects["Framework"].AddCodeObject<ServiceManager>();
+            Enviroment.runtimeObjects["Framework"].AddCodeObject<InterfaceManager>();
 
             // Run the inits
             Enviroment.runtimeObjects["Framework"].GetCodeObject<ServiceManager>().Init();
+            Enviroment.runtimeObjects["Framework"].GetCodeObject<InterfaceManager>().Init();
+
+            // Run required methods
+            RunRequirements();
 
             // Initialize
             Instance = this;
@@ -77,26 +79,26 @@ namespace PointBlank
 
             Logging.LogImportant("Shutting down " + PointBlankInfo.Name + " v" + PointBlankInfo.Version + "...");
 
-            // Run the required functions
-            RunRequirementsShutdown();
-
             // Uninit
             Enabled = false;
             Instance = null;
 
             // Run the shutdowns
             Enviroment.runtimeObjects["Framework"].GetCodeObject<ServiceManager>().Shutdown();
+            Enviroment.runtimeObjects["Framework"].GetCodeObject<InterfaceManager>().Shutdown();
 
             // Remove the runtime objects
             Enviroment.runtimeObjects["Framework"].RemoveCodeObject<ServiceManager>();
+            Enviroment.runtimeObjects["Framework"].RemoveCodeObject<InterfaceManager>();
 
             // Remove the runtime objects
-            Enviroment.runtimeObjects.Remove("Extras");
             Enviroment.runtimeObjects.Remove("Plugins");
-            Enviroment.runtimeObjects.Remove("Mods");
             Enviroment.runtimeObjects.Remove("Services");
             Enviroment.runtimeObjects.Remove("Extensions");
             Enviroment.runtimeObjects.Remove("Framework");
+
+            // Run the required functions
+            RunRequirementsShutdown();
 
             Logging.LogImportant("Shut down " + PointBlankInfo.Name + " v" + PointBlankInfo.Version + "!");
         }
@@ -107,13 +109,6 @@ namespace PointBlank
 
         private void RunRequirements()
         {
-            if (!Directory.Exists(ServerInfo.ConfigurationsPath))
-                Directory.CreateDirectory(ServerInfo.ConfigurationsPath); // Create configurations directory
-            if (!Directory.Exists(ServerInfo.TranslationsPath))
-                Directory.CreateDirectory(ServerInfo.TranslationsPath); // Create translations directory
-            if (!Directory.Exists(ServerInfo.DataPath))
-                Directory.CreateDirectory(ServerInfo.DataPath); // Create data directory
-
             LoaderData = new UniversalData(ServerInfo.ConfigurationsPath + "\\PointBlank");
             JsonData data = LoaderData.GetData(EDataType.JSON) as JsonData;
 

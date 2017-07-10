@@ -7,12 +7,12 @@ namespace TestPlugin
 {
     public class Test : Plugin
     {
-        public override TranslationList DefaultTranslations => new TranslationList()
+        public override TranslationList Translations => new TranslationList()
         {
             { "test", "This is a test" }
         };
 
-        public override ConfigurationList DefaultConfigurations => new ConfigurationList()
+        public override ConfigurationList Configurations => new ConfigurationList()
         {
             { "test", "hello" },
             { "lolz", "smth" },
@@ -32,9 +32,9 @@ namespace TestPlugin
         public override void Load()
         {
             Logging.Log("Hello from test plugin load!");
-            Logging.Log("Translation test: " + Test.Translations["test"]); // Call the translation
-            Logging.Log("Configuration test: " + (string)Test.Configurations["test"]); // Call the test configuration
-            Logging.Log("Configuration test 2: " + (string)((List<object>)Test.Configurations["testList"])[0]);
+            Logging.Log("Translation test: " + Test.Instance.Translations["test"]); // Call the translation
+            Logging.Log("Configuration test: " + (string)Test.Instance.Configurations["test"]); // Call the test configuration
+            Logging.Log("Configuration test 2: " + (string)((List<object>)Test.Instance.Configurations["testList"])[0]);
         }
 
         public override void Unload()

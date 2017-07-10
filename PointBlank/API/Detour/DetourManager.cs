@@ -45,7 +45,7 @@ namespace PointBlank.API.Detour
         /// <returns>The value tahat the original function returns</returns>
         public static object CallOriginal(object instance = null, params object[] args)
         {
-            StackTrace trace = new StackTrace();
+            StackTrace trace = new StackTrace(false);
 
             if (trace.FrameCount < 1)
                 throw new Exception("Invalid trace back to the original method! Please provide the methodinfo instead!");

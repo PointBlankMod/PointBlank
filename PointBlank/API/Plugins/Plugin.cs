@@ -22,28 +22,18 @@ namespace PointBlank.API.Plugins
         /// The plugin instance
         /// </summary>
         public static Plugin Instance { get; internal set; }
-
-        /// <summary>
-        /// The translations for the plugin
-        /// </summary>
-        public static TranslationList Translations => PM.Plugins.First(a => a.PluginClass == Instance).Translations; // Get the plugin translations
-
-        /// <summary>
-        /// The configurations for the plugin
-        /// </summary>
-        public static ConfigurationList Configurations => PM.Plugins.First(a => a.PluginClass == Instance).Configurations; // Get the plugin configuration
         #endregion
 
         #region Abstract Properties
         /// <summary>
-        /// The default translations for the plugin
+        /// The translations for the plugin
         /// </summary>
-        public abstract TranslationList DefaultTranslations { get; }
+        public abstract TranslationList Translations { get; }
 
         /// <summary>
-        /// The default configurations for the plugin
+        /// The configurations for the plugin
         /// </summary>
-        public abstract ConfigurationList DefaultConfigurations { get; }
+        public abstract ConfigurationList Configurations { get; }
 
         /// <summary>
         /// The current version of the plugin
