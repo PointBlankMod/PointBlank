@@ -87,7 +87,7 @@ namespace PointBlank.Services.PluginManager
         #endregion
 
         #region Private Functions
-        private void LoadConfig()
+        internal void LoadConfig()
         {
             if (UniConfig.CreatedNew)
             {
@@ -119,7 +119,7 @@ namespace PointBlank.Services.PluginManager
             }
         }
 
-        private void SaveConfig() => UniConfig.Save();
+        internal void SaveConfig() => UniConfig.Save();
         #endregion
     }
 }

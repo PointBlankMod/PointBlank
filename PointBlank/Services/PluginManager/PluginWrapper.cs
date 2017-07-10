@@ -79,7 +79,7 @@ namespace PointBlank.Services.PluginManager
         }
 
         #region Private Functions
-        private void LoadConfiguration()
+        internal void LoadConfiguration()
         {
             Configurations.AddRange(PluginClass.DefaultConfigurations); // Add the default configurations
 
@@ -106,7 +106,7 @@ namespace PointBlank.Services.PluginManager
             }
         }
 
-        private void SaveConfiguration()
+        internal void SaveConfiguration()
         {
             foreach(KeyValuePair<string, object> config in Configurations)
             {
@@ -118,7 +118,7 @@ namespace PointBlank.Services.PluginManager
             UniConfigurationData.Save();
         }
 
-        private void LoadTranslation()
+        internal void LoadTranslation()
         {
             Translations.AddRange(PluginClass.DefaultTranslations); // Add the default translations
 
@@ -129,7 +129,7 @@ namespace PointBlank.Services.PluginManager
                 Translations[kvp.Key] = (string)kvp.Value; // Add the translation
         }
 
-        private void SaveTranslation()
+        internal void SaveTranslation()
         {
             foreach(KeyValuePair<string, string> translation in Translations)
             {

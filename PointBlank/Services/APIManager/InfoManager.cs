@@ -73,7 +73,7 @@ namespace PointBlank.Services.APIManager
         #endregion
 
         #region Private Functions
-        private void LoadGroups()
+        internal void LoadGroups()
         {
             foreach(JProperty obj in GroupConfig.Document.Properties())
             {
@@ -165,7 +165,7 @@ namespace PointBlank.Services.APIManager
             }
         }
 
-        private void FirstGroups()
+        internal void FirstGroups()
         {
             // Create the groups
             Group guest = new Group("Guest", "Guest Group", true, -1, Color.clear);
@@ -188,7 +188,7 @@ namespace PointBlank.Services.APIManager
             SaveGroups();
         }
 
-        private void SaveGroups()
+        internal void SaveGroups()
         {
             foreach(Group g in GroupManager.Groups)
             {
@@ -224,7 +224,7 @@ namespace PointBlank.Services.APIManager
             UniGroupConfig.Save();
         }
 
-        private void LoadSteamGroups()
+        internal void LoadSteamGroups()
         {
             foreach(JObject obj in (JArray)SteamGroupConfig.Document["SteamGroups"])
             {
@@ -317,7 +317,7 @@ namespace PointBlank.Services.APIManager
             }
         }
 
-        private void FirstSteamGroups()
+        internal void FirstSteamGroups()
         {
             // Create the array
             SteamGroupConfig.Document.Add("SteamGroups", new JArray());
@@ -335,7 +335,7 @@ namespace PointBlank.Services.APIManager
             SaveSteamGroups();
         }
 
-        private void SaveSteamGroups()
+        internal void SaveSteamGroups()
         {
             foreach(SteamGroup g in SteamGroupManager.Groups)
             {
@@ -368,9 +368,9 @@ namespace PointBlank.Services.APIManager
             UniSteamGoupConfig.Save();
         }
 
-        private void FirstPlayers() => PlayerConfig.Document.Add("Players", new JArray());
+        internal void FirstPlayers() => PlayerConfig.Document.Add("Players", new JArray());
 
-        private void SavePlayers() // Force save players
+        internal void SavePlayers() // Force save players
         {
             JArray arr = PlayerConfig.Document["Players"] as JArray;
 
@@ -411,7 +411,7 @@ namespace PointBlank.Services.APIManager
         #endregion
 
         #region Event Functions
-        private void OnPlayerJoin(UnturnedPlayer player)
+        internal void OnPlayerJoin(UnturnedPlayer player)
         {
             JArray arr = PlayerConfig.Document["Players"] as JArray;
             JToken token = arr.FirstOrDefault(a => (string)a["Steam64"] == player.SteamID.ToString());
@@ -494,7 +494,7 @@ namespace PointBlank.Services.APIManager
             player.Loaded = true;
         }
 
-        private void OnPlayerLeave(UnturnedPlayer player)
+        internal void OnPlayerLeave(UnturnedPlayer player)
         {
             JArray arr = PlayerConfig.Document["Players"] as JArray;
             JToken token = arr.FirstOrDefault(a => (string)a["Steam64"] == player.SteamID.ToString());

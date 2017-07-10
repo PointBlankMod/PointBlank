@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using PointBlank.Services.APIManager;
 
 namespace PointBlank.API.Steam
 {
@@ -98,9 +99,14 @@ namespace PointBlank.API.Steam
             return g != null;
         }
 
+        /// <summary>
+        /// Reloads the steam groups
+        /// </summary>
         public static void Reload()
         {
+            InfoManager info = (InfoManager)Enviroment.services["InfoManager.InfoManager"].ServiceClass;
 
+            info.LoadSteamGroups();
         }
         #endregion
     }

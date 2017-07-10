@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
 using SDG.Unturned;
+using PointBlank.Services.APIManager;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Structure;
 using PointBlank.API.Unturned.Vehicle;
@@ -217,6 +218,7 @@ namespace PointBlank.API.Unturned.Server
         /// <param name="steam64">The steam64 ID</param>
         /// <returns>The unturned player instance</returns>
         public static UnturnedPlayer GetPlayer(ulong steam64) => Players.FirstOrDefault(a => a.SteamID.m_SteamID == steam64);
+
         /// <summary>
         /// Changes the map
         /// </summary>
@@ -322,6 +324,17 @@ namespace PointBlank.API.Unturned.Server
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Reloads the player configs
+        /// </summary>
+        public static void ReloadPlayers()
+        {
+            InfoManager info = (InfoManager)Enviroment.services["InfoManager.InfoManager"].ServiceClass;
+
+            foreach(UnturnedPlayer player in Players)
+                info.OnPlayerJoin(player);
         }
         #endregion
     }
