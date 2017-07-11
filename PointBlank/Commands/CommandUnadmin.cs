@@ -7,6 +7,7 @@ using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Chat;
 using SDG.Unturned;
 using Steamworks;
+using PointBlank.API.Collections;
 using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
@@ -15,6 +16,8 @@ namespace PointBlank.Commands
     internal class CommandUnadmin : PointBlankCommand
     {
         #region Properties
+        public TranslationList Translations = Enviroment.ServiceTranslations[typeof(Translation)].Translations;
+
         public override string[] DefaultCommands => new string[]
         {
             "Unadmin"

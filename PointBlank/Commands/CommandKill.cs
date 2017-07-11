@@ -8,6 +8,7 @@ using PointBlank.API.Unturned.Chat;
 using UnityEngine;
 using SDG.Unturned;
 using Steamworks;
+using PointBlank.API.Collections;
 using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
@@ -16,6 +17,8 @@ namespace PointBlank.Commands
     internal class CommandKill : PointBlankCommand
     {
         #region Properties
+        public TranslationList Translations = Enviroment.ServiceTranslations[typeof(Translation)].Translations;
+
         public override string[] DefaultCommands => new string[]
         {
             "Kill"

@@ -6,6 +6,7 @@ using PointBlank.API.Commands;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Chat;
 using SDG.Framework.Modules;
+using PointBlank.API.Collections;
 using Translation = PointBlank.Framework.Translations.CommandTranslations;
 
 namespace PointBlank.Commands
@@ -14,6 +15,8 @@ namespace PointBlank.Commands
     internal class CommandModules : PointBlankCommand
     {
         #region Properties
+        public TranslationList Translations = Enviroment.ServiceTranslations[typeof(Translation)].Translations;
+
         public override string[] DefaultCommands => new string[]
         {
             "Modules"
