@@ -2,11 +2,341 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using PointBlank.API.Collections;
+using PointBlank.API.Interfaces;
 
 namespace PointBlank.Framework.Translations
 {
-    internal static class CommandTranslations
+    internal class CommandTranslations : ITranslatable
     {
+        public string TranslationDirectory => null;
+
+        public TranslationList Translations => new TranslationList()
+        {
+            // Base for commands
+            { "Base_InvalidPlayer", "Invalid player or player ID!" },
+            { "Base_NoArenaTime", "Cannot change time in arena!" },
+            { "Base_NoHordeTime", "Cannot change time in horde!" },
+            { "Base_CommandInvalid", "The specified command is invalid!" },
+
+            // Admin
+            { "Admin_Help", "This adds the specified player to the list of users allowed to use admin commands in the chat" },
+            { "Admin_Set", "{0} has been set as admin!" },
+            { "Admin_Usage", " <player/id>" },
+
+            // Admins
+            { "Admins_Help", "This shows a list of the current admins." },
+            { "Admins_Hidden", "Admins are hidden for this server." },
+            { "Admins_List", "Admins: " },
+
+            // Airdrop
+            { "Airdrop_Help", "This forces a dropship to fly over and perform an airdrop." },
+            { "Airdrop_Success", "Airdrop spawned successfully!" },
+
+            // Ban
+            { "Ban_Help", "This adds the specified player to the list of users not allowed to join the server." },
+            { "Ban_Usage", " <player> [duration] [reason]" },
+            { "Ban_Reason", "Undefined" },
+            { "Ban_Success", "{0} has been banned successfully!" },
+
+            // Bans
+            { "Bans_Help", "This shows a list of the current bans." },
+            { "Bans_List", "Bans: " },
+
+            // Bind
+            { "Bind_Help", "This binds a specific internal IP to the socket." },
+            { "Bind_InvalidIP", "The IP specified is invalid!" },
+            { "Bind_Usage", " <IP>" },
+
+            // Camera
+            { "Camera_Help", "This assigns the perspective of the server." },
+            { "Camera_Usage", " <first/third/both/vehicle>" },
+            { "Camera_SetTo", "Allowed camera mode set to {0}." },
+
+            // Chatrate
+            { "Chatrate_Help", "This assigns a minimum time between chat messages." },
+            { "Chatrate_Usage", " <rate>" },
+            { "Chatrate_Invalid", "The rate specified is invalid!" },
+            { "Chatrate_SetTo", "Server chat rate set to {0}." },
+            { "Chatrate_TooHigh", "The chat rate cannot be set higher than {0}." },
+            { "Chatrate_TooLow", "The chat rate cannot be set lower than {0}." },
+
+            // Cheats
+            { "Cheats_Help", "This allows the use of cheats like spawning items, vehicles and experience." },
+            { "Cheats_Enabled", "Cheats are now enabled for this server." },
+
+            // Cycle
+            { "Cycle_Help", "This assigns the length of the day/night cycle in seconds." },
+            { "Cycle_Usage", " <cycle>" },
+            { "Cycle_Invalid", "Invalid number of cycles!" },
+            { "Cycle_SetTo", "Server cycle set to {0}." },
+
+            // Day
+            { "Day_Help", "This assigns the current time to day." },
+            { "Day_Set", "Successfully set time to day!" },
+
+            // Debug
+            { "Debug_Help", "This provides information on the state of the server." },
+            { "Debug_Title", "Debug Information" },
+            { "Debug_SteamID", "SteamID: {0}" },
+            { "Debug_IP", "IP: {0}" },
+            { "Debug_Port", "Port: {0}" },
+            { "Debug_BytesSent", "Bytes sent: {0}B" },
+            { "Debug_BytesReceived", "Bytes received: {0}B" },
+            { "Debug_ABytesSent", "Average bytes sent: {0}B" },
+            { "Debug_ABytesReceived", "Average bytes received: {0}B" },
+            { "Debug_PacketsSent", "Packets sent: {0}" },
+            { "Debug_PacketsReceived", "Packets received: {0}" },
+            { "Debug_APacketsSent", "Average packets sent: {0}" },
+            { "Debug_APacketsReceived", "Average packets received: {0}" },
+            { "Debug_UPS", "Updates per second: {0}" },
+            { "Debug_TPS", "Ticks per second: {0}" },
+            { "Debug_Zombies", "Zombie count: {0}" },
+            { "Debug_Animals", "Animal count: {0}" },
+
+            // Experience
+            { "Experience_Help", "This gives a player some experience." },
+            { "Experience_Usage", " <amount> [player]" },
+            { "Experience_Invalid", "Invalid number of experience!" },
+            { "Experience_Give", "Gave {0} {1} experience!" },
+
+            // Filter
+            { "Filter_Enable", "Succesfully enabled name filter!" },
+            { "Filter_Help", "This filters out players with non-English-alphanumeric names." },
+
+            // Flag
+            { "Flag_Help", "This sets a player's flag." },
+            { "Flag_Usage", " <flag> <value> [player]" },
+            { "Flag_InvalidFlag", "Selected flag ID is invalid!" },
+            { "Flag_InvalidValue", "Selected flag value is invalid!" },
+            { "Flag_Set", "The flag for {0} has been set!" },
+
+            // GameMode
+            { "GameMode_Help", "This assigns the game mode of the server." },
+            { "GameMode_Usage", " <game mode>" },
+            { "GameMode_Set", "Server game mode set to {0}!" },
+
+            // Gold
+            { "Gold_Help", "This marks the server as joinable only by Gold members." },
+            { "Gold_Set", "Server has been set to gold only!" },
+
+            // Help
+            { "Help_Help", "This displays all enabled commands or information on a specific command." },
+            { "Help_Usage", " [command]" },
+
+            // HideAdmins
+            { "HideAdmins_Help", "This allows the recording of cinematic footage without the admin labels visible to players." },
+            { "HideAdmins_Set", "Admin labels are now hidden!" },
+
+            // Item
+            { "Item_Help", "This gives the player an item." },
+            { "Item_Usage", " <item> [amount] [player]" },
+            { "Item_Invalid", "Failed to find the specified item!" },
+            { "Item_Fail", "Failed to give the specified item to player!" },
+            { "Item_Give", "{0} has been given to {1}" },
+
+            // Kick
+            { "Kick_Help", "This disconnects the specified player from the server." },
+            { "Kick_Usage", " <player> [reason]" },
+            { "Kick_Reason", "Undefined" },
+            { "Kick_Kicked", "{0} has been kicked from the server!" },
+
+            // Kill
+            { "Kill_Help", "This kills the specified player in-game." },
+            { "Kill_Usage", " [player]" },
+            { "Kill_Killed", "{0} has been killed!" },
+
+            // Log
+            { "Log_Help", "This assigns the console log options." },
+            { "Log_Usage", " <chat(y/n)> <join/leave(y/n)> <deaths(y/n)> <anticheat(y/n)>" },
+            { "Log_Set", "Console logging settings have been set!" },
+
+            // Map
+            { "Map_Help", "This sets the map that the server loads on startup." },
+            { "Map_Usage", " <map>" },
+            { "Map_Invalid", "The specified map is invalid!" },
+            { "Map_Set", "Server map has been set to {0}" },
+
+            // MaxPlayers
+            { "", "" },
+            { "", "" },
+            { "", "" },
+            { "", "" },
+            { "", "" },
+            { "", "" },
+
+            // Mode
+            { "", "" },
+            { "", "" },
+            { "", "" },
+            { "", "" },
+
+            // Modules
+            { "", "" },
+            { "", "" },
+            { "", "" },
+            { "", "" },
+
+            // Name
+            { "", "" },
+            { "", "" },
+            { "", "" },
+            { "", "" },
+            { "", "" },
+
+            // Night
+            { "", "" },
+            { "", "" },
+
+            // Owner
+            { "", "" },
+            { "", "" },
+            { "", "" },
+
+            // Password
+            { "", "" },
+            { "", "" },
+            { "", "" },
+            { "", "" },
+
+            // Permit
+            { "", "" },
+            { "", "" },
+            { "", "" },
+
+            // Permits
+            { "", "" },
+            { "", "" },
+
+            // Port
+            { "", "" },
+            { "", "" },
+            { "", "" },
+            { "", "" },
+
+            // PvE
+            { "", "" },
+            { "", "" },
+
+            // Quest
+            { "", "" },
+            { "", "" },
+            { "", "" },
+            { "", "" },
+
+            // Queue
+            { "", "" },
+            { "", "" },
+            { "", "" },
+            { "", "" },
+            { "", "" },
+
+            // Reputation
+            { "", "" },
+            { "", "" },
+            { "", "" },
+            { "", "" },
+
+            // ResetConfig
+            { "", "" },
+            { "", "" },
+
+            // Save
+            { "", "" },
+            { "", "" },
+
+            // Say
+            { "", "" },
+            { "", "" },
+
+            // Shutdown
+            { "", "" },
+            { "", "" },
+
+            // Slay
+            { "", "" },
+            { "", "" },
+            { "", "" },
+
+            // Spy
+            { "", "" },
+            { "", "" },
+            { "", "" },
+
+            // Storm
+            { "", "" },
+            { "", "" },
+
+            // Sync
+            { "", "" },
+            { "", "" },
+
+            // Teleport
+            { "", "" },
+            { "", "" },
+            { "", "" },
+            { "", "" },
+
+            // Time
+            { "", "" },
+            { "", "" },
+            { "", "" },
+            { "", "" },
+
+            // Timeout
+            { "", "" },
+            { "", "" },
+            { "", "" },
+            { "", "" },
+            { "", "" },
+            { "", "" },
+
+            // UnAdmin
+            { "", "" },
+            { "", "" },
+            { "", "" },
+
+            // UnBan
+            { "", "" },
+            { "", "" },
+            { "", "" },
+            { "", "" },
+
+            // UnPermit
+            { "", "" },
+            { "", "" },
+            { "", "" },
+            { "", "" },
+
+            // Vehicle
+            { "", "" },
+            { "", "" },
+            { "", "" },
+            { "", "" },
+            { "", "" },
+
+            // Votify
+            { "", "" },
+            { "", "" },
+            { "", "" },
+            { "", "" },
+            { "", "" },
+            { "", "" },
+            { "", "" },
+            { "", "" },
+
+            // Welcome
+            { "", "" },
+            { "", "" },
+            { "", "" },
+
+            // Whitelisted
+            { "", "" },
+            { "", "" }
+        };
+
+        public Dictionary<Type, ITranslatable> TranslationDictionary => Enviroment.ServiceTranslations;
+
         // Base for all commands
         public static string Base_InvalidPlayer;
         public static string Base_NoArenaTime;

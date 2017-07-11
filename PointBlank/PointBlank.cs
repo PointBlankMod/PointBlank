@@ -56,8 +56,8 @@ namespace PointBlank
             Enviroment.runtimeObjects.Add("Plugins", new RuntimeObject(new GameObject("Plugins")));
 
             // Add the code objects
-            Enviroment.runtimeObjects["Framework"].AddCodeObject<InterfaceManager>();
-            Enviroment.runtimeObjects["Framework"].AddCodeObject<ServiceManager>();
+            Enviroment.runtimeObjects["Framework"].AddCodeObject<InterfaceManager>(); // Both the service manager and interface manager are important without them
+            Enviroment.runtimeObjects["Framework"].AddCodeObject<ServiceManager>(); // the modloader won't be able to function properly making it as usefull as Rocket
 
             // Run the inits
             Enviroment.runtimeObjects["Framework"].GetCodeObject<InterfaceManager>().Init();
