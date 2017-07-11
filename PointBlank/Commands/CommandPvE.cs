@@ -22,7 +22,7 @@ namespace PointBlank.Commands
             "PvE"
         };
 
-        public override string Help => Translation.PvE_Help;
+        public override string Help => Translations["PvE_Help"];
 
         public override string Usage => Commands[0];
 
@@ -34,7 +34,7 @@ namespace PointBlank.Commands
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
             Provider.isPvP = false;
-            UnturnedChat.SendMessage(executor, Translation.PvE_Set, ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, Translations["PvE_Set"], ConsoleColor.Green);
         }
     }
 }

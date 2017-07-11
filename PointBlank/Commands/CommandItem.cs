@@ -23,9 +23,9 @@ namespace PointBlank.Commands
             "Item"
         };
 
-        public override string Help => Translation.Item_Help;
+        public override string Help => Translations["Item_Help"];
 
-        public override string Usage => Commands[0] + Translation.Item_Usage;
+        public override string Usage => Commands[0] + Translations["Item_Usage"];
 
         public override string DefaultPermission => "pointblank.commands.admin.item";
 
@@ -48,7 +48,7 @@ namespace PointBlank.Commands
             }
             if (item == null)
             {
-                UnturnedChat.SendMessage(executor, Translation.Item_Invalid, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translations["Item_Invalid"], ConsoleColor.Red);
                 return;
             }
 
@@ -59,7 +59,7 @@ namespace PointBlank.Commands
             {
                 if(executor == null)
                 {
-                    UnturnedChat.SendMessage(executor, Translation.Base_InvalidPlayer, ConsoleColor.Red);
+                    UnturnedChat.SendMessage(executor, Translations["Base_InvalidPlayer"], ConsoleColor.Red);
                     return;
                 }
 
@@ -68,10 +68,10 @@ namespace PointBlank.Commands
 
             if(!ItemTool.tryForceGiveItem(ply.Player, item.id, amount))
             {
-                UnturnedChat.SendMessage(executor, Translation.Item_Fail, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translations["Item_Fail"], ConsoleColor.Red);
                 return;
             }
-            UnturnedChat.SendMessage(executor, string.Format(Translation.Item_Give, item.itemName, ply.PlayerName), ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, string.Format(Translations["Item_Give"], item.itemName, ply.PlayerName), ConsoleColor.Green);
         }
     }
 }

@@ -22,9 +22,9 @@ namespace PointBlank.Commands
             "Experience"
         };
 
-        public override string Help => Translation.Experience_Help;
+        public override string Help => Translations["Experience_Help"];
 
-        public override string Usage => Commands[0] + Translation.Experience_Usage;
+        public override string Usage => Commands[0] + Translations["Experience_Usage"];
 
         public override string DefaultPermission => "unturned.commands.admin.experience";
 
@@ -35,14 +35,14 @@ namespace PointBlank.Commands
         {
             if(!uint.TryParse(args[0], out uint xp))
             {
-                UnturnedChat.SendMessage(executor, Translation.Experience_Invalid, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translations["Experience_Invalid"], ConsoleColor.Red);
                 return;
             }
             if(args.Length < 2 || !UnturnedPlayer.TryGetPlayer(args[1], out UnturnedPlayer player))
             {
                 if(executor == null)
                 {
-                    UnturnedChat.SendMessage(executor, Translation.Base_InvalidPlayer, ConsoleColor.Red);
+                    UnturnedChat.SendMessage(executor, Translations["Base_InvalidPlayer"], ConsoleColor.Red);
                     return;
                 }
 
@@ -50,7 +50,7 @@ namespace PointBlank.Commands
             }
 
             player.Player.skills.askAward(xp);
-            UnturnedChat.SendMessage(executor, string.Format(Translation.Experience_Give, player.PlayerName, xp), ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, string.Format(Translations["Experience_Give"], player.PlayerName, xp), ConsoleColor.Green);
         }
     }
 }

@@ -22,9 +22,9 @@ namespace PointBlank.Commands
             "Mode"
         };
 
-        public override string Help => Translation.Mode_Help;
+        public override string Help => Translations["Mode_Help"];
 
-        public override string Usage => Commands[0] + Translation.Mode_Usage;
+        public override string Usage => Commands[0] + Translations["Mode_Usage"];
 
         public override string DefaultPermission => "unturned.commands.server.mode";
 
@@ -45,11 +45,11 @@ namespace PointBlank.Commands
                     Provider.mode = EGameMode.HARD;
                     break;
                 default:
-                    UnturnedChat.SendMessage(executor, Translation.Mode_Invalid, ConsoleColor.Red);
+                    UnturnedChat.SendMessage(executor, Translations["Mode_Invalid"], ConsoleColor.Red);
                     break;
             }
 
-            UnturnedChat.SendMessage(executor, string.Format(Translation.Mode_Set, Provider.mode), ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, string.Format(Translations["Mode_Set"], Provider.mode), ConsoleColor.Green);
         }
     }
 }

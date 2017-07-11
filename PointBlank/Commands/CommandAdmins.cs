@@ -22,7 +22,7 @@ namespace PointBlank.Commands
             "Admins"
         };
 
-        public override string Help => Translation.Admins_Help;
+        public override string Help => Translations["Admins_Help"];
 
         public override string Usage => Commands[0];
 
@@ -35,17 +35,17 @@ namespace PointBlank.Commands
 
             if(executor == null)
             {
-                CommandWindow.Log(Translation.Admins_List + admins, ConsoleColor.Green);
+                CommandWindow.Log(Translations["Admins_List"] + admins, ConsoleColor.Green);
             }
             else
             {
                 if(Provider.hideAdmins && !executor.HasPermission("unturned.revealadmins"))
                 {
-                    executor.SendMessage(Translation.Admins_Hidden, Color.red);
+                    executor.SendMessage(Translations["Admins_Hidden"], Color.red);
                     return;
                 }
 
-                executor.SendMessage(Translation.Admins_List + admins, Color.green);
+                executor.SendMessage(Translations["Admins_List"] + admins, Color.green);
             }
         }
     }

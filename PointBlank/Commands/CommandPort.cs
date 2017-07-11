@@ -22,9 +22,9 @@ namespace PointBlank.Commands
             "Port"
         };
 
-        public override string Help => Translation.Port_Help;
+        public override string Help => Translations["Port_Help"];
 
-        public override string Usage => Commands[0] + Translation.Port_Usage;
+        public override string Usage => Commands[0] + Translations["Port_Usage"];
 
         public override string DefaultPermission => "unturned.commands.server.port";
 
@@ -35,12 +35,12 @@ namespace PointBlank.Commands
         {
             if(!ushort.TryParse(args[0], out ushort port))
             {
-                UnturnedChat.SendMessage(executor, Translation.Port_Invalid, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translations["Port_Invalid"], ConsoleColor.Red);
                 return;
             }
 
             Provider.port = port;
-            UnturnedChat.SendMessage(executor, string.Format(Translation.Port_Set, port), ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, string.Format(Translations["Port_Set"], port), ConsoleColor.Green);
         }
     }
 }

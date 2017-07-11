@@ -22,7 +22,7 @@ namespace PointBlank.Commands
             "Sync"
         };
 
-        public override string Help => Translation.Sync_Help;
+        public override string Help => Translations["Sync_Help"];
 
         public override string Usage => Commands[0];
 
@@ -34,7 +34,7 @@ namespace PointBlank.Commands
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
             PlayerSavedata.hasSync = true;
-            UnturnedChat.SendMessage(executor, Translation.Sync_Sync, ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, Translations["Sync_Sync"], ConsoleColor.Green);
         }
     }
 }

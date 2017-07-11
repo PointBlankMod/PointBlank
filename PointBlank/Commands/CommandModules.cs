@@ -22,7 +22,7 @@ namespace PointBlank.Commands
             "Modules"
         };
 
-        public override string Help => Translation.Modules_Help;
+        public override string Help => Translations["Modules_Help"];
 
         public override string Usage => Commands[0];
 
@@ -33,7 +33,7 @@ namespace PointBlank.Commands
 
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
-            UnturnedChat.SendMessage(executor, Translation.Modules_Title);
+            UnturnedChat.SendMessage(executor, Translations["Modules_Title"]);
             for(int i = 0; i < ModuleHook.modules.Count; i++)
             {
                 if (ModuleHook.modules[i] == null)
@@ -43,8 +43,8 @@ namespace PointBlank.Commands
                 if (!ModuleHook.modules[i].isEnabled)
                     continue;
 
-                UnturnedChat.SendMessage(executor, string.Format(Translation.Modules_Name, ModuleHook.modules[i].config.Name));
-                UnturnedChat.SendMessage(executor, string.Format(Translation.Modules_Version, ModuleHook.modules[i].config.Version));
+                UnturnedChat.SendMessage(executor, string.Format(Translations["Modules_Name"], ModuleHook.modules[i].config.Name));
+                UnturnedChat.SendMessage(executor, string.Format(Translations["Modules_Version"], ModuleHook.modules[i].config.Version));
             }
         }
     }

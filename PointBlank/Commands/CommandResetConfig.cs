@@ -22,7 +22,7 @@ namespace PointBlank.Commands
             "ResetConfig"
         };
 
-        public override string Help => Translation.ResetConfig_Help;
+        public override string Help => Translations["ResetConfig_Help"];
 
         public override string Usage => Commands[0];
 
@@ -32,7 +32,7 @@ namespace PointBlank.Commands
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
             Provider.resetConfig();
-            UnturnedChat.SendMessage(executor, Translation.ResetConfig_Reset, ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, Translations["ResetConfig_Reset"], ConsoleColor.Green);
         }
     }
 }

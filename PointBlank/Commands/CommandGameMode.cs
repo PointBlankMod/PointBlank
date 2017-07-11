@@ -22,9 +22,9 @@ namespace PointBlank.Commands
             "GameMode"
         };
 
-        public override string Help => Translation.GameMode_Help;
+        public override string Help => Translations["GameMode_Help"];
 
-        public override string Usage => Commands[0] + Translation.GameMode_Usage;
+        public override string Usage => Commands[0] + Translations["GameMode_Usage"];
 
         public override string DefaultPermission => "unturned.commands.server.gamemode";
 
@@ -34,7 +34,7 @@ namespace PointBlank.Commands
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
             Provider.selectedGameModeName = args[0];
-            UnturnedChat.SendMessage(executor, string.Format(Translation.GameMode_Set, args[0]), ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, string.Format(Translations["GameMode_Set"], args[0]), ConsoleColor.Green);
         }
     }
 }

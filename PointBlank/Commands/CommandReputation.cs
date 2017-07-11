@@ -22,9 +22,9 @@ namespace PointBlank.Commands
             "Reputation"
         };
 
-        public override string Help => Translation.Reputation_Help;
+        public override string Help => Translations["Reputation_Help"];
 
-        public override string Usage => Commands[0] + Translation.Reputation_Usage;
+        public override string Usage => Commands[0] + Translations["Reputation_Usage"];
 
         public override string DefaultPermission => "unturned.commands.admin.reputation";
 
@@ -35,14 +35,14 @@ namespace PointBlank.Commands
         {
             if(!int.TryParse(args[0], out int rep))
             {
-                UnturnedChat.SendMessage(executor, Translation.Reputation_Invalid, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translations["Reputation_Invalid"], ConsoleColor.Red);
                 return;
             }
             if(args.Length < 2 || !UnturnedPlayer.TryGetPlayer(args[1], out UnturnedPlayer ply))
             {
                 if(executor == null)
                 {
-                    UnturnedChat.SendMessage(executor, Translation.Base_InvalidPlayer, ConsoleColor.Red);
+                    UnturnedChat.SendMessage(executor, Translations["Base_InvalidPlayer"], ConsoleColor.Red);
                     return;
                 }
 
@@ -50,7 +50,7 @@ namespace PointBlank.Commands
             }
 
             ply.Player.skills.askRep(rep);
-            UnturnedChat.SendMessage(executor, string.Format(Translation.Reputation_Give, ply.PlayerName, rep), ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, string.Format(Translations["Reputation_Give"], ply.PlayerName, rep), ConsoleColor.Green);
         }
     }
 }

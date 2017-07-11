@@ -22,7 +22,7 @@ namespace PointBlank.Commands
             "Cheats"
         };
 
-        public override string Help => Translation.Cheats_Help;
+        public override string Help => Translations["Cheats_Help"];
 
         public override string Usage => Commands[0];
 
@@ -34,7 +34,7 @@ namespace PointBlank.Commands
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
             Provider.hasCheats = true;
-            UnturnedChat.SendMessage(executor, Translation.Cheats_Enabled, ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, Translations["Cheats_Enabled"], ConsoleColor.Green);
         }
     }
 }

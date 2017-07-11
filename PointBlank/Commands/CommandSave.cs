@@ -22,7 +22,7 @@ namespace PointBlank.Commands
             "Save"
         };
 
-        public override string Help => Translation.Save_Help;
+        public override string Help => Translations["Save_Help"];
 
         public override string Usage => Commands[0];
 
@@ -32,7 +32,7 @@ namespace PointBlank.Commands
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
             SaveManager.save();
-            UnturnedChat.SendMessage(executor, Translation.Save_Save, ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, Translations["Save_Save"], ConsoleColor.Green);
         }
     }
 }

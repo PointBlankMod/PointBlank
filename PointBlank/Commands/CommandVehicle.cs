@@ -23,9 +23,9 @@ namespace PointBlank.Commands
             "Vehicle"
         };
 
-        public override string Help => Translation.Vehicle_Help;
+        public override string Help => Translations["Vehicle_Help"];
 
-        public override string Usage => Commands[0] + Translation.Vehicle_Usage;
+        public override string Usage => Commands[0] + Translations["Vehicle_Usage"];
 
         public override string DefaultPermission => "unturned.commands.admin.vehicle";
 
@@ -46,7 +46,7 @@ namespace PointBlank.Commands
                 vehicle = Assets.find(EAssetType.VEHICLE, id) as VehicleAsset;
             if(vehicle == null)
             {
-                UnturnedChat.SendMessage(executor, Translation.Vehicle_Invalid, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translations["Vehicle_Invalid"], ConsoleColor.Red);
                 return;
             }
 
@@ -54,7 +54,7 @@ namespace PointBlank.Commands
             {
                 if (executor == null)
                 {
-                    UnturnedChat.SendMessage(executor, Translation.Base_InvalidPlayer, ConsoleColor.Red);
+                    UnturnedChat.SendMessage(executor, Translations["Base_InvalidPlayer"], ConsoleColor.Red);
                     return;
                 }
 
@@ -62,10 +62,10 @@ namespace PointBlank.Commands
             }
             if(!VehicleTool.giveVehicle(ply.Player, vehicle.id))
             {
-                UnturnedChat.SendMessage(executor, string.Format(Translation.Vehicle_Fail, vehicle.vehicleName), ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, string.Format(Translations["Vehicle_Fail"], vehicle.vehicleName), ConsoleColor.Red);
                 return;
             }
-            UnturnedChat.SendMessage(executor, string.Format(Translation.Vehicle_Spawn, vehicle.vehicleName), ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, string.Format(Translations["Vehicle_Spawn"], vehicle.vehicleName), ConsoleColor.Green);
         }
     }
 }

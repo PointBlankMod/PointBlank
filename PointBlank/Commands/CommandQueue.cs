@@ -26,9 +26,9 @@ namespace PointBlank.Commands
             "Queue"
         };
 
-        public override string Help => Translation.Queue_Help;
+        public override string Help => Translations["Queue_Help"];
 
-        public override string Usage => Commands[0] + Translation.Queue_Usage;
+        public override string Usage => Commands[0] + Translations["Queue_Usage"];
 
         public override string DefaultPermission => "unturned.commands.server.queue";
         #endregion
@@ -37,17 +37,17 @@ namespace PointBlank.Commands
         {
             if(!byte.TryParse(args[0], out byte queue))
             {
-                UnturnedChat.SendMessage(executor, Translation.Queue_Invalid, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translations["Queue_Invalid"], ConsoleColor.Red);
                 return;
             }
             if(queue > MAX_NUMBER)
             {
-                UnturnedChat.SendMessage(executor, string.Format(Translation.Queue_TooHigh, MAX_NUMBER), ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, string.Format(Translations["Queue_TooHigh"], MAX_NUMBER), ConsoleColor.Red);
                 return;
             }
 
             Provider.queueSize = queue;
-            UnturnedChat.SendMessage(executor, string.Format(Translation.Queue_Set, queue), ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, string.Format(Translations["Queue_Set"], queue), ConsoleColor.Green);
         }
     }
 }

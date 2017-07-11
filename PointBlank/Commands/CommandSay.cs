@@ -22,9 +22,9 @@ namespace PointBlank.Commands
             "Say"
         };
 
-        public override string Help => Translation.Say_Help;
+        public override string Help => Translations["Say_Help"];
 
-        public override string Usage => Commands[0] + Translation.Say_Usage;
+        public override string Usage => Commands[0] + Translations["Say_Usage"];
 
         public override string DefaultPermission => "unturned.commands.admin.say";
         #endregion

@@ -22,9 +22,9 @@ namespace PointBlank.Commands
             "Votify"
         };
 
-        public override string Help => Translation.Votify_Help;
+        public override string Help => Translations["Votify_Help"];
 
-        public override string Usage => Commands[0] + Translation.Votify_Usage;
+        public override string Usage => Commands[0] + Translations["Votify_Usage"];
 
         public override string DefaultPermission => "unturned.commands.server.votify";
         #endregion
@@ -35,27 +35,27 @@ namespace PointBlank.Commands
 
             if(!float.TryParse(args[1], out float passCooldown))
             {
-                UnturnedChat.SendMessage(executor, Translation.Votify_Pass, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translations["Votify_Pass"], ConsoleColor.Red);
                 return;
             }
             if (!float.TryParse(args[2], out float failCooldown))
             {
-                UnturnedChat.SendMessage(executor, Translation.Votify_Fail, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translations["Votify_Fail"], ConsoleColor.Red);
                 return;
             }
             if (!float.TryParse(args[3], out float duration))
             {
-                UnturnedChat.SendMessage(executor, Translation.Votify_Duration, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translations["Votify_Duration"], ConsoleColor.Red);
                 return;
             }
             if (!float.TryParse(args[4], out float percentage))
             {
-                UnturnedChat.SendMessage(executor, Translation.Votify_Percentage, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translations["Votify_Percentage"], ConsoleColor.Red);
                 return;
             }
             if(!byte.TryParse(args[5], out byte players))
             {
-                UnturnedChat.SendMessage(executor, Translation.Votify_Count, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translations["Votify_Count"], ConsoleColor.Red);
                 return;
             }
 
@@ -65,7 +65,7 @@ namespace PointBlank.Commands
             ChatManager.votePercentage = percentage;
             ChatManager.votePlayers = players;
 
-            UnturnedChat.SendMessage(executor, Translation.Votify_Set, ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, Translations["Votify_Set"], ConsoleColor.Green);
         }
     }
 }

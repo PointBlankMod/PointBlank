@@ -23,9 +23,9 @@ namespace PointBlank.Commands
             "Unpermit"
         };
 
-        public override string Help => Translation.Unpermit_Help;
+        public override string Help => Translations["Unpermit_Help"];
 
-        public override string Usage => Commands[0] + Translation.Unpermit_Usage;
+        public override string Usage => Commands[0] + Translations["Unpermit_Usage"];
 
         public override string DefaultPermission => "unturned.commands.admin.unpermit";
 
@@ -36,16 +36,16 @@ namespace PointBlank.Commands
         {
             if(!PlayerTool.tryGetSteamID(args[0], out CSteamID id))
             {
-                UnturnedChat.SendMessage(executor, Translation.Base_InvalidPlayer, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translations["Base_InvalidPlayer"], ConsoleColor.Red);
                 return;
             }
 
             if (!SteamWhitelist.unwhitelist(id))
             {
-                UnturnedChat.SendMessage(executor, string.Format(Translation.Unpermit_NotWhitelisted, id), ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, string.Format(Translations["Unpermit_NotWhitelisted"], id), ConsoleColor.Red);
                 return;
             }
-            UnturnedChat.SendMessage(executor, string.Format(Translation.Unpermit_Unpermit, id), ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, string.Format(Translations["Unpermit_Unpermit"], id), ConsoleColor.Green);
         }
     }
 }

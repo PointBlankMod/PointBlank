@@ -24,9 +24,9 @@ namespace PointBlank.Commands
             "Admin"
         };
 
-        public override string Help => Translation.Admin_Help;
+        public override string Help => Translations["Admin_Help"];
 
-        public override string Usage => Commands[0] + Translation.Admin_Usage;
+        public override string Usage => Commands[0] + Translations["Admin_Usage"];
 
         public override string DefaultPermission => "unturned.commands.admin.admin";
 
@@ -37,20 +37,20 @@ namespace PointBlank.Commands
         {
             if (!PlayerTool.tryGetSteamID(args[0], out CSteamID player))
             {
-                UnturnedChat.SendMessage(executor, Translation.Base_InvalidPlayer, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translations["Base_InvalidPlayer"], ConsoleColor.Red);
                 return;
             }
 
             if (executor == null)
             {
                 SteamAdminlist.admin(player, CSteamID.Nil);
-                CommandWindow.Log(string.Format(Translation.Admin_Set, player), ConsoleColor.Green);
+                CommandWindow.Log(string.Format(Translations["Admin_Set"], player), ConsoleColor.Green);
 
             }
             else
             {
                 SteamAdminlist.admin(player, executor.SteamID);
-                executor.SendMessage(string.Format(Translation.Admin_Set, player), Color.green);
+                executor.SendMessage(string.Format(Translations["Admin_Set"], player), Color.green);
             }
         }
     }

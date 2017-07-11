@@ -23,9 +23,9 @@ namespace PointBlank.Commands
             "Unadmin"
         };
 
-        public override string Help => Translation.Unadmin_Help;
+        public override string Help => Translations["Unadmin_Help"];
 
-        public override string Usage => Commands[0] + Translation.Unadmin_Usage;
+        public override string Usage => Commands[0] + Translations["Unadmin_Usage"];
 
         public override string DefaultPermission => "unturned.commands.admin.unadmin";
 
@@ -36,12 +36,12 @@ namespace PointBlank.Commands
         {
             if(!PlayerTool.tryGetSteamID(args[0], out CSteamID id))
             {
-                UnturnedChat.SendMessage(executor, Translation.Base_InvalidPlayer, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translations["Base_InvalidPlayer"], ConsoleColor.Red);
                 return;
             }
 
             SteamAdminlist.unadmin(id);
-            UnturnedChat.SendMessage(executor, string.Format(Translation.Unadmin_Unadmin, id), ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, string.Format(Translations["Unadmin_Unadmin"], id), ConsoleColor.Green);
         }
     }
 }

@@ -21,9 +21,9 @@ namespace PointBlank.Commands
             "Help"
         };
 
-        public override string Help => Translation.Help_Help;
+        public override string Help => Translations["Help_Help"];
 
-        public override string Usage => Commands[0] + Translation.Help_Usage;
+        public override string Usage => Commands[0] + Translations["Help_Usage"];
 
         public override string DefaultPermission => "unturned.commands.nonadmin.help";
         #endregion
@@ -36,7 +36,7 @@ namespace PointBlank.Commands
 
                 if(cmd == null)
                 {
-                    UnturnedChat.SendMessage(executor, Translation.Base_CommandInvalid, ConsoleColor.Red);
+                    UnturnedChat.SendMessage(executor, Translations["Base_CommandInvalid"], ConsoleColor.Red);
                     return;
                 }
                 UnturnedChat.SendMessage(executor, cmd.Help, ConsoleColor.Green);

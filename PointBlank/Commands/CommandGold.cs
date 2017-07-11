@@ -22,7 +22,7 @@ namespace PointBlank.Commands
             "Gold"
         };
 
-        public override string Help => Translation.Gold_Help;
+        public override string Help => Translations["Gold_Help"];
 
         public override string Usage => Commands[0];
 
@@ -34,7 +34,7 @@ namespace PointBlank.Commands
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
             Provider.isGold = true;
-            UnturnedChat.SendMessage(executor, Translation.Gold_Set, ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, Translations["Gold_Set"], ConsoleColor.Green);
         }
     }
 }

@@ -22,9 +22,9 @@ namespace PointBlank.Commands
             "Spy"
         };
 
-        public override string Help => Translation.Spy_Help;
+        public override string Help => Translations["Spy_Help"];
 
-        public override string Usage => Commands[0] + Translation.Spy_Usage;
+        public override string Usage => Commands[0] + Translations["Spy_Usage"];
 
         public override string DefaultPermission => "unturned.commands.admin.spy";
         #endregion
@@ -33,12 +33,12 @@ namespace PointBlank.Commands
         {
             if(!UnturnedPlayer.TryGetPlayer(args[0], out UnturnedPlayer ply))
             {
-                UnturnedChat.SendMessage(executor, Translation.Base_InvalidPlayer, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translations["Base_InvalidPlayer"], ConsoleColor.Red);
                 return;
             }
 
             ply.Player.sendScreenshot(executor?.SteamID ?? CSteamID.Nil, null);
-            UnturnedChat.SendMessage(executor, string.Format(Translation.Spy_Spy, ply.PlayerName), ConsoleColor.Red);
+            UnturnedChat.SendMessage(executor, string.Format(Translations["Spy_Spy"], ply.PlayerName), ConsoleColor.Red);
         }
     }
 }

@@ -22,7 +22,7 @@ namespace PointBlank.Commands
             "Night"
         };
 
-        public override string Help => Translation.Night_Help;
+        public override string Help => Translations["Night_Help"];
 
         public override string Usage => Commands[0];
 
@@ -33,17 +33,17 @@ namespace PointBlank.Commands
         {
             if (Provider.isServer && Level.info.type == ELevelType.ARENA)
             {
-                UnturnedChat.SendMessage(executor, Translation.Base_NoArenaTime, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translations["Base_NoArenaTime"], ConsoleColor.Red);
                 return;
             }
             if (Provider.isServer && Level.info.type == ELevelType.HORDE)
             {
-                UnturnedChat.SendMessage(executor, Translation.Base_NoHordeTime, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translations["Base_NoHordeTime"], ConsoleColor.Red);
                 return;
             }
 
             LightingManager.time = (uint)(LightingManager.cycle * (LevelLighting.bias + LevelLighting.transition));
-            UnturnedChat.SendMessage(executor, Translation.Night_Set, ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, Translations["Night_Set"], ConsoleColor.Green);
         }
     }
 }

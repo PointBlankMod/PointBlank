@@ -21,9 +21,9 @@ namespace PointBlank.Commands
             "Quest"
         };
 
-        public override string Help => Translation.Quest_Help;
+        public override string Help => Translations["Quest_Help"];
 
-        public override string Usage => Commands[0] + Translation.Quest_Usage;
+        public override string Usage => Commands[0] + Translations["Quest_Usage"];
 
         public override string DefaultPermission => "unturned.commands.admin.quest";
 
@@ -34,14 +34,14 @@ namespace PointBlank.Commands
         {
             if (!ushort.TryParse(args[0], out ushort quest))
             {
-                UnturnedChat.SendMessage(executor, Translation.Quest_Invalid, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translations["Quest_Invalid"], ConsoleColor.Red);
                 return;
             }
             if(args.Length < 2 || !UnturnedPlayer.TryGetPlayer(args[1], out UnturnedPlayer ply))
             {
                 if(executor == null)
                 {
-                    UnturnedChat.SendMessage(executor, Translation.Base_InvalidPlayer, ConsoleColor.Red);
+                    UnturnedChat.SendMessage(executor, Translations["Base_InvalidPlayer"], ConsoleColor.Red);
                     return;
                 }
 
@@ -49,7 +49,7 @@ namespace PointBlank.Commands
             }
 
             ply.Player.quests.sendAddQuest(quest);
-            UnturnedChat.SendMessage(executor, string.Format(Translation.Quest_Added, quest, ply.PlayerName), ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, string.Format(Translations["Quest_Added"], quest, ply.PlayerName), ConsoleColor.Green);
         }
     }
 }

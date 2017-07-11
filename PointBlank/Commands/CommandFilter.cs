@@ -22,7 +22,7 @@ namespace PointBlank.Commands
             "Filter"
         };
 
-        public override string Help => Translation.Filter_Help;
+        public override string Help => Translations["Filter_Help"];
 
         public override string Usage => Commands[0];
 
@@ -34,7 +34,7 @@ namespace PointBlank.Commands
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
             Provider.filterName = true;
-            UnturnedChat.SendMessage(executor, Translation.Filter_Enable, ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, Translations["Filter_Enable"], ConsoleColor.Green);
         }
     }
 }

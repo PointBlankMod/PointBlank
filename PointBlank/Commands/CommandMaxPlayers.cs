@@ -27,9 +27,9 @@ namespace PointBlank.Commands
             "MaxPlayers"
         };
 
-        public override string Help => Translation.MaxPlayers_Help;
+        public override string Help => Translations["MaxPlayers_Help"];
 
-        public override string Usage => Commands[0] + Translation.MaxPlayers_Usage;
+        public override string Usage => Commands[0] + Translations["MaxPlayers_Usage"];
 
         public override string DefaultPermission => "unturned.commands.server.maxplayers";
         #endregion
@@ -38,23 +38,23 @@ namespace PointBlank.Commands
         {
             if(!byte.TryParse(args[0], out byte max))
             {
-                UnturnedChat.SendMessage(executor, Translation.MaxPlayers_Invalid, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translations["MaxPlayers_Invalid"], ConsoleColor.Red);
                 return;
             }
 
             if(max > MAX_NUMBER)
             {
-                UnturnedChat.SendMessage(executor, string.Format(Translation.MaxPlayers_TooHigh, MAX_NUMBER), ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, string.Format(Translations["MaxPlayers_TooHigh"], MAX_NUMBER), ConsoleColor.Red);
                 return;
             }
             else if(max < MIN_NUMBER)
             {
-                UnturnedChat.SendMessage(executor, string.Format(Translation.MaxPlayers_TooLow, MIN_NUMBER), ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, string.Format(Translations["MaxPlayers_TooLow"], MIN_NUMBER), ConsoleColor.Red);
                 return;
             }
 
             Provider.maxPlayers = max;
-            UnturnedChat.SendMessage(executor, string.Format(Translation.MaxPlayers_Set, max), ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, string.Format(Translations["MaxPlayers_Set"], max), ConsoleColor.Green);
         }
     }
 }

@@ -22,9 +22,9 @@ namespace PointBlank.Commands
             "Welcome"
         };
 
-        public override string Help => Translation.Welcome_Help;
+        public override string Help => Translations["Welcome_Help"];
 
-        public override string Usage => Commands[0] + Translation.Welcome_Usage;
+        public override string Usage => Commands[0] + Translations["Welcome_Usage"];
 
         public override string DefaultPermission => "unturned.commands.server.welcome";
         #endregion
@@ -32,7 +32,7 @@ namespace PointBlank.Commands
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
             ChatManager.welcomeText = string.Join(" ", args);
-            UnturnedChat.SendMessage(executor, Translation.Welcome_Set, ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, Translations["Welcome_Set"], ConsoleColor.Green);
         }
     }
 }

@@ -21,9 +21,9 @@ namespace PointBlank.Commands
             "Usage"
         };
 
-        public override string Help => Translation.Usage_Help;
+        public override string Help => Translations["Usage_Help"];
 
-        public override string Usage => Translation.Usage_Usage;
+        public override string Usage => Translations["Usage_Usage"];
 
         public override string DefaultPermission => "pointblank.commands.nonadmin.usage";
         #endregion
@@ -34,7 +34,7 @@ namespace PointBlank.Commands
 
             if (cmd == null)
             {
-                UnturnedChat.SendMessage(executor, Translation.Base_CommandInvalid, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translations["Base_CommandInvalid"], ConsoleColor.Red);
                 return;
             }
             UnturnedChat.SendMessage(executor, (executor == null ? "" : "/") + cmd.Usage, ConsoleColor.Green);

@@ -22,9 +22,9 @@ namespace PointBlank.Commands
             "Time"
         };
 
-        public override string Help => Translation.Time_Help;
+        public override string Help => Translations["Time_Help"];
 
-        public override string Usage => Commands[0] + Translation.Time_Usage;
+        public override string Usage => Commands[0] + Translations["Time_Usage"];
 
         public override string DefaultPermission => "unturned.commands.admin.time";
 
@@ -35,23 +35,23 @@ namespace PointBlank.Commands
         {
             if (Provider.isServer && Level.info.type == ELevelType.ARENA)
             {
-                UnturnedChat.SendMessage(executor, Translation.Base_NoArenaTime, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translations["Base_NoArenaTime"], ConsoleColor.Red);
                 return;
             }
             if (Provider.isServer && Level.info.type == ELevelType.HORDE)
             {
-                UnturnedChat.SendMessage(executor, Translation.Base_NoHordeTime, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translations["Base_NoHordeTime"], ConsoleColor.Red);
                 return;
             }
 
             if(!uint.TryParse(args[1], out uint time))
             {
-                UnturnedChat.SendMessage(executor, Translation.Time_Invalid, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translations["Time_Invalid"], ConsoleColor.Red);
                 return;
             }
 
             LightingManager.time = time;
-            UnturnedChat.SendMessage(executor, string.Format(Translation.Time_Set, time), ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, string.Format(Translations["Time_Set"], time), ConsoleColor.Green);
         }
     }
 }

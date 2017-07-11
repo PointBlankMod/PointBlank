@@ -116,15 +116,13 @@ namespace PointBlank
 
         private void RunRequirements()
         {
-            TranslationManager.Load();
+            // Need to add something here
         }
 
         private void RunRequirementsShutdown()
         {
             foreach(SQLData sql in Enviroment.SQLConnections.Where(a => a.Connected))
                 sql.Disconnect();
-
-            TranslationManager.Save();
         }
         #endregion
 

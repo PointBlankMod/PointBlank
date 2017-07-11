@@ -23,9 +23,9 @@ namespace PointBlank.Commands
             "Owner"
         };
 
-        public override string Help => Translation.Owner_Help;
+        public override string Help => Translations["Owner_Help"];
 
-        public override string Usage => Commands[0] + Translation.Owner_Usage;
+        public override string Usage => Commands[0] + Translations["Owner_Usage"];
 
         public override string DefaultPermission => "unturned.commands.server.owner";
 
@@ -36,12 +36,12 @@ namespace PointBlank.Commands
         {
             if(!PlayerTool.tryGetSteamID(args[0], out CSteamID id))
             {
-                UnturnedChat.SendMessage(executor, Translation.Base_InvalidPlayer, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translations["Base_InvalidPlayer"], ConsoleColor.Red);
                 return;
             }
 
             SteamAdminlist.ownerID = id;
-            UnturnedChat.SendMessage(executor, string.Format(Translation.Owner_Set, id), ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, string.Format(Translations["Owner_Set"], id), ConsoleColor.Green);
         }
     }
 }

@@ -93,7 +93,6 @@
     <Compile Include="API\Interfaces\IConfigurable.cs" />
     <Compile Include="API\Interfaces\ITranslatable.cs" />
     <Compile Include="API\Logging.cs" />
-    <Compile Include="API\Optimization\Parallel.cs" />
     <Compile Include="API\Plugins\Plugin.cs" />
     <Compile Include="API\Plugins\PluginEvents.cs" />
     <Compile Include="API\Plugins\PluginManager.cs" />
@@ -201,7 +200,6 @@
     <Compile Include="Framework\Permissions\Ring\RingPermissionAttribute.cs" />
     <Compile Include="Framework\Permissions\Ring\RingPermissionRing.cs" />
     <Compile Include="Framework\ServiceManager.cs" />
-    <Compile Include="Framework\TranslationManager.cs" />
     <Compile Include="Framework\Translations\CommandTranslations.cs" />
     <Compile Include="Framework\Translations\ServiceTranslations.cs" />
     <Compile Include="Framework\Wrappers\ServiceWrapper.cs" />

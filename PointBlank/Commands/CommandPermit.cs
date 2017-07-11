@@ -23,9 +23,9 @@ namespace PointBlank.Commands
             "Permit"
         };
 
-        public override string Help => Translation.Permit_Help;
+        public override string Help => Translations["Permit_Help"];
 
-        public override string Usage => Commands[0] + Translation.Permit_Usage;
+        public override string Usage => Commands[0] + Translations["Permit_Usage"];
 
         public override string DefaultPermission => "unturned.commands.admin.permit";
         #endregion
@@ -34,12 +34,12 @@ namespace PointBlank.Commands
         {
             if(!PlayerTool.tryGetSteamID(args[0], out CSteamID id))
             {
-                UnturnedChat.SendMessage(executor, Translation.Base_InvalidPlayer, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translations["Base_InvalidPlayer"], ConsoleColor.Red);
                 return;
             }
 
             SteamWhitelist.whitelist(id, args[1], executor?.SteamID ?? CSteamID.Nil);
-            UnturnedChat.SendMessage(executor, string.Format(Translation.Permit_Added, id), ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, string.Format(Translations["Permit_Added"], id), ConsoleColor.Green);
         }
     }
 }

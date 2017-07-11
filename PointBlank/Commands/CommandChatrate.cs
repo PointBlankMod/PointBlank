@@ -27,9 +27,9 @@ namespace PointBlank.Commands
             "Chatrate"
         };
 
-        public override string Help => Translation.Chatrate_Help;
+        public override string Help => Translations["Chatrate_Help"];
 
-        public override string Usage => Commands[0] + Translation.Chatrate_Usage;
+        public override string Usage => Commands[0] + Translations["Chatrate_Usage"];
 
         public override string DefaultPermission => "unturned.commands.admin.chatrate";
         #endregion
@@ -38,22 +38,22 @@ namespace PointBlank.Commands
         {
             if(!float.TryParse(args[0], out float rate))
             {
-                UnturnedChat.SendMessage(executor, Translation.Chatrate_Invalid, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translations["Chatrate_Invalid"], ConsoleColor.Red);
                 return;
             }
             if(rate < MIN_NUMBER)
             {
-                UnturnedChat.SendMessage(executor, string.Format(Translation.Chatrate_TooLow, MIN_NUMBER), ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, string.Format(Translations["Chatrate_TooLow"], MIN_NUMBER), ConsoleColor.Red);
                 return;
             }
             else if(rate > MAX_NUMBER)
             {
-                UnturnedChat.SendMessage(executor, string.Format(Translation.Chatrate_TooHigh, MAX_NUMBER), ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, string.Format(Translations["Chatrate_TooHigh"], MAX_NUMBER), ConsoleColor.Red);
                 return;
             }
 
             ChatManager.chatrate = rate;
-            UnturnedChat.SendMessage(executor, string.Format(Translation.Chatrate_SetTo, rate), ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, string.Format(Translations["Chatrate_SetTo"], rate), ConsoleColor.Green);
         }
     }
 }

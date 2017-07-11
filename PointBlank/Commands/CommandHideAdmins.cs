@@ -22,7 +22,7 @@ namespace PointBlank.Commands
             "HideAdmins"
         };
 
-        public override string Help => Translation.HideAdmins_Help;
+        public override string Help => Translations["HideAdmins_Help"];
 
         public override string Usage => Commands[0];
 
@@ -34,7 +34,7 @@ namespace PointBlank.Commands
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
             Provider.hideAdmins = true;
-            UnturnedChat.SendMessage(executor, Translation.HideAdmins_Set, ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, Translations["HideAdmins_Set"], ConsoleColor.Green);
         }
     }
 }

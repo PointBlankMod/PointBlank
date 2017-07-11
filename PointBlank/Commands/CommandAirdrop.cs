@@ -22,7 +22,7 @@ namespace PointBlank.Commands
             "Airdrop"
         };
 
-        public override string Help => Translation.Airdrop_Help;
+        public override string Help => Translations["Airdrop_Help"];
 
         public override string Usage => Commands[0];
 
@@ -35,7 +35,7 @@ namespace PointBlank.Commands
                 return;
 
             LevelManager.airdropFrequency = 0u;
-            UnturnedChat.SendMessage(executor, Translation.Airdrop_Success, ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, Translations["Airdrop_Success"], ConsoleColor.Green);
         }
     }
 }

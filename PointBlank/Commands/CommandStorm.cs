@@ -22,7 +22,7 @@ namespace PointBlank.Commands
             "Storm"
         };
 
-        public override string Help => Translation.Storm_Help;
+        public override string Help => Translations["Storm_Help"];
 
         public override string Usage => Commands[0];
 
@@ -40,7 +40,7 @@ namespace PointBlank.Commands
                     LightingManager.rainDuration = 0u;
                     break;
             }
-            UnturnedChat.SendMessage(executor, Translation.Storm_Change, ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, Translations["Storm_Change"], ConsoleColor.Green);
         }
     }
 }

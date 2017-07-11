@@ -23,9 +23,9 @@ namespace PointBlank.Commands
             "Ban"
         };
 
-        public override string Help => Translation.Ban_Help;
+        public override string Help => Translations["Ban_Help"];
 
-        public override string Usage => Commands[0] + Translation.Ban_Usage;
+        public override string Usage => Commands[0] + Translations["Ban_Usage"];
 
         public override string DefaultPermission => "unturned.commands.admin.ban";
 
@@ -38,16 +38,16 @@ namespace PointBlank.Commands
 
             if (!PlayerTool.tryGetSteamID(args[0], out CSteamID player) || (executor != null && executor.SteamID == player))
             {
-                UnturnedChat.SendMessage(executor, Translation.Base_InvalidPlayer, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translations["Base_InvalidPlayer"], ConsoleColor.Red);
                 return;
             }
             ip = SteamGameServerNetworking.GetP2PSessionState(player, out P2PSessionState_t p2PSessionState_t) ? p2PSessionState_t.m_nRemoteIP : 0u;
             if (args.Length < 2 || uint.TryParse(args[1], out uint duration))
                 duration = SteamBlacklist.PERMANENT;
-            string reason = args.Length < 3 ? Translation.Ban_Reason : args[2];
+            string reason = args.Length < 3 ? Translations["Ban_Reason"] : args[2];
 
             SteamBlacklist.ban(player, ip, executor?.SteamID ?? CSteamID.Nil, reason, duration);
-            UnturnedChat.SendMessage(executor, string.Format(Translation.Ban_Success, player), ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, string.Format(Translations["Ban_Success"], player), ConsoleColor.Green);
         }
     }
 }

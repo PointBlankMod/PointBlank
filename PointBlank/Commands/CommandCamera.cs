@@ -22,9 +22,9 @@ namespace PointBlank.Commands
             "Camera"
         };
 
-        public override string Help => Translation.Camera_Help;
+        public override string Help => Translations["Camera_Help"];
 
-        public override string Usage => Commands[0] + Translation.Camera_Usage;
+        public override string Usage => Commands[0] + Translations["Camera_Usage"];
 
         public override string DefaultPermission => "unturned.commands.server.camera";
 
@@ -55,7 +55,7 @@ namespace PointBlank.Commands
                     break;
             }
             Provider.cameraMode = mode;
-            UnturnedChat.SendMessage(executor, string.Format(Translation.Camera_SetTo, mode.ToString()), ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, string.Format(Translations["Camera_SetTo"], mode.ToString()), ConsoleColor.Green);
         }
     }
 }

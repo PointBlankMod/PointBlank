@@ -22,7 +22,7 @@ namespace PointBlank.Commands
             "Bans"
         };
 
-        public override string Help => Translation.Bans_Help;
+        public override string Help => Translations["Bans_Help"];
 
         public override string Usage => Commands[0];
 
@@ -31,7 +31,7 @@ namespace PointBlank.Commands
 
         public override void Execute(UnturnedPlayer executor, string[] args)
         {
-            UnturnedChat.SendMessage(executor, Translation.Bans_List + string.Join(",", SteamBlacklist.list.Select(a => a.playerID.ToString()).ToArray()), ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, Translations["Bans_List"] + string.Join(",", SteamBlacklist.list.Select(a => a.playerID.ToString()).ToArray()), ConsoleColor.Green);
         }
     }
 }

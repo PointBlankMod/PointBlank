@@ -21,9 +21,9 @@ namespace PointBlank.Commands
             "Bind"
         };
 
-        public override string Help => Translation.Bind_Help;
+        public override string Help => Translations["Bind_Help"];
 
-        public override string Usage => Commands[0] + Translation.Bind_Usage;
+        public override string Usage => Commands[0] + Translations["Bind_Usage"];
 
         public override string DefaultPermission => "unturned.commands.server.bind";
 
@@ -34,7 +34,7 @@ namespace PointBlank.Commands
         {
             if (!Parser.checkIP(args[0]))
             {
-                CommandWindow.Log(Translation.Bind_InvalidIP, ConsoleColor.Red);
+                CommandWindow.Log(Translations["Bind_InvalidIP"], ConsoleColor.Red);
                 return;
             }
 

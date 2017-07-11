@@ -22,9 +22,9 @@ namespace PointBlank.Commands
             "Map"
         };
 
-        public override string Help => Translation.Map_Help;
+        public override string Help => Translations["Map_Help"];
 
-        public override string Usage => Commands[0] + Translation.Map_Usage;
+        public override string Usage => Commands[0] + Translations["Map_Usage"];
 
         public override string DefaultPermission => "unturned.commands.server.map";
 
@@ -35,12 +35,12 @@ namespace PointBlank.Commands
         {
             if (!Level.exists(args[0]))
             {
-                UnturnedChat.SendMessage(executor, Translation.Map_Invalid, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translations["Map_Invalid"], ConsoleColor.Red);
                 return;
             }
 
             Provider.map = args[0];
-            UnturnedChat.SendMessage(executor, string.Format(Translation.Map_Set, args[0]), ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, string.Format(Translations["Map_Set"], args[0]), ConsoleColor.Green);
         }
     }
 }

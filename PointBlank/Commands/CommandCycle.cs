@@ -22,9 +22,9 @@ namespace PointBlank.Commands
             "Cycle"
         };
 
-        public override string Help => Translation.Cycle_Help;
+        public override string Help => Translations["Cycle_Help"];
 
-        public override string Usage => Commands[0] + Translation.Cycle_Usage;
+        public override string Usage => Commands[0] + Translations["Cycle_Usage"];
 
         public override string DefaultPermission => "unturned.commands.admin.cycle";
         #endregion
@@ -33,22 +33,22 @@ namespace PointBlank.Commands
         {
             if(Provider.isServer && Level.info.type == ELevelType.ARENA)
             {
-                UnturnedChat.SendMessage(executor, Translation.Base_NoArenaTime, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translations["Base_NoArenaTime"], ConsoleColor.Red);
                 return;
             }
             if (Provider.isServer && Level.info.type == ELevelType.HORDE)
             {
-                UnturnedChat.SendMessage(executor, Translation.Base_NoHordeTime, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translations["Base_NoHordeTime"], ConsoleColor.Red);
                 return;
             }
             if (!uint.TryParse(args[0], out uint cycle))
             {
-                UnturnedChat.SendMessage(executor, Translation.Cycle_Invalid, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translations["Cycle_Invalid"], ConsoleColor.Red);
                 return;
             }
 
             LightingManager.cycle = cycle;
-            UnturnedChat.SendMessage(executor, string.Format(Translation.Cycle_SetTo, cycle), ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, string.Format(Translations["Cycle_SetTo"], cycle), ConsoleColor.Green);
         }
     }
 }

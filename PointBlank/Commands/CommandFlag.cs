@@ -21,9 +21,9 @@ namespace PointBlank.Commands
             "Flag"
         };
 
-        public override string Help => Translation.Flag_Help;
+        public override string Help => Translations["Flag_Help"];
 
-        public override string Usage => Commands[0] + Translation.Flag_Usage;
+        public override string Usage => Commands[0] + Translations["Flag_Usage"];
 
         public override string DefaultPermission => "unturned.commands.admin.flag";
 
@@ -34,26 +34,26 @@ namespace PointBlank.Commands
         {
             if (!ushort.TryParse(args[0], out ushort flag))
             {
-                UnturnedChat.SendMessage(executor, Translation.Flag_InvalidFlag, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translations["Flag_InvalidFlag"], ConsoleColor.Red);
                 return;
             }
             if (!short.TryParse(args[1], out short value))
             {
-                UnturnedChat.SendMessage(executor, Translation.Flag_InvalidValue, ConsoleColor.Red);
+                UnturnedChat.SendMessage(executor, Translations["Flag_InvalidValue"], ConsoleColor.Red);
                 return;
             }
             if (args.Length < 3 || !UnturnedPlayer.TryGetPlayer(args[2], out UnturnedPlayer player))
             {
                 if (executor == null)
                 {
-                    UnturnedChat.SendMessage(executor, Translation.Base_InvalidPlayer, ConsoleColor.Red);
+                    UnturnedChat.SendMessage(executor, Translations["Base_InvalidPlayer"], ConsoleColor.Red);
                     return;
                 }
                 player = executor;
             }
 
             player.Player.quests.sendSetFlag(flag, value);
-            UnturnedChat.SendMessage(executor, string.Format(Translation.Flag_Set, player.PlayerName), ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, string.Format(Translations["Flag_Set"], player.PlayerName), ConsoleColor.Green);
         }
     }
 }

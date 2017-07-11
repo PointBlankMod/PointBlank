@@ -24,9 +24,9 @@ namespace PointBlank.Commands
             "Kill"
         };
 
-        public override string Help => Translation.Kill_Help;
+        public override string Help => Translations["Kill_Help"];
 
-        public override string Usage => Commands[0] + Translation.Kill_Usage;
+        public override string Usage => Commands[0] + Translations["Kill_Usage"];
 
         public override string DefaultPermission => "unturned.commands.admin.kill";
         #endregion
@@ -37,7 +37,7 @@ namespace PointBlank.Commands
             {
                 if(executor == null)
                 {
-                    UnturnedChat.SendMessage(executor, Translation.Base_InvalidPlayer, ConsoleColor.Red);
+                    UnturnedChat.SendMessage(executor, Translations["Base_InvalidPlayer"], ConsoleColor.Red);
                     return;
                 }
 
@@ -45,7 +45,7 @@ namespace PointBlank.Commands
             }
 
             ply.Player.life.askDamage(255, Vector3.up * 10f, EDeathCause.KILL, ELimb.SKULL, executor?.SteamID ?? CSteamID.Nil, out EPlayerKill kill);
-            UnturnedChat.SendMessage(executor, string.Format(Translation.Kill_Killed, ply.PlayerName), ConsoleColor.Green);
+            UnturnedChat.SendMessage(executor, string.Format(Translations["Kill_Killed"], ply.PlayerName), ConsoleColor.Green);
         }
     }
 }
