@@ -184,7 +184,7 @@ namespace PointBlank.Services.CommandManager
 
             if(wrapper == null || !wrapper.Enabled)
             {
-                CommandWindow.Log(ServiceTranslations.CommandManager_Invalid, ConsoleColor.Red);
+                CommandWindow.Log(Enviroment.ServiceTranslations[typeof(ServiceTranslations)].Translations["CommandManager_Invalid"], ConsoleColor.Red);
                 return;
             }
             if (info.Length > 1)
@@ -208,7 +208,7 @@ namespace PointBlank.Services.CommandManager
 
             if(wrapper == null || !wrapper.Enabled)
             {
-                ply.SendMessage(ServiceTranslations.CommandManager_Invalid, Color.red);
+                ply.SendMessage(Enviroment.ServiceTranslations[typeof(ServiceTranslations)].Translations["CommandManager_Invalid"], Color.red);
                 return;
             }
             permission = wrapper.Permission;
@@ -219,7 +219,7 @@ namespace PointBlank.Services.CommandManager
                 permission += "." + string.Join(".", args.ToArray());
             if (!ply.HasPermission(permission))
             {
-                ply.SendMessage(ServiceTranslations.CommandManager_NotEnoughPermissions, Color.red);
+                ply.SendMessage(Enviroment.ServiceTranslations[typeof(ServiceTranslations)].Translations["CommandManager_NotEnoughPermissions"], Color.red);
                 return;
             }
 

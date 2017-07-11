@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PointBlank.API;
 using PointBlank.Framework;
+using PT = System.IO.Path;
 
 namespace PointBlank.API.DataManagment
 {
@@ -56,6 +57,8 @@ namespace PointBlank.API.DataManagment
             this.Path = path + ".dat"; // Set the path
             this.CreatedNew = !File.Exists(Path); // Check if the file has to be created
 
+            if (!Directory.Exists(PT.GetDirectoryName(Path)))
+                Directory.CreateDirectory(PT.GetDirectoryName(Path));
             if (CreatedNew)
             {
                 DataType = DefaultDataType; // Set the data type
@@ -120,7 +123,7 @@ namespace PointBlank.API.DataManagment
         /// </summary>
         public void Save()
         {
-            switch (Configuration.SaveDataType)
+            /*switch ((EDataType)Enviroment.FrameworkConfig[typeof(PointBlank)].Configurations["ConfigFormat"])
             {
                 case EDataType.JSON:
                     if (DataType == EDataType.XML || XML != null)
@@ -134,7 +137,8 @@ namespace PointBlank.API.DataManagment
 
                     XML.Save(); // Save the XML
                     break;
-            }
+            }*/
+            JSON.Save();
         }
         #endregion
 

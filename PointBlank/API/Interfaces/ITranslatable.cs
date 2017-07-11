@@ -22,6 +22,6 @@ namespace PointBlank.API.Interfaces
         /// <summary>
         /// The dictionary to save the ITranslatable instance to(set to null if the Translations and TranslationDirectory are static)
         /// </summary>
-        Dictionary<string, ITranslatable> TranslationDictionary { get; }
+        Dictionary<Type, ITranslatable> TranslationDictionary { get; }
     }
 }

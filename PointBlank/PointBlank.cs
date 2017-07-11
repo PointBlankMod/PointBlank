@@ -14,9 +14,11 @@ using UnityEngine;
 using PointBlank.Framework.Objects;
 using PointBlank.Framework;
 using PointBlank.API.DataManagment;
+using PointBlank.API.Interfaces;
 using PointBlank.Services.PluginManager;
 using Newtonsoft.Json.Linq;
 using Steamworks;
+using PointBlank.API.Collections;
 
 namespace PointBlank
 {
@@ -26,7 +28,12 @@ namespace PointBlank
         public static PointBlank Instance { get; private set; } // Self instance
         public static bool Enabled { get; private set; } // Is PointBlank running
 
-        private static UniversalData LoaderData { get; set; } // The configuration data
+        public string ConfigurationDirectory => null;
+        public ConfigurationList Configurations => new ConfigurationList()
+        {
+            { "ConfigFormat", EDataType.JSON }
+        };
+        public Dictionary<Type, IConfigurable> ConfigurationDictionary => Enviroment.FrameworkConfig;
         #endregion
 
         #region Nexus Interface
@@ -49,12 +56,12 @@ namespace PointBlank
             Enviroment.runtimeObjects.Add("Plugins", new RuntimeObject(new GameObject("Plugins")));
 
             // Add the code objects
-            Enviroment.runtimeObjects["Framework"].AddCodeObject<ServiceManager>();
             Enviroment.runtimeObjects["Framework"].AddCodeObject<InterfaceManager>();
+            Enviroment.runtimeObjects["Framework"].AddCodeObject<ServiceManager>();
 
             // Run the inits
-            Enviroment.runtimeObjects["Framework"].GetCodeObject<ServiceManager>().Init();
             Enviroment.runtimeObjects["Framework"].GetCodeObject<InterfaceManager>().Init();
+            Enviroment.runtimeObjects["Framework"].GetCodeObject<ServiceManager>().Init();
 
             // Run required methods
             RunRequirements();
@@ -109,35 +116,6 @@ namespace PointBlank
 
         private void RunRequirements()
         {
-            LoaderData = new UniversalData(ServerInfo.ConfigurationsPath + "\\PointBlank");
-            JsonData data = LoaderData.GetData(EDataType.JSON) as JsonData;
-
-            if (!LoaderData.CreatedNew)
-            {
-                data.Verify(new Dictionary<string, JToken>()
-                {
-                    { "ConfigFormat", "JSON" }
-                });
-                switch (((string)data.Document["ConfigFormat"]).ToLower())
-                {
-                    case "xml":
-                        Configuration.SaveDataType = EDataType.XML;
-                        break;
-                    case "json":
-                        Configuration.SaveDataType = EDataType.JSON;
-                        break;
-                    default:
-                        Configuration.SaveDataType = EDataType.UNKNOWN;
-                        break;
-                }
-            }
-            else
-            {
-                data.Document.Add("ConfigFormat", "JSON");
-
-                Configuration.SaveDataType = EDataType.JSON;
-                LoaderData.Save();
-            }
             TranslationManager.Load();
         }
 
@@ -146,7 +124,6 @@ namespace PointBlank
             foreach(SQLData sql in Enviroment.SQLConnections.Where(a => a.Connected))
                 sql.Disconnect();
 
-            LoaderData.Save();
             TranslationManager.Save();
         }
         #endregion

@@ -16,6 +16,11 @@ namespace PointBlank.Framework
 {
     internal class InterfaceManager : MonoBehaviour
     {
+        #region Variables
+        private static Dictionary<IConfigurable, UniversalData> _SavedConfigs = new Dictionary<IConfigurable, UniversalData>();
+        private static Dictionary<ITranslatable, UniversalData> _SavedTranslations = new Dictionary<ITranslatable, UniversalData>();
+        #endregion
+
         #region Properties
         public bool Initialized { get; private set; } = false;
         #endregion
@@ -23,37 +28,26 @@ namespace PointBlank.Framework
         #region Private Functions
         private void LoadConfigurable(Type configurable)
         {
-            MethodInfo miDirectory = configurable.GetMethod("get_ConfigurationDirectory", BindingFlags.Static | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-            MethodInfo miConfigurations = configurable.GetMethod("get_Configurations", BindingFlags.Static | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-            MethodInfo miDictionary = configurable.GetMethod("get_ConfigurationDictionary", BindingFlags.Static | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
             string path = null;
             ConfigurationList configurations = null;
-            Dictionary<string, IConfigurable> dictionary = null;
+            Dictionary<Type, IConfigurable> dictionary = null;
+            IConfigurable cfg = (IConfigurable)Activator.CreateInstance(configurable);
 
-            if (!(miDirectory.IsStatic && miConfigurations.IsStatic && miDictionary.IsStatic) && !(!miDirectory.IsStatic && !miDictionary.IsStatic && !miConfigurations.IsStatic))
-                return;
-            
-            if (miDirectory.IsStatic && miConfigurations.IsStatic && miDictionary.IsStatic)
-            {
-                path = (string)miDirectory.Invoke(null, new object[0]);
-                configurations = (ConfigurationList)miConfigurations.Invoke(null, new object[0]);
-            }
-            else if (!miDirectory.IsStatic && !miDictionary.IsStatic && !miConfigurations.IsStatic)
-            {
-                IConfigurable cfg = (IConfigurable)Activator.CreateInstance(configurable);
-                path = cfg.ConfigurationDirectory;
-                configurations = cfg.Configurations;
-                dictionary = cfg.ConfigurationDictionary;
+            path = cfg.ConfigurationDirectory;
+            configurations = cfg.Configurations;
+            dictionary = cfg.ConfigurationDictionary;
+            if (dictionary != null)
+                dictionary.Add(configurable, cfg);
 
-                if (dictionary != null)
-                    dictionary.Add(configurable.Name, cfg);
-            }
+            UniversalData UniData;
+            if (_SavedConfigs.ContainsKey(cfg))
+                UniData = _SavedConfigs[cfg];
             else
-                return;
-
-            UniversalData UniData = new UniversalData(ServerInfo.ConfigurationsPath + "/" + path + "/" + configurable.Name);
+                UniData = new UniversalData(ServerInfo.ConfigurationsPath + "/" + (string.IsNullOrEmpty(path) ? "" : path + "/") + configurable.Name);
             JsonData JSON = UniData.GetData(EDataType.JSON) as JsonData;
 
+            if (!_SavedConfigs.ContainsKey(cfg))
+                _SavedConfigs.Add(cfg, UniData);
             if(UniData.CreatedNew)
             {
                 foreach(KeyValuePair<string, object> kvp in configurations)
@@ -77,9 +71,91 @@ namespace PointBlank.Framework
             UniData.Save();
         }
 
+        private void SaveConfigurable(Type configurable)
+        {
+            foreach(IConfigurable cfg in _SavedConfigs.Keys)
+            {
+                if(cfg.GetType() == configurable)
+                {
+                    foreach(KeyValuePair<string, object> conf in cfg.Configurations)
+                    {
+                        JsonData JSON  = _SavedConfigs[cfg].GetData(EDataType.JSON) as JsonData;
+
+                        if (JSON.Document[conf.Key] != null)
+                            JSON.Document[conf.Key] = JToken.FromObject(conf.Value);
+                        else
+                            JSON.Document.Add(conf.Key, JToken.FromObject(conf.Value));
+                    }
+                    _SavedConfigs[cfg].Save();
+                    break;
+                }
+            }
+        }
+
         private void LoadTranslatable(Type translatable)
         {
+            string path = null;
+            TranslationList translations = null;
+            Dictionary<Type, ITranslatable> dictionary = null;
+            ITranslatable translater = (ITranslatable)Activator.CreateInstance(translatable);
 
+            path = translater.TranslationDirectory;
+            translations = translater.Translations;
+            dictionary = translater.TranslationDictionary;
+            if (dictionary != null)
+                dictionary.Add(translatable, translater);
+
+            UniversalData UniData;
+            if (_SavedTranslations.ContainsKey(translater))
+                UniData = _SavedTranslations[translater];
+            else
+                UniData = new UniversalData(ServerInfo.TranslationsPath + "/" + (string.IsNullOrEmpty(path) ? "" : path + "/") + translatable.Name);
+            JsonData JSON = UniData.GetData(EDataType.JSON) as JsonData;
+
+            if (!_SavedTranslations.ContainsKey(translater))
+                _SavedTranslations.Add(translater, UniData);
+            if (UniData.CreatedNew)
+            {
+                foreach (KeyValuePair<string, string> kvp in translations)
+                {
+                    if (JSON.CheckKey(kvp.Key))
+                        JSON.Document[kvp.Key] = kvp.Value;
+                    else
+                        JSON.Document.Add(kvp.Key, kvp.Value);
+                }
+            }
+            else
+            {
+                foreach (JProperty property in JSON.Document.Properties())
+                {
+                    if (translations[property.Name] == null)
+                        continue;
+
+                    translations[property.Name] = (string)property.Value;
+                }
+            }
+            UniData.Save();
+        }
+
+        private void SaveTranslatable(Type translatable)
+        {
+            foreach (ITranslatable translator in _SavedTranslations.Keys)
+            {
+                if (translator.GetType() == translatable)
+                {
+                    foreach (KeyValuePair<string, string> translation in translator.Translations)
+                    {
+                        JsonData JSON = _SavedTranslations[translator].GetData(EDataType.JSON) as JsonData;
+
+                        if (JSON.Document[translation.Key] != null)
+                            JSON.Document[translation.Key] = translation.Value;
+                        else
+                            JSON.Document.Add(translation.Key, translation.Value);
+                    }
+                    _SavedTranslations[translator].Save();
+                    break;
+                }
+            }
         }
         #endregion
 
@@ -93,6 +169,17 @@ namespace PointBlank.Framework
                 LoadConfigurable(_interface);
             if (typeof(ITranslatable).IsAssignableFrom(_interface))
                 LoadTranslatable(_interface);
+        }
+
+        public void SaveInterface(Type _interface)
+        {
+            if (!_interface.IsClass)
+                return;
+
+            if (typeof(IConfigurable).IsAssignableFrom(_interface))
+                SaveConfigurable(_interface);
+            if (typeof(ITranslatable).IsAssignableFrom(_interface))
+                SaveTranslatable(_interface);
         }
 
         public void Init()
@@ -112,6 +199,7 @@ namespace PointBlank.Framework
 
             // Setup the events
             PluginEvents.OnPluginLoaded += new PluginEvents.PluginEventHandler(OnPluginLoaded);
+            PluginEvents.OnPluginUnloaded += new PluginEvents.PluginEventHandler(OnPluginUnloaded);
 
             // Set the variables
             Initialized = true;
@@ -121,6 +209,9 @@ namespace PointBlank.Framework
         {
             if (!Initialized)
                 return;
+
+            foreach (Type _class in Assembly.GetExecutingAssembly().GetTypes())
+                SaveInterface(_class);
 
             // Set the variables
             Initialized = false;
@@ -132,6 +223,12 @@ namespace PointBlank.Framework
         {
             foreach (Type _class in plugin.GetType().Assembly.GetTypes())
                 LoadInterface(_class);
+        }
+
+        private void OnPluginUnloaded(Plugin plugin)
+        {
+            foreach (Type _class in plugin.GetType().Assembly.GetTypes())
+                SaveInterface(_class);
         }
         #endregion
     }

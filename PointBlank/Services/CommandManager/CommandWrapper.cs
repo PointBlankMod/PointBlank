@@ -12,11 +12,16 @@ using Newtonsoft.Json.Linq;
 using SDG.Unturned;
 using UnityEngine;
 using PointBlank.Framework.Translations;
+using PointBlank.API.Collections;
 
 namespace PointBlank.Services.CommandManager
 {
     internal class CommandWrapper
     {
+        #region Variables
+        private TranslationList Translations;
+        #endregion
+
         #region Properties
         public Type Class { get; private set; }
         public PointBlankCommandAttribute Attribute { get; private set; }
@@ -39,6 +44,7 @@ namespace PointBlank.Services.CommandManager
 
             // Setup the variables
             CommandClass = (CMD)Activator.CreateInstance(Class);
+            Translations = Enviroment.ServiceTranslations[typeof(ServiceTranslations)].Translations;
 
             // Run the code
             Reload();
@@ -90,32 +96,32 @@ namespace PointBlank.Services.CommandManager
             {
                 if (CommandClass.AllowedServerState == EAllowedServerState.LOADING && Provider.isServer)
                 {
-                    CM.SendMessage(executor, ServiceTranslations.CommandWrapper_Running, ConsoleColor.Red);
+                    CM.SendMessage(executor, Translations["CommandWrapper_Running"], ConsoleColor.Red);
                     return;
                 }
                 if (CommandClass.AllowedServerState == EAllowedServerState.RUNNING && !Provider.isServer)
                 {
-                    CM.SendMessage(executor, ServiceTranslations.CommandWrapper_NotRunning, ConsoleColor.Red);
+                    CM.SendMessage(executor, Translations["CommandWrapper_NotRunning"], ConsoleColor.Red);
                     return;
                 }
                 if (CommandClass.AllowedCaller == EAllowedCaller.SERVER && executor != null)
                 {
-                    executor.SendMessage(ServiceTranslations.CommandWrapper_NotConsole, Color.red);
+                    executor.SendMessage(Translations["CommandWrapper_NotConsole"], Color.red);
                     return;
                 }
                 if (CommandClass.AllowedCaller == EAllowedCaller.PLAYER && executor == null)
                 {
-                    executor.SendMessage(ServiceTranslations.CommandWrapper_NotPlayer, Color.red);
+                    executor.SendMessage(Translations["CommandWrapper_NotPlayer"], Color.red);
                     return;
                 }
                 if (Attribute.MinParams > args.Length)
                 {
-                    CM.SendMessage(executor, ServiceTranslations.CommandWrapper_Arguments, ConsoleColor.Red);
+                    CM.SendMessage(executor, Translations["CommandWrapper_Arguments"], ConsoleColor.Red);
                     return;
                 }
                 if(executor != null && executor.HasCooldown(CommandClass))
                 {
-                    executor.SendMessage(ServiceTranslations.CommandWrapper_Cooldown, Color.red);
+                    executor.SendMessage(Translations["CommandWrapper_Cooldown"], Color.red);
                     return;
                 }
                 bool shouldExecute = true;

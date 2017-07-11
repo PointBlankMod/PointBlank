@@ -22,6 +22,6 @@ namespace PointBlank.API.Interfaces
         /// <summary>
         /// The dictionary to save the IConfigurable instance to(set to null if the Configurations and ConfigurationDirectory are static)
         /// </summary>
-        Dictionary<string, IConfigurable> ConfigurationDictionary { get; }
+        Dictionary<Type, IConfigurable> ConfigurationDictionary { get; }
     }
 }

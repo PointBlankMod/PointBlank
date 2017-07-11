@@ -186,7 +186,6 @@
     <Compile Include="Commands\CommandWelcome.cs" />
     <Compile Include="Commands\CommandWhitelisted.cs" />
     <Compile Include="Enviroment.cs" />
-    <Compile Include="Framework\Configuration.cs" />
     <Compile Include="Framework\InterfaceManager.cs" />
     <Compile Include="Framework\Objects\RuntimeObject.cs" />
     <Compile Include="Framework\Overrides\_Barricade.cs" />
