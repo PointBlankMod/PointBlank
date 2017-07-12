@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using PointBlank.API.Commands;
+using PointBlank.API.Unturned.Server;
 using PointBlank.API.Unturned.Player;
 using PointBlank.API.Unturned.Chat;
 using PointBlank.API.Groups;
@@ -35,6 +36,7 @@ namespace PointBlank.Commands
         {
             if (StringComparer.InvariantCultureIgnoreCase.Compare(args[0], Translations["Player_Commands_Help"]) == 0)
             {
+                UnturnedChat.SendMessage(executor, Commands[0] + " " + Translations["Player_Commands_Reload"], ConsoleColor.Green);
                 UnturnedChat.SendMessage(executor, Commands[0] + string.Format(Translations["Player_Group"], Translations["Player_Commands_Groups"]), ConsoleColor.Green);
                 UnturnedChat.SendMessage(executor, Commands[0] + string.Format(Translations["Player_Group_Modify"], Translations["Player_Commands_Groups"], Translations["Player_Commands_Groups_Add"]), ConsoleColor.Green);
                 UnturnedChat.SendMessage(executor, Commands[0] + string.Format(Translations["Player_Group_Modify"], Translations["Player_Commands_Groups"], Translations["Player_Commands_Groups_Remove"]), ConsoleColor.Green);
@@ -47,6 +49,11 @@ namespace PointBlank.Commands
             else if (StringComparer.InvariantCultureIgnoreCase.Compare(args[0], Translations["Player_Commands_Groups"]) == 0)
             {
                 Groups(executor, args);
+            }
+            else if(StringComparer.InvariantCultureIgnoreCase.Compare(args[0], Translations["Player_Commands_Reload"]) == 0)
+            {
+                UnturnedServer.ReloadPlayers();
+                UnturnedChat.SendMessage(executor, Translations["Player_Reloaded"], ConsoleColor.Green);
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Threading;
 using System.Data.SqlClient;
 using System.Collections.Generic;
 using System.Security.Permissions;
@@ -15,6 +16,12 @@ namespace PointBlank.API.DataManagment
     [RingPermission(SecurityAction.Demand, ring = RingPermissionRing.None)]
     public class SQLData
     {
+        #region Variables
+        private static Thread _tAsync = new Thread(new ThreadStart(RunAsync));
+
+        private static Queue<AsyncCommand> _AsyncCommands = new Queue<AsyncCommand>();
+        #endregion
+
         #region Properties
         /// <summary>
         /// The Server of the SQL
@@ -63,6 +70,9 @@ namespace PointBlank.API.DataManagment
         /// <param name="trusted">Is the connection trusted</param>
         public SQLData(string server, string database, string username, string password, int timeout = 30, bool trusted = true)
         {
+            if (_tAsync.ThreadState != ThreadState.Running)
+                _tAsync.Start();
+
             this.Server = server; // Set the server
             this.Database = database; // Set the database
             this.Username = username; // Set the username
@@ -82,9 +92,9 @@ namespace PointBlank.API.DataManagment
         /// </summary>
         /// <param name="dataType">The datatype to convert</param>
         /// <returns>Converted string</returns>
-           public static string DataTypeToString(ESQLDataType dataType)
+        public static string DataTypeToString(ESQLDataType dataType)
         {
-            switch(dataType)
+            switch (dataType)
             {
                 case ESQLDataType.BIGINT:
                     return "BIGINT";
@@ -298,6 +308,26 @@ namespace PointBlank.API.DataManagment
                     return "TEXT";
             }
         }
+
+        private static void RunAsync()
+        {
+            while (_AsyncCommands.Count > 0)
+            {
+                AsyncCommand command = _AsyncCommands.Dequeue();
+
+                try
+                {
+                    if (command.CallBack == null)
+                        command.Command.ExecuteNonQuery();
+                    else
+                        command.CallBack(command.Command.ExecuteReader(command.Behaviour));
+                }
+                catch (Exception ex)
+                {
+                    Logging.LogError("Could not send async command to server!", ex, false, false);
+                }
+            }
+        }
         #endregion
 
         #region Public Functions
@@ -377,6 +407,30 @@ namespace PointBlank.API.DataManagment
         }
 
         /// <summary>
+        /// Executes an SQL command on the server without returning the output using async
+        /// </summary>
+        /// <param name="command">The command to execute</param>
+        /// <param name="paramaters">The paramaters in the command</param>
+        public void SendCommandAsync(string command, Dictionary<string, string> paramaters = null)
+        {
+            try
+            {
+                Command.CommandText = command; // Set the command text
+                Command.Parameters.Clear(); // Clear the paramaters
+
+                if (paramaters != null)
+                    foreach (KeyValuePair<string, string> kvp in paramaters)
+                        Command.Parameters.AddWithValue(kvp.Key, kvp.Value); // Add the paramater
+
+                _AsyncCommands.Enqueue(new AsyncCommand(Command));
+            }
+            catch (Exception ex)
+            {
+                Logging.LogError("Could not send command in SQL server: " + Server, ex, false, false);
+            }
+        }
+
+        /// <summary>
         /// Executes an SQL command on the server and returns the output
         /// </summary>
         /// <param name="command">The command to execute</param>
@@ -408,6 +462,33 @@ namespace PointBlank.API.DataManagment
         }
 
         /// <summary>
+        /// Executes an SQL command on the server and returns the output through a callback using async
+        /// </summary>
+        /// <param name="command">The command to execute</param>
+        /// <param name="output">The data returned by the SQL server</param>
+        /// <param name="behaviour">The behaviour of the server</param>
+        /// <param name="paramaters">The paramaters in the command</param>
+        /// <param name="callback">The callback function that is called when the query is done</param>
+        public void SendCommandAsync(string command, Action<SqlDataReader> callback, CommandBehavior behaviour = CommandBehavior.Default, Dictionary<string, string> paramaters = null)
+        {
+            try
+            {
+                Command.CommandText = command; // Set the command text
+                Command.Parameters.Clear(); // Clear the paramaters
+
+                if (paramaters != null)
+                    foreach (KeyValuePair<string, string> kvp in paramaters)
+                        Command.Parameters.AddWithValue(kvp.Key, kvp.Value); // Add the paramater
+
+                _AsyncCommands.Enqueue(new AsyncCommand(Command, callback, behaviour));
+            }
+            catch (Exception ex)
+            {
+                Logging.LogError("Could not send command in SQL server: " + Server, ex, false, false);
+            }
+        }
+
+        /// <summary>
         /// Creates a table on the SQL server
         /// </summary>
         /// <param name="tableName">The name of the table</param>
@@ -417,10 +498,25 @@ namespace PointBlank.API.DataManagment
         {
             string cols = "id INT(16) UNSIGNED AUTO_INCREMENT PRIMARY KEY";
 
-            foreach(KeyValuePair<string, ESQLDataType> kvp in columns)
+            foreach (KeyValuePair<string, ESQLDataType> kvp in columns)
                 cols += "," + kvp.Key + DataTypeToString(kvp.Value);
 
             return SendCommand("CREATE TABLE " + tableName + " (" + cols + ");");
+        }
+
+        /// <summary>
+        /// Creates a table on the SQL server using async
+        /// </summary>
+        /// <param name="tableName">The name of the table</param>
+        /// <param name="columns">The columns of the table</param>
+        public void CreateTableAsync(string tableName, Dictionary<string, ESQLDataType> columns)
+        {
+            string cols = "id INT(16) UNSIGNED AUTO_INCREMENT PRIMARY KEY";
+
+            foreach (KeyValuePair<string, ESQLDataType> kvp in columns)
+                cols += "," + kvp.Key + DataTypeToString(kvp.Value);
+
+            SendCommandAsync("CREATE TABLE " + tableName + " (" + cols + ");");
         }
 
         /// <summary>
@@ -429,6 +525,12 @@ namespace PointBlank.API.DataManagment
         /// <param name="tableName">The name of the table to remove</param>
         /// <returns>If the table was successful</returns>
         public bool DeleteTable(string tableName) => SendCommand("DROP TABLE " + tableName + ";");
+
+        /// <summary>
+        /// Deletes a table from the SQL server using async
+        /// </summary>
+        /// <param name="tableName">The name of the table to remove</param>
+        public void DeleteTableAsync(string tableName) => SendCommandAsync("DROP TABLE " + tableName + ";");
 
         /// <summary>
         /// Adds an entry to the table
@@ -440,10 +542,25 @@ namespace PointBlank.API.DataManagment
         {
             Dictionary<string, string> paramaters = new Dictionary<string, string>();
 
-            for(int i = 0; i < data.Length; i++)
+            for (int i = 0; i < data.Length; i++)
                 paramaters.Add("@f" + i, data[i]);
 
             return SendCommand("INSERT INTO " + tableName + " VALUE (" + string.Join(", ", paramaters.Keys.ToArray()) + ");", paramaters);
+        }
+
+        /// <summary>
+        /// Adds an entry to the table using async
+        /// </summary>
+        /// <param name="tableName">The name of the table to add the entry to</param>
+        /// <param name="data">The column values to set</param>
+        public void AddEntryAsync(string tableName, string[] data)
+        {
+            Dictionary<string, string> paramaters = new Dictionary<string, string>();
+
+            for (int i = 0; i < data.Length; i++)
+                paramaters.Add("@f" + i, data[i]);
+
+            SendCommandAsync("INSERT INTO " + tableName + " VALUE (" + string.Join(", ", paramaters.Keys.ToArray()) + ");", paramaters);
         }
 
         /// <summary>
@@ -458,7 +575,7 @@ namespace PointBlank.API.DataManagment
             string[] values = new string[data.Count];
             Dictionary<string, string> paramaters = new Dictionary<string, string>();
 
-            for(int i = 0; i < data.Count; i++)
+            for (int i = 0; i < data.Count; i++)
             {
                 columns[i] = data.Keys.ElementAt(i);
                 values[i] = "@" + data.Keys.ElementAt(i);
@@ -466,6 +583,27 @@ namespace PointBlank.API.DataManagment
             }
 
             return SendCommand("INSERT INTO " + tableName + " (" + string.Join(", ", columns) + ") VALUES (" + string.Join(", ", values) + ");", paramaters);
+        }
+
+        /// <summary>
+        /// Adds an entry to the table on specified columns using async
+        /// </summary>
+        /// <param name="tableName">The name of the table</param>
+        /// <param name="data">The column and value dictionary</param>
+        public void AddEntryAsync(string tableName, Dictionary<string, string> data)
+        {
+            string[] columns = new string[data.Count];
+            string[] values = new string[data.Count];
+            Dictionary<string, string> paramaters = new Dictionary<string, string>();
+
+            for (int i = 0; i < data.Count; i++)
+            {
+                columns[i] = data.Keys.ElementAt(i);
+                values[i] = "@" + data.Keys.ElementAt(i);
+                paramaters.Add("@" + data.Keys.ElementAt(i), data.Values.ElementAt(i));
+            }
+
+            SendCommandAsync("INSERT INTO " + tableName + " (" + string.Join(", ", columns) + ") VALUES (" + string.Join(", ", values) + ");", paramaters);
         }
 
         /// <summary>
@@ -494,6 +632,30 @@ namespace PointBlank.API.DataManagment
         }
 
         /// <summary>
+        /// Modifies an entry in the table using async
+        /// </summary>
+        /// <param name="tableName">The name of the table</param>
+        /// <param name="data">The columns + values to modify</param>
+        /// <param name="condition">The condition to find what to modify</param>
+        /// <param name="conditionParameters">Parameters for the condition</param>
+        public void ModifyEntryAsync(string tableName, Dictionary<string, string> data, string condition, Dictionary<string, string> conditionParameters = null)
+        {
+            string[] sets = new string[data.Count];
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+
+            if (conditionParameters != null)
+                foreach (KeyValuePair<string, string> kvp in conditionParameters)
+                    parameters.Add(kvp.Key, kvp.Value);
+            for (int i = 0; i < data.Count; i++)
+            {
+                sets[i] = data.Keys.ElementAt(i) + " = @" + data.Keys.ElementAt(i);
+                parameters.Add("@" + data.Keys.ElementAt(i), data.Values.ElementAt(i));
+            }
+
+            SendCommandAsync("UPDATE " + tableName + " SET " + string.Join(", ", sets) + " WHERE " + condition, parameters);
+        }
+
+        /// <summary>
         /// Deletes an entry from the table
         /// </summary>
         /// <param name="tableName">The table name</param>
@@ -501,6 +663,30 @@ namespace PointBlank.API.DataManagment
         /// <param name="parameters">The option parameters for the condition</param>
         /// <returns>If the entry was deleted successfully</returns>
         public bool DeleteEntry(string tableName, string condition, Dictionary<string, string> parameters = null) => SendCommand("DELETE FROM " + tableName + " WHERE " + condition, parameters);
+
+        /// <summary>
+        /// Deletes an entry from the table using async
+        /// </summary>
+        /// <param name="tableName">The table name</param>
+        /// <param name="condition">The condition to find the correct entry</param>
+        /// <param name="parameters">The option parameters for the condition</param>
+        public void DeleteEntryAsync(string tableName, string condition, Dictionary<string, string> parameters = null) => SendCommandAsync("DELETE FROM " + tableName + " WHERE " + condition, parameters);
+        #endregion
+
+        #region SubClasses
+        private class AsyncCommand
+        {
+            public SqlCommand Command;
+            public Action<SqlDataReader> CallBack;
+            public CommandBehavior Behaviour;
+
+            public AsyncCommand(SqlCommand Command, Action<SqlDataReader> CallBack = null, CommandBehavior Behaviour = CommandBehavior.Default)
+            {
+                this.Command = Command;
+                this.CallBack = CallBack;
+                this.Behaviour = Behaviour;
+            }
+        }
         #endregion
     }
 }

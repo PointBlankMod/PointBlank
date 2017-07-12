@@ -160,6 +160,7 @@
     <Compile Include="Commands\CommandPermit.cs" />
     <Compile Include="Commands\CommandPermits.cs" />
     <Compile Include="Commands\CommandPlayer.cs" />
+    <Compile Include="Commands\CommandPointBlank.cs" />
     <Compile Include="Commands\CommandPort.cs" />
     <Compile Include="Commands\CommandPvE.cs" />
     <Compile Include="Commands\CommandQuest.cs" />
@@ -217,9 +218,7 @@
     <Compile Include="Services\PluginManager\PluginWrapper.cs" />
     <Compile Include="Services\PluginManager\PluginManager.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="API\Paypal\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

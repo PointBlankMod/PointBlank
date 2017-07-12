@@ -353,12 +353,14 @@ namespace PointBlank.Framework.Translations
             { "Group_Usage_Remove", " {0} <ID>" },
             { "Group_Added", "The group has been added!" },
             { "Group_Removed", "The group has been removed!" },
+            { "Group_Reloaded", "The group config has been reloaded!" },
             { "Group_Commands_Add", "Add" },
             { "Group_Commands_Help", "Help" },
             { "Group_Commands_IDs", "IDs" },
             { "Group_Commands_List", "List" },
             { "Group_Commands_Permissions", "Permissions" },
             { "Group_Commands_Remove", "Remove" },
+            { "Group_Commands_Reload", "Reload" },
 
             // Player
             { "Player_Help", "This allows you to get information on the player or modify it." },
@@ -367,6 +369,7 @@ namespace PointBlank.Framework.Translations
             { "Player_Group_Modify", " {0} <player> {1} <group ID>" },
             { "Player_Group_Added", "The group has been added to player!" },
             { "Player_Group_Removed", "The group has been removed from the player!" },
+            { "Player_Reloaded", "The player config has been reloaded!" },
             { "Player_Permissions", " {0} <player>" },
             { "Player_Group_Invalid", "The specified group ID is invalid!" },
             { "Player_Commands_Groups", "Groups" },
@@ -374,6 +377,7 @@ namespace PointBlank.Framework.Translations
             { "Player_Commands_Groups_Remove", "Remove" },
             { "Player_Commands_Help", "Help" },
             { "Player_Commands_Permissions", "Permissions" },
+            { "Player_Commands_Reload", "Reload" },
 
             // Usage
             { "Usage_Help", "This provides information on how to use the specified command." },
@@ -392,7 +396,16 @@ namespace PointBlank.Framework.Translations
             { "Permissions_Add_Success", "{0} has been successfully added to {1}!" },
             { "Permissions_Remove_Success", "{0} has been successfully removed from {1}!" },
             { "Permissions_Commands_Add", "Add" },
-            { "Permissions_Commands_Remove", "Remove" }
+            { "Permissions_Commands_Remove", "Remove" },
+
+            // PointBlank
+            { "PointBlank_Help", "This allows you to view information about PointBlank and do actions to the framework" },
+            { "PointBlank_Usage", " <reloadall/reloadsteam/version/restartplugins>" },
+            { "PointBlank_ReloadSteam", "Steam group config has been reloaded!" },
+            { "PointBlank_ReloadAll", "PointBlank has been reloaded!" },
+            { "PointBlank_Version", "Version: {0}" },
+            { "PointBlank_RestartPlugins", "PointBlank plugins have been restarted!" },
+            { "PointBlank_Invalid", "Invalid option!" }
         };
 
         public Dictionary<Type, ITranslatable> TranslationDictionary => Enviroment.ServiceTranslations;

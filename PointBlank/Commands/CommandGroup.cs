@@ -44,6 +44,7 @@ namespace PointBlank.Commands
             }
             else if(StringComparer.InvariantCultureIgnoreCase.Compare(Translations["Group_Commands_Help"], args[0]) == 0)
             {
+                UnturnedChat.SendMessage(executor, Commands[0] + " " + Translations["Group_Commands_Reload"], ConsoleColor.Green);
                 UnturnedChat.SendMessage(executor, Commands[0] + string.Format(Translations["Group_Usage_Add"], Translations["Group_Commands_Add"]), ConsoleColor.Green);
                 UnturnedChat.SendMessage(executor, Commands[0] + string.Format(Translations["Group_Usage_IDs"], Translations["Group_Commands_IDs"]), ConsoleColor.Green);
                 UnturnedChat.SendMessage(executor, Commands[0] + string.Format(Translations["Group_Usage_List"], Translations["Group_Commands_List"]), ConsoleColor.Green);
@@ -61,6 +62,11 @@ namespace PointBlank.Commands
             else if(StringComparer.InvariantCultureIgnoreCase.Compare(Translations["Group_Commands_Remove"], args[0]) == 0)
             {
                 Remove(executor, args);
+            }
+            else if(StringComparer.InvariantCultureIgnoreCase.Compare(Translations["Group_Commands_Reload"], args[0]) == 0)
+            {
+                GroupManager.Reload();
+                UnturnedChat.SendMessage(executor, Translations["Group_Reloaded"], ConsoleColor.Green);
             }
         }
 
