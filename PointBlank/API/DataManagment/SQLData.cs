@@ -311,20 +311,23 @@ namespace PointBlank.API.DataManagment
 
         private static void RunAsync()
         {
-            while (_AsyncCommands.Count > 0)
+            while (true)
             {
-                AsyncCommand command = _AsyncCommands.Dequeue();
+                while (_AsyncCommands.Count > 0)
+                {
+                    AsyncCommand command = _AsyncCommands.Dequeue();
 
-                try
-                {
-                    if (command.CallBack == null)
-                        command.Command.ExecuteNonQuery();
-                    else
-                        command.CallBack(command.Command.ExecuteReader(command.Behaviour));
-                }
-                catch (Exception ex)
-                {
-                    Logging.LogError("Could not send async command to server!", ex, false, false);
+                    try
+                    {
+                        if (command.CallBack == null)
+                            command.Command.ExecuteNonQuery();
+                        else
+                            command.CallBack(command.Command.ExecuteReader(command.Behaviour));
+                    }
+                    catch (Exception ex)
+                    {
+                        Logging.LogError("Could not send async command to server!", ex, false, false);
+                    }
                 }
             }
         }
