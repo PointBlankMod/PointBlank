@@ -576,6 +576,19 @@ namespace PointBlank.API.Unturned.Player
         internal static UnturnedPlayer Create(SPlayer steamplayer) => UnturnedServer.Players.FirstOrDefault(a => a.SteamPlayer == steamplayer) ?? new UnturnedPlayer(steamplayer);
 
         /// <summary>
+        /// Checks if the UnturnedPlayer is the server player
+        /// </summary>
+        /// <param name="player">The unturned player instance to check</param>
+        /// <returns>If the UnturnedPlayer instance is the server</returns>
+        public static bool IsServer(UnturnedPlayer player) => UnturnedServer.IsServer(player);
+        /// <summary>
+        /// Checks if the player is still in the server and returns the result
+        /// </summary>
+        /// <param name="player">The player to look for</param>
+        /// <returns>If the player is still in the server or not</returns>
+        public static bool IsInServer(UnturnedPlayer player) => UnturnedServer.IsInServer(player);
+
+        /// <summary>
         /// Gets the unturned player instance based on steam player instance
         /// </summary>
         /// <param name="player">The steam player instance</param>

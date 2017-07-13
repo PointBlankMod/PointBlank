@@ -183,6 +183,19 @@ namespace PointBlank.API.Unturned.Server
 
         #region Public Functions
         /// <summary>
+        /// Checks if the UnturnedPlayer is the server player
+        /// </summary>
+        /// <param name="player">The unturned player instance to check</param>
+        /// <returns>If the UnturnedPlayer instance is the server</returns>
+        public static bool IsServer(UnturnedPlayer player) => (player == null);
+        /// <summary>
+        /// Checks if the player is still in the server and returns the result
+        /// </summary>
+        /// <param name="player">The player to look for</param>
+        /// <returns>If the player is still in the server or not</returns>
+        public static bool IsInServer(UnturnedPlayer player) => Players.Contains(player);
+
+        /// <summary>
         /// Gets the unturned player instance based on steam player instance
         /// </summary>
         /// <param name="player">The steam player instance</param>
