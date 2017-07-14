@@ -5,6 +5,8 @@ using System.Text;
 using System.Security.Permissions;
 using PointBlank.Framework.Permissions.Ring;
 using PointBlank.API.Unturned.Player;
+using PointBlank.API.Plugins;
+using PointBlank.API.Collections;
 using CM = PointBlank.Services.CommandManager.CommandManager;
 
 namespace PointBlank.API.Commands
@@ -40,6 +42,11 @@ namespace PointBlank.API.Commands
         /// Is the command enabled
         /// </summary>
         public bool Enabled => CM.Commands.FirstOrDefault(a => a.Value.CommandClass == this).Value.Enabled;
+
+        /// <summary>
+        /// The configuration list of the plugin
+        /// </summary>
+        public ConfigurationList Configurations => Plugin.Instance.Configurations;
         #endregion
 
         #region Abstract Properties
@@ -94,5 +101,15 @@ namespace PointBlank.API.Commands
         {
             Instance = this;
         }
+
+        #region Functions
+        /// <summary>
+        /// Translates a key and data to text depending on the translation
+        /// </summary>
+        /// <param name="key">The key of the translation</param>
+        /// <param name="data">The data to modify the translation</param>
+        /// <returns>The translated text</returns>
+        public string Translate(string key, params string[] data) => Plugin.Instance.Translate(key, data);
+        #endregion
     }
 }

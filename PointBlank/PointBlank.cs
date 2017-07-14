@@ -121,6 +121,7 @@ namespace PointBlank
 
         private void RunRequirementsShutdown()
         {
+            Enviroment.Running = false;
             foreach(SQLData sql in Enviroment.SQLConnections.Where(a => a.Connected))
                 sql.Disconnect();
         }

@@ -311,7 +311,7 @@ namespace PointBlank.API.DataManagment
 
         private static void RunAsync()
         {
-            while (true)
+            while (Enviroment.Running)
             {
                 while (_AsyncCommands.Count > 0)
                 {
