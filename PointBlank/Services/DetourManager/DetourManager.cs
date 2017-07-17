@@ -7,6 +7,7 @@ using PointBlank.API;
 using PointBlank.API.Plugins;
 using PointBlank.API.Services;
 using PointBlank.API.Detour;
+using PointBlank.API.Extension;
 using PointBlank.Services.PluginManager;
 using PM = PointBlank.Services.PluginManager.PluginManager;
 
@@ -64,10 +65,11 @@ namespace PointBlank.Services.DetourManager
             PluginEvents.OnPluginUnloaded += new PluginEvents.PluginEventHandler(OnPluginUnloaded);
 
             // Main code
-            foreach(Type tClass in Assembly.GetExecutingAssembly().GetTypes())
-                if(tClass.IsClass)
-                    foreach(MethodInfo method in tClass.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance))
-                        LoadDetour(method);
+            foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies().Where(a => Attribute.GetCustomAttribute(a, typeof(ExtensionAttribute)) != null))
+                foreach (Type tClass in asm.GetTypes())
+                    if (tClass.IsClass)
+                        foreach(MethodInfo method in tClass.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance))
+                            LoadDetour(method);
 
             // Set the variables
             Initialized = true;

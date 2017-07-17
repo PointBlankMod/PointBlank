@@ -7,9 +7,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using System.Linq;
 using System.Text;
-using SDG.Framework.Modules;
 using PointBlank.API;
-using SDG.Unturned;
 using UnityEngine;
 using PointBlank.Framework.Objects;
 using PointBlank.Framework;
@@ -17,29 +15,28 @@ using PointBlank.API.DataManagment;
 using PointBlank.API.Interfaces;
 using PointBlank.Services.PluginManager;
 using Newtonsoft.Json.Linq;
-using Steamworks;
 using PointBlank.API.Collections;
 
 namespace PointBlank
 {
-    internal class PointBlank : IModuleNexus
+    public class PointBlank
     {
         #region Properties
         public static PointBlank Instance { get; private set; } // Self instance
         public static bool Enabled { get; private set; } // Is PointBlank running
 
-        public string ConfigurationDirectory => null;
-        public ConfigurationList Configurations => new ConfigurationList()
+        internal string ConfigurationDirectory => null;
+        internal ConfigurationList Configurations => new ConfigurationList()
         {
             { "ConfigFormat", EDataType.JSON }
         };
-        public Dictionary<Type, IConfigurable> ConfigurationDictionary => Enviroment.FrameworkConfig;
+        internal Dictionary<Type, IConfigurable> ConfigurationDictionary => Enviroment.FrameworkConfig;
         #endregion
 
-        #region Nexus Interface
-        public void initialize()
+        #region Loader Functions
+        public void Initialize()
         {
-            if ((!Provider.isServer && !Dedicator.isDedicated) || !Environment.GetCommandLineArgs().Contains("-pointblank")) // Don't run if this isn't a server or if the -pointblank argument wasn't added
+            if (!Environment.GetCommandLineArgs().Contains("-pointblank")) // Don't run if this isn't a server or if the -pointblank argument wasn't added
                 return;
             if (Instance != null && Enabled) // Don't run if already running
                 return;
@@ -72,14 +69,13 @@ namespace PointBlank
 #if !DEBUG
             Console.Clear();
 #endif
-            Dedicator.commandWindow.title = PointBlankInfo.Name + " v" + PointBlankInfo.Version;
 
             Logging.LogImportant("Loaded " + PointBlankInfo.Name + " v" + PointBlankInfo.Version + "!");
         }
 
-        public void shutdown()
+        public void Shutdown()
         {
-            if ((!Provider.isServer && !Dedicator.isDedicated) || !Environment.GetCommandLineArgs().Contains("-pointblank")) // Don't shutdown if this isn't a server or if the -pointblank argument wasn't added
+            if (!Environment.GetCommandLineArgs().Contains("-pointblank")) // Don't shutdown if this isn't a server or if the -pointblank argument wasn't added
                 return;
             if (Instance == null || !Enabled) // Don't shutdown if it is not running
                 return;

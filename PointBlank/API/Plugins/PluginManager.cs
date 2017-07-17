@@ -26,6 +26,13 @@ namespace PointBlank.API.Plugins
 
         #region Functions
         /// <summary>
+        /// Returns the plugin name of a specific plugin
+        /// </summary>
+        /// <param name="plugin">The plugin to get the name of</param>
+        /// <returns>The name of the plugin</returns>
+        public static string GetPluginName(Plugin plugin) => PM.Plugins.FirstOrDefault(a => a.PluginClass == plugin).Name;
+
+        /// <summary>
         /// Reloads the plugin manager
         /// </summary>
         public static void Reload()

@@ -6,13 +6,12 @@ using System.Text;
 using PointBlank.API;
 using PointBlank.API.Commands;
 using CMD = PointBlank.API.Commands.PointBlankCommand;
-using CM = PointBlank.API.Unturned.Chat.UnturnedChat;
-using PointBlank.API.Unturned.Player;
 using Newtonsoft.Json.Linq;
-using SDG.Unturned;
 using UnityEngine;
 using PointBlank.Framework.Translations;
 using PointBlank.API.Collections;
+using PointBlank.API.Player;
+using PointBlank.API.Server;
 
 namespace PointBlank.Services.CommandManager
 {
@@ -90,50 +89,52 @@ namespace PointBlank.Services.CommandManager
 
         public void Save() => Config["Enabled"] = Enabled;
 
-        public void Execute(UnturnedPlayer executor, string[] args)
+        public ECommandRunError Execute(PointBlankPlayer executor, string[] args)
         {
             try
             {
-                if (CommandClass.AllowedServerState == EAllowedServerState.LOADING && Provider.isServer)
+                if (CommandClass.AllowedServerState == EAllowedServerState.LOADING && Server.IsRunning)
                 {
-                    CM.SendMessage(executor, Translations["CommandWrapper_Running"], ConsoleColor.Red);
-                    return;
+                    PointBlankPlayer.SendMessage(executor, Translations["CommandWrapper_Running"], ConsoleColor.Red);
+                    return ECommandRunError.SERVER_RUNNING;
                 }
-                if (CommandClass.AllowedServerState == EAllowedServerState.RUNNING && !Provider.isServer)
+                if (CommandClass.AllowedServerState == EAllowedServerState.RUNNING && !Server.IsRunning)
                 {
-                    CM.SendMessage(executor, Translations["CommandWrapper_NotRunning"], ConsoleColor.Red);
-                    return;
+                    PointBlankPlayer.SendMessage(executor, Translations["CommandWrapper_NotRunning"], ConsoleColor.Red);
+                    return ECommandRunError.SERVER_LOADING;
                 }
                 if (CommandClass.AllowedCaller == EAllowedCaller.SERVER && executor != null)
                 {
                     executor.SendMessage(Translations["CommandWrapper_NotConsole"], Color.red);
-                    return;
+                    return ECommandRunError.NOT_CONSOLE;
                 }
                 if (CommandClass.AllowedCaller == EAllowedCaller.PLAYER && executor == null)
                 {
                     executor.SendMessage(Translations["CommandWrapper_NotPlayer"], Color.red);
-                    return;
+                    return ECommandRunError.NOT_PLAYER;
                 }
                 if (Attribute.MinParams > args.Length)
                 {
-                    CM.SendMessage(executor, Translations["CommandWrapper_Arguments"], ConsoleColor.Red);
-                    return;
+                    PointBlankPlayer.SendMessage(executor, Translations["CommandWrapper_Arguments"], ConsoleColor.Red);
+                    return ECommandRunError.ARGUMENT_COUNT;
                 }
                 if(executor != null && executor.HasCooldown(CommandClass))
                 {
                     executor.SendMessage(Translations["CommandWrapper_Cooldown"], Color.red);
-                    return;
+                    return ECommandRunError.COOLDOWN;
                 }
                 bool shouldExecute = true;
 
                 CommandEvents.RunCommandExecute(CommandClass, args, executor, ref shouldExecute);
-                if (!shouldExecute) return;
+                if (!shouldExecute) return ECommandRunError.NO_EXECUTE;
                 executor?.SetCooldown(CommandClass, DateTime.Now);
                 CommandClass.Execute(executor, args);
+                return ECommandRunError.NONE;
             }
             catch (Exception ex)
             {
                 Logging.LogError("Error when running command: " + Attribute.Name, ex);
+                return ECommandRunError.EXCEPTION;
             }
         }
         #endregion

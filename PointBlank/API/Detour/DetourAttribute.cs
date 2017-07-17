@@ -3,15 +3,12 @@ using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Security.Permissions;
-using PointBlank.Framework.Permissions.Ring;
 
 namespace PointBlank.API.Detour
 {
     /// <summary>
     /// Used to detour a specific function
     /// </summary>
-    [RingPermission(SecurityAction.Demand, ring = RingPermissionRing.None)]
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class DetourAttribute : Attribute
     {

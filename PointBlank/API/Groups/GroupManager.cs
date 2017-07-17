@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
-using PointBlank.Services.APIManager;
+using PointBlank.API.Services;
+using GM = PointBlank.Services.GroupManager.GroupManager;
 
 namespace PointBlank.API.Groups
 {
@@ -108,9 +109,9 @@ namespace PointBlank.API.Groups
         /// </summary>
         public static void Reload()
         {
-            InfoManager info = (InfoManager)Enviroment.services["InfoManager.InfoManager"].ServiceClass;
+            GM gm = (GM)ServiceManager.GetService("GroupManager.GroupManager");
 
-            info.LoadGroups();
+            gm.LoadGroups();
         }
         #endregion
     }

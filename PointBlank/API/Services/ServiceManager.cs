@@ -2,15 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Security.Permissions;
-using PointBlank.Framework.Permissions.Ring;
 
 namespace PointBlank.API.Services
 {
     /// <summary>
     /// The service manager class allows you to manage services at ease
     /// </summary>
-    [RingPermission(SecurityAction.Demand, ring = RingPermissionRing.None)]
     public static class ServiceManager
     {
         #region Properties
@@ -44,6 +41,13 @@ namespace PointBlank.API.Services
         /// <param name="serviceName">The target service name</param>
         /// <returns>If the service was successfully started</returns>
         public static bool StartService(string serviceName) => Enviroment.services[serviceName].Start();
+
+        /// <summary>
+        /// Attempts to get the service by name and return the class
+        /// </summary>
+        /// <param name="serviceName">The service name to query for</param>
+        /// <returns>The service class/instance</returns>
+        public static Service GetService(string serviceName) => Enviroment.services[serviceName].ServiceClass;
         #endregion
     }
 }

@@ -3,17 +3,17 @@ using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SDG.Unturned;
 using PointBlank.API;
 using PointBlank.API.Plugins;
 using PointBlank.API.Services;
 using PointBlank.API.Commands;
 using PointBlank.API.DataManagment;
-using PointBlank.API.Unturned.Player;
+using PointBlank.API.Player;
 using Newtonsoft.Json.Linq;
 using PointBlank.Services.PluginManager;
 using PointBlank.Framework.Translations;
-using UnityEngine;
+using PointBlank.API.Server;
+using PointBlank.API.Extension;
 using CMD = PointBlank.API.Commands.PointBlankCommand;
 
 namespace PointBlank.Services.CommandManager
@@ -22,7 +22,7 @@ namespace PointBlank.Services.CommandManager
     internal class CommandManager : Service
     {
         #region Info
-        public static readonly string ConfigurationPath = ServerInfo.ConfigurationsPath + "//Commands";
+        public static readonly string ConfigurationPath = Server.ConfigurationsPath + "//Commands";
         #endregion
 
         #region Properties
@@ -42,14 +42,13 @@ namespace PointBlank.Services.CommandManager
 
             // Setup events
             PluginEvents.OnPluginLoaded += new PluginEvents.PluginEventHandler(OnPluginLoaded); // Run code every time a plugin is loaded
-            CommandWindow.onCommandWindowInputted += new CommandWindowInputted(OnConsoleCommand);
-            ChatManager.onCheckPermissions += new CheckPermissions(OnUnturnedCommand);
 
             // Run the code
             LoadConfig();
-            foreach (Type tClass in Assembly.GetExecutingAssembly().GetTypes())
-                if (tClass.IsClass)
-                    LoadCommand(tClass);
+            foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies().Where(a => Attribute.GetCustomAttribute(a, typeof(ExtensionAttribute)) != null))
+                foreach (Type tClass in asm.GetTypes())
+                    if (tClass.IsClass)
+                            LoadCommand(tClass);
         }
 
         public override void Unload() => SaveConfig();
@@ -151,6 +150,30 @@ namespace PointBlank.Services.CommandManager
             }
             return ret.ToArray();
         }
+
+        public ECommandRunError ExecuteCommand(string text, PointBlankPlayer executor)
+        {
+            string[] info = ParseCommand(text);
+            List<string> args = new List<string>();
+            CommandWrapper wrapper = Commands.Select(a => a.Value).FirstOrDefault(a => a.Commands.FirstOrDefault(b => b.ToLower() == info[0].ToLower()) != null);
+            string permission = "";
+
+            if (wrapper == null || !wrapper.Enabled)
+                return ECommandRunError.COMMAND_NOT_EXIST;
+            permission = wrapper.Permission;
+            if (info.Length > 1)
+                for (int i = 1; i < info.Length; i++)
+                    args.Add(info[i]);
+            if (args.Count > 0)
+                permission += "." + string.Join(".", args.ToArray());
+            if (!PointBlankPlayer.IsServer(executor) && !executor.HasPermission(permission))
+            {
+                PointBlankPlayer.SendMessage(executor, Enviroment.ServiceTranslations[typeof(ServiceTranslations)].Translations["CommandManager_NotEnoughPermissions"], ConsoleColor.Red);
+                return ECommandRunError.NO_PERMISSION;
+            }
+
+            return wrapper.Execute(executor, args.ToArray());
+        }
         #endregion
 
         #region Event Functions
@@ -170,60 +193,6 @@ namespace PointBlank.Services.CommandManager
             foreach (KeyValuePair<PointBlankCommandAttribute, CommandWrapper> kvp in Commands.Where(a => a.Value.Class.DeclaringType.Assembly == wrapper.PluginAssembly))
                 Commands.Remove(kvp.Key);
             UniConfig.Save();
-        }
-
-        private void OnConsoleCommand(string text, ref bool shouldExecute)
-        {
-            shouldExecute = false;
-            if (text.StartsWith("/") || text.StartsWith("@"))
-                text = text.Remove(0, 1);
-
-            string[] info = ParseCommand(text);
-            List<string> args = new List<string>();
-            CommandWrapper wrapper = Commands.Select(a => a.Value).FirstOrDefault(a => a.Commands.FirstOrDefault(b => b.ToLower() == info[0].ToLower()) != null);
-
-            if(wrapper == null || !wrapper.Enabled)
-            {
-                CommandWindow.Log(Enviroment.ServiceTranslations[typeof(ServiceTranslations)].Translations["CommandManager_Invalid"], ConsoleColor.Red);
-                return;
-            }
-            if (info.Length > 1)
-                for (int i = 1; i < info.Length; i++)
-                    args.Add(info[i]);
-            wrapper.Execute(null, args.ToArray());
-        }
-
-        private void OnUnturnedCommand(SteamPlayer player, string text, ref bool shouldExecuteCommand, ref bool shouldList)
-        {
-            shouldExecuteCommand = false;
-
-            if (!text.StartsWith("/") && !text.StartsWith("@")) return;
-            shouldList = false;
-
-            string[] info = ParseCommand(text);
-            CommandWrapper wrapper = Commands.Select(a => a.Value).FirstOrDefault(a => a.Commands.FirstOrDefault(b => b.ToLower() == info[0].ToLower()) != null);
-            UnturnedPlayer ply = UnturnedPlayer.Get(player);
-            List<string> args = new List<string>();
-            string permission = "";
-
-            if(wrapper == null || !wrapper.Enabled)
-            {
-                ply.SendMessage(Enviroment.ServiceTranslations[typeof(ServiceTranslations)].Translations["CommandManager_Invalid"], Color.red);
-                return;
-            }
-            permission = wrapper.Permission;
-            if (info.Length > 1)
-                for (int i = 1; i < info.Length; i++)
-                    args.Add(info[i]);
-            if(args.Count > 0)
-                permission += "." + string.Join(".", args.ToArray());
-            if (!ply.HasPermission(permission))
-            {
-                ply.SendMessage(Enviroment.ServiceTranslations[typeof(ServiceTranslations)].Translations["CommandManager_NotEnoughPermissions"], Color.red);
-                return;
-            }
-
-            wrapper.Execute(ply, args.ToArray());
         }
         #endregion
     }
