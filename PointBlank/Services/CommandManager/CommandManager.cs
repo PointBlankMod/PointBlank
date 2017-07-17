@@ -13,6 +13,7 @@ using Newtonsoft.Json.Linq;
 using PointBlank.Services.PluginManager;
 using PointBlank.Framework.Translations;
 using PointBlank.API.Server;
+using PointBlank.API.Extension;
 using CMD = PointBlank.API.Commands.PointBlankCommand;
 
 namespace PointBlank.Services.CommandManager
@@ -44,9 +45,10 @@ namespace PointBlank.Services.CommandManager
 
             // Run the code
             LoadConfig();
-            foreach (Type tClass in Assembly.GetExecutingAssembly().GetTypes())
-                if (tClass.IsClass)
-                    LoadCommand(tClass);
+            foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies().Where(a => Attribute.GetCustomAttribute(a, typeof(ExtensionAttribute)) != null))
+                foreach (Type tClass in asm.GetTypes())
+                    if (tClass.IsClass)
+                            LoadCommand(tClass);
         }
 
         public override void Unload() => SaveConfig();
@@ -164,7 +166,7 @@ namespace PointBlank.Services.CommandManager
                     args.Add(info[i]);
             if (args.Count > 0)
                 permission += "." + string.Join(".", args.ToArray());
-            if (!executor.HasPermission(permission))
+            if (!PointBlankPlayer.IsServer(executor) && !executor.HasPermission(permission))
             {
                 PointBlankPlayer.SendMessage(executor, Enviroment.ServiceTranslations[typeof(ServiceTranslations)].Translations["CommandManager_NotEnoughPermissions"], ConsoleColor.Red);
                 return ECommandRunError.NO_PERMISSION;

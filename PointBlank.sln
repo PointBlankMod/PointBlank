@@ -5,12 +5,6 @@ VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PointBlank", "PointBlank\PointBlank.csproj", "{1C15ECF9-39AF-4D7E-9493-47FF754514BA}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{5F9C242D-0964-4174-B16D-3E3E627EADBD}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestPlugin", "TestPlugin\TestPlugin.csproj", "{870D3200-4BD8-4D48-BFC9-B1A271ADEEE7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Launcher", "Launcher\Launcher.csproj", "{7A742611-A0F1-42F1-9F78-EB96D37D8BF4}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,19 +15,8 @@ Global
 		{1C15ECF9-39AF-4D7E-9493-47FF754514BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C15ECF9-39AF-4D7E-9493-47FF754514BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C15ECF9-39AF-4D7E-9493-47FF754514BA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{870D3200-4BD8-4D48-BFC9-B1A271ADEEE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{870D3200-4BD8-4D48-BFC9-B1A271ADEEE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{870D3200-4BD8-4D48-BFC9-B1A271ADEEE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{870D3200-4BD8-4D48-BFC9-B1A271ADEEE7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7A742611-A0F1-42F1-9F78-EB96D37D8BF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7A742611-A0F1-42F1-9F78-EB96D37D8BF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7A742611-A0F1-42F1-9F78-EB96D37D8BF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7A742611-A0F1-42F1-9F78-EB96D37D8BF4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{870D3200-4BD8-4D48-BFC9-B1A271ADEEE7} = {5F9C242D-0964-4174-B16D-3E3E627EADBD}
 	EndGlobalSection
 EndGlobal

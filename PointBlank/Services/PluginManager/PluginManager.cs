@@ -54,7 +54,7 @@ namespace PointBlank.Services.PluginManager
 
             foreach (string library in Directory.GetFiles(Server.LibrariesPath, "*.dll")) // Get all the dll files in libraries directory
                 _libraries.Add(Assembly.Load(File.ReadAllBytes(library))); // Load and add the library
-            foreach(string plugin in Directory.GetFiles(Server.PluginsPath, "*.dll")) // Get all the dll files in plugins directory
+            foreach (string plugin in Directory.GetFiles(Server.PluginsPath, "*.dll")) // Get all the dll files in plugins directory
             {
                 try
                 {
@@ -71,7 +71,7 @@ namespace PointBlank.Services.PluginManager
                         break;
                 }
             }
-            PluginEvents.RunPluginsLoaded();
+                PluginEvents.RunPluginsLoaded();
         }
 
         public override void Unload()

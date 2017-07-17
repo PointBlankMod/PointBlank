@@ -10,6 +10,7 @@ using PointBlank.API.Collections;
 using PointBlank.API.Interfaces;
 using PointBlank.API.DataManagment;
 using PointBlank.API.Server;
+using PointBlank.API.Extension;
 using UnityEngine;
 using Newtonsoft.Json.Linq;
 
@@ -195,8 +196,9 @@ namespace PointBlank.Framework
             if (!Directory.Exists(Server.DataPath))
                 Directory.CreateDirectory(Server.DataPath); // Create data directory
 
-            foreach (Type _class in Assembly.GetExecutingAssembly().GetTypes())
-                LoadInterface(_class);
+            foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies().Where(a => Attribute.GetCustomAttribute(a, typeof(ExtensionAttribute)) != null))
+                foreach (Type class_type in asm.GetTypes())
+                    LoadInterface(class_type);
 
             // Setup the events
             PluginEvents.OnPluginLoaded += new PluginEvents.PluginEventHandler(OnPluginLoaded);
@@ -211,8 +213,9 @@ namespace PointBlank.Framework
             if (!Initialized)
                 return;
 
-            foreach (Type _class in Assembly.GetExecutingAssembly().GetTypes())
-                SaveInterface(_class);
+            foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
+                foreach (Type class_type in asm.GetTypes())
+                    SaveInterface(class_type);
 
             // Set the variables
             Initialized = false;

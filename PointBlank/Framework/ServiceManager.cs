@@ -11,6 +11,7 @@ using PointBlank.API.Services;
 using PointBlank.API.Plugins;
 using PointBlank.API.DataManagment;
 using PointBlank.API.Server;
+using PointBlank.API.Extension;
 using PointBlank.Framework.Wrappers;
 
 namespace PointBlank.Framework
@@ -108,8 +109,9 @@ namespace PointBlank.Framework
             UniServicesData = new UniversalData(Server.ConfigurationsPath + "/Services"); // Open the file
             ServicesData = UniServicesData.GetData(EDataType.JSON) as JsonData; // Get the JSON
 
-            foreach (Type class_type in Assembly.GetExecutingAssembly().GetTypes()) // Load the local services
-                LoadService(class_type);
+            foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies().Where(a => Attribute.GetCustomAttribute(a, typeof(ExtensionAttribute)) != null))
+                foreach (Type class_type in asm.GetTypes())
+                    LoadService(class_type);
 
             // Setup the events
             PluginEvents.OnPluginLoaded += new PluginEvents.PluginEventHandler(OnPluginLoaded);
