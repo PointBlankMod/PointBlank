@@ -8,7 +8,6 @@ using System.Security.Cryptography.X509Certificates;
 using System.Linq;
 using System.Text;
 using PointBlank.API;
-using SDG.Unturned;
 using UnityEngine;
 using PointBlank.Framework.Objects;
 using PointBlank.Framework;
@@ -16,7 +15,6 @@ using PointBlank.API.DataManagment;
 using PointBlank.API.Interfaces;
 using PointBlank.Services.PluginManager;
 using Newtonsoft.Json.Linq;
-using Steamworks;
 using PointBlank.API.Collections;
 
 namespace PointBlank
