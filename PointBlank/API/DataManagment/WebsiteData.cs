@@ -210,6 +210,73 @@ namespace PointBlank.API.DataManagment
                 return false;
             }
         }
+
+        /// <summary>
+        /// Uploads a file to the website
+        /// </summary>
+        /// <param name="URL">The URL to the website</param>
+        /// <param name="path">The path to the file to upload</param>
+        /// <param name="data">The website's response</param>
+        /// <param name="useNewClient">Use a new client</param>
+        /// <param name="client">A custom client(leave null to create a new one)</param>
+        /// <returns>If the file was uploaded successfully</returns>
+        public static bool UploadFile(string URL, string path, out byte[] data, bool useNewClient = true, WeebClient client = null)
+        {
+            try
+            {
+                if (useNewClient || client == null)
+                {
+                    using (WeebClient wc = new WeebClient())
+                    {
+                        data = wc.UploadFile(URL, path);
+                        return true;
+                    }
+                }
+
+                data = client.UploadFile(URL, path);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logging.LogError("Failed to upload file to " + URL, ex, false, false);
+                data = null;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Uploads a file to the website using async
+        /// </summary>
+        /// <param name="URL">The URL to the website</param>
+        /// <param name="path">The path to the file to upload</param>
+        /// <param name="method">The method to run once the upload is done</param>
+        /// <param name="useNewClient">Use a new client</param>
+        /// <param name="client">A custom client(leave null to create a new one)</param>
+        /// <returns>If the file was uploaded successfully</returns>
+        public static bool UploadFileAsync(string URL, string path, UploadFileCompletedEventHandler method = null, bool useNewClient = true, WeebClient client = null)
+        {
+            try
+            {
+                if (useNewClient || client == null)
+                {
+                    WeebClient wc = new WeebClient();
+
+                    wc.UploadFileCompleted += new UploadFileCompletedEventHandler(OnUploadFile);
+                    if (method != null)
+                        wc.UploadFileCompleted += method;
+                    wc.UploadFileAsync(new Uri(URL), path);
+                    return true;
+                }
+
+                client.UploadFileAsync(new Uri(URL), path);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logging.LogError("Failed to upload file via async to " + URL, ex, false, false);
+                return false;
+            }
+        }
         #endregion
 
         #region Event Functions
@@ -228,6 +295,13 @@ namespace PointBlank.API.DataManagment
         }
 
         private static void OnDownloadFile(object sender, AsyncCompletedEventArgs args)
+        {
+            WeebClient wc = (WeebClient)sender;
+
+            wc.Dispose();
+        }
+
+        private static void OnUploadFile(object sender, UploadFileCompletedEventArgs args)
         {
             WeebClient wc = (WeebClient)sender;
 
