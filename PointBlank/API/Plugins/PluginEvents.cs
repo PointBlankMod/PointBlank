@@ -49,17 +49,12 @@ namespace PointBlank.API.Plugins
 
         #region Functions
         internal static void RunPluginStart(Plugin plugin) => OnPluginStart?.Invoke(plugin);
-
         internal static void RunPluginLoaded(Plugin plugin) => OnPluginLoaded?.Invoke(plugin);
-
         internal static void RunPluginsLoaded() => OnPluginsLoaded?.Invoke();
 
         internal static void RunPluginStop(Plugin plugin) => OnPluginStop?.Invoke(plugin);
-
         internal static void RunPluginUnloaded(Plugin plugin) => OnPluginUnloaded?.Invoke(plugin);
-
         internal static void RunPluginsUnloaded() => OnPluginsUnloaded?.Invoke();
-
         #endregion
     }
 }

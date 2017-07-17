@@ -46,7 +46,7 @@ namespace PointBlank.API
             log = "[LOG] " + asm + " >> " + log;
             File.AppendAllText(LogPath, log.ToString() + Environment.NewLine);
             if (inConsole)
-                Console.WriteLine(log);
+                ServerConsole.WriteLine(log);
         }
 
         /// <summary>
@@ -72,9 +72,9 @@ namespace PointBlank.API
             File.AppendAllText(LogPath, log.ToString() + Environment.NewLine);
             File.AppendAllText(LogPath, ex.ToString() + Environment.NewLine);
             if (inConsole)
-                Console.WriteLine(log);
+                ServerConsole.WriteLine(log, ConsoleColor.Red);
             if (exInConsole)
-                Console.WriteLine(ex);
+                ServerConsole.WriteLine(ex, ConsoleColor.Red);
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace PointBlank.API
             log = "[WARNING] " + asm + " >> " + log;
             File.AppendAllText(LogPath, log.ToString() + Environment.NewLine);
             if (inConsole)
-                Console.WriteLine(log);
+                ServerConsole.WriteLine(log, ConsoleColor.Yellow);
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace PointBlank.API
             log = "[IMPORTANT] " + asm + " >> " + log;
             File.AppendAllText(LogPath, log.ToString() + Environment.NewLine);
             if (inConsole)
-                Console.WriteLine(log);
+                ServerConsole.WriteLine(log, ConsoleColor.Cyan);
         }
     }
 }

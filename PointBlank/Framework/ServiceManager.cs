@@ -10,6 +10,7 @@ using PointBlank.API;
 using PointBlank.API.Services;
 using PointBlank.API.Plugins;
 using PointBlank.API.DataManagment;
+using PointBlank.API.Server;
 using PointBlank.Framework.Wrappers;
 
 namespace PointBlank.Framework
@@ -17,7 +18,7 @@ namespace PointBlank.Framework
     internal class ServiceManager : MonoBehaviour
     {
         #region Info
-        public static readonly string ConfigurationPath = ServerInfo.ConfigurationsPath + "/Services";
+        public static readonly string ConfigurationPath = Server.ConfigurationsPath + "/Services";
         #endregion
 
         #region Properties
@@ -104,7 +105,7 @@ namespace PointBlank.Framework
             if (!Directory.Exists(ConfigurationPath))
                 Directory.CreateDirectory(ConfigurationPath); // Create the services configuration
 
-            UniServicesData = new UniversalData(ServerInfo.ConfigurationsPath + "/Services"); // Open the file
+            UniServicesData = new UniversalData(Server.ConfigurationsPath + "/Services"); // Open the file
             ServicesData = UniServicesData.GetData(EDataType.JSON) as JsonData; // Get the JSON
 
             foreach (Type class_type in Assembly.GetExecutingAssembly().GetTypes()) // Load the local services

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PointBlank.API.Extensions;
 
 namespace PointBlank.API.Commands
 {
@@ -25,7 +24,7 @@ namespace PointBlank.API.Commands
         /// <param name="args">The arguments passed</param>
         /// <param name="allowExecute">Should the command be executed</param>
         /// <param name="executor">The user that executed the command(null if it was the server)</param>
-        public delegate void CommandCalledHandler(PointBlankCommand command, string[] args, IPlayer executor, ref bool allowExecute);
+        public delegate void CommandCalledHandler(PointBlankCommand command, string[] args, Player.PointBlankPlayer executor, ref bool allowExecute);
         #endregion
 
         #region Events
@@ -54,7 +53,7 @@ namespace PointBlank.API.Commands
             OnCommandDisabled?.Invoke(command);
         }
 
-        internal static void RunCommandExecute(PointBlankCommand command, string[] args, IPlayer executor, ref bool allowExecute)
+        internal static void RunCommandExecute(PointBlankCommand command, string[] args, Player.PointBlankPlayer executor, ref bool allowExecute)
         {
             OnCommandExecuted?.Invoke(command, args, executor, ref allowExecute);
         }

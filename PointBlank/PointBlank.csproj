@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="API\Collections\ConfigurationList.cs" />
     <Compile Include="API\Collections\TranslationList.cs" />
+    <Compile Include="API\Commands\ECommandRunError.cs" />
     <Compile Include="API\Commands\PointBlankCommand.cs" />
     <Compile Include="API\Commands\PointBlankCommandAttribute.cs" />
     <Compile Include="API\Commands\CommandEvents.cs" />
@@ -80,7 +81,7 @@
     <Compile Include="API\Discord\DiscordWebhook.cs" />
     <Compile Include="API\Discord\EDiscordHttpCodes.cs" />
     <Compile Include="API\Discord\EDiscordJsonCodes.cs" />
-    <Compile Include="API\Extensions\IPlayer.cs" />
+    <Compile Include="API\Player\PointBlankPlayer.cs" />
     <Compile Include="API\Groups\Group.cs" />
     <Compile Include="API\Groups\GroupEvents.cs" />
     <Compile Include="API\Groups\GroupManager.cs" />
@@ -88,19 +89,17 @@
     <Compile Include="API\Interfaces\IConfigurable.cs" />
     <Compile Include="API\Interfaces\ITranslatable.cs" />
     <Compile Include="API\Logging.cs" />
+    <Compile Include="API\Player\PlayerEvents.cs" />
     <Compile Include="API\Plugins\Plugin.cs" />
     <Compile Include="API\Plugins\PluginEvents.cs" />
     <Compile Include="API\Plugins\PluginManager.cs" />
+    <Compile Include="API\ServerConsole.cs" />
+    <Compile Include="API\Server\Server.cs" />
     <Compile Include="API\Services\Service.cs" />
     <Compile Include="API\Services\ServiceAttribute.cs" />
     <Compile Include="API\Services\ServiceEvents.cs" />
     <Compile Include="API\Services\ServiceManager.cs" />
     <Compile Include="API\PBTools.cs" />
-    <Compile Include="API\Steam\EPrivacyState.cs" />
-    <Compile Include="API\Steam\SteamGroup.cs" />
-    <Compile Include="API\Steam\SteamGroupEvents.cs" />
-    <Compile Include="API\Steam\SteamGroupManager.cs" />
-    <Compile Include="API\Steam\SteamPlayer.cs" />
     <Compile Include="Enviroment.cs" />
     <Compile Include="Framework\InterfaceManager.cs" />
     <Compile Include="Framework\Objects\RuntimeObject.cs" />
@@ -108,13 +107,17 @@
     <Compile Include="Framework\Permissions\Ring\RingPermissionAttribute.cs" />
     <Compile Include="Framework\Permissions\Ring\RingPermissionRing.cs" />
     <Compile Include="Framework\ServiceManager.cs" />
+    <Compile Include="Framework\Translations\ServiceTranslations.cs" />
     <Compile Include="Framework\Wrappers\ServiceWrapper.cs" />
     <Compile Include="PointBlank.cs" />
     <Compile Include="PointBlankInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CommandManager\CommandManager.cs" />
+    <Compile Include="Services\CommandManager\CommandWrapper.cs" />
     <Compile Include="Services\DetourManager\DetourManager.cs" />
     <Compile Include="Services\DetourManager\DetourWrapper.cs" />
     <Compile Include="Services\DetourManager\RedirectionHelper.cs" />
+    <Compile Include="Services\GroupManager\GroupManager.cs" />
     <Compile Include="Services\PluginManager\PluginConfiguration.cs" />
     <Compile Include="Services\PluginManager\PluginWrapper.cs" />
     <Compile Include="Services\PluginManager\PluginManager.cs" />

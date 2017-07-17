@@ -6,7 +6,7 @@ using System.Security.Permissions;
 using PointBlank.Framework.Permissions.Ring;
 using PointBlank.API.Plugins;
 using PointBlank.API.Collections;
-using PointBlank.API.Extensions;
+using CM = PointBlank.Services.CommandManager.CommandManager;
 
 namespace PointBlank.API.Commands
 {
@@ -93,7 +93,7 @@ namespace PointBlank.API.Commands
         /// </summary>
         /// <param name="args">The arguments the player inputted</param>
         /// <param name="executor">The player executing the command</param>
-        public abstract void Execute(IPlayer executor, string[] args);
+        public abstract void Execute(Player.PointBlankPlayer executor, string[] args);
         #endregion
 
         public PointBlankCommand()

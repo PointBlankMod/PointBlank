@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using PointBlank.Services.CommandManager;
+using CM = PointBlank.Services.CommandManager.CommandManager;
 
 namespace PointBlank.API.Commands
 {
@@ -10,15 +12,11 @@ namespace PointBlank.API.Commands
     /// </summary>
     public static class CommandManager
     {
-        #region Variables
-        private static Dictionary<PointBlankCommandAttribute, PointBlankCommand> _Commands = new Dictionary<PointBlankCommandAttribute, PointBlankCommand>();
-        #endregion
-
         #region Properties
         /// <summary>
         /// List of commands
         /// </summary>
-        public static PointBlankCommand[] Commands => _Commands.Values.ToArray();
+        public static PointBlankCommand[] Commands => CM.Commands.Values.Select(a => a.CommandClass).ToArray();
         #endregion
 
         #region Functions
@@ -56,6 +54,17 @@ namespace PointBlank.API.Commands
             CommandWrapper wrapper = CM.Commands.Values.FirstOrDefault(a => a.CommandClass == command);
 
             wrapper?.Disable();
+        }
+
+        /// <summary>
+        /// Emulates command execution
+        /// </summary>
+        /// <param name="command">The command to execute</param>
+        public static ECommandRunError ExecuteCommand(string command, Player.PointBlankPlayer executor)
+        {
+            CM cmd = (CM)Enviroment.services["CommandManager.CommandManager"].ServiceClass;
+
+            return cmd.ExecuteCommand(command, executor);
         }
         #endregion
     }

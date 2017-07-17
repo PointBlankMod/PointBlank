@@ -9,6 +9,7 @@ using PointBlank.API.Plugins;
 using PointBlank.API.Collections;
 using PointBlank.API.Interfaces;
 using PointBlank.API.DataManagment;
+using PointBlank.API.Server;
 using UnityEngine;
 using Newtonsoft.Json.Linq;
 
@@ -43,7 +44,7 @@ namespace PointBlank.Framework
             if (_SavedConfigs.ContainsKey(cfg))
                 UniData = _SavedConfigs[cfg];
             else
-                UniData = new UniversalData(ServerInfo.ConfigurationsPath + "/" + (string.IsNullOrEmpty(path) ? "" : path + "/") + configurable.Name);
+                UniData = new UniversalData(Server.ConfigurationsPath + "/" + (string.IsNullOrEmpty(path) ? "" : path + "/") + configurable.Name);
             JsonData JSON = UniData.GetData(EDataType.JSON) as JsonData;
 
             if (!_SavedConfigs.ContainsKey(cfg))
@@ -109,7 +110,7 @@ namespace PointBlank.Framework
             if (_SavedTranslations.ContainsKey(translater))
                 UniData = _SavedTranslations[translater];
             else
-                UniData = new UniversalData(ServerInfo.TranslationsPath + "/" + (string.IsNullOrEmpty(path) ? "" : path + "/") + translatable.Name);
+                UniData = new UniversalData(Server.TranslationsPath + "/" + (string.IsNullOrEmpty(path) ? "" : path + "/") + translatable.Name);
             JsonData JSON = UniData.GetData(EDataType.JSON) as JsonData;
 
             if (!_SavedTranslations.ContainsKey(translater))
@@ -187,12 +188,12 @@ namespace PointBlank.Framework
             if (Initialized)
                 return;
 
-            if (!Directory.Exists(ServerInfo.ConfigurationsPath))
-                Directory.CreateDirectory(ServerInfo.ConfigurationsPath); // Create configurations directory
-            if (!Directory.Exists(ServerInfo.TranslationsPath))
-                Directory.CreateDirectory(ServerInfo.TranslationsPath); // Create translations directory
-            if (!Directory.Exists(ServerInfo.DataPath))
-                Directory.CreateDirectory(ServerInfo.DataPath); // Create data directory
+            if (!Directory.Exists(Server.ConfigurationsPath))
+                Directory.CreateDirectory(Server.ConfigurationsPath); // Create configurations directory
+            if (!Directory.Exists(Server.TranslationsPath))
+                Directory.CreateDirectory(Server.TranslationsPath); // Create translations directory
+            if (!Directory.Exists(Server.DataPath))
+                Directory.CreateDirectory(Server.DataPath); // Create data directory
 
             foreach (Type _class in Assembly.GetExecutingAssembly().GetTypes())
                 LoadInterface(_class);

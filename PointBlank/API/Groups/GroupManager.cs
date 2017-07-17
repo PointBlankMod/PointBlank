@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using PointBlank.API.Services;
+using GM = PointBlank.Services.GroupManager.GroupManager;
 
 namespace PointBlank.API.Groups
 {
@@ -100,6 +102,16 @@ namespace PointBlank.API.Groups
 
             group = g;
             return g != null;
+        }
+
+        /// <summary>
+        /// Reloads the groups
+        /// </summary>
+        public static void Reload()
+        {
+            GM gm = (GM)ServiceManager.GetService("GroupManager.GroupManager");
+
+            gm.LoadGroups();
         }
         #endregion
     }
