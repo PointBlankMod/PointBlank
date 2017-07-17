@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Security.Permissions;
-using PointBlank.Framework.Permissions.Ring;
+using PointBlank.API.Implements;
 
 namespace PointBlank.API.Plugins
 {
     /// <summary>
     /// All the plugin events
     /// </summary>
-    [RingPermission(SecurityAction.Demand, ring = RingPermissionRing.None)]
     public static class PluginEvents
     {
         #region Handlers
@@ -33,7 +31,7 @@ namespace PointBlank.API.Plugins
         /// <summary>
         /// Called when all plugins have been loaded
         /// </summary>
-        public static event OnVoidDelegate OnPluginsLoaded;
+        public static event VoidHandler OnPluginsLoaded;
 
         /// <summary>
         /// Called when the plugin is being stopped
@@ -46,7 +44,7 @@ namespace PointBlank.API.Plugins
         /// <summary>
         /// Called when all plugins have been unloaded
         /// </summary>
-        public static event OnVoidDelegate OnPluginsUnloaded;
+        public static event VoidHandler OnPluginsUnloaded;
         #endregion
 
         #region Functions

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace PointBlank.API.Unturned.Vehicle
+namespace PointBlank.API.Extensions
 {
     /// <summary>
-    /// Class containing all events for vehicles
+    /// The player interface used to identify players
     /// </summary>
-    public class VehicleEvents
+    public interface IPlayer
     {
     }
 }

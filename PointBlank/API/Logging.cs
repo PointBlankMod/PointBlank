@@ -1,20 +1,16 @@
 ﻿using System;
 using System.IO;
-using System.Collections.Generic;
 using System.Diagnostics;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Security.Permissions;
-using PointBlank.Framework.Permissions.Ring;
 using SDG.Unturned;
-using UnityEngine;
 
 namespace PointBlank.API
 {
     /// <summary>
     /// Logging methods for PointBlank
     /// </summary>
-    [RingPermission(SecurityAction.Demand, ring = RingPermissionRing.None)]
     public static class Logging
     {
         #region Info
@@ -50,7 +46,7 @@ namespace PointBlank.API
             log = "[LOG] " + asm + " >> " + log;
             File.AppendAllText(LogPath, log.ToString() + Environment.NewLine);
             if (inConsole)
-                CommandWindow.Log(log);
+                Console.WriteLine(log);
         }
 
         /// <summary>
@@ -76,9 +72,9 @@ namespace PointBlank.API
             File.AppendAllText(LogPath, log.ToString() + Environment.NewLine);
             File.AppendAllText(LogPath, ex.ToString() + Environment.NewLine);
             if (inConsole)
-                CommandWindow.LogError(log);
+                Console.WriteLine(log);
             if (exInConsole)
-                CommandWindow.LogError(ex);
+                Console.WriteLine(ex);
         }
 
         /// <summary>
@@ -101,7 +97,7 @@ namespace PointBlank.API
             log = "[WARNING] " + asm + " >> " + log;
             File.AppendAllText(LogPath, log.ToString() + Environment.NewLine);
             if (inConsole)
-                CommandWindow.LogWarning(log);
+                Console.WriteLine(log);
         }
 
         /// <summary>
@@ -124,7 +120,7 @@ namespace PointBlank.API
             log = "[IMPORTANT] " + asm + " >> " + log;
             File.AppendAllText(LogPath, log.ToString() + Environment.NewLine);
             if (inConsole)
-                CommandWindow.Log(log, ConsoleColor.Cyan);
+                Console.WriteLine(log);
         }
     }
 }

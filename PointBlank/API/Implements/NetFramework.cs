@@ -22,4 +22,6 @@ namespace PointBlank.API.Implements
         /// <returns>If the input flag contains the matching flag</returns>
         public static bool HasFlag(this Enum input, Enum matchTo) => (Convert.ToUInt32(input) & Convert.ToUInt32(matchTo)) != 0;
     }
+
+    public delegate void VoidHandler();
 }

@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using CM = PointBlank.Services.CommandManager.CommandManager;
-using PointBlank.Services.CommandManager;
 
 namespace PointBlank.API.Commands
 {
@@ -12,11 +10,15 @@ namespace PointBlank.API.Commands
     /// </summary>
     public static class CommandManager
     {
+        #region Variables
+        private static Dictionary<PointBlankCommandAttribute, PointBlankCommand> _Commands = new Dictionary<PointBlankCommandAttribute, PointBlankCommand>();
+        #endregion
+
         #region Properties
         /// <summary>
         /// List of commands
         /// </summary>
-        public static PointBlankCommand[] Commands => CM.Commands.Values.Select(a => a.CommandClass).ToArray();
+        public static PointBlankCommand[] Commands => _Commands.Values.ToArray();
         #endregion
 
         #region Functions
@@ -25,24 +27,14 @@ namespace PointBlank.API.Commands
         /// </summary>
         /// <typeparam name="T">The class to get the command with</typeparam>
         /// <returns>The command</returns>
-        public static T GetCommand<T>() where T : PointBlankCommand
-        {
-            CommandWrapper wrapper = CM.Commands.Values.FirstOrDefault(a => a.Class == typeof(T));
-
-            return (T) wrapper?.CommandClass;
-        }
+        public static T GetCommand<T>() where T : PointBlankCommand => (T)Commands.FirstOrDefault(a => a.GetType() == typeof(T));
 
         /// <summary>
         /// Gets a command based on type
         /// </summary>
         /// <param name="Class">The type to find the command by</param>
         /// <returns>The command</returns>
-        public static PointBlankCommand GetCommand(Type Class)
-        {
-            CommandWrapper wrapper = CM.Commands.Values.FirstOrDefault(a => a.Class == Class);
-
-            return wrapper?.CommandClass;
-        }
+        public static PointBlankCommand GetCommand(Type Class) => Commands.FirstOrDefault(a => a.GetType() == Class);
 
         /// <summary>
         /// Enables a command

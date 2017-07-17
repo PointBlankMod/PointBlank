@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Security.Permissions;
 using PointBlank.Framework.Permissions.Ring;
-using PointBlank.API.Unturned.Player;
 using PointBlank.API.Plugins;
 using PointBlank.API.Collections;
-using CM = PointBlank.Services.CommandManager.CommandManager;
+using PointBlank.API.Extensions;
 
 namespace PointBlank.API.Commands
 {
@@ -94,7 +93,7 @@ namespace PointBlank.API.Commands
         /// </summary>
         /// <param name="args">The arguments the player inputted</param>
         /// <param name="executor">The player executing the command</param>
-        public abstract void Execute(UnturnedPlayer executor, string[] args);
+        public abstract void Execute(IPlayer executor, string[] args);
         #endregion
 
         public PointBlankCommand()
