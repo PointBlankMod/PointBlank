@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace PointBlank
 {
-    internal static class Enviroment // Yes I know it is spelt wrong but Environment already exists so we need to use the name
+    internal static class Enviroment // Yes I know it is spelled wrong but Environment already exists so we need to use the name
     {
         public static Dictionary<string, ServiceWrapper> services = new Dictionary<string, ServiceWrapper>(); // The list of services and their properties
         public static Dictionary<string, RuntimeObject> runtimeObjects = new Dictionary<string, RuntimeObject>(); // The list of runtime objects
