@@ -40,7 +40,7 @@ namespace PointBlank.API
             if (stack.FrameCount > 1 && (asm == "PointBlank" || asm == "Assembly-CSharp" || asm == "UnityEngine"))
                 asm = stack.GetFrame(2).GetMethod().DeclaringType.Assembly.GetName().Name;
             if (asm == "Assembly-CSharp" || asm == "UnityEngine")
-                asm = "Unturned";
+                asm = "Game";
 
             log = "[LOG] " + asm + " >> " + log;
             File.AppendAllText(LogPath, log.ToString() + Environment.NewLine);
@@ -65,7 +65,7 @@ namespace PointBlank.API
             if (stack.FrameCount > 1 && (asm == "PointBlank" || asm == "Assembly-CSharp" || asm == "UnityEngine"))
                 asm = stack.GetFrame(2).GetMethod().DeclaringType.Assembly.GetName().Name;
             if (asm == "Assembly-CSharp" || asm == "UnityEngine")
-                asm = "Unturned";
+                asm = "Game";
 
             log = "[ERROR] " + asm + " >> " + log;
             File.AppendAllText(LogPath, log.ToString() + Environment.NewLine);
@@ -91,7 +91,7 @@ namespace PointBlank.API
             if (stack.FrameCount > 1 && (asm == "PointBlank" || asm == "Assembly-CSharp" || asm == "UnityEngine"))
                 asm = stack.GetFrame(2).GetMethod().DeclaringType.Assembly.GetName().Name;
             if (asm == "Assembly-CSharp" || asm == "UnityEngine")
-                asm = "Unturned";
+                asm = "Game";
 
             log = "[WARNING] " + asm + " >> " + log;
             File.AppendAllText(LogPath, log.ToString() + Environment.NewLine);
@@ -114,7 +114,7 @@ namespace PointBlank.API
             if (stack.FrameCount > 1 && (asm == "PointBlank" || asm == "Assembly-CSharp" || asm == "UnityEngine"))
                 asm = stack.GetFrame(2).GetMethod().DeclaringType.Assembly.GetName().Name;
             if (asm == "Assembly-CSharp" || asm == "UnityEngine")
-                asm = "Unturned";
+                asm = "Game";
 
             log = "[IMPORTANT] " + asm + " >> " + log;
             File.AppendAllText(LogPath, log.ToString() + Environment.NewLine);
