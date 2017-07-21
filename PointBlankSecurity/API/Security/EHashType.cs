@@ -13,9 +13,7 @@ namespace PointBlank.API.Security
         NONE,
         MD5,
         SHA1,
-        SHA2_256,
-        SHA2_512,
-        SHA3_256,
-        SHA3_512
+        SHA256,
+        SHA512
     }
 }

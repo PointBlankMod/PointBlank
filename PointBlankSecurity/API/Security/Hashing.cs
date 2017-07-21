@@ -61,31 +61,27 @@ namespace PointBlank.API.Security
         #endregion
 
         #region SHA2-256
-        
-        public static string CalculateSHA2_256String(string input) => CalculateSHA2_256String(Encoding.UTF8.GetBytes(input));
-        public static string CalculateSHA2_256String(byte[] bytes) => string.Join("", CalculateSHA2_256Bytes(bytes).Select(a => a.ToString("x2")).ToArray());
+        public static string CalculateSHA256String(string input) => CalculateSHA256String(Encoding.UTF8.GetBytes(input));
+        public static string CalculateSHA256String(byte[] bytes) => string.Join("", CalculateSHA256Bytes(bytes).Select(a => a.ToString("x2")).ToArray());
 
-        public static byte[] CalculateSHA2_256Bytes(string input) => CalculateSHA2_256Bytes(Encoding.UTF8.GetBytes(input));
-        public static byte[] CalculateSHA2_256Bytes(byte[] bytes)
+        public static byte[] CalculateSHA256Bytes(string input) => CalculateSHA256Bytes(Encoding.UTF8.GetBytes(input));
+        public static byte[] CalculateSHA256Bytes(byte[] bytes)
         {
             using (SHA256 sha256 = SHA256Managed.Create())
                 return sha256.ComputeHash(bytes);
         }
-        
         #endregion
 
         #region SHA2-512
-        
-        public static string CalculateSHA2_512String(string input) => CalculateSHA2_512String(Encoding.UTF8.GetBytes(input));
-        public static string CalculateSHA2_512String(byte[] bytes) => string.Join("", CalculateSHA2_512Bytes(bytes).Select(a => a.ToString("x2")).ToArray());
+        public static string CalculateSHA512String(string input) => CalculateSHA512String(Encoding.UTF8.GetBytes(input));
+        public static string CalculateSHA512String(byte[] bytes) => string.Join("", CalculateSHA512Bytes(bytes).Select(a => a.ToString("x2")).ToArray());
 
-        public static byte[] CalculateSHA2_512Bytes(string input) => CalculateSHA2_512Bytes(Encoding.UTF8.GetBytes(input));
-        public static byte[] CalculateSHA2_512Bytes(byte[] bytes)
+        public static byte[] CalculateSHA512Bytes(string input) => CalculateSHA512Bytes(Encoding.UTF8.GetBytes(input));
+        public static byte[] CalculateSHA512Bytes(byte[] bytes)
         {
             using (SHA512 sha512 = SHA512Managed.Create())
                 return sha512.ComputeHash(bytes);
         }
-        
         #endregion
         
         #region SHA3-256
