@@ -24,16 +24,34 @@ namespace PointBlank.API.License
             switch (hash)
             {
                 case EHashType.MD5:
-                    WebsiteData.PostData(website, new NameValueCollection() { { "License", Hashing.CalculateMD5String(File.ReadAllBytes(file)) } }, out response);
+                    WebsiteData.PostData(website,
+                        new NameValueCollection() {{"License", Hashing.CalculateMD5String(File.ReadAllBytes(file))}},
+                        out response);
                     break;
                 case EHashType.SHA1:
-                    WebsiteData.PostData(website, new NameValueCollection() { { "License", Hashing.CalculateSHA1String(File.ReadAllBytes(file)) } }, out response);
+                    WebsiteData.PostData(website,
+                        new NameValueCollection() {{"License", Hashing.CalculateSHA1String(File.ReadAllBytes(file))}},
+                        out response);
                     break;
-                case EHashType.SHA256:
-                    WebsiteData.PostData(website, new NameValueCollection() { { "License", Hashing.CalculateSHA256String(File.ReadAllBytes(file)) } }, out response);
+                case EHashType.SHA2_256:
+                    WebsiteData.PostData(website,
+                        new NameValueCollection() {{"License", Hashing.CalculateSHA2_256String(File.ReadAllBytes(file))}},
+                        out response);
                     break;
-                case EHashType.SHA512:
-                    WebsiteData.PostData(website, new NameValueCollection() { { "License", Hashing.CalculateSHA512String(File.ReadAllBytes(file)) } }, out response);
+                case EHashType.SHA2_512:
+                    WebsiteData.PostData(website,
+                        new NameValueCollection() {{"License", Hashing.CalculateSHA2_512String(File.ReadAllBytes(file))}},
+                        out response);
+                    break;
+                case EHashType.SHA3_256:
+                    WebsiteData.PostData(website,
+                        new NameValueCollection() {{"License", Hashing.CalculateSHA3_256String(File.ReadAllBytes(file))}},
+                        out response);
+                    break;
+                case EHashType.SHA3_512:
+                    WebsiteData.PostData(website,
+                        new NameValueCollection() {{"License", Hashing.CalculateSHA3_512String(File.ReadAllBytes(file))}},
+                        out response);
                     break;
                 default:
                     if (WebsiteData.UploadFile(website, file, out byte[] data))
