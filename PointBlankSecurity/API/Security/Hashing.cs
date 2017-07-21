@@ -18,7 +18,7 @@ namespace PointBlank.API.Security
         /// </summary>
         /// <param name="input">The string to hash using MD5</param>
         /// <returns>The MD5 hash of the string</returns>
-        /// [Obsolete("MD5 is highly insecure and should be avoided wherever possible", false)]
+        [Obsolete("MD5 is highly insecure and should be avoided wherever possible", false)]
         public static string CalculateMD5String(string input) => CalculateMD5String(Encoding.UTF8.GetBytes(input));
         /// <summary>
         /// Calculate the MD5 hash from a byte array and return the hash in string format
