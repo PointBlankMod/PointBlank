@@ -36,9 +36,6 @@
     <AssemblyOriginatorKeyFile>PointBlank.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BouncyCastle, Version=1.8.1.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
-      <HintPath>..\Libraries\BouncyCastle.dll</HintPath>
-    </Reference>
     <Reference Include="PointBlank, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\bin\Debug\PointBlank.dll</HintPath>
@@ -52,11 +49,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\License\LicenseVerifier.cs" />
-    <Compile Include="API\PBSHA3Digest.cs" />
     <Compile Include="API\Security\EHashType.cs" />
     <Compile Include="API\Security\Hashing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <None Include="PointBlank.pfx" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

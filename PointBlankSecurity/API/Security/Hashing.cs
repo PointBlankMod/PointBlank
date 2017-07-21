@@ -18,7 +18,7 @@ namespace PointBlank.API.Security
         /// </summary>
         /// <param name="input">The string to hash using MD5</param>
         /// <returns>The MD5 hash of the string</returns>
-        [Obsolete("MD5 is highly insecure and should be avoided wherever possible", false)]
+        /// [Obsolete("MD5 is highly insecure and should be avoided wherever possible", false)]
         public static string CalculateMD5String(string input) => CalculateMD5String(Encoding.UTF8.GetBytes(input));
         /// <summary>
         /// Calculate the MD5 hash from a byte array and return the hash in string format
@@ -60,7 +60,7 @@ namespace PointBlank.API.Security
         }
         #endregion
 
-        #region SHA2-256
+        #region SHA256
         public static string CalculateSHA256String(string input) => CalculateSHA256String(Encoding.UTF8.GetBytes(input));
         public static string CalculateSHA256String(byte[] bytes) => string.Join("", CalculateSHA256Bytes(bytes).Select(a => a.ToString("x2")).ToArray());
 
@@ -72,7 +72,7 @@ namespace PointBlank.API.Security
         }
         #endregion
 
-        #region SHA2-512
+        #region SHA512
         public static string CalculateSHA512String(string input) => CalculateSHA512String(Encoding.UTF8.GetBytes(input));
         public static string CalculateSHA512String(byte[] bytes) => string.Join("", CalculateSHA512Bytes(bytes).Select(a => a.ToString("x2")).ToArray());
 
@@ -82,30 +82,6 @@ namespace PointBlank.API.Security
             using (SHA512 sha512 = SHA512Managed.Create())
                 return sha512.ComputeHash(bytes);
         }
-        #endregion
-        
-        #region SHA3-256
-
-        public static Byte[] CalculateSHA3_256Bytes(Byte[] Input) => new PBSHA3Digest(256).CreateDigest(Input);
-        
-        public static Byte[] CalculateSHA3_256Bytes(String Input) => new PBSHA3Digest(256).CreateDigest(Input);
-        
-        public static String CalculateSHA3_256String(Byte[] Input) => new PBSHA3Digest(256).CreateStringDigest(Input);
-        
-        public static String CalculateSHA3_256String(String Input) => new PBSHA3Digest(256).CreateStringDigest(Input);
-        
-        #endregion
-        
-        #region SHA3-512
-        
-        public static Byte[] CalculateSHA3_512Bytes(Byte[] Input) => new PBSHA3Digest(512).CreateDigest(Input);
-        
-        public static Byte[] CalculateSHA3_512Bytes(String Input) => new PBSHA3Digest(512).CreateDigest(Input);
-        
-        public static String CalculateSHA3_512String(Byte[] Input) => new PBSHA3Digest(512).CreateStringDigest(Input);
-        
-        public static String CalculateSHA3_512String(String Input) => new PBSHA3Digest(512).CreateStringDigest(Input);
-        
         #endregion
     }
 }
