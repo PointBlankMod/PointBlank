@@ -80,7 +80,11 @@ namespace PointBlank.Services.IPCManager
         #endregion
 
         #region Event Functions
-        public static void OnOutput(string text) => ServerConsole.WriteLine("0x0:" + text);
+        public static void OnOutput(string text)
+        {
+            if (IPCM.IPCType == EIPCType.CONSOLE)
+                ServerConsole.WriteLine("0x0:" + text);
+        }
 
         private void OnKeySet(string key, string value)
         {
