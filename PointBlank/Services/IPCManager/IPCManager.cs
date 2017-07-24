@@ -4,8 +4,10 @@ using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using PointBlank.API;
 using PointBlank.API.Services;
 using PointBlank.API.IPC;
+using IPCM = PointBlank.API.IPC.IPCManager;
 
 namespace PointBlank.Services.IPCManager
 {
@@ -55,7 +57,7 @@ namespace PointBlank.Services.IPCManager
         {
             while(_Running)
             {
-                if (!_Update)
+                if (!_Update || IPCM.IPCType != EIPCType.FILE)
                     continue;
                 List<string> contents = new List<string>();
 
@@ -78,9 +80,23 @@ namespace PointBlank.Services.IPCManager
         #endregion
 
         #region Event Functions
-        private void OnKeySet(string key, string value) => _Update = true;
+        public static void OnOutput(string text) => ServerConsole.WriteLine("0x0:" + text);
 
-        private void OnKeyUpdated(string key) => _Update = true;
+        private void OnKeySet(string key, string value)
+        {
+            if (IPCM.IPCType == EIPCType.CONSOLE)
+                ServerConsole.WriteLine("0x1:" + key + ":" + value);
+            else if (IPCM.IPCType == EIPCType.FILE)
+                _Update = true;
+        }
+
+        private void OnKeyUpdated(string key)
+        {
+            if (IPCM.IPCType == EIPCType.CONSOLE)
+                ServerConsole.WriteLine("0x1:" + key + ":" + IPC[key]);
+            else if (IPCM.IPCType == EIPCType.FILE)
+                _Update = true;
+        }
         #endregion
     }
 }

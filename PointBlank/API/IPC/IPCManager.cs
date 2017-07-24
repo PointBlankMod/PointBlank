@@ -16,6 +16,11 @@ namespace PointBlank.API.IPC
         /// List of all Inter-Process communication keys
         /// </summary>
         public static string[] IPCKeys => IPCM.IPC.Keys.ToArray();
+
+        /// <summary>
+        /// The current method used for IPC
+        /// </summary>
+        public static EIPCType IPCType { get; set; } = EIPCType.CONSOLE;
         #endregion
 
         #region Functions
@@ -69,6 +74,15 @@ namespace PointBlank.API.IPC
 
             return IPCM.IPC[key];
         }
+        #endregion
+
+        #region Event Functions
+        /// <summary>
+        /// This is an event! You call this every time something is printed into the console!
+        /// WARNING: Do not hook to the console output as it will cause issues!
+        /// </summary>
+        /// <param name="text">The printed text</param>
+        public static void HookOutput(string text) => IPCM.OnOutput(text);
         #endregion
     }
 }
