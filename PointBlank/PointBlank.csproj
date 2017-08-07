@@ -122,6 +122,7 @@
     <Compile Include="Services\PluginManager\PluginConfiguration.cs" />
     <Compile Include="Services\PluginManager\PluginWrapper.cs" />
     <Compile Include="Services\PluginManager\PluginManager.cs" />
+    <Compile Include="Services\UpdateChecker\UpdateChecker.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
