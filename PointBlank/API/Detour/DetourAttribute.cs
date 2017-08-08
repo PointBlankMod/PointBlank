@@ -41,7 +41,7 @@ namespace PointBlank.API.Detour
         /// <param name="tClass">The class containing the method</param>
         /// <param name="method">The name of the method to replace</param>
         /// <param name="flags">The flags of the method to replace</param>
-        public DetourAttribute(Type tClass, string method, BindingFlags flags)
+        public DetourAttribute(Type tClass, string method, BindingFlags flags, int index = 0)
         {
             // Set the variables
             Class = tClass;
@@ -50,7 +50,7 @@ namespace PointBlank.API.Detour
 
             try
             {
-                Method = Class.GetMethod(MethodName, Flags);
+                Method = Class.GetMethods(flags).Where(a => a.Name == method).ToArray()[index];
                 MethodFound = true;
             }
             catch (Exception ex)

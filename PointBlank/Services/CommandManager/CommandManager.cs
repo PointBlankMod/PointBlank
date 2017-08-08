@@ -18,7 +18,6 @@ using CMD = PointBlank.API.Commands.PointBlankCommand;
 
 namespace PointBlank.Services.CommandManager
 {
-    [Service("CommandManager", true)]
     internal class CommandManager : Service
     {
         #region Info
@@ -26,7 +25,7 @@ namespace PointBlank.Services.CommandManager
         #endregion
 
         #region Properties
-        public static Dictionary<PointBlankCommandAttribute, CommandWrapper> Commands { get; private set; }
+        public static List<CommandWrapper> Commands { get; private set; }
 
         public UniversalData UniConfig { get; private set; }
         public JsonData JSONConfig { get; private set; }
@@ -36,7 +35,7 @@ namespace PointBlank.Services.CommandManager
         public override void Load()
         {
             // Setup variables
-            Commands = new Dictionary<PointBlankCommandAttribute, CommandWrapper>();
+            Commands = new List<CommandWrapper>();
             UniConfig = new UniversalData(ConfigurationPath);
             JSONConfig = UniConfig.GetData(EDataType.JSON) as JsonData;
 
@@ -66,7 +65,7 @@ namespace PointBlank.Services.CommandManager
 
         private void SaveConfig()
         {
-            foreach(CommandWrapper wrapper in Commands.Values)
+            foreach(CommandWrapper wrapper in Commands)
                 wrapper.Save();
 
             UniConfig.Save();
@@ -76,31 +75,29 @@ namespace PointBlank.Services.CommandManager
         #region Public Functions
         public void LoadCommand(Type _class)
         {
-            PointBlankCommandAttribute attribute = (PointBlankCommandAttribute)Attribute.GetCustomAttribute(_class, typeof(PointBlankCommandAttribute));
-
-            if (attribute == null)
-                return;
             if (!typeof(CMD).IsAssignableFrom(_class))
                 return;
-            if (Commands.Count(a => a.Key.Name == attribute.Name && a.Key.GetType().Assembly == attribute.GetType().Assembly) > 0)
+            if (_class == typeof(CMD))
+                return;
+            if (Commands.Count(a => a.GetType().Name == _class.Name && a.GetType().Assembly == _class.Assembly) > 0)
                 return;
 
             try
             {
-                string name = attribute.GetType().Assembly.GetName().Name + "." + attribute.Name;
+                string name = _class.Assembly.GetName().Name + "." + _class.Name;
                 JObject objConfig = ((JArray)JSONConfig.Document["Commands"]).FirstOrDefault(a => (string)a["Name"] == name) as JObject;
                 if(objConfig == null)
                 {
                     objConfig = new JObject();
                     ((JArray)JSONConfig.Document["Commands"]).Add(objConfig);
                 }
-                CommandWrapper wrapper = new CommandWrapper(_class, attribute, objConfig);
+                CommandWrapper wrapper = new CommandWrapper(_class, objConfig);
 
-                Commands.Add(attribute, wrapper);
+                Commands.Add(wrapper);
             }
             catch (Exception ex)
             {
-                Logging.LogError("Error loading command: " + attribute.Name, ex);
+                Logging.LogError("Error loading command: " + _class.Name, ex);
             }
         }
 
@@ -155,7 +152,7 @@ namespace PointBlank.Services.CommandManager
         {
             string[] info = ParseCommand(text);
             List<string> args = new List<string>();
-            CommandWrapper wrapper = Commands.Select(a => a.Value).FirstOrDefault(a => a.Commands.FirstOrDefault(b => b.ToLower() == info[0].ToLower()) != null);
+            CommandWrapper wrapper = Commands.FirstOrDefault(a => a.Commands.FirstOrDefault(b => b.ToLower() == info[0].ToLower()) != null);
             string permission = "";
 
             if (wrapper == null || !wrapper.Enabled)
@@ -190,8 +187,8 @@ namespace PointBlank.Services.CommandManager
         {
             PluginWrapper wrapper = PluginManager.PluginManager.Plugins.First(a => a.PluginClass == plugin);
 
-            foreach (KeyValuePair<PointBlankCommandAttribute, CommandWrapper> kvp in Commands.Where(a => a.Value.Class.DeclaringType.Assembly == wrapper.PluginAssembly))
-                Commands.Remove(kvp.Key);
+            foreach (CommandWrapper wrap in Commands.Where(a => a.Class.DeclaringType.Assembly == wrapper.PluginAssembly))
+                Commands.Remove(wrap);
             UniConfig.Save();
         }
         #endregion

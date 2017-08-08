@@ -11,23 +11,19 @@ namespace PointBlank.Framework.Wrappers
     {
         #region Properties
         public bool Enabled { get; private set; } // Is the service running
-        public bool AutoStart { get; private set; } // Is the service on autostart
         public Service ServiceClass { get; private set; } // The service class
-        public ServiceAttribute ServiceAttribute { get; private set; } // The service class attribute
         #endregion
 
-        public ServiceWrapper(bool AutoStart, Service ServiceClass, ServiceAttribute ServiceAttribute)
+        public ServiceWrapper(Service ServiceClass)
         {
             // Setup variables
-            this.AutoStart = AutoStart;
             this.ServiceClass = ServiceClass;
-            this.ServiceAttribute = ServiceAttribute;
 
             // Setup data
-            Enviroment.services.Add(ServiceClass.GetType().Name + "." + ServiceAttribute.Name, this); // Add the service
+            Enviroment.services.Add(ServiceClass.GetType().Name + "." + ServiceClass.Name, this); // Add the service
 
             // Run functions
-            if (AutoStart)
+            if (ServiceClass.AutoStart)
                 Start();
         }
 
@@ -37,7 +33,7 @@ namespace PointBlank.Framework.Wrappers
             if (Enabled) // Don't run if it is already running
                 return true;
 
-            Logging.Log("Starting service: " + ServiceAttribute.Name);
+            Logging.Log("Starting service: " + ServiceClass.Name);
 
             // Call the important functions
             try
@@ -48,7 +44,7 @@ namespace PointBlank.Framework.Wrappers
             }
             catch (Exception ex)
             {
-                Logging.LogError("Error when starting service: " + ServiceAttribute.Name, ex);
+                Logging.LogError("Error when starting service: " + ServiceClass.Name, ex);
             }
 
             // Setup data
@@ -57,7 +53,7 @@ namespace PointBlank.Framework.Wrappers
             // Set the variables
             Enabled = true;
 
-            Logging.Log("Started service: " + ServiceAttribute.Name);
+            Logging.Log("Started service: " + ServiceClass.Name);
             return true;
         }
 
@@ -66,7 +62,7 @@ namespace PointBlank.Framework.Wrappers
             if (!Enabled) // Don't stop if it isn't running
                 return true;
 
-            Logging.Log("Stopping service: " + ServiceAttribute.Name);
+            Logging.Log("Stopping service: " + ServiceClass.Name);
 
             // Call the important functions
             try
@@ -77,7 +73,7 @@ namespace PointBlank.Framework.Wrappers
             }
             catch (Exception ex)
             {
-                Logging.LogError("Error when starting service: " + ServiceAttribute.Name, ex);
+                Logging.LogError("Error when stopping service: " + ServiceClass.Name, ex);
             }
 
             // Stop data
@@ -86,7 +82,7 @@ namespace PointBlank.Framework.Wrappers
             // Set the variables
             Enabled = false;
 
-            Logging.Log("Stopped service: " + ServiceAttribute.Name);
+            Logging.Log("Stopped service: " + ServiceClass.Name);
             return true;
         }
         #endregion

@@ -10,11 +10,10 @@ using Newtonsoft.Json.Linq;
 
 namespace PointBlank.Services.UpdateChecker
 {
-    [Service("UpdateChecker", true)]
     internal class UpdateChecker : Service
     {
         #region Info
-        public static readonly string URL = "https://pastebin.com/raw/ZVcNXEVw";
+        public static readonly string URL = "http://pastebin.com/raw/ZVcNXEVw";
         #endregion
 
         #region Variables

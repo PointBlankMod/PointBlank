@@ -11,7 +11,6 @@ using IPCM = PointBlank.API.IPC.IPCManager;
 
 namespace PointBlank.Services.IPCManager
 {
-    [Service("IPCManager", true)]
     internal class IPCManager : Service
     {
         #region Info

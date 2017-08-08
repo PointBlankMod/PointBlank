@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Security.Permissions;
-using PointBlank.Framework.Permissions.Ring;
 using PointBlank.API.Plugins;
 using PointBlank.API.Collections;
 using CM = PointBlank.Services.CommandManager.CommandManager;
@@ -13,7 +11,6 @@ namespace PointBlank.API.Commands
     /// <summary>
     /// Custom command class
     /// </summary>
-    [RingPermission(SecurityAction.Demand, ring = RingPermissionRing.None)]
     public abstract class PointBlankCommand
     {
         #region Properties
@@ -25,22 +22,22 @@ namespace PointBlank.API.Commands
         /// <summary>
         /// The commands used to execute this command
         /// </summary>
-        public string[] Commands => CM.Commands.FirstOrDefault(a => a.Value.CommandClass == this).Value.Commands;
+        public string[] Commands => CM.Commands.FirstOrDefault(a => a.CommandClass == this).Commands;
 
         /// <summary>
         /// The permissions needed to execute the command
         /// </summary>
-        public string Permission => CM.Commands.FirstOrDefault(a => a.Value.CommandClass == this).Value.Permission;
+        public string Permission => CM.Commands.FirstOrDefault(a => a.CommandClass == this).Permission;
 
         /// <summary>
         /// The cooldown needed to execute the command
         /// </summary>
-        public int Cooldown => CM.Commands.FirstOrDefault(a => a.Value.CommandClass == this).Value.Cooldown;
+        public int Cooldown => CM.Commands.FirstOrDefault(a => a.CommandClass == this).Cooldown;
 
         /// <summary>
         /// Is the command enabled
         /// </summary>
-        public bool Enabled => CM.Commands.FirstOrDefault(a => a.Value.CommandClass == this).Value.Enabled;
+        public bool Enabled => CM.Commands.FirstOrDefault(a => a.CommandClass == this).Enabled;
 
         /// <summary>
         /// The configuration list of the plugin
@@ -71,6 +68,11 @@ namespace PointBlank.API.Commands
         #endregion
 
         #region Virtual Properties
+        /// <summary>
+        /// The minimum amount of parameters required for the command
+        /// </summary>
+        public virtual int MinimumParams => 0;
+
         /// <summary>
         /// The default cooldown(-1 to not override cooldown)
         /// </summary>

@@ -13,7 +13,6 @@ using SM = PointBlank.Framework.ServiceManager;
 
 namespace PointBlank.Services.PluginManager
 {
-    [Service("PluginManager", true)]
     internal class PluginManager : Service
     {
         #region Info

@@ -13,7 +13,6 @@ using PM = PointBlank.Services.PluginManager.PluginManager;
 
 namespace PointBlank.Services.DetourManager
 {
-    [Service("DetourManager", true)]
     internal class DetourManager : Service
     {
         #region Variables
@@ -81,10 +80,12 @@ namespace PointBlank.Services.DetourManager
                 return;
 
             // Main code
-            foreach (KeyValuePair<DetourAttribute, DetourWrapper> kvp in Detours.Where(a => a.Value.Local == false))
+            while(Detours.Count > 0)
             {
-                kvp.Value.Revert();
-                Detours.Remove(kvp.Key);
+                DetourAttribute att = Detours.Keys.ElementAt(0);
+
+                Detours[att].Revert();
+                Detours.Remove(att);
             }
 
             // Set the variables

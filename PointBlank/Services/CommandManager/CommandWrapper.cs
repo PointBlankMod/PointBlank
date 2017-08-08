@@ -23,7 +23,6 @@ namespace PointBlank.Services.CommandManager
 
         #region Properties
         public Type Class { get; private set; }
-        public PointBlankCommandAttribute Attribute { get; private set; }
         public JObject Config { get; private set; }
 
         public CMD CommandClass { get; private set; }
@@ -34,11 +33,10 @@ namespace PointBlank.Services.CommandManager
         public bool Enabled { get; private set; }
         #endregion
 
-        public CommandWrapper(Type _class, PointBlankCommandAttribute attribute, JObject config)
+        public CommandWrapper(Type _class, JObject config)
         {
             // Set the variables
             this.Class = _class;
-            this.Attribute = attribute;
             this.Config = config;
 
             // Setup the variables
@@ -64,7 +62,7 @@ namespace PointBlank.Services.CommandManager
 
         public void Reload()
         {
-            string name = Attribute.GetType().Assembly.GetName().Name + "." + Attribute.Name;
+            string name = Class.Assembly.GetName().Name + "." + Class.Name;
             if (Config["Name"] == null)
             {
                 Config["Name"] = name;
@@ -113,7 +111,7 @@ namespace PointBlank.Services.CommandManager
                     executor.SendMessage(Translations["CommandWrapper_NotPlayer"], Color.red);
                     return ECommandRunError.NOT_PLAYER;
                 }
-                if (Attribute.MinParams > args.Length)
+                if (CommandClass.MinimumParams > args.Length)
                 {
                     PointBlankPlayer.SendMessage(executor, Translations["CommandWrapper_Arguments"], ConsoleColor.Red);
                     return ECommandRunError.ARGUMENT_COUNT;
@@ -133,7 +131,7 @@ namespace PointBlank.Services.CommandManager
             }
             catch (Exception ex)
             {
-                Logging.LogError("Error when running command: " + Attribute.Name, ex);
+                Logging.LogError("Error when running command: " + Class.Name, ex);
                 return ECommandRunError.EXCEPTION;
             }
         }

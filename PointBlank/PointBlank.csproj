@@ -55,7 +55,6 @@
     <Compile Include="API\Collections\TranslationList.cs" />
     <Compile Include="API\Commands\ECommandRunError.cs" />
     <Compile Include="API\Commands\PointBlankCommand.cs" />
-    <Compile Include="API\Commands\PointBlankCommandAttribute.cs" />
     <Compile Include="API\Commands\CommandEvents.cs" />
     <Compile Include="API\Commands\CommandManager.cs" />
     <Compile Include="API\Commands\EAllowedCaller.cs" />
@@ -96,7 +95,6 @@
     <Compile Include="API\ServerConsole.cs" />
     <Compile Include="API\Server\Server.cs" />
     <Compile Include="API\Services\Service.cs" />
-    <Compile Include="API\Services\ServiceAttribute.cs" />
     <Compile Include="API\Services\ServiceEvents.cs" />
     <Compile Include="API\Services\ServiceManager.cs" />
     <Compile Include="API\PBTools.cs" />
@@ -127,7 +125,8 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy /Y "$(TargetPath)" "$(SolutionDir)\..\PointBlank-Unturned\Libraries\$(TargetFileName)"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

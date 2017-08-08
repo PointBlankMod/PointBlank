@@ -30,22 +30,22 @@ namespace PointBlank.Framework
         #endregion
 
         #region Private Functions
-        private void RunService(Type service, ServiceAttribute attribute) // Runs the service
+        private void RunService(Service service) // Runs the service
         {
             try
             {
-                if (attribute.Replace)
-                    foreach (ServiceWrapper ser in Enviroment.services.Where(a => a.Value.ServiceAttribute.Name == attribute.Name).Select(a => a.Value))
-                        ser.Stop(); // Stop all services with the same name
+                if (service.Replace)
+                    foreach (ServiceWrapper wrapper in Enviroment.services.Where(a => a.Value.ServiceClass.FullName == service.FullName && a.Value.ServiceClass.Replacable).Select(a => a.Value))
+                        wrapper.Stop(); // Stop all services with the same name
                 else
-                    if (Enviroment.services.Count(a => a.Key == (service.Name + "." + attribute.Name)) > 0)
+                    if (Enviroment.services.Count(a => a.Key == service.FullName) > 0)
                         return; // Make sure that the services with the same name aren't ran
 
-                new ServiceWrapper(attribute.AutoStart, (Service)Activator.CreateInstance(service), attribute); // Create the service wrapper
+                new ServiceWrapper(service); // Create the service wrapper
             }
             catch (Exception ex)
             {
-                Logging.LogError("Error starting service: " + attribute.Name, ex);
+                Logging.LogError("Error starting service: " + service.Name, ex);
             }
         }
 
@@ -57,7 +57,7 @@ namespace PointBlank.Framework
             }
             catch (Exception ex)
             {
-                Logging.LogError("Error stopping service: " + wrapper.ServiceAttribute.Name, ex);
+                Logging.LogError("Error stopping service: " + wrapper.ServiceClass.Name, ex);
             }
         }
         #endregion
@@ -65,34 +65,33 @@ namespace PointBlank.Framework
         #region Public Functions
         public void LoadService(Type service) // Load the service using the type
         {
-            ServiceAttribute attribute = (ServiceAttribute)Attribute.GetCustomAttribute(service, typeof(ServiceAttribute)); // Get the attribute
-
             if (!service.IsClass || !typeof(Service).IsAssignableFrom(service)) // If it isn't a service then return
                 return;
-            if (attribute == null) // If the attribute is null return
+            if (service == typeof(Service)) // Prevents the actual service API from being loaded
                 return;
+            Service ser = (Service)Activator.CreateInstance(service);
 
-            if (ServicesData.CheckKey(attribute.Name))
+            if (ServicesData.CheckKey(ser.Name))
             {
-                attribute.AutoStart = ((string)ServicesData.Document[attribute.Name]["AutoStart"]).ToLower() == "true";
-                attribute.Replace = ((string)ServicesData.Document[attribute.Name]["Replace"]).ToLower() == "true";
+                ser.AutoStart = ((string)ServicesData.Document[ser.Name]["AutoStart"]).ToLower() == "true";
+                ser.Replace = ((string)ServicesData.Document[ser.Name]["Replace"]).ToLower() == "true";
             }
             else
             {
                 JObject jObj = new JObject
                 {
-                    {"AutoStart", (attribute.AutoStart ? "true" : "false")},
-                    {"Replace", (attribute.Replace ? "true" : "false")}
+                    {"AutoStart", (ser.AutoStart ? "true" : "false")},
+                    {"Replace", (ser.Replace ? "true" : "false")}
                 }; // Create a jobject
 
                 // Add the autostart
                 //  Add the replace
 
-                ServicesData.Document.Add(attribute.Name, jObj); // Add the jobject
+                ServicesData.Document.Add(ser.Name, jObj); // Add the jobject
                 UniServicesData.Save();
             }
 
-            RunService(service, attribute); // Run the service
+            RunService(ser); // Run the service
         }
 
         public void UnloadService(string name) => StopService(Enviroment.services[name]); // Unload the service using the name

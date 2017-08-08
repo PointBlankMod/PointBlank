@@ -16,7 +16,7 @@ namespace PointBlank.API.Commands
         /// <summary>
         /// List of commands
         /// </summary>
-        public static PointBlankCommand[] Commands => CM.Commands.Values.Select(a => a.CommandClass).ToArray();
+        public static PointBlankCommand[] Commands => CM.Commands.Select(a => a.CommandClass).ToArray();
         #endregion
 
         #region Functions
@@ -40,7 +40,7 @@ namespace PointBlank.API.Commands
         /// <param name="command">The command to enable</param>
         public static void EnableCommand(PointBlankCommand command)
         {
-            CommandWrapper wrapper = CM.Commands.Values.FirstOrDefault(a => a.CommandClass == command);
+            CommandWrapper wrapper = CM.Commands.FirstOrDefault(a => a.CommandClass == command);
 
             wrapper?.Enable();
         }
@@ -51,7 +51,7 @@ namespace PointBlank.API.Commands
         /// <param name="command">The command to disable</param>
         public static void DisableCommand(PointBlankCommand command)
         {
-            CommandWrapper wrapper = CM.Commands.Values.FirstOrDefault(a => a.CommandClass == command);
+            CommandWrapper wrapper = CM.Commands.FirstOrDefault(a => a.CommandClass == command);
 
             wrapper?.Disable();
         }
