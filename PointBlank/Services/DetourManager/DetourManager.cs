@@ -23,6 +23,8 @@ namespace PointBlank.Services.DetourManager
         public static Dictionary<DetourAttribute, DetourWrapper> Detours => _Detours; // The public detours
 
         public bool Initialized { get; private set; } = false; // Is the detour manager initialized
+
+        public override int LaunchIndex => 0;
         #endregion
 
         #region Public Functions

@@ -45,6 +45,8 @@ namespace PointBlank.Services.CommandManager
 
             // Run the code
             Reload();
+
+            Logging.Log("Loaded command: " + Commands[0]);
         }
 
         #region Public Functions

@@ -29,6 +29,8 @@ namespace PointBlank.Services.CommandManager
 
         public UniversalData UniConfig { get; private set; }
         public JsonData JSONConfig { get; private set; }
+
+        public override int LaunchIndex => 2;
         #endregion
 
         #region Override Functions

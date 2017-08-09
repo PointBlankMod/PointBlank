@@ -22,6 +22,10 @@ namespace PointBlank.Services.UpdateChecker
         private bool Running = true;
         #endregion
 
+        #region Properties
+        public override int LaunchIndex => 0;
+        #endregion
+
         public override void Load()
         {
             // Setup the variables

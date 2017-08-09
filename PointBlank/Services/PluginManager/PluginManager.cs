@@ -32,6 +32,8 @@ namespace PointBlank.Services.PluginManager
 
         public UniversalData UniConfig { get; private set; } // The universal config data
         public JsonData JSONConfig { get; private set; } // The JSON config data
+
+        public override int LaunchIndex => 3;
         #endregion
 
         #region Override Functions
@@ -70,7 +72,7 @@ namespace PointBlank.Services.PluginManager
                         break;
                 }
             }
-                PluginEvents.RunPluginsLoaded();
+            PluginEvents.RunPluginsLoaded();
         }
 
         public override void Unload()

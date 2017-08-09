@@ -22,6 +22,8 @@ namespace PointBlank.Services.GroupManager
         public UniversalData UniGroupConfig { get; private set; }
 
         public JsonData GroupConfig { get; private set; }
+
+        public override int LaunchIndex => 0;
         #endregion
 
         #region Override Functions

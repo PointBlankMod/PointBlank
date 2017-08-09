@@ -22,6 +22,11 @@ namespace PointBlank.Framework
         public static readonly string ConfigurationPath = Server.ConfigurationsPath + "/Services";
         #endregion
 
+        #region Variables
+        private List<Service> _tempServices = new List<Service>();
+        private List<ServiceWrapper> _tempWrappers = new List<ServiceWrapper>();
+        #endregion
+
         #region Properties
         public bool Initialized { get; private set; } = false; // Is the service manager initialized
 
@@ -82,16 +87,13 @@ namespace PointBlank.Framework
                 {
                     {"AutoStart", (ser.AutoStart ? "true" : "false")},
                     {"Replace", (ser.Replace ? "true" : "false")}
-                }; // Create a jobject
+                };
 
-                // Add the autostart
-                //  Add the replace
-
-                ServicesData.Document.Add(ser.Name, jObj); // Add the jobject
+                ServicesData.Document.Add(ser.Name, jObj);
                 UniServicesData.Save();
             }
 
-            RunService(ser); // Run the service
+            _tempServices.Add(ser);
         }
 
         public void UnloadService(string name) => StopService(Enviroment.services[name]); // Unload the service using the name
@@ -111,6 +113,9 @@ namespace PointBlank.Framework
             foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies().Where(a => Attribute.GetCustomAttribute(a, typeof(ExtensionAttribute)) != null))
                 foreach (Type class_type in asm.GetTypes())
                     LoadService(class_type);
+            foreach (Service ser in _tempServices.OrderBy(a => a.LaunchIndex))
+                RunService(ser);
+            _tempServices.Clear();
 
             // Setup the events
             PluginEvents.OnPluginLoaded += new PluginEvents.PluginEventHandler(OnPluginLoaded);
@@ -125,8 +130,11 @@ namespace PointBlank.Framework
                 return;
 
             UniServicesData.Save(); // Save the services data
-            foreach(ServiceWrapper wrapper in Enviroment.services.Select(a => a.Value)) // Stop the services
+            foreach (ServiceWrapper wrapper in Enviroment.services.Select(a => a.Value)) // Stop the services
+                _tempWrappers.Add(wrapper);
+            foreach (ServiceWrapper wrapper in _tempWrappers.OrderByDescending(a => a.ServiceClass.LaunchIndex))
                 StopService(wrapper);
+            _tempWrappers.Clear();
 
             // Set the variables
             Initialized = false;
@@ -138,6 +146,9 @@ namespace PointBlank.Framework
         {
             foreach (Type class_type in plugin.GetType().Assembly.GetTypes())
                 LoadService(class_type);
+            foreach (Service ser in _tempServices.OrderBy(a => a.LaunchIndex))
+                RunService(ser);
+            _tempServices.Clear();
         }
         #endregion
     }

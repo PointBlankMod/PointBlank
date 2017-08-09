@@ -39,6 +39,11 @@ namespace PointBlank.API.Services
         /// Does the service replace an existing service
         /// </summary>
         public virtual bool Replace { get; set; } = false;
+
+        /// <summary>
+        /// The launch index specifies when the service is launched(the higher it is the slower it will launch)
+        /// </summary>
+        public virtual int LaunchIndex => 0;
         #endregion
 
         #region Abstract Functions

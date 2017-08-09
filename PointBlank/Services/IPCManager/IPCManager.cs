@@ -25,6 +25,8 @@ namespace PointBlank.Services.IPCManager
 
         #region Properties
         public static Dictionary<string, string> IPC { get; } = new Dictionary<string, string>();
+
+        public override int LaunchIndex => 1;
         #endregion
 
         #region Override Functions
