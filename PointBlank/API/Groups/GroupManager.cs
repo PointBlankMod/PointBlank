@@ -22,6 +22,11 @@ namespace PointBlank.API.Groups
         /// Array of groups in the server
         /// </summary>
         public static Group[] Groups => _Groups.Values.ToArray();
+
+        /// <summary>
+        /// Is the group manager loaded(this is for events)
+        /// </summary>
+        public static bool Loaded { get; set; } = false;
         #endregion
 
         #region Public Functions
@@ -34,10 +39,10 @@ namespace PointBlank.API.Groups
             if (_Groups.ContainsKey(group.ID))
                 return;
             _Groups.Add(group.ID, group);
-
-            GroupEvents.RunGroupAdded(group);
+            
+            if (Loaded)
+                GroupEvents.RunGroupAdded(group);
         }
-
         /// <summary>
         /// Creates and adds a group to the server group
         /// </summary>
@@ -52,7 +57,8 @@ namespace PointBlank.API.Groups
 
             _Groups.Add(ID, group);
 
-            GroupEvents.RunGroupAdded(group);
+            if (Loaded)
+                GroupEvents.RunGroupAdded(group);
         }
 
         /// <summary>
@@ -65,9 +71,9 @@ namespace PointBlank.API.Groups
                 return;
             _Groups.Remove(group.ID);
 
-            GroupEvents.RunGroupRemoved(group);
+            if (Loaded)
+                GroupEvents.RunGroupRemoved(group);
         }
-
         /// <summary>
         /// Removes a group from the server
         /// </summary>
@@ -80,7 +86,8 @@ namespace PointBlank.API.Groups
 
             _Groups.Remove(ID);
 
-            GroupEvents.RunGroupRemoved(group);
+            if (Loaded)
+                GroupEvents.RunGroupRemoved(group);
         }
 
         /// <summary>

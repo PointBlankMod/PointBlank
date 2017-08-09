@@ -48,6 +48,7 @@ namespace PointBlank.Services.GroupManager
         #region Private Functions
         internal void LoadGroups()
         {
+            GM.Loaded = false;
             foreach (JProperty obj in GroupConfig.Document.Properties())
             {
                 if (GM.Groups.Count(a => a.ID == obj.Name) > 0)
@@ -65,6 +66,14 @@ namespace PointBlank.Services.GroupManager
             {
                 JObject obj = GroupConfig.Document[g.ID] as JObject;
 
+                while (g.Inherits.Length > 0)
+                    g.RemoveInherit(g.Inherits[0]);
+                while (g.Permissions.Length > 0)
+                    g.RemovePermission(g.Permissions[0]);
+                while (g.Prefixes.Length > 0)
+                    g.RemovePrefix(g.Prefixes[0]);
+                while (g.Suffixes.Length > 0)
+                    g.RemoveSuffix(g.Suffixes[0]);
                 if (obj["Inherits"] is JArray)
                 {
                     foreach (JToken token in (JArray)obj["Inherits"])
@@ -136,6 +145,7 @@ namespace PointBlank.Services.GroupManager
                     g.AddSuffix((string)obj["Suffixes"]);
                 }
             }
+            GM.Loaded = true;
         }
 
         internal void FirstGroups()
