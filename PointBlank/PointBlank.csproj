@@ -99,6 +99,7 @@
     <Compile Include="API\Services\ServiceManager.cs" />
     <Compile Include="API\PBTools.cs" />
     <Compile Include="Enviroment.cs" />
+    <Compile Include="Framework\Configurations\PointBlankConfigurations.cs" />
     <Compile Include="Framework\InterfaceManager.cs" />
     <Compile Include="Framework\Objects\RuntimeObject.cs" />
     <Compile Include="Framework\Permissions\Ring\RingPermission.cs" />

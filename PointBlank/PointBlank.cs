@@ -24,13 +24,6 @@ namespace PointBlank
         #region Properties
         public static PointBlank Instance { get; private set; } // Self instance
         public static bool Enabled { get; private set; } // Is PointBlank running
-
-        internal string ConfigurationDirectory => null;
-        internal ConfigurationList Configurations => new ConfigurationList()
-        {
-            { "ConfigFormat", EDataType.JSON }
-        };
-        internal Dictionary<Type, IConfigurable> ConfigurationDictionary => Enviroment.FrameworkConfig;
         #endregion
 
         #region Loader Functions
