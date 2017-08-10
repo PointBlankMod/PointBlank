@@ -21,6 +21,32 @@ namespace PointBlank.API.Implements
         /// <param name="matchTo">The flag to compare it to</param>
         /// <returns>If the input flag contains the matching flag</returns>
         public static bool HasFlag(this Enum input, Enum matchTo) => (Convert.ToUInt32(input) & Convert.ToUInt32(matchTo)) != 0;
+
+        #region Lists
+        /// <summary>
+        /// Uses a for loop on any list
+        /// </summary>
+        /// <typeparam name="T">The list type</typeparam>
+        /// <param name="list">The list the loop is running through</param>
+        /// <param name="action">The list function that gets run</param>
+        public static void For<T>(this IEnumerable<T> list, Action<int, T> action)
+        {
+            for(int i = 0; i < list.Count(); i++)
+                action(i, list.ElementAt(i));
+        }
+
+        /// <summary>
+        /// Uses a foreach loop on any list
+        /// </summary>
+        /// <typeparam name="T">The list type</typeparam>
+        /// <param name="list">The list the loop is running through</param>
+        /// <param name="action">The list function that gets run</param>
+        public static void ForEach<T>(this IEnumerable<T> list, Action<T> action)
+        {
+            foreach (T obj in list)
+                action(obj);
+        }
+        #endregion
     }
 
     public delegate void VoidHandler();
