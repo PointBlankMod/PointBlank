@@ -3,9 +3,7 @@ using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Security.Permissions;
 using PointBlank.API.Collections;
-using PointBlank.Framework.Permissions.Ring;
 using PM = PointBlank.Services.PluginManager.PluginManager;
 using UnityEngine;
 
@@ -14,7 +12,6 @@ namespace PointBlank.API.Plugins
     /// <summary>
     /// Used to specify the entrypoint of the plugin
     /// </summary>
-    [RingPermission(SecurityAction.Demand, ring = RingPermissionRing.Plugins)]
     public abstract class PointBlankPlugin : MonoBehaviour
     {
         #region Properties

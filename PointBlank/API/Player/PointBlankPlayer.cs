@@ -21,7 +21,14 @@ namespace PointBlank.API.Player
 
         #region Properties
         // Abstract
+        /// <summary>
+        /// Is the player an admin
+        /// </summary>
         public abstract bool IsAdmin { get; set; }
+        /// <summary>
+        /// The gameobject of the player
+        /// </summary>
+        public abstract GameObject GameObject { get; }
 
         // Virtual
         /// <summary>
@@ -68,7 +75,7 @@ namespace PointBlank.API.Player
         }
         #endregion
 
-        #region Functions
+        #region Virtual Functions
         // Virtual
         /// <summary>
         /// Add the player to a group
@@ -266,6 +273,46 @@ namespace PointBlank.API.Player
         /// </summary>
         /// <param name="message">The message of the player</param>
         public abstract void SendMessage(object message, Color color);
+        #endregion
+
+        #region Functions
+        /// <summary>
+        /// Gets the PointBlankPlayerComponent instance that was attached to the player
+        /// </summary>
+        /// <typeparam name="T">The PointBlankPlayerComponent type to search for</typeparam>
+        /// <returns>The instance of the PointBlankPlayerComponent</returns>
+        public T GetComponent<T>() where T : PointBlankPlayerComponent => GameObject.GetComponent<T>();
+        /// <summary>
+        /// Gets the PointBlankPlayerComponent instance that was attached to the player
+        /// </summary>
+        /// <param name="type">The PointBlankPlayerComponent type to search for</param>
+        /// <returns>The instance of the PointBlankPlayerComponent</returns>
+        public PointBlankPlayerComponent GetComponent(Type type)
+        {
+            if (!typeof(PointBlankPlayerComponent).IsAssignableFrom(type))
+                return null;
+
+            return (PointBlankPlayerComponent)GameObject.GetComponent(type);
+        }
+
+        /// <summary>
+        /// Adds the PointBlankPlayerComponent to the player
+        /// </summary>
+        /// <typeparam name="T">The PointBlankPlayerComponent type to add</typeparam>
+        /// <returns>The instance of PointBlankPlayerComponent that was added</returns>
+        public T AddComponent<T>() where T : PointBlankPlayerComponent => GameObject.AddComponent<T>();
+        /// <summary>
+        /// Adds the PointBlankPlayerComponent to the player
+        /// </summary>
+        /// <param name="type">The PointBlankPlayerComponent type to add</param>
+        /// <returns>The instance of PointBlankPlayerComponent that was added</returns>
+        public PointBlankPlayerComponent AddComponent(Type type)
+        {
+            if (!typeof(PointBlankPlayerComponent).IsAssignableFrom(type))
+                return null;
+
+            return (PointBlankPlayerComponent)GameObject.AddComponent(type);
+        }
         #endregion
     }
 }

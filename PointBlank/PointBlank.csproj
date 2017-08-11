@@ -88,6 +88,7 @@
     <Compile Include="API\Implements\NetFramework.cs" />
     <Compile Include="API\Interfaces\IConfigurable.cs" />
     <Compile Include="API\Interfaces\ITranslatable.cs" />
+    <Compile Include="API\Player\PointBlankPlayerComponent.cs" />
     <Compile Include="API\PointBlankLogging.cs" />
     <Compile Include="API\Player\PointBlankPlayerEvents.cs" />
     <Compile Include="API\Plugins\PointBlankPlugin.cs" />
