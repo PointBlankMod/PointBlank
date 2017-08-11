@@ -69,7 +69,7 @@ namespace PointBlank.Services.DetourManager
             }
             catch (Exception ex)
             {
-                Logging.LogError("Error adding detour!", ex);
+                PointBlankLogging.LogError("Error adding detour!", ex);
                 return false;
             }
         }
@@ -97,7 +97,7 @@ namespace PointBlank.Services.DetourManager
             }
             catch (Exception ex)
             {
-                Logging.LogError("Error reverting detour!", ex);
+                PointBlankLogging.LogError("Error reverting detour!", ex);
                 return false;
             }
         }

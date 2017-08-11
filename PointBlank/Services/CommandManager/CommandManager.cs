@@ -18,10 +18,10 @@ using CMD = PointBlank.API.Commands.PointBlankCommand;
 
 namespace PointBlank.Services.CommandManager
 {
-    internal class CommandManager : Service
+    internal class CommandManager : PointBlankService
     {
         #region Info
-        public static readonly string ConfigurationPath = Server.ConfigurationsPath + "//Commands";
+        public static readonly string ConfigurationPath = PointBlankServer.ConfigurationsPath + "//Commands";
         #endregion
 
         #region Properties
@@ -42,11 +42,11 @@ namespace PointBlank.Services.CommandManager
             JSONConfig = UniConfig.GetData(EDataType.JSON) as JsonData;
 
             // Setup events
-            PluginEvents.OnPluginLoaded += new PluginEvents.PluginEventHandler(OnPluginLoaded); // Run code every time a plugin is loaded
+            PointBlankPluginEvents.OnPluginLoaded += new PointBlankPluginEvents.PluginEventHandler(OnPluginLoaded); // Run code every time a plugin is loaded
 
             // Run the code
             LoadConfig();
-            foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies().Where(a => Attribute.GetCustomAttribute(a, typeof(ExtensionAttribute)) != null))
+            foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies().Where(a => Attribute.GetCustomAttribute(a, typeof(PointBlankExtensionAttribute)) != null))
                 foreach (Type tClass in asm.GetTypes())
                     if (tClass.IsClass)
                             LoadCommand(tClass);
@@ -99,7 +99,7 @@ namespace PointBlank.Services.CommandManager
             }
             catch (Exception ex)
             {
-                Logging.LogError("Error loading command: " + _class.Name, ex);
+                PointBlankLogging.LogError("Error loading command: " + _class.Name, ex);
             }
         }
 
@@ -176,7 +176,7 @@ namespace PointBlank.Services.CommandManager
         #endregion
 
         #region Event Functions
-        private void OnPluginLoaded(Plugin plugin)
+        private void OnPluginLoaded(PointBlankPlugin plugin)
         {
             PluginWrapper wrapper = PluginManager.PluginManager.Plugins.First(a => a.PluginClass == plugin);
 
@@ -185,7 +185,7 @@ namespace PointBlank.Services.CommandManager
                     LoadCommand(tClass);
         }
 
-        private void OnPluginUnloaded(Plugin plugin)
+        private void OnPluginUnloaded(PointBlankPlugin plugin)
         {
             PluginWrapper wrapper = PluginManager.PluginManager.Plugins.First(a => a.PluginClass == plugin);
 

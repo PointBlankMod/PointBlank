@@ -8,7 +8,7 @@ namespace PointBlank.API.Services
     /// <summary>
     /// The service manager class allows you to manage services at ease
     /// </summary>
-    public static class ServiceManager
+    public static class PointBlankServiceManager
     {
         #region Properties
         /// <summary>
@@ -47,7 +47,7 @@ namespace PointBlank.API.Services
         /// </summary>
         /// <param name="serviceName">The service name to query for</param>
         /// <returns>The service class/instance</returns>
-        public static Service GetService(string serviceName) => Enviroment.services[serviceName].ServiceClass;
+        public static PointBlankService GetService(string serviceName) => Enviroment.services[serviceName].ServiceClass;
         #endregion
     }
 }

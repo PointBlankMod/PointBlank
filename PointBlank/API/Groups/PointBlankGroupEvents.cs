@@ -8,40 +8,40 @@ namespace PointBlank.API.Groups
     /// <summary>
     /// List of events for groups
     /// </summary>
-    public static class GroupEvents
+    public static class PointBlankGroupEvents
     {
         #region Handlers
         /// <summary>
         /// Handler for all group events such as OnGroupAdded and OnGroupRemoved
         /// </summary>
         /// <param name="group">The group that the event affects</param>
-        public delegate void GroupEventHandler(Group group);
+        public delegate void GroupEventHandler(PointBlankGroup group);
 
         /// <summary>
         /// Handler for group permission events
         /// </summary>
         /// <param name="permission">The affected permission</param>
         /// <param name="instance">The affected group's instance</param>
-        public delegate void PermissionEventHandler(Group instance, string permission);
+        public delegate void PermissionEventHandler(PointBlankGroup instance, string permission);
         /// <summary>
         /// Handler for inherited groups events
         /// </summary>
         /// <param name="group">The affected group</param>
         /// <param name="instance">The affected group's instance</param>
-        public delegate void InheritEventHandler(Group instance, Group group);
+        public delegate void InheritEventHandler(PointBlankGroup instance, PointBlankGroup group);
 
         /// <summary>
         /// Handler for group prefix events
         /// </summary>
         /// <param name="prefix">The affected prefix</param>
         /// <param name="instance">The affected group's instance</param>
-        public delegate void PrefixEventHandler(Group instance, string prefix);
+        public delegate void PrefixEventHandler(PointBlankGroup instance, string prefix);
         /// <summary>
         /// Handler for the group suffix events
         /// </summary>
         /// <param name="suffix">The affected suffix</param>
         /// <param name="instance">The affected group's instance</param>
-        public delegate void SuffixEventHandler(Group instance, string suffix);
+        public delegate void SuffixEventHandler(PointBlankGroup instance, string suffix);
         #endregion
 
         #region Events
@@ -92,20 +92,20 @@ namespace PointBlank.API.Groups
         #endregion
 
         #region Functions
-        internal static void RunGroupAdded(Group g) => OnGroupAdded?.Invoke(g);
-        internal static void RunGroupRemoved(Group g) => OnGroupRemoved?.Invoke(g);
+        internal static void RunGroupAdded(PointBlankGroup g) => OnGroupAdded?.Invoke(g);
+        internal static void RunGroupRemoved(PointBlankGroup g) => OnGroupRemoved?.Invoke(g);
 
-        internal static void RunPermissionAdded(Group instance, string permission) => OnPermissionAdded?.Invoke(instance, permission);
-        internal static void RunPermissionRemoved(Group instance, string permission) => OnPermissionRemoved?.Invoke(instance, permission);
+        internal static void RunPermissionAdded(PointBlankGroup instance, string permission) => OnPermissionAdded?.Invoke(instance, permission);
+        internal static void RunPermissionRemoved(PointBlankGroup instance, string permission) => OnPermissionRemoved?.Invoke(instance, permission);
 
-        internal static void RunPrefixAdded(Group instance, string prefix) => OnPrefixAdded?.Invoke(instance, prefix);
-        internal static void RunPrefixRemoved(Group instance, string prefix) => OnPrefixRemoved?.Invoke(instance, prefix);
+        internal static void RunPrefixAdded(PointBlankGroup instance, string prefix) => OnPrefixAdded?.Invoke(instance, prefix);
+        internal static void RunPrefixRemoved(PointBlankGroup instance, string prefix) => OnPrefixRemoved?.Invoke(instance, prefix);
 
-        internal static void RunSuffixAdded(Group instance, string suffix) => OnSuffixAdded?.Invoke(instance, suffix);
-        internal static void RunSuffixRemoved(Group instance, string suffix) => OnSuffixRemoved?.Invoke(instance, suffix);
+        internal static void RunSuffixAdded(PointBlankGroup instance, string suffix) => OnSuffixAdded?.Invoke(instance, suffix);
+        internal static void RunSuffixRemoved(PointBlankGroup instance, string suffix) => OnSuffixRemoved?.Invoke(instance, suffix);
 
-        internal static void RunInheritAdded(Group instance, Group group) => OnInheritAdded?.Invoke(instance, @group);
-        internal static void RunInheritRemoved(Group instance, Group group) => OnInheritRemoved?.Invoke(instance, @group);
+        internal static void RunInheritAdded(PointBlankGroup instance, PointBlankGroup group) => OnInheritAdded?.Invoke(instance, @group);
+        internal static void RunInheritRemoved(PointBlankGroup instance, PointBlankGroup group) => OnInheritRemoved?.Invoke(instance, @group);
 
         #endregion
     }

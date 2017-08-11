@@ -11,7 +11,7 @@ using IPCM = PointBlank.API.IPC.IPCManager;
 
 namespace PointBlank.Services.IPCManager
 {
-    internal class IPCManager : Service
+    internal class IPCManager : PointBlankService
     {
         #region Info
         public static readonly string FileLocation = Directory.GetCurrentDirectory() + "/IPC.ipc";
@@ -84,13 +84,13 @@ namespace PointBlank.Services.IPCManager
         public static void OnOutput(string text)
         {
             if (IPCM.IPCType == EIPCType.CONSOLE)
-                ServerConsole.WriteLine("0x0:" + text);
+                PointBlankConsole.WriteLine("0x0:" + text);
         }
 
         private void OnKeySet(string key, string value)
         {
             if (IPCM.IPCType == EIPCType.CONSOLE)
-                ServerConsole.WriteLine("0x1:" + key + ":" + value);
+                PointBlankConsole.WriteLine("0x1:" + key + ":" + value);
             else if (IPCM.IPCType == EIPCType.FILE)
                 _Update = true;
         }
@@ -98,7 +98,7 @@ namespace PointBlank.Services.IPCManager
         private void OnKeyUpdated(string key)
         {
             if (IPCM.IPCType == EIPCType.CONSOLE)
-                ServerConsole.WriteLine("0x1:" + key + ":" + IPC[key]);
+                PointBlankConsole.WriteLine("0x1:" + key + ":" + IPC[key]);
             else if (IPCM.IPCType == EIPCType.FILE)
                 _Update = true;
         }

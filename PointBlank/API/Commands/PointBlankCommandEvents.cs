@@ -8,7 +8,7 @@ namespace PointBlank.API.Commands
     /// <summary>
     /// Class for command events
     /// </summary>
-    public static class CommandEvents
+    public static class PointBlankCommandEvents
     {
         #region Handlers
         /// <summary>

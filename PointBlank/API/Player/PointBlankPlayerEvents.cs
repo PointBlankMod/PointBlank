@@ -6,7 +6,7 @@ using PointBlank.API.Groups;
 
 namespace PointBlank.API.Player
 {
-    public static class PlayerEvents
+    public static class PointBlankPlayerEvents
     {
         #region Handlers
         /// <summary>
@@ -20,7 +20,7 @@ namespace PointBlank.API.Player
         /// </summary>
         /// <param name="player">The affected player</param>
         /// <param name="group">The changed group</param>
-        public delegate void GroupsChangedHandler(PointBlankPlayer player, Group group);
+        public delegate void GroupsChangedHandler(PointBlankPlayer player, PointBlankGroup group);
         #endregion
 
         #region Events
@@ -47,8 +47,8 @@ namespace PointBlank.API.Player
         internal static void RunPermissionAdd(PointBlankPlayer player, string permission) => OnPermissionAdded?.Invoke(player, permission);
         internal static void RunPermissionRemove(PointBlankPlayer player, string permission) => OnPermissionRemoved?.Invoke(player, permission);
 
-        internal static void RunGroupAdd(PointBlankPlayer player, Group group) => OnGroupAdded?.Invoke(player, group);
-        internal static void RunGroupRemove(PointBlankPlayer player, Group group) => OnGroupRemoved?.Invoke(player, group);
+        internal static void RunGroupAdd(PointBlankPlayer player, PointBlankGroup group) => OnGroupAdded?.Invoke(player, group);
+        internal static void RunGroupRemove(PointBlankPlayer player, PointBlankGroup group) => OnGroupRemoved?.Invoke(player, group);
         #endregion
     }
 }

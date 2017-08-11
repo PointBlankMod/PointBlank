@@ -46,20 +46,20 @@ namespace PointBlank.Services.CommandManager
             // Run the code
             Reload();
 
-            Logging.Log("Loaded command: " + Commands[0]);
+            PointBlankLogging.Log("Loaded command: " + Commands[0]);
         }
 
         #region Public Functions
         public void Enable()
         {
             Enabled = true;
-            CommandEvents.RunCommandEnable(CommandClass);
+            PointBlankCommandEvents.RunCommandEnable(CommandClass);
         }
 
         public void Disable()
         {
             Enabled = false;
-            CommandEvents.RunCommandDisable(CommandClass);
+            PointBlankCommandEvents.RunCommandDisable(CommandClass);
         }
 
         public void Reload()
@@ -93,12 +93,12 @@ namespace PointBlank.Services.CommandManager
         {
             try
             {
-                if (CommandClass.AllowedServerState == EAllowedServerState.LOADING && Server.IsRunning)
+                if (CommandClass.AllowedServerState == EAllowedServerState.LOADING && PointBlankServer.IsRunning)
                 {
                     PointBlankPlayer.SendMessage(executor, Translations["CommandWrapper_Running"], ConsoleColor.Red);
                     return ECommandRunError.SERVER_RUNNING;
                 }
-                if (CommandClass.AllowedServerState == EAllowedServerState.RUNNING && !Server.IsRunning)
+                if (CommandClass.AllowedServerState == EAllowedServerState.RUNNING && !PointBlankServer.IsRunning)
                 {
                     PointBlankPlayer.SendMessage(executor, Translations["CommandWrapper_NotRunning"], ConsoleColor.Red);
                     return ECommandRunError.SERVER_LOADING;
@@ -125,7 +125,7 @@ namespace PointBlank.Services.CommandManager
                 }
                 bool shouldExecute = true;
 
-                CommandEvents.RunCommandExecute(CommandClass, args, executor, ref shouldExecute);
+                PointBlankCommandEvents.RunCommandExecute(CommandClass, args, executor, ref shouldExecute);
                 if (!shouldExecute) return ECommandRunError.NO_EXECUTE;
                 executor?.SetCooldown(CommandClass, DateTime.Now);
                 CommandClass.Execute(executor, args);
@@ -133,7 +133,7 @@ namespace PointBlank.Services.CommandManager
             }
             catch (Exception ex)
             {
-                Logging.LogError("Error when running command: " + Class.Name, ex);
+                PointBlankLogging.LogError("Error when running command: " + Class.Name, ex);
                 return ECommandRunError.EXCEPTION;
             }
         }

@@ -92,7 +92,7 @@ namespace PointBlank.API.Discord
                 Client.UploadString(URL.AbsoluteUri, obj.ToString(Formatting.None));
 
             if (int.Parse(Client.ResponseHeaders["X-RateLimit-Remaining"]) < 1)
-                LastLimit = PBTools.FromUnixTime(long.Parse(Client.ResponseHeaders["X-RateLimit-Reset"]));
+                LastLimit = PointBlankTools.FromUnixTime(long.Parse(Client.ResponseHeaders["X-RateLimit-Reset"]));
             return Client.LastHTTPCode == EDiscordHttpCodes.OK && Client.LastHTTPCode == EDiscordHttpCodes.NO_CONTENT;
         }
 
@@ -125,7 +125,7 @@ namespace PointBlank.API.Discord
                 Client.UploadString(URL.AbsoluteUri, obj.ToString(Formatting.None));
 
             if (int.Parse(Client.ResponseHeaders["X-RateLimit-Remaining"]) < 1)
-                LastLimit = PBTools.FromUnixTime(long.Parse(Client.ResponseHeaders["X-RateLimit-Reset"]));
+                LastLimit = PointBlankTools.FromUnixTime(long.Parse(Client.ResponseHeaders["X-RateLimit-Reset"]));
             return Client.LastHTTPCode == EDiscordHttpCodes.OK && Client.LastHTTPCode == EDiscordHttpCodes.NO_CONTENT;
         }
 

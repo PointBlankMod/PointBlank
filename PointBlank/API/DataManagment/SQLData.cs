@@ -326,7 +326,7 @@ namespace PointBlank.API.DataManagment
                     }
                     catch (Exception ex)
                     {
-                        Logging.LogError("Could not send async command to server!", ex, false, false);
+                        PointBlankLogging.LogError("Could not send async command to server!", ex, false, false);
                     }
                 }
             }
@@ -352,7 +352,7 @@ namespace PointBlank.API.DataManagment
             }
             catch (Exception ex)
             {
-                Logging.LogError("Error connecting to the SQL server! " + Server, ex, false, false);
+                PointBlankLogging.LogError("Error connecting to the SQL server! " + Server, ex, false, false);
 
                 return false;
             }
@@ -376,7 +376,7 @@ namespace PointBlank.API.DataManagment
             }
             catch (Exception ex)
             {
-                Logging.LogError("Error while disconnecting from the SQL server " + Server, ex, false, false);
+                PointBlankLogging.LogError("Error while disconnecting from the SQL server " + Server, ex, false, false);
                 return false;
             }
         }
@@ -404,7 +404,7 @@ namespace PointBlank.API.DataManagment
             }
             catch (Exception ex)
             {
-                Logging.LogError("Could not send command in SQL server: " + Server, ex, false, false);
+                PointBlankLogging.LogError("Could not send command in SQL server: " + Server, ex, false, false);
                 return false;
             }
         }
@@ -429,7 +429,7 @@ namespace PointBlank.API.DataManagment
             }
             catch (Exception ex)
             {
-                Logging.LogError("Could not send command in SQL server: " + Server, ex, false, false);
+                PointBlankLogging.LogError("Could not send command in SQL server: " + Server, ex, false, false);
             }
         }
 
@@ -458,7 +458,7 @@ namespace PointBlank.API.DataManagment
             }
             catch (Exception ex)
             {
-                Logging.LogError("Could not send command in SQL server: " + Server, ex, false, false);
+                PointBlankLogging.LogError("Could not send command in SQL server: " + Server, ex, false, false);
                 output = null;
                 return false;
             }
@@ -487,7 +487,7 @@ namespace PointBlank.API.DataManagment
             }
             catch (Exception ex)
             {
-                Logging.LogError("Could not send command in SQL server: " + Server, ex, false, false);
+                PointBlankLogging.LogError("Could not send command in SQL server: " + Server, ex, false, false);
             }
         }
 

@@ -9,14 +9,14 @@ namespace PointBlank.API.Plugins
     /// <summary>
     /// All the plugin events
     /// </summary>
-    public static class PluginEvents
+    public static class PointBlankPluginEvents
     {
         #region Handlers
         /// <summary>
         /// The handler for any plugin events
         /// </summary>
         /// <param name="plugin">The plugin</param>
-        public delegate void PluginEventHandler(Plugin plugin);
+        public delegate void PluginEventHandler(PointBlankPlugin plugin);
         #endregion
 
         #region Events
@@ -48,12 +48,12 @@ namespace PointBlank.API.Plugins
         #endregion
 
         #region Functions
-        internal static void RunPluginStart(Plugin plugin) => OnPluginStart?.Invoke(plugin);
-        internal static void RunPluginLoaded(Plugin plugin) => OnPluginLoaded?.Invoke(plugin);
+        internal static void RunPluginStart(PointBlankPlugin plugin) => OnPluginStart?.Invoke(plugin);
+        internal static void RunPluginLoaded(PointBlankPlugin plugin) => OnPluginLoaded?.Invoke(plugin);
         internal static void RunPluginsLoaded() => OnPluginsLoaded?.Invoke();
 
-        internal static void RunPluginStop(Plugin plugin) => OnPluginStop?.Invoke(plugin);
-        internal static void RunPluginUnloaded(Plugin plugin) => OnPluginUnloaded?.Invoke(plugin);
+        internal static void RunPluginStop(PointBlankPlugin plugin) => OnPluginStop?.Invoke(plugin);
+        internal static void RunPluginUnloaded(PointBlankPlugin plugin) => OnPluginUnloaded?.Invoke(plugin);
         internal static void RunPluginsUnloaded() => OnPluginsUnloaded?.Invoke();
         #endregion
     }

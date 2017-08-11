@@ -10,7 +10,7 @@ using Newtonsoft.Json.Linq;
 
 namespace PointBlank.Services.UpdateChecker
 {
-    internal class UpdateChecker : Service
+    internal class UpdateChecker : PointBlankService
     {
         #region Info
         public static readonly string URL = "http://pastebin.com/raw/ZVcNXEVw";
@@ -54,7 +54,7 @@ namespace PointBlank.Services.UpdateChecker
                     if ((string)info["PointBlank_Version"] == "0") // Ignore if no version
                         continue;
                     if ((string)info["PointBlank_Version"] != PointBlankInfo.Version)
-                        Logging.LogImportant("A new update is available for PointBlank!");
+                        PointBlankLogging.LogImportant("A new update is available for PointBlank!");
                 }
             }
         }

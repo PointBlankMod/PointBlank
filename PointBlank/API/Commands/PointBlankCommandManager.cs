@@ -10,7 +10,7 @@ namespace PointBlank.API.Commands
     /// <summary>
     /// All functions for managing commands
     /// </summary>
-    public static class CommandManager
+    public static class PointBlankCommandManager
     {
         #region Properties
         /// <summary>

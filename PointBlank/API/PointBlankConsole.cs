@@ -9,7 +9,7 @@ namespace PointBlank.API
     /// <summary>
     /// The server console functions for easier use of the console
     /// </summary>
-    public static class ServerConsole
+    public static class PointBlankConsole
     {
         #region Variables
         private static ConsoleColor SavedColor = ConsoleColor.White;

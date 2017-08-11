@@ -34,7 +34,7 @@ namespace PointBlank
             if (Instance != null && Enabled) // Don't run if already running
                 return;
 
-            Logging.LogImportant("Loading " + PointBlankInfo.Name + " v" + PointBlankInfo.Version + "...");
+            PointBlankLogging.LogImportant("Loading " + PointBlankInfo.Name + " v" + PointBlankInfo.Version + "...");
 
             // Run required methods
             ApplyPatches();
@@ -63,7 +63,7 @@ namespace PointBlank
             Console.Clear();
 #endif
 
-            Logging.LogImportant("Loaded " + PointBlankInfo.Name + " v" + PointBlankInfo.Version + "!");
+            PointBlankLogging.LogImportant("Loaded " + PointBlankInfo.Name + " v" + PointBlankInfo.Version + "!");
         }
 
         public void Shutdown()
@@ -73,7 +73,7 @@ namespace PointBlank
             if (Instance == null || !Enabled) // Don't shutdown if it is not running
                 return;
 
-            Logging.LogImportant("Shutting down " + PointBlankInfo.Name + " v" + PointBlankInfo.Version + "...");
+            PointBlankLogging.LogImportant("Shutting down " + PointBlankInfo.Name + " v" + PointBlankInfo.Version + "...");
 
             // Uninit
             Enabled = false;
@@ -96,7 +96,7 @@ namespace PointBlank
             // Run the required functions
             RunRequirementsShutdown();
 
-            Logging.LogImportant("Shut down " + PointBlankInfo.Name + " v" + PointBlankInfo.Version + "!");
+            PointBlankLogging.LogImportant("Shut down " + PointBlankInfo.Name + " v" + PointBlankInfo.Version + "!");
         }
         #endregion
 

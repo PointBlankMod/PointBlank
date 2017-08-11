@@ -45,7 +45,7 @@ namespace PointBlank.Framework
             if (_SavedConfigs.ContainsKey(cfg))
                 UniData = _SavedConfigs[cfg];
             else
-                UniData = new UniversalData(Server.ConfigurationsPath + "/" + (string.IsNullOrEmpty(path) ? "" : path + "/") + configurable.Name);
+                UniData = new UniversalData(PointBlankServer.ConfigurationsPath + "/" + (string.IsNullOrEmpty(path) ? "" : path + "/") + configurable.Name);
             JsonData JSON = UniData.GetData(EDataType.JSON) as JsonData;
 
             if (!_SavedConfigs.ContainsKey(cfg))
@@ -111,7 +111,7 @@ namespace PointBlank.Framework
             if (_SavedTranslations.ContainsKey(translater))
                 UniData = _SavedTranslations[translater];
             else
-                UniData = new UniversalData(Server.TranslationsPath + "/" + (string.IsNullOrEmpty(path) ? "" : path + "/") + translatable.Name);
+                UniData = new UniversalData(PointBlankServer.TranslationsPath + "/" + (string.IsNullOrEmpty(path) ? "" : path + "/") + translatable.Name);
             JsonData JSON = UniData.GetData(EDataType.JSON) as JsonData;
 
             if (!_SavedTranslations.ContainsKey(translater))
@@ -189,20 +189,20 @@ namespace PointBlank.Framework
             if (Initialized)
                 return;
 
-            if (!Directory.Exists(Server.ConfigurationsPath))
-                Directory.CreateDirectory(Server.ConfigurationsPath); // Create configurations directory
-            if (!Directory.Exists(Server.TranslationsPath))
-                Directory.CreateDirectory(Server.TranslationsPath); // Create translations directory
-            if (!Directory.Exists(Server.DataPath))
-                Directory.CreateDirectory(Server.DataPath); // Create data directory
+            if (!Directory.Exists(PointBlankServer.ConfigurationsPath))
+                Directory.CreateDirectory(PointBlankServer.ConfigurationsPath); // Create configurations directory
+            if (!Directory.Exists(PointBlankServer.TranslationsPath))
+                Directory.CreateDirectory(PointBlankServer.TranslationsPath); // Create translations directory
+            if (!Directory.Exists(PointBlankServer.DataPath))
+                Directory.CreateDirectory(PointBlankServer.DataPath); // Create data directory
 
-            foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies().Where(a => Attribute.GetCustomAttribute(a, typeof(ExtensionAttribute)) != null))
+            foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies().Where(a => Attribute.GetCustomAttribute(a, typeof(PointBlankExtensionAttribute)) != null))
                 foreach (Type class_type in asm.GetTypes())
                     LoadInterface(class_type);
 
             // Setup the events
-            PluginEvents.OnPluginLoaded += new PluginEvents.PluginEventHandler(OnPluginLoaded);
-            PluginEvents.OnPluginUnloaded += new PluginEvents.PluginEventHandler(OnPluginUnloaded);
+            PointBlankPluginEvents.OnPluginLoaded += new PointBlankPluginEvents.PluginEventHandler(OnPluginLoaded);
+            PointBlankPluginEvents.OnPluginUnloaded += new PointBlankPluginEvents.PluginEventHandler(OnPluginUnloaded);
 
             // Set the variables
             Initialized = true;
@@ -223,13 +223,13 @@ namespace PointBlank.Framework
         #endregion
 
         #region Event Functions
-        private void OnPluginLoaded(Plugin plugin)
+        private void OnPluginLoaded(PointBlankPlugin plugin)
         {
             foreach (Type _class in plugin.GetType().Assembly.GetTypes())
                 LoadInterface(_class);
         }
 
-        private void OnPluginUnloaded(Plugin plugin)
+        private void OnPluginUnloaded(PointBlankPlugin plugin)
         {
             foreach (Type _class in plugin.GetType().Assembly.GetTypes())
                 SaveInterface(_class);

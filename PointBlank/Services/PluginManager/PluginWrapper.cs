@@ -29,7 +29,7 @@ namespace PointBlank.Services.PluginManager
 
         public Assembly PluginAssembly { get; private set; }
 
-        public Plugin PluginClass { get; private set; }
+        public PointBlankPlugin PluginClass { get; private set; }
 
         public UniversalData UniConfigurationData { get; private set; }
         public JsonData ConfigurationData { get; private set; }
@@ -90,7 +90,7 @@ namespace PointBlank.Services.PluginManager
                 }
                 catch(Exception ex)
                 {
-                    Logging.LogError("Failed to set the configuration " + obj.Name, ex, false, false);
+                    PointBlankLogging.LogError("Failed to set the configuration " + obj.Name, ex, false, false);
                     ConfigurationData.Document[obj.Name] = JToken.FromObject(PluginClass.Configurations[obj.Name]);
                 }
             }
@@ -152,9 +152,9 @@ namespace PointBlank.Services.PluginManager
             if (string.IsNullOrEmpty(PluginClass.BuildURL))
                 return;
 
-            Logging.LogImportant("Downloading " + Name + "...");
+            PointBlankLogging.LogImportant("Downloading " + Name + "...");
             WebsiteData.DownloadFile(PluginClass.BuildURL, Location);
-            Logging.LogImportant(Name + " updated successfully! Please restart the server to finalize the update!");
+            PointBlankLogging.LogImportant(Name + " updated successfully! Please restart the server to finalize the update!");
         }
 
         private void Notify()
@@ -162,7 +162,7 @@ namespace PointBlank.Services.PluginManager
             if (!PluginConfiguration.NotifyUpdates)
                 return;
 
-            Logging.LogWarning("New update for plugin: " + Name);
+            PointBlankLogging.LogWarning("New update for plugin: " + Name);
         }
         #endregion
 
@@ -174,10 +174,10 @@ namespace PointBlank.Services.PluginManager
                 if (Enabled)
                     return true;
 
-                Logging.Log("Starting " + Name + "...");
-                Type _class = PluginAssembly.GetTypes().First(a => a.IsClass && typeof(Plugin).IsAssignableFrom(a)); // Get the first plugin class
+                PointBlankLogging.Log("Starting " + Name + "...");
+                Type _class = PluginAssembly.GetTypes().First(a => a.IsClass && typeof(PointBlankPlugin).IsAssignableFrom(a)); // Get the first plugin class
 
-                PluginClass = Enviroment.runtimeObjects["Plugins"].AddCodeObject(_class) as Plugin; // Instentate the plugin class
+                PluginClass = Enviroment.runtimeObjects["Plugins"].AddCodeObject(_class) as PointBlankPlugin; // Instentate the plugin class
                 Name = PluginClass.GetType().Name; // Change the name
                 Version = PluginClass.Version;
 
@@ -191,9 +191,9 @@ namespace PointBlank.Services.PluginManager
 
                 LoadConfiguration(); // Load the configuration
                 LoadTranslation(); // Load the translation
-                PluginEvents.RunPluginStart(PluginClass); // Run the start event
+                PointBlankPluginEvents.RunPluginStart(PluginClass); // Run the start event
                 PluginClass.Load(); // Run the load function
-                PluginEvents.RunPluginLoaded(PluginClass); // Run the loaded event
+                PointBlankPluginEvents.RunPluginLoaded(PluginClass); // Run the loaded event
 
                 Enabled = true; // Set the enabled to true
                 t.Start(); // Start the thread
@@ -201,7 +201,7 @@ namespace PointBlank.Services.PluginManager
             }
             catch (Exception ex)
             {
-                Logging.LogError("Error starting plugin: " + Name, ex);
+                PointBlankLogging.LogError("Error starting plugin: " + Name, ex);
                 Unload();
                 return false;
             }
@@ -214,13 +214,13 @@ namespace PointBlank.Services.PluginManager
                 if (!Enabled)
                     return true;
 
-                Logging.Log("Stopping " + Name + "...");
+                PointBlankLogging.Log("Stopping " + Name + "...");
 
                 SaveConfiguration(); // Save the configuration
                 SaveTranslation(); // Save the translation
-                PluginEvents.RunPluginStop(PluginClass); // Run the stop event
+                PointBlankPluginEvents.RunPluginStop(PluginClass); // Run the stop event
                 PluginClass.Unload(); // Run the unload function
-                PluginEvents.RunPluginUnloaded(PluginClass); // Run the unloaded event
+                PointBlankPluginEvents.RunPluginUnloaded(PluginClass); // Run the unloaded event
 
                 Enviroment.runtimeObjects["Plugins"].RemoveCodeObject(PluginClass.GetType().Name); // Remove the plugin from gameobject
 
@@ -230,7 +230,7 @@ namespace PointBlank.Services.PluginManager
             }
             catch (Exception ex)
             {
-                Logging.LogError("Error stopping plugin: " + Name, ex);
+                PointBlankLogging.LogError("Error stopping plugin: " + Name, ex);
                 return false;
             }
         }

@@ -10,14 +10,14 @@ namespace PointBlank.API
     /// <summary>
     /// Logging methods for PointBlank
     /// </summary>
-    public static class Logging
+    public static class PointBlankLogging
     {
         #region Info
         public static readonly string LogPath = Directory.GetCurrentDirectory() + "//PointBlank.log";
         public static readonly string LogPathPrev = Directory.GetCurrentDirectory() + "//PointBlankOld.log";
         #endregion
 
-        static Logging()
+        static PointBlankLogging()
         {
             if (File.Exists(LogPathPrev))
                 File.Delete(LogPathPrev);
@@ -45,7 +45,7 @@ namespace PointBlank.API
             log = "[LOG] " + asm + " >> " + log;
             File.AppendAllText(LogPath, log.ToString() + Environment.NewLine);
             if (inConsole)
-                ServerConsole.WriteLine(log);
+                PointBlankConsole.WriteLine(log);
         }
 
         /// <summary>
@@ -71,9 +71,9 @@ namespace PointBlank.API
             File.AppendAllText(LogPath, log.ToString() + Environment.NewLine);
             File.AppendAllText(LogPath, ex.ToString() + Environment.NewLine);
             if (inConsole)
-                ServerConsole.WriteLine(log, ConsoleColor.Red);
+                PointBlankConsole.WriteLine(log, ConsoleColor.Red);
             if (exInConsole)
-                ServerConsole.WriteLine(ex, ConsoleColor.Red);
+                PointBlankConsole.WriteLine(ex, ConsoleColor.Red);
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace PointBlank.API
             log = "[WARNING] " + asm + " >> " + log;
             File.AppendAllText(LogPath, log.ToString() + Environment.NewLine);
             if (inConsole)
-                ServerConsole.WriteLine(log, ConsoleColor.Yellow);
+                PointBlankConsole.WriteLine(log, ConsoleColor.Yellow);
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace PointBlank.API
             log = "[IMPORTANT] " + asm + " >> " + log;
             File.AppendAllText(LogPath, log.ToString() + Environment.NewLine);
             if (inConsole)
-                ServerConsole.WriteLine(log, ConsoleColor.Cyan);
+                PointBlankConsole.WriteLine(log, ConsoleColor.Cyan);
         }
     }
 }

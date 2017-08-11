@@ -19,11 +19,11 @@ namespace PointBlank.Framework
     internal class ServiceManager : MonoBehaviour
     {
         #region Info
-        public static readonly string ConfigurationPath = Server.ConfigurationsPath + "/Services";
+        public static readonly string ConfigurationPath = PointBlankServer.ConfigurationsPath + "/Services";
         #endregion
 
         #region Variables
-        private List<Service> _tempServices = new List<Service>();
+        private List<PointBlankService> _tempServices = new List<PointBlankService>();
         private List<ServiceWrapper> _tempWrappers = new List<ServiceWrapper>();
         #endregion
 
@@ -35,7 +35,7 @@ namespace PointBlank.Framework
         #endregion
 
         #region Private Functions
-        private void RunService(Service service) // Runs the service
+        private void RunService(PointBlankService service) // Runs the service
         {
             try
             {
@@ -50,7 +50,7 @@ namespace PointBlank.Framework
             }
             catch (Exception ex)
             {
-                Logging.LogError("Error starting service: " + service.Name, ex);
+                PointBlankLogging.LogError("Error starting service: " + service.Name, ex);
             }
         }
 
@@ -62,7 +62,7 @@ namespace PointBlank.Framework
             }
             catch (Exception ex)
             {
-                Logging.LogError("Error stopping service: " + wrapper.ServiceClass.Name, ex);
+                PointBlankLogging.LogError("Error stopping service: " + wrapper.ServiceClass.Name, ex);
             }
         }
         #endregion
@@ -70,11 +70,11 @@ namespace PointBlank.Framework
         #region Public Functions
         public void LoadService(Type service) // Load the service using the type
         {
-            if (!service.IsClass || !typeof(Service).IsAssignableFrom(service)) // If it isn't a service then return
+            if (!service.IsClass || !typeof(PointBlankService).IsAssignableFrom(service)) // If it isn't a service then return
                 return;
-            if (service == typeof(Service)) // Prevents the actual service API from being loaded
+            if (service == typeof(PointBlankService)) // Prevents the actual service API from being loaded
                 return;
-            Service ser = (Service)Activator.CreateInstance(service);
+            PointBlankService ser = (PointBlankService)Activator.CreateInstance(service);
 
             if (ServicesData.CheckKey(ser.Name))
             {
@@ -107,18 +107,18 @@ namespace PointBlank.Framework
             if (!Directory.Exists(ConfigurationPath))
                 Directory.CreateDirectory(ConfigurationPath); // Create the services configuration
 
-            UniServicesData = new UniversalData(Server.ConfigurationsPath + "/Services"); // Open the file
+            UniServicesData = new UniversalData(PointBlankServer.ConfigurationsPath + "/Services"); // Open the file
             ServicesData = UniServicesData.GetData(EDataType.JSON) as JsonData; // Get the JSON
 
-            foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies().Where(a => Attribute.GetCustomAttribute(a, typeof(ExtensionAttribute)) != null))
+            foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies().Where(a => Attribute.GetCustomAttribute(a, typeof(PointBlankExtensionAttribute)) != null))
                 foreach (Type class_type in asm.GetTypes())
                     LoadService(class_type);
-            foreach (Service ser in _tempServices.OrderBy(a => a.LaunchIndex))
+            foreach (PointBlankService ser in _tempServices.OrderBy(a => a.LaunchIndex))
                 RunService(ser);
             _tempServices.Clear();
 
             // Setup the events
-            PluginEvents.OnPluginLoaded += new PluginEvents.PluginEventHandler(OnPluginLoaded);
+            PointBlankPluginEvents.OnPluginLoaded += new PointBlankPluginEvents.PluginEventHandler(OnPluginLoaded);
 
             // Set the variables
             Initialized = true;
@@ -142,11 +142,11 @@ namespace PointBlank.Framework
         #endregion
 
         #region Event Functions
-        private void OnPluginLoaded(Plugin plugin)
+        private void OnPluginLoaded(PointBlankPlugin plugin)
         {
             foreach (Type class_type in plugin.GetType().Assembly.GetTypes())
                 LoadService(class_type);
-            foreach (Service ser in _tempServices.OrderBy(a => a.LaunchIndex))
+            foreach (PointBlankService ser in _tempServices.OrderBy(a => a.LaunchIndex))
                 RunService(ser);
             _tempServices.Clear();
         }

@@ -41,7 +41,7 @@ namespace PointBlank.API.DataManagment
             }
             catch (Exception ex)
             {
-                Logging.LogError("Could not get the data from URL! " + URL, ex, false, false);
+                PointBlankLogging.LogError("Could not get the data from URL! " + URL, ex, false, false);
                 data = null;
                 return false;
             }
@@ -75,7 +75,7 @@ namespace PointBlank.API.DataManagment
             }
             catch (Exception ex)
             {
-                Logging.LogError("Failed to get the data using async from " + URL, ex, false, false);
+                PointBlankLogging.LogError("Failed to get the data using async from " + URL, ex, false, false);
                 return false;
             }
         }
@@ -107,7 +107,7 @@ namespace PointBlank.API.DataManagment
             }
             catch (Exception ex)
             {
-                Logging.LogError("Failed to post data to " + URL, ex, false, false);
+                PointBlankLogging.LogError("Failed to post data to " + URL, ex, false, false);
                 returnData = null;
                 return false;
             }
@@ -141,7 +141,7 @@ namespace PointBlank.API.DataManagment
             }
             catch (Exception ex)
             {
-                Logging.LogError("Failed to post data via async to " + URL, ex, false, false);
+                PointBlankLogging.LogError("Failed to post data via async to " + URL, ex, false, false);
                 return false;
             }
         }
@@ -172,7 +172,7 @@ namespace PointBlank.API.DataManagment
             }
             catch (Exception ex)
             {
-                Logging.LogError("Failed to download file from " + URL, ex, false, false);
+                PointBlankLogging.LogError("Failed to download file from " + URL, ex, false, false);
                 return false;
             }
         }
@@ -206,7 +206,7 @@ namespace PointBlank.API.DataManagment
             }
             catch (Exception ex)
             {
-                Logging.LogError("Failed to download file via async from " + URL, ex, false, false);
+                PointBlankLogging.LogError("Failed to download file via async from " + URL, ex, false, false);
                 return false;
             }
         }
@@ -238,7 +238,7 @@ namespace PointBlank.API.DataManagment
             }
             catch (Exception ex)
             {
-                Logging.LogError("Failed to upload file to " + URL, ex, false, false);
+                PointBlankLogging.LogError("Failed to upload file to " + URL, ex, false, false);
                 data = null;
                 return false;
             }
@@ -273,7 +273,7 @@ namespace PointBlank.API.DataManagment
             }
             catch (Exception ex)
             {
-                Logging.LogError("Failed to upload file via async to " + URL, ex, false, false);
+                PointBlankLogging.LogError("Failed to upload file via async to " + URL, ex, false, false);
                 return false;
             }
         }

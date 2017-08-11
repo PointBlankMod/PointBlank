@@ -13,7 +13,7 @@ namespace PointBlank.API
     /// Contains methods that you need but aren't available by default
     /// </summary>
     [RingPermission(SecurityAction.Demand, ring = RingPermissionRing.None)]
-    public static class PBTools
+    public static class PointBlankTools
     {
         #region Public Functions
         /// <summary>

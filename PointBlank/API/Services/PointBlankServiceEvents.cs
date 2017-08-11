@@ -11,30 +11,30 @@ namespace PointBlank.API.Services
     /// All the service events
     /// </summary>
     [RingPermission(SecurityAction.Demand, ring = RingPermissionRing.None)]
-    public static class ServiceEvents
+    public static class PointBlankServiceEvents
     {
         #region Handlers
         /// <summary>
         /// Called when the service is being started
         /// </summary>
         /// <param name="service">The service</param>
-        public delegate void ServiceStartHandler(Service service);
+        public delegate void ServiceStartHandler(PointBlankService service);
         /// <summary>
         /// Called when the service is loaded/started
         /// </summary>
         /// <param name="service">The service</param>
-        public delegate void ServiceLoadedHandler(Service service);
+        public delegate void ServiceLoadedHandler(PointBlankService service);
 
         /// <summary>
         /// Called when the service is being stopped
         /// </summary>
         /// <param name="service">The service</param>
-        public delegate void ServiceStopHandler(Service service);
+        public delegate void ServiceStopHandler(PointBlankService service);
         /// <summary>
         /// Called when the service is unloaded/stopped
         /// </summary>
         /// <param name="service">THe service</param>
-        public delegate void ServiceUnloadedHandler(Service service);
+        public delegate void ServiceUnloadedHandler(PointBlankService service);
         #endregion
 
         #region Events
@@ -58,13 +58,13 @@ namespace PointBlank.API.Services
         #endregion
 
         #region Functions
-        internal static void RunServiceStart(Service service) => OnServiceStart?.Invoke(service);
+        internal static void RunServiceStart(PointBlankService service) => OnServiceStart?.Invoke(service);
 
-        internal static void RunServiceLoaded(Service service) => OnServiceLoaded?.Invoke(service);
+        internal static void RunServiceLoaded(PointBlankService service) => OnServiceLoaded?.Invoke(service);
 
-        internal static void RunServiceStop(Service service) => OnServiceStop?.Invoke(service);
+        internal static void RunServiceStop(PointBlankService service) => OnServiceStop?.Invoke(service);
 
-        internal static void RunServiceUnloaded(Service service) => OnServiceUnloaded?.Invoke(service);
+        internal static void RunServiceUnloaded(PointBlankService service) => OnServiceUnloaded?.Invoke(service);
 
         #endregion
     }

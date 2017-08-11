@@ -11,17 +11,17 @@ namespace PointBlank.API.Groups
     /// <summary>
     /// Used for managing server groups
     /// </summary>
-    public static class GroupManager
+    public static class PointBlankGroupManager
     {
         #region Variables
-        private static Dictionary<string, Group> _Groups = new Dictionary<string, Group>();
+        private static Dictionary<string, PointBlankGroup> _Groups = new Dictionary<string, PointBlankGroup>();
         #endregion
 
         #region Properties
         /// <summary>
         /// Array of groups in the server
         /// </summary>
-        public static Group[] Groups => _Groups.Values.ToArray();
+        public static PointBlankGroup[] Groups => _Groups.Values.ToArray();
 
         /// <summary>
         /// Is the group manager loaded(this is for events)
@@ -34,14 +34,14 @@ namespace PointBlank.API.Groups
         /// Adds a group to the server groups
         /// </summary>
         /// <param name="group">The group instance to add</param>
-        public static void AddGroup(Group group)
+        public static void AddGroup(PointBlankGroup group)
         {
             if (_Groups.ContainsKey(group.ID))
                 return;
             _Groups.Add(group.ID, group);
             
             if (Loaded)
-                GroupEvents.RunGroupAdded(group);
+                PointBlankGroupEvents.RunGroupAdded(group);
         }
         /// <summary>
         /// Creates and adds a group to the server group
@@ -53,26 +53,26 @@ namespace PointBlank.API.Groups
         {
             if (_Groups.ContainsKey(ID))
                 return;
-            Group group = new Group(ID, Name, isDefault, Cooldown, color);
+            PointBlankGroup group = new PointBlankGroup(ID, Name, isDefault, Cooldown, color);
 
             _Groups.Add(ID, group);
 
             if (Loaded)
-                GroupEvents.RunGroupAdded(group);
+                PointBlankGroupEvents.RunGroupAdded(group);
         }
 
         /// <summary>
         /// Removes a group from the server
         /// </summary>
         /// <param name="group">The group to remove</param>
-        public static void RemoveGroup(Group group)
+        public static void RemoveGroup(PointBlankGroup group)
         {
             if (!_Groups.ContainsValue(group))
                 return;
             _Groups.Remove(group.ID);
 
             if (Loaded)
-                GroupEvents.RunGroupRemoved(group);
+                PointBlankGroupEvents.RunGroupRemoved(group);
         }
         /// <summary>
         /// Removes a group from the server
@@ -82,12 +82,12 @@ namespace PointBlank.API.Groups
         {
             if (!_Groups.ContainsKey(ID))
                 return;
-            Group group = _Groups[ID];
+            PointBlankGroup group = _Groups[ID];
 
             _Groups.Remove(ID);
 
             if (Loaded)
-                GroupEvents.RunGroupRemoved(group);
+                PointBlankGroupEvents.RunGroupRemoved(group);
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace PointBlank.API.Groups
         /// </summary>
         /// <param name="ID">The ID of the group</param>
         /// <returns>The group instance</returns>
-        public static Group Find(string ID) => Groups.FirstOrDefault(a => a.ID == ID);
+        public static PointBlankGroup Find(string ID) => Groups.FirstOrDefault(a => a.ID == ID);
 
         /// <summary>
         /// Tries to find the group by ID and returns it
@@ -103,9 +103,9 @@ namespace PointBlank.API.Groups
         /// <param name="ID">The group ID to look for</param>
         /// <param name="group">The group instance</param>
         /// <returns>If the group was found</returns>
-        public static bool TryFindGroup(string ID, out Group group)
+        public static bool TryFindGroup(string ID, out PointBlankGroup group)
         {
-            Group g = Find(ID);
+            PointBlankGroup g = Find(ID);
 
             group = g;
             return g != null;
@@ -116,7 +116,7 @@ namespace PointBlank.API.Groups
         /// </summary>
         public static void Reload()
         {
-            GM gm = (GM)ServiceManager.GetService("GroupManager.GroupManager");
+            GM gm = (GM)PointBlankServiceManager.GetService("GroupManager.GroupManager");
 
             gm.LoadGroups();
         }

@@ -10,7 +10,7 @@ namespace PointBlank.API.Services
     /// <summary>
     /// Used to specify a service based class
     /// </summary>
-    public abstract class Service : MonoBehaviour
+    public abstract class PointBlankService : MonoBehaviour
     {
         #region Properties
         /// <summary>

@@ -15,13 +15,13 @@ namespace PointBlank.API.Plugins
     /// Used to specify the entrypoint of the plugin
     /// </summary>
     [RingPermission(SecurityAction.Demand, ring = RingPermissionRing.Plugins)]
-    public abstract class Plugin : MonoBehaviour
+    public abstract class PointBlankPlugin : MonoBehaviour
     {
         #region Properties
         /// <summary>
         /// The plugin instance
         /// </summary>
-        public static Plugin Instance { get; internal set; }
+        public static PointBlankPlugin Instance { get; internal set; }
         #endregion
 
         #region Abstract Properties
@@ -53,7 +53,7 @@ namespace PointBlank.API.Plugins
         public virtual string BuildURL => null;
         #endregion
 
-        public Plugin()
+        public PointBlankPlugin()
         {
             Instance = this;
         }
@@ -78,6 +78,14 @@ namespace PointBlank.API.Plugins
         /// <param name="data">The arguments for string formatting</param>
         /// <returns>The formatted message</returns>
         public string Translate(string key, params object[] data) => string.Format(Translations[key], data);
+
+        /// <summary>
+        /// Easy to use configuration value extractor
+        /// </summary>
+        /// <typeparam name="T">The configuration value type</typeparam>
+        /// <param name="key">The key of the configuration value</param>
+        /// <returns>The configuration value with specified type</returns>
+        public T Configure<T>(string key) => (T)Configurations[key];
         #endregion
     }
 }

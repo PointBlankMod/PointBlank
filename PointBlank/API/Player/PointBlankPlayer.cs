@@ -14,7 +14,7 @@ namespace PointBlank.API.Player
     public abstract class PointBlankPlayer
     {
         #region Variables
-        private List<Group> _Groups = new List<Group>();
+        private List<PointBlankGroup> _Groups = new List<PointBlankGroup>();
         private List<string> _Permissions = new List<string>();
         private readonly Dictionary<PointBlankCommand, DateTime> _Cooldowns = new Dictionary<PointBlankCommand, DateTime>();
         #endregion
@@ -35,7 +35,7 @@ namespace PointBlank.API.Player
         /// <summary>
         /// The groups this player is part of
         /// </summary>
-        public virtual Group[] Groups => _Groups.ToArray();
+        public virtual PointBlankGroup[] Groups => _Groups.ToArray();
         /// <summary>
         /// The permissions this player has(groups not included)
         /// </summary>
@@ -62,9 +62,9 @@ namespace PointBlank.API.Player
         public static void SendMessage(PointBlankPlayer player, object message, ConsoleColor color)
         {
             if (IsServer(player))
-                ServerConsole.WriteLine(message, color);
+                PointBlankConsole.WriteLine(message, color);
             else
-                player.SendMessage(message, ServerConsole.ConsoleColorToColor(color));
+                player.SendMessage(message, PointBlankConsole.ConsoleColorToColor(color));
         }
         #endregion
 
@@ -74,27 +74,27 @@ namespace PointBlank.API.Player
         /// Add the player to a group
         /// </summary>
         /// <param name="group">The group to add the player to</param>
-        public virtual void AddGroup(Group group)
+        public virtual void AddGroup(PointBlankGroup group)
         {
             if (Groups.Contains(group))
                 return;
 
             _Groups.Add(group);
             if (Loaded)
-                PlayerEvents.RunGroupAdd(this, group);
+                PointBlankPlayerEvents.RunGroupAdd(this, group);
         }
         /// <summary>
         /// Remove the player from a group
         /// </summary>
         /// <param name="group">The group to remove the player from</param>
-        public virtual void RemoveGroup(Group group)
+        public virtual void RemoveGroup(PointBlankGroup group)
         {
             if (!Groups.Contains(group))
                 return;
 
             _Groups.Remove(group);
             if (Loaded)
-                PlayerEvents.RunGroupRemove(this, group);
+                PointBlankPlayerEvents.RunGroupRemove(this, group);
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace PointBlank.API.Player
 
             _Permissions.Add(permission);
             if (Loaded)
-                PlayerEvents.RunPermissionAdd(this, permission);
+                PointBlankPlayerEvents.RunPermissionAdd(this, permission);
         }
         /// <summary>
         /// Removes a permission from the player
@@ -121,7 +121,7 @@ namespace PointBlank.API.Player
 
             _Permissions.Remove(permission);
             if (Loaded)
-                PlayerEvents.RunPermissionRemove(this, permission);
+                PointBlankPlayerEvents.RunPermissionRemove(this, permission);
         }
         /// <summary>
         /// Checks if the player has the permissions specified

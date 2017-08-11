@@ -11,10 +11,10 @@ namespace PointBlank.Framework.Wrappers
     {
         #region Properties
         public bool Enabled { get; private set; } // Is the service running
-        public Service ServiceClass { get; private set; } // The service class
+        public PointBlankService ServiceClass { get; private set; } // The service class
         #endregion
 
-        public ServiceWrapper(Service ServiceClass)
+        public ServiceWrapper(PointBlankService ServiceClass)
         {
             // Setup variables
             this.ServiceClass = ServiceClass;
@@ -33,18 +33,18 @@ namespace PointBlank.Framework.Wrappers
             if (Enabled) // Don't run if it is already running
                 return true;
 
-            Logging.Log("Starting service: " + ServiceClass.Name);
+            PointBlankLogging.Log("Starting service: " + ServiceClass.Name);
 
             // Call the important functions
             try
             {
-                ServiceEvents.RunServiceStart(ServiceClass); // Run the pre-run event
+                PointBlankServiceEvents.RunServiceStart(ServiceClass); // Run the pre-run event
                 ServiceClass.Load(); // Run the code
-                ServiceEvents.RunServiceLoaded(ServiceClass); // Run the post-run event
+                PointBlankServiceEvents.RunServiceLoaded(ServiceClass); // Run the post-run event
             }
             catch (Exception ex)
             {
-                Logging.LogError("Error when starting service: " + ServiceClass.Name, ex);
+                PointBlankLogging.LogError("Error when starting service: " + ServiceClass.Name, ex);
             }
 
             // Setup data
@@ -53,7 +53,7 @@ namespace PointBlank.Framework.Wrappers
             // Set the variables
             Enabled = true;
 
-            Logging.Log("Started service: " + ServiceClass.Name);
+            PointBlankLogging.Log("Started service: " + ServiceClass.Name);
             return true;
         }
 
@@ -62,18 +62,18 @@ namespace PointBlank.Framework.Wrappers
             if (!Enabled) // Don't stop if it isn't running
                 return true;
 
-            Logging.Log("Stopping service: " + ServiceClass.Name);
+            PointBlankLogging.Log("Stopping service: " + ServiceClass.Name);
 
             // Call the important functions
             try
             {
-                ServiceEvents.RunServiceStop(ServiceClass); // Run the pre-stop event
+                PointBlankServiceEvents.RunServiceStop(ServiceClass); // Run the pre-stop event
                 ServiceClass.Unload(); // Run the code
-                ServiceEvents.RunServiceUnloaded(ServiceClass); // Run the post-stop event
+                PointBlankServiceEvents.RunServiceUnloaded(ServiceClass); // Run the post-stop event
             }
             catch (Exception ex)
             {
-                Logging.LogError("Error when stopping service: " + ServiceClass.Name, ex);
+                PointBlankLogging.LogError("Error when stopping service: " + ServiceClass.Name, ex);
             }
 
             // Stop data
@@ -82,7 +82,7 @@ namespace PointBlank.Framework.Wrappers
             // Set the variables
             Enabled = false;
 
-            Logging.Log("Stopped service: " + ServiceClass.Name);
+            PointBlankLogging.Log("Stopped service: " + ServiceClass.Name);
             return true;
         }
         #endregion

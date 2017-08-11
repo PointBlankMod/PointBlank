@@ -9,7 +9,7 @@ namespace PointBlank.API.Server
     /// <summary>
     /// All information about the server
     /// </summary>
-    public static class Server
+    public static class PointBlankServer
     {
         #region Information
         /// <summary>

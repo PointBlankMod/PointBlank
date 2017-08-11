@@ -13,11 +13,11 @@ using SM = PointBlank.Framework.ServiceManager;
 
 namespace PointBlank.Services.PluginManager
 {
-    internal class PluginManager : Service
+    internal class PluginManager : PointBlankService
     {
         #region Info
-        public static readonly string ConfigurationPath = Server.ConfigurationsPath + "/Plugins"; // Set the plugins configuration path
-        public static readonly string TranslationPath = Server.TranslationsPath + "/Plugins";
+        public static readonly string ConfigurationPath = PointBlankServer.ConfigurationsPath + "/Plugins"; // Set the plugins configuration path
+        public static readonly string TranslationPath = PointBlankServer.TranslationsPath + "/Plugins";
         #endregion
 
         #region Variables
@@ -39,10 +39,10 @@ namespace PointBlank.Services.PluginManager
         #region Override Functions
         public override void Load()
         {
-            if (!Directory.Exists(Server.LibrariesPath))
-                Directory.CreateDirectory(Server.LibrariesPath); // Create libraries directory
-            if (!Directory.Exists(Server.PluginsPath))
-                Directory.CreateDirectory(Server.PluginsPath); // Create plugins directory
+            if (!Directory.Exists(PointBlankServer.LibrariesPath))
+                Directory.CreateDirectory(PointBlankServer.LibrariesPath); // Create libraries directory
+            if (!Directory.Exists(PointBlankServer.PluginsPath))
+                Directory.CreateDirectory(PointBlankServer.PluginsPath); // Create plugins directory
             if (!Directory.Exists(ConfigurationPath))
                 Directory.CreateDirectory(ConfigurationPath); // Create plugins directory
             if (!Directory.Exists(TranslationPath))
@@ -53,9 +53,9 @@ namespace PointBlank.Services.PluginManager
             JSONConfig = UniConfig.GetData(EDataType.JSON) as JsonData;
             LoadConfig();
 
-            foreach (string library in Directory.GetFiles(Server.LibrariesPath, "*.dll")) // Get all the dll files in libraries directory
+            foreach (string library in Directory.GetFiles(PointBlankServer.LibrariesPath, "*.dll")) // Get all the dll files in libraries directory
                 _libraries.Add(Assembly.Load(File.ReadAllBytes(library))); // Load and add the library
-            foreach (string plugin in Directory.GetFiles(Server.PluginsPath, "*.dll")) // Get all the dll files in plugins directory
+            foreach (string plugin in Directory.GetFiles(PointBlankServer.PluginsPath, "*.dll")) // Get all the dll files in plugins directory
             {
                 try
                 {
@@ -67,25 +67,25 @@ namespace PointBlank.Services.PluginManager
                 }
                 catch (Exception ex)
                 {
-                    Logging.LogError("Error initializing plugin!", ex);
+                    PointBlankLogging.LogError("Error initializing plugin!", ex);
                     if (!PluginConfiguration.ContinueOnError)
                         break;
                 }
             }
-            PluginEvents.RunPluginsLoaded();
+            PointBlankPluginEvents.RunPluginsLoaded();
         }
 
         public override void Unload()
         {
             foreach (PluginWrapper wrapper in _plugins)
                 wrapper.Unload(); // Unload the wrapper
-            PluginEvents.RunPluginsUnloaded();
+            PointBlankPluginEvents.RunPluginsUnloaded();
             SaveConfig();
         }
         #endregion
 
         #region Public Functions
-        public PluginWrapper GetWrapper(Plugin plugin) => Plugins.First(a => a.PluginClass == plugin);
+        public PluginWrapper GetWrapper(PointBlankPlugin plugin) => Plugins.First(a => a.PluginClass == plugin);
         #endregion
 
         #region Private Functions

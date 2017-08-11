@@ -13,7 +13,7 @@ using PM = PointBlank.Services.PluginManager.PluginManager;
 
 namespace PointBlank.Services.DetourManager
 {
-    internal class DetourManager : Service
+    internal class DetourManager : PointBlankService
     {
         #region Variables
         private static Dictionary<DetourAttribute, DetourWrapper> _Detours = new Dictionary<DetourAttribute, DetourWrapper>(); // Dictionary of detours
@@ -51,7 +51,7 @@ namespace PointBlank.Services.DetourManager
             }
             catch (Exception ex)
             {
-                Logging.LogError("Error detouring: " + method.Name, ex);
+                PointBlankLogging.LogError("Error detouring: " + method.Name, ex);
             }
         }
         #endregion
@@ -62,11 +62,11 @@ namespace PointBlank.Services.DetourManager
             if (Initialized)
                 return;
             // Set the events
-            PluginEvents.OnPluginLoaded += new PluginEvents.PluginEventHandler(OnPluginLoaded);
-            PluginEvents.OnPluginUnloaded += new PluginEvents.PluginEventHandler(OnPluginUnloaded);
+            PointBlankPluginEvents.OnPluginLoaded += new PointBlankPluginEvents.PluginEventHandler(OnPluginLoaded);
+            PointBlankPluginEvents.OnPluginUnloaded += new PointBlankPluginEvents.PluginEventHandler(OnPluginUnloaded);
 
             // Main code
-            foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies().Where(a => Attribute.GetCustomAttribute(a, typeof(ExtensionAttribute)) != null))
+            foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies().Where(a => Attribute.GetCustomAttribute(a, typeof(PointBlankExtensionAttribute)) != null))
                 foreach (Type tClass in asm.GetTypes())
                     if (tClass.IsClass)
                         foreach(MethodInfo method in tClass.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance))
@@ -96,7 +96,7 @@ namespace PointBlank.Services.DetourManager
         #endregion
 
         #region Event Functions
-        private void OnPluginLoaded(Plugin plugin)
+        private void OnPluginLoaded(PointBlankPlugin plugin)
         {
             PluginWrapper wrapper = PM.Plugins.First(a => a.PluginClass == plugin);
 
@@ -106,7 +106,7 @@ namespace PointBlank.Services.DetourManager
                         LoadDetour(method);
         }
 
-        private void OnPluginUnloaded(Plugin plugin)
+        private void OnPluginUnloaded(PointBlankPlugin plugin)
         {
             PluginWrapper wrapper = PM.Plugins.First(a => a.PluginClass == plugin);
 
