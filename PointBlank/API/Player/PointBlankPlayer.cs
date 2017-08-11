@@ -240,6 +240,26 @@ namespace PointBlank.API.Player
             return Color.clear;
         }
 
+        /// <summary>
+        /// Returns the position the player is looking at
+        /// </summary>
+        /// <param name="lookPosition">The origin position</param>
+        /// <param name="lookForward">The forward position Vector3</param>
+        /// <param name="distance">The ray distance</param>
+        /// <param name="masks">The ray masks</param>
+        /// <returns>The position the player is looking at</returns>
+        public virtual Vector3? GetEyePosition(Vector3 lookPosition, Vector3 lookForward, float distance, int masks)
+        {
+            RaycastHit hit;
+
+            if (!Physics.Raycast(lookPosition, lookForward, out hit, distance, masks))
+                return null;
+            if (hit.transform == null)
+                return null;
+
+            return hit.point;
+        }
+
         // Abstract
         /// <summary>
         /// Sends a message to the player's chat
