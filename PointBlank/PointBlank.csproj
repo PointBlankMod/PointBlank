@@ -102,6 +102,10 @@
     <Compile Include="API\Services\PointBlankServiceEvents.cs" />
     <Compile Include="API\Services\PointBlankServiceManager.cs" />
     <Compile Include="API\PointBlankTools.cs" />
+    <Compile Include="API\Storage\Compressions\GZip.cs" />
+    <Compile Include="API\Storage\Compressions\Huffman.cs" />
+    <Compile Include="API\Storage\ECompression.cs" />
+    <Compile Include="API\Storage\PointBlankStorage.cs" />
     <Compile Include="Enviroment.cs" />
     <Compile Include="Framework\Configurations\PointBlankConfigurations.cs" />
     <Compile Include="Framework\InterfaceManager.cs" />

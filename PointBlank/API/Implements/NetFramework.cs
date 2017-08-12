@@ -21,6 +21,20 @@ namespace PointBlank.API.Implements
         /// <returns>If the input flag contains the matching flag</returns>
         public static bool HasFlag(this Enum input, Enum matchTo) => (Convert.ToUInt32(input) & Convert.ToUInt32(matchTo)) != 0;
 
+        /// <summary>
+        /// Copies from one stream to another
+        /// </summary>
+        /// <param name="source">The source stream to copy from</param>
+        /// <param name="destination">The destination stream to copy to</param>
+        public static void CopyTo(this Stream source, Stream destination)
+        {
+            byte[] bytes = new byte[4096];
+            int count;
+
+            while ((count = source.Read(bytes, 0, bytes.Length)) != 0)
+                destination.Write(bytes, 0, count);
+        }
+
         #region Lists
         /// <summary>
         /// Uses a for loop on any list
