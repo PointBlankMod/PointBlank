@@ -76,6 +76,16 @@ namespace PointBlank.API.Implements
         public static void RunMethod(this MethodInfo method, object instance, params object[] parameters) =>
             RunMethod<object>(method, instance, parameters);
         #endregion
+
+        #region Objects
+        /// <summary>
+        /// Converts an object to a specific type
+        /// </summary>
+        /// <typeparam name="T">The type to change the object to</typeparam>
+        /// <param name="obj">The object instance</param>
+        /// <returns>The value as the specified type</returns>
+        public static T Get<T>(this object obj) => (T)obj;
+        #endregion
     }
 
     public delegate void VoidHandler();

@@ -77,6 +77,7 @@
     <Compile Include="API\Discord\EDiscordHttpCodes.cs" />
     <Compile Include="API\Discord\EDiscordJsonCodes.cs" />
     <Compile Include="API\Extension\PointBlankExtensionAttribute.cs" />
+    <Compile Include="API\Implements\PointBlank.cs" />
     <Compile Include="API\Implements\UnityEngine.cs" />
     <Compile Include="API\IPC\EIPCType.cs" />
     <Compile Include="API\IPC\IPCEvents.cs" />
