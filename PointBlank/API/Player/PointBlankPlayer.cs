@@ -313,6 +313,13 @@ namespace PointBlank.API.Player
 
             return (PointBlankPlayerComponent)GameObject.AddComponent(type);
         }
+
+        /// <summary>
+        /// Converts the PointBlankPlayer to any type for easier access
+        /// </summary>
+        /// <typeparam name="T">The type to convert it to</typeparam>
+        /// <returns>The converted value</returns>
+        public T Get<T>() where T : PointBlankPlayer => (T)this;
         #endregion
     }
 }

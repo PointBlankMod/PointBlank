@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using PointBlank.API.Plugins;
-using PointBlank.API.Collections;
+using PointBlank.API.Player;
 using CM = PointBlank.Services.CommandManager.CommandManager;
 
 namespace PointBlank.API.Commands
@@ -90,7 +90,7 @@ namespace PointBlank.API.Commands
         /// </summary>
         /// <param name="args">The arguments the player inputted</param>
         /// <param name="executor">The player executing the command</param>
-        public abstract void Execute(Player.PointBlankPlayer executor, string[] args);
+        public abstract void Execute(PointBlankPlayer executor, string[] args);
         #endregion
 
         public PointBlankCommand()
@@ -105,7 +105,7 @@ namespace PointBlank.API.Commands
         /// <param name="key">The key of the translation</param>
         /// <param name="data">The data to modify the translation</param>
         /// <returns>The translated text</returns>
-        public string Translate(string key, params string[] data) => PointBlankPlugin.Instance.Translate(key, data);
+        public string Translate(string key, params object[] data) => PointBlankPlugin.Instance.Translate(key, data);
 
         /// <summary>
         /// Easy to use configuration value extractor

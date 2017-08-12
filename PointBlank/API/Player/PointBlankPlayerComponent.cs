@@ -38,7 +38,7 @@ namespace PointBlank.API.Player
         /// <param name="key">The key of the translation</param>
         /// <param name="data">The data to modify the translation</param>
         /// <returns>The translated text</returns>
-        public string Translate(string key, params string[] data) => PointBlankPlugin.Instance.Translate(key, data);
+        public string Translate(string key, params object[] data) => PointBlankPlugin.Instance.Translate(key, data);
 
         /// <summary>
         /// Easy to use configuration value extractor
