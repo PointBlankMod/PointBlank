@@ -95,6 +95,7 @@
     <Compile Include="API\Plugins\PointBlankPluginEvents.cs" />
     <Compile Include="API\Plugins\PointBlankPluginManager.cs" />
     <Compile Include="API\PointBlankConsole.cs" />
+    <Compile Include="API\PointBlankReflect.cs" />
     <Compile Include="API\Server\PointBlankServer.cs" />
     <Compile Include="API\Services\PointBlankService.cs" />
     <Compile Include="API\Services\PointBlankServiceEvents.cs" />
