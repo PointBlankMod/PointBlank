@@ -8,8 +8,6 @@ using PointBlank.API.Plugins;
 using PointBlank.API.Services;
 using PointBlank.API.Detour;
 using PointBlank.API.Extension;
-using PointBlank.Services.PluginManager;
-using PM = PointBlank.Services.PluginManager.PluginManager;
 
 namespace PointBlank.Services.DetourManager
 {
@@ -61,9 +59,10 @@ namespace PointBlank.Services.DetourManager
         {
             if (Initialized)
                 return;
+
             // Set the events
-            PointBlankPluginEvents.OnPluginLoaded += new PointBlankPluginEvents.PluginEventHandler(OnPluginLoaded);
-            PointBlankPluginEvents.OnPluginUnloaded += new PointBlankPluginEvents.PluginEventHandler(OnPluginUnloaded);
+            PointBlankPluginEvents.OnPluginLoaded += OnPluginLoaded;
+            PointBlankPluginEvents.OnPluginUnloaded += OnPluginUnloaded;
 
             // Main code
             foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies().Where(a => Attribute.GetCustomAttribute(a, typeof(PointBlankExtensionAttribute)) != null))
@@ -80,6 +79,10 @@ namespace PointBlank.Services.DetourManager
         {
             if (!Initialized)
                 return;
+
+            // Unload the events
+            PointBlankPluginEvents.OnPluginLoaded -= OnPluginLoaded;
+            PointBlankPluginEvents.OnPluginUnloaded -= OnPluginUnloaded;
 
             // Main code
             while(Detours.Count > 0)
@@ -98,9 +101,7 @@ namespace PointBlank.Services.DetourManager
         #region Event Functions
         private void OnPluginLoaded(PointBlankPlugin plugin)
         {
-            PluginWrapper wrapper = PM.Plugins.First(a => a.PluginClass == plugin);
-
-            foreach(Type tClass in wrapper.PluginAssembly.GetTypes())
+            foreach(Type tClass in plugin.GetType().Assembly.GetTypes())
                 if (tClass.IsClass)
                     foreach (MethodInfo method in tClass.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance))
                         LoadDetour(method);
@@ -108,9 +109,7 @@ namespace PointBlank.Services.DetourManager
 
         private void OnPluginUnloaded(PointBlankPlugin plugin)
         {
-            PluginWrapper wrapper = PM.Plugins.First(a => a.PluginClass == plugin);
-
-            foreach(KeyValuePair<DetourAttribute, DetourWrapper> kvp in Detours.Where(a => a.Key.Method.DeclaringType.Assembly == wrapper.PluginAssembly && !a.Value.Local))
+            foreach(KeyValuePair<DetourAttribute, DetourWrapper> kvp in Detours.Where(a => a.Key.Method.DeclaringType.Assembly == plugin.GetType().Assembly && !a.Value.Local))
             {
                 kvp.Value.Revert();
                 Detours.Remove(kvp.Key);

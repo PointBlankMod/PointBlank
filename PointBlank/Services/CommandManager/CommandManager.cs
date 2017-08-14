@@ -2,7 +2,6 @@
 using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using PointBlank.API;
 using PointBlank.API.Plugins;
 using PointBlank.API.Services;
@@ -10,7 +9,6 @@ using PointBlank.API.Commands;
 using PointBlank.API.DataManagment;
 using PointBlank.API.Player;
 using Newtonsoft.Json.Linq;
-using PointBlank.Services.PluginManager;
 using PointBlank.Framework.Translations;
 using PointBlank.API.Server;
 using PointBlank.API.Extension;
@@ -42,7 +40,8 @@ namespace PointBlank.Services.CommandManager
             JSONConfig = UniConfig.GetData(EDataType.JSON) as JsonData;
 
             // Setup events
-            PointBlankPluginEvents.OnPluginLoaded += new PointBlankPluginEvents.PluginEventHandler(OnPluginLoaded); // Run code every time a plugin is loaded
+            PointBlankPluginEvents.OnPluginLoaded += OnPluginLoaded;
+            PointBlankPluginEvents.OnPluginUnloaded -= OnPluginUnloaded;
 
             // Run the code
             LoadConfig();
@@ -52,7 +51,15 @@ namespace PointBlank.Services.CommandManager
                             LoadCommand(tClass);
         }
 
-        public override void Unload() => SaveConfig();
+        public override void Unload()
+        {
+            // Unload events
+            PointBlankPluginEvents.OnPluginLoaded -= OnPluginLoaded;
+            PointBlankPluginEvents.OnPluginUnloaded -= OnPluginUnloaded;
+
+            // Run the code
+            SaveConfig();
+        }
         #endregion
 
         #region Private Functions
@@ -178,18 +185,14 @@ namespace PointBlank.Services.CommandManager
         #region Event Functions
         private void OnPluginLoaded(PointBlankPlugin plugin)
         {
-            PluginWrapper wrapper = PluginManager.PluginManager.Plugins.First(a => a.PluginClass == plugin);
-
-            foreach (Type tClass in wrapper.PluginAssembly.GetTypes())
+            foreach (Type tClass in plugin.GetType().Assembly.GetTypes())
                 if (tClass.IsClass)
                     LoadCommand(tClass);
         }
 
         private void OnPluginUnloaded(PointBlankPlugin plugin)
         {
-            PluginWrapper wrapper = PluginManager.PluginManager.Plugins.First(a => a.PluginClass == plugin);
-
-            foreach (CommandWrapper wrap in Commands.Where(a => a.Class.DeclaringType.Assembly == wrapper.PluginAssembly))
+            foreach (CommandWrapper wrap in Commands.Where(a => a.Class.DeclaringType.Assembly == plugin.GetType().Assembly))
                 Commands.Remove(wrap);
             UniConfig.Save();
         }

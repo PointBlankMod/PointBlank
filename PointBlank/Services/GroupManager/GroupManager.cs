@@ -39,10 +39,7 @@ namespace PointBlank.Services.GroupManager
                 FirstGroups();
         }
 
-        public override void Unload()
-        {
-            SaveGroups();
-        }
+        public override void Unload() => SaveGroups();
         #endregion
 
         #region Private Functions
