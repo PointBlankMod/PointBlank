@@ -87,7 +87,6 @@ namespace PointBlank.API.Collections
             if (!Translations.ContainsKey(key))
                 Translations.Add(key, value);
         }
-
         /// <summary>
         /// Adds a translation entry using the KeyValuePair
         /// </summary>
@@ -103,7 +102,6 @@ namespace PointBlank.API.Collections
             if (Translations.ContainsKey(key))
                 Translations.Remove(key);
         }
-
         /// <summary>
         /// Removes a translation entry using the index
         /// </summary>
@@ -119,7 +117,6 @@ namespace PointBlank.API.Collections
             foreach (KeyValuePair<string, string> x in list)
                 this.Add(x.Key, x.Value);
         }
-
         /// <summary>
         /// Adds a range of translations using the Translation list
         /// </summary>
@@ -129,6 +126,13 @@ namespace PointBlank.API.Collections
             for (int i = 0; i < list.Count; i++)
                 this.Add(list[i]);
         }
+
+        /// <summary>
+        /// Does the translation key exist
+        /// </summary>
+        /// <param name="key">The key of the translation</param>
+        /// <returns>If the translation key exists</returns>
+        public bool ContainsKey(string key) => Translations.ContainsKey(key);
 
         /// <summary>
         /// Gets the enumerator and returns it

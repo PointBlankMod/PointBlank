@@ -93,7 +93,6 @@ namespace PointBlank.API.Collections
             if (!Configurations.ContainsKey(configuration_name))
                 Configurations.Add(configuration_name, configuration);
         }
-
         /// <summary>
         /// Adds a configuration entry using the KeyValuePair
         /// </summary>
@@ -109,7 +108,6 @@ namespace PointBlank.API.Collections
             if (Configurations.ContainsKey(configuration_name))
                 Configurations.Remove(configuration_name);
         }
-
         /// <summary>
         /// Removes a configuration entry using the index
         /// </summary>
@@ -125,7 +123,6 @@ namespace PointBlank.API.Collections
             foreach(KeyValuePair<string, object> x in list)
                 this.Add(x.Key, x.Value);
         }
-
         /// <summary>
         /// Adds a range of configurations using the configuration list
         /// </summary>
@@ -135,6 +132,13 @@ namespace PointBlank.API.Collections
             for (int i = 0; i < list.Count; i++)
                 this.Add(list[i]);
         }
+
+        /// <summary>
+        /// Does the configuration key exist
+        /// </summary>
+        /// <param name="key">The configuration key</param>
+        /// <returns>If the configuration key exists</returns>
+        public bool ContainsKey(string key) => Configurations.ContainsKey(key);
 
         /// <summary>
         /// Gets the enumerator and returns it

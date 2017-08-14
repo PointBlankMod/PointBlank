@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Reflection;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using PointBlank.API;
 using PointBlank.API.Collections;
-using PM = PointBlank.Services.PluginManager.PluginManager;
+using PointBlank.Services.PluginManager;
 using UnityEngine;
 
 namespace PointBlank.API.Plugins
@@ -18,7 +20,28 @@ namespace PointBlank.API.Plugins
         /// <summary>
         /// The plugin instance
         /// </summary>
-        public static PointBlankPlugin Instance { get; internal set; }
+        public static PointBlankPlugin Instance
+        {
+            get
+            {
+                StackTrace stack = new StackTrace(false);
+                Assembly asm = null;
+                int count = 1;
+
+                if(stack.FrameCount <= 0)
+                    return null;
+                while((asm == null || asm.Location == typeof(PointBlankPlugin).Assembly.Location) && count < stack.FrameCount)
+                {
+                    asm = stack.GetFrame(count).GetMethod().DeclaringType.Assembly;
+
+                    if (asm.Location == typeof(PointBlankPlugin).Assembly.Location)
+                        count++;
+                }
+
+                PluginWrapper wrapper = PluginManager.Plugins.FirstOrDefault(a => a.PluginAssembly.Location == asm.Location);
+                return (wrapper == null ? null : wrapper.PluginClass);
+            }
+        }
         #endregion
 
         #region Abstract Properties
@@ -50,11 +73,6 @@ namespace PointBlank.API.Plugins
         public virtual string BuildURL => null;
         #endregion
 
-        public PointBlankPlugin()
-        {
-            Instance = this;
-        }
-
         #region Abstract Functions
         /// <summary>
         /// Called when the plugin is loading
@@ -74,7 +92,7 @@ namespace PointBlank.API.Plugins
         /// <param name="key">The translation key</param>
         /// <param name="data">The arguments for string formatting</param>
         /// <returns>The formatted message</returns>
-        public string Translate(string key, params object[] data) => string.Format(Translations[key], data);
+        public string Translate(string key, params object[] data) => (Translations.ContainsKey(key) ? string.Format(Translations[key], data) : "#" + key);
 
         /// <summary>
         /// Easy to use configuration value extractor
