@@ -165,7 +165,10 @@ namespace PointBlank.Services.CommandManager
             string permission = "";
 
             if (wrapper == null || !wrapper.Enabled)
+            {
+                PointBlankPlayer.SendMessage(executor, Enviroment.ServiceTranslations[typeof(ServiceTranslations)].Translations["CommandManager_Invalid"], ConsoleColor.Red);
                 return ECommandRunError.COMMAND_NOT_EXIST;
+            }
             permission = wrapper.Permission;
             if (info.Length > 1)
                 for (int i = 1; i < info.Length; i++)

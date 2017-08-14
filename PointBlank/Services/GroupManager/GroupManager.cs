@@ -26,7 +26,6 @@ namespace PointBlank.Services.GroupManager
         public override int LaunchIndex => 0;
         #endregion
 
-        #region Override Functions
         public override void Load()
         {
             // Setup config
@@ -40,7 +39,6 @@ namespace PointBlank.Services.GroupManager
         }
 
         public override void Unload() => SaveGroups();
-        #endregion
 
         #region Private Functions
         internal void LoadGroups()
@@ -51,10 +49,7 @@ namespace PointBlank.Services.GroupManager
                 if (GM.Groups.Count(a => a.ID == obj.Name) > 0)
                     continue;
 
-                if (!ColorUtility.TryParseHtmlString((string)obj.Value["Color"], out Color color))
-                    color = Color.clear;
-
-                PointBlankGroup g = new PointBlankGroup(obj.Name, (string)obj.Value["Name"], (bool)obj.Value["Default"], (int)obj.Value["Cooldown"], color);
+                PointBlankGroup g = new PointBlankGroup(obj.Name);
 
                 GM.AddGroup(g);
             }
@@ -71,6 +66,12 @@ namespace PointBlank.Services.GroupManager
                     g.RemovePrefix(g.Prefixes[0]);
                 while (g.Suffixes.Length > 0)
                     g.RemoveSuffix(g.Suffixes[0]);
+                g.Name = (string)obj["Name"];
+                g.Default = (bool)obj["Default"];
+                g.Cooldown = (int)obj["Cooldown"];
+                if (!ColorUtility.TryParseHtmlString((string)obj["Color"], out Color color))
+                    color = Color.clear;
+                g.Color = color;
                 if (obj["Inherits"] is JArray)
                 {
                     foreach (JToken token in (JArray)obj["Inherits"])

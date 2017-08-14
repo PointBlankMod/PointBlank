@@ -24,14 +24,6 @@ namespace PointBlank.API.Groups
         /// The ID of the group
         /// </summary>
         public string ID { get; private set; }
-        /// <summary>
-        /// The name of the group
-        /// </summary>
-        public string Name { get; private set; }
-        /// <summary>
-        /// Is this the default group
-        /// </summary>
-        public bool Default { get; private set; }
 
         /// <summary>
         /// The list of permissions this group has
@@ -59,6 +51,14 @@ namespace PointBlank.API.Groups
         /// The color of the group(visible in chat)
         /// </summary>
         public Color Color { get; set; }
+        /// <summary>
+        /// The name of the group
+        /// </summary>
+        public string Name { get; set; }
+        /// <summary>
+        /// Is this the default group
+        /// </summary>
+        public bool Default { get; set; }
         #endregion
 
         /// <summary>
@@ -67,6 +67,8 @@ namespace PointBlank.API.Groups
         /// <param name="id">The ID of the group</param>
         /// <param name="name">The name of the group</param>
         /// <param name="cooldown">The cooldown of the group</param>
+        /// <param name="color">The color of the group</param>
+        /// <param name="isDefault">Is the group a default group</param>
         public PointBlankGroup(string id, string name, bool isDefault, int cooldown, Color color)
         {
             // Set the variables
@@ -75,6 +77,16 @@ namespace PointBlank.API.Groups
             this.Cooldown = cooldown;
             this.Default = isDefault;
             this.Color = color;
+        }
+
+        /// <summary>
+        /// Creates a group instance
+        /// </summary>
+        /// <param name="id">The ID of the group</param>
+        public PointBlankGroup(string id)
+        {
+            // Set the variables
+            this.ID = id;
         }
 
         #region Static Functions

@@ -16,34 +16,6 @@ namespace PointBlank.API.Plugins
     /// </summary>
     public abstract class PointBlankPlugin : MonoBehaviour
     {
-        #region Properties
-        /// <summary>
-        /// The plugin instance
-        /// </summary>
-        public static PointBlankPlugin Instance
-        {
-            get
-            {
-                StackTrace stack = new StackTrace(false);
-                Assembly asm = null;
-                int count = 1;
-
-                if(stack.FrameCount <= 0)
-                    return null;
-                while((asm == null || asm.Location == typeof(PointBlankPlugin).Assembly.Location) && count < stack.FrameCount)
-                {
-                    asm = stack.GetFrame(count).GetMethod().DeclaringType.Assembly;
-
-                    if (asm.Location == typeof(PointBlankPlugin).Assembly.Location)
-                        count++;
-                }
-
-                PluginWrapper wrapper = PluginManager.Plugins.FirstOrDefault(a => a.PluginAssembly.Location == asm.Location);
-                return (wrapper == null ? null : wrapper.PluginClass);
-            }
-        }
-        #endregion
-
         #region Abstract Properties
         /// <summary>
         /// The translations for the plugin
@@ -101,6 +73,40 @@ namespace PointBlank.API.Plugins
         /// <param name="key">The key of the configuration value</param>
         /// <returns>The configuration value with specified type</returns>
         public T Configure<T>(string key) => (T)Configurations[key];
+
+        /// <summary>
+        /// Gets the plugin instance based on any instance of any class inside the plugin dll
+        /// </summary>
+        /// <param name="pluginObject">The instance of any class inside the plugin dll</param>
+        /// <returns>The plugin instance</returns>
+        public static PointBlankPlugin GetInstance(object pluginObject)
+        {
+            PluginWrapper wrapper = PluginManager.Plugins.FirstOrDefault(a => a.PluginAssembly == pluginObject.GetType().Assembly);
+
+            return (wrapper == null ? null : wrapper.PluginClass);
+        }
+        /// <summary>
+        /// Gets the plugin instance based on any type of any class inside the plugin dll
+        /// </summary>
+        /// <param name="type">The type of any class inside the plugin dll</param>
+        /// <returns>The plugin instance</returns>
+        public static PointBlankPlugin GetInstance(Type type)
+        {
+            PluginWrapper wrapper = PluginManager.Plugins.FirstOrDefault(a => a.PluginAssembly == type.Assembly);
+
+            return (wrapper == null ? null : wrapper.PluginClass);
+        }
+        /// <summary>
+        /// Gets the plugin instance based on the plugin class provided
+        /// </summary>
+        /// <typeparam name="T">The plugin class</typeparam>
+        /// <returns>The plugin instance</returns>
+        public static T GetInstance<T>() where T : PointBlankPlugin
+        {
+            PluginWrapper wrapper = PluginManager.Plugins.FirstOrDefault(a => a.PluginClass.GetType() == typeof(T));
+
+            return (wrapper == null ? null : (T)wrapper.PluginClass);
+        }
         #endregion
     }
 }

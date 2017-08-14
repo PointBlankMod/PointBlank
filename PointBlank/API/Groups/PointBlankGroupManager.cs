@@ -118,6 +118,7 @@ namespace PointBlank.API.Groups
         {
             GM gm = (GM)PointBlankServiceManager.GetService("GroupManager.GroupManager");
 
+            gm.GroupConfig.Reload();
             gm.LoadGroups();
         }
         #endregion
