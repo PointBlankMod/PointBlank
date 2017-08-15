@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using PointBlank.API;
 using PointBlank.API.Services;
 using PointBlank.API.Tasks;
 using PointBlank.API.Plugins;
@@ -63,6 +64,8 @@ namespace PointBlank.Services.TaskManager
                                 continue;
                             if (!task.IsThreaded)
                                 continue;
+                            if (task.NextExecution == null)
+                                continue;
 
                             if ((DateTime.Now - task.NextExecution).TotalMilliseconds >= 0)
                             {
@@ -98,9 +101,12 @@ namespace PointBlank.Services.TaskManager
                             continue;
                         if (task.IsThreaded)
                             continue;
+                        if (task.NextExecution == null)
+                            continue;
 
                         if ((DateTime.Now - task.NextExecution).TotalMilliseconds >= 0)
                         {
+                            PointBlankLogging.Log("Test!!!");
                             task.Run();
 
                             if (!task.Loop)
