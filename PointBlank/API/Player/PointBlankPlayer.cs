@@ -193,7 +193,7 @@ namespace PointBlank.API.Player
             for (int i = 0; i < Groups.Length; i++)
                 if (Groups[i].Cooldown != -1)
                     return Groups[i].Cooldown;
-            return -1;
+            return 0;
         }
         /// <summary>
         /// Checks if the player has a cooldown on a specific command
@@ -226,11 +226,13 @@ namespace PointBlank.API.Player
         {
             if (time == null)
             {
-                _Cooldowns.Remove(command);
+                if (_Cooldowns.ContainsKey(command))
+                    _Cooldowns.Remove(command);
                 return;
             }
 
-            _Cooldowns.Add(command, time);
+            if (_Cooldowns.ContainsKey(command))
+                _Cooldowns.Add(command, time);
         }
 
         /// <summary>
