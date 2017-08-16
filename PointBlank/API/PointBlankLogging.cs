@@ -35,12 +35,19 @@ namespace PointBlank.API
             StackTrace stack = new StackTrace(false);
             string asm = "";
 
-            asm = stack.FrameCount > 0 ? stack.GetFrame(1).GetMethod().DeclaringType.Assembly.GetName().Name : "Not Found";
+            try
+            {
+                asm = stack.FrameCount > 0 ? stack.GetFrame(1).GetMethod().DeclaringType.Assembly.GetName().Name : "Not Found";
 
-            if (stack.FrameCount > 1 && (asm == "PointBlank" || asm == "Assembly-CSharp" || asm == "UnityEngine"))
-                asm = stack.GetFrame(2).GetMethod().DeclaringType.Assembly.GetName().Name;
-            if (asm == "Assembly-CSharp" || asm == "UnityEngine")
-                asm = "Game";
+                if (stack.FrameCount > 1 && (asm == "PointBlank" || asm == "Assembly-CSharp" || asm == "UnityEngine"))
+                    asm = stack.GetFrame(2).GetMethod().DeclaringType.Assembly.GetName().Name;
+                if (asm == "Assembly-CSharp" || asm == "UnityEngine")
+                    asm = "Game";
+            }
+            catch (Exception ex)
+            {
+                asm = "Mono";
+            }
 
             log = "[LOG] " + asm + " >> " + log;
             File.AppendAllText(LogPath, log.ToString() + Environment.NewLine);
@@ -60,12 +67,19 @@ namespace PointBlank.API
             StackTrace stack = new StackTrace(false);
             string asm = "";
 
-            asm = stack.FrameCount > 0 ? stack.GetFrame(1).GetMethod().DeclaringType.Assembly.GetName().Name : "Not Found";
+            try
+            {
+                asm = stack.FrameCount > 0 ? stack.GetFrame(1).GetMethod().DeclaringType.Assembly.GetName().Name : "Not Found";
 
-            if (stack.FrameCount > 1 && (asm == "PointBlank" || asm == "Assembly-CSharp" || asm == "UnityEngine"))
-                asm = stack.GetFrame(2).GetMethod().DeclaringType.Assembly.GetName().Name;
-            if (asm == "Assembly-CSharp" || asm == "UnityEngine")
-                asm = "Game";
+                if (stack.FrameCount > 1 && (asm == "PointBlank" || asm == "Assembly-CSharp" || asm == "UnityEngine"))
+                    asm = stack.GetFrame(2).GetMethod().DeclaringType.Assembly.GetName().Name;
+                if (asm == "Assembly-CSharp" || asm == "UnityEngine")
+                    asm = "Game";
+            }
+            catch (Exception exc)
+            {
+                asm = "Mono";
+            }
 
             log = "[ERROR] " + asm + " >> " + log;
             File.AppendAllText(LogPath, log.ToString() + Environment.NewLine);
@@ -86,12 +100,19 @@ namespace PointBlank.API
             StackTrace stack = new StackTrace(false);
             string asm = "";
 
-            asm = stack.FrameCount > 0 ? stack.GetFrame(1).GetMethod().DeclaringType.Assembly.GetName().Name : "Not Found";
+            try
+            {
+                asm = stack.FrameCount > 0 ? stack.GetFrame(1).GetMethod().DeclaringType.Assembly.GetName().Name : "Not Found";
 
-            if (stack.FrameCount > 1 && (asm == "PointBlank" || asm == "Assembly-CSharp" || asm == "UnityEngine"))
-                asm = stack.GetFrame(2).GetMethod().DeclaringType.Assembly.GetName().Name;
-            if (asm == "Assembly-CSharp" || asm == "UnityEngine")
-                asm = "Game";
+                if (stack.FrameCount > 1 && (asm == "PointBlank" || asm == "Assembly-CSharp" || asm == "UnityEngine"))
+                    asm = stack.GetFrame(2).GetMethod().DeclaringType.Assembly.GetName().Name;
+                if (asm == "Assembly-CSharp" || asm == "UnityEngine")
+                    asm = "Game";
+            }
+            catch (Exception ex)
+            {
+                asm = "Mono";
+            }
 
             log = "[WARNING] " + asm + " >> " + log;
             File.AppendAllText(LogPath, log.ToString() + Environment.NewLine);
@@ -109,12 +130,19 @@ namespace PointBlank.API
             StackTrace stack = new StackTrace(false);
             string asm = "";
 
-            asm = stack.FrameCount > 0 ? stack.GetFrame(1).GetMethod().DeclaringType.Assembly.GetName().Name : "Not Found";
+            try
+            {
+                asm = stack.FrameCount > 0 ? stack.GetFrame(1).GetMethod().DeclaringType.Assembly.GetName().Name : "Not Found";
 
-            if (stack.FrameCount > 1 && (asm == "PointBlank" || asm == "Assembly-CSharp" || asm == "UnityEngine"))
-                asm = stack.GetFrame(2).GetMethod().DeclaringType.Assembly.GetName().Name;
-            if (asm == "Assembly-CSharp" || asm == "UnityEngine")
-                asm = "Game";
+                if (stack.FrameCount > 1 && (asm == "PointBlank" || asm == "Assembly-CSharp" || asm == "UnityEngine"))
+                    asm = stack.GetFrame(2).GetMethod().DeclaringType.Assembly.GetName().Name;
+                if (asm == "Assembly-CSharp" || asm == "UnityEngine")
+                    asm = "Game";
+            }
+            catch (Exception ex)
+            {
+                asm = "Mono";
+            }
 
             log = "[IMPORTANT] " + asm + " >> " + log;
             File.AppendAllText(LogPath, log.ToString() + Environment.NewLine);

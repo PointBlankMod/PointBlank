@@ -13,10 +13,6 @@ namespace PointBlank.API.Tasks
     /// </summary>
     public class PointBlankTask // I won't lie I liked the one from uEssentials so I stole the idea
     {
-        #region Variables
-        internal Assembly _assembly;
-        #endregion
-
         #region Properties
         /// <summary>
         /// Should the task be executed in a thread
@@ -89,7 +85,7 @@ namespace PointBlank.API.Tasks
             Running = false;
 
             // Run the code
-            TaskManager.Tasks[_assembly].Remove(this);
+            TaskManager.Tasks.Remove(this);
         }
 
         /// <summary>
@@ -187,16 +183,7 @@ namespace PointBlank.API.Tasks
             /// <returns>The task instance</returns>
             public PointBlankTask Build(bool AutoStart = false)
             {
-                StackTrace stack = new StackTrace(false);
-
-                if (stack.FrameCount < 1)
-                    return null;
-                Assembly asm = stack.GetFrame(1).GetType().Assembly;
-
-                Task._assembly = asm;
-                if (!TaskManager.Tasks.ContainsKey(asm))
-                    TaskManager.Tasks.Add(asm, new List<PointBlankTask>());
-                TaskManager.Tasks[asm].Add(Task);
+                TaskManager.Tasks.Add(Task);
 
                 if (AutoStart)
                     Task.Start();

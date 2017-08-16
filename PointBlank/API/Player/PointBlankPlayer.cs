@@ -157,27 +157,27 @@ namespace PointBlank.API.Player
 
             string[] sPermission = permission.Split('.');
 
-            for (int a = 0; a < sPermission.Length; a++)
+            for (int a = 0; a < Permissions.Length; a++)
             {
-                bool found = false;
+                string[] sP = Permissions[a].Split('.');
 
-                for (int b = 0; b < Permissions.Length; b++)
+                for (int b = 0; b < sPermission.Length; b++)
                 {
-                    string[] sPerm = Permissions[b].Split('.');
-
-                    if (sPerm[a] == "*")
-                        return true;
-                    if (sPerm[a] == sPermission[a])
+                    if (b >= sP.Length)
                     {
-                        found = true;
-                        break;
-                    }
-                }
+                        if (sPermission.Length > sP.Length)
+                            break;
 
-                if (!found)
-                    return false;
+                        return true;
+                    }
+
+                    if (sP[b] == "*")
+                        return true;
+                    if (sP[b] != sPermission[b])
+                        break;
+                }
             }
-            return true;
+            return false;
         }
 
         /// <summary>

@@ -59,6 +59,8 @@ namespace PointBlank.Framework
             try
             {
                 wrapper.Stop(); // Stop the service
+
+                Enviroment.runtimeObjects["Services"].RemoveCodeObject(wrapper.ServiceClass.GetType().Name);
             }
             catch (Exception ex)
             {
@@ -74,7 +76,7 @@ namespace PointBlank.Framework
                 return;
             if (service == typeof(PointBlankService)) // Prevents the actual service API from being loaded
                 return;
-            PointBlankService ser = (PointBlankService)Activator.CreateInstance(service);
+            PointBlankService ser = (PointBlankService)Enviroment.runtimeObjects["Services"].AddCodeObject(service);
 
             if (ServicesData.CheckKey(ser.Name))
             {

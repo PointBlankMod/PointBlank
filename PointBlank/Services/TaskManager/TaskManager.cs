@@ -16,11 +16,11 @@ namespace PointBlank.Services.TaskManager
         #region Variables
         private Thread _tTasker;
 
-        private bool _Running;
+        private bool _Running = false;
         #endregion
 
         #region Properties
-        public static Dictionary<Assembly, List<PointBlankTask>> Tasks { get; private set; }
+        public static List<PointBlankTask> Tasks { get; private set; }
 
         public override int LaunchIndex => 2;
         #endregion
@@ -28,12 +28,9 @@ namespace PointBlank.Services.TaskManager
         public override void Load()
         {
             // Set the variables
-            Tasks = new Dictionary<Assembly, List<PointBlankTask>>();
+            Tasks = new List<PointBlankTask>();
             _tTasker = new Thread(new ThreadStart(Tasker));
             _Running = true;
-
-            // Set the events
-            PointBlankPluginEvents.OnPluginUnloaded += OnPluginUnloaded;
 
             // Run the code
             _tTasker.Start();
@@ -43,9 +40,6 @@ namespace PointBlank.Services.TaskManager
         {
             // Set the variables
             _Running = false;
-
-            // Remove the events
-            PointBlankPluginEvents.OnPluginUnloaded -= OnPluginUnloaded;
         }
 
         #region Threads
@@ -55,58 +49,18 @@ namespace PointBlank.Services.TaskManager
             {
                 lock (Tasks)
                 {
-                    foreach (Assembly asm in Tasks.Keys)
-                    {
-                        Queue<PointBlankTask> remove = new Queue<PointBlankTask>();
-                        foreach (PointBlankTask task in Tasks[asm])
-                        {
-                            if (!task.Running)
-                                continue;
-                            if (!task.IsThreaded)
-                                continue;
-                            if (task.NextExecution == null)
-                                continue;
-
-                            if ((DateTime.Now - task.NextExecution).TotalMilliseconds >= 0)
-                            {
-                                task.Run();
-
-                                if (!task.Loop)
-                                    remove.Enqueue(task);
-                            }
-                        }
-
-                        while (remove.Count > 0)
-                            remove.Dequeue().Stop();
-                    }
-                }
-            }
-        }
-        #endregion
-
-        #region Mono Functions
-        void Update()
-        {
-            if (!_Running)
-                return;
-
-            lock (Tasks)
-            {
-                foreach (Assembly asm in Tasks.Keys)
-                {
                     Queue<PointBlankTask> remove = new Queue<PointBlankTask>();
-                    foreach (PointBlankTask task in Tasks[asm])
+                    foreach (PointBlankTask task in Tasks)
                     {
                         if (!task.Running)
                             continue;
-                        if (task.IsThreaded)
+                        if (!task.IsThreaded)
                             continue;
                         if (task.NextExecution == null)
                             continue;
 
                         if ((DateTime.Now - task.NextExecution).TotalMilliseconds >= 0)
                         {
-                            PointBlankLogging.Log("Test!!!");
                             task.Run();
 
                             if (!task.Loop)
@@ -121,17 +75,35 @@ namespace PointBlank.Services.TaskManager
         }
         #endregion
 
-        #region Events
-        private void OnPluginUnloaded(PointBlankPlugin plugin)
+        #region Mono Functions
+        void Update()
         {
-            Assembly pluginAssembly = plugin.GetType().Assembly;
+            if (!_Running)
+                return;
 
-            if (Tasks.ContainsKey(pluginAssembly))
+            lock (Tasks)
             {
-                Tasks[pluginAssembly].ForEach((task) =>
+                Queue<PointBlankTask> remove = new Queue<PointBlankTask>();
+                foreach (PointBlankTask task in Tasks)
                 {
-                    task.Stop();
-                });
+                    if (!task.Running)
+                        continue;
+                    if (task.IsThreaded)
+                        continue;
+                    if (task.NextExecution == null)
+                        continue;
+
+                    if ((DateTime.Now - task.NextExecution).TotalMilliseconds >= 0)
+                    {
+                        task.Run();
+
+                        if (!task.Loop)
+                            remove.Enqueue(task);
+                    }
+                }
+
+                while (remove.Count > 0)
+                    remove.Dequeue().Stop();
             }
         }
         #endregion

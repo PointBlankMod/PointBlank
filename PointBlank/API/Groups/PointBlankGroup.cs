@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using PointBlank.API.Implements;
 using UnityEngine;
 
 namespace PointBlank.API.Groups
@@ -253,27 +254,27 @@ namespace PointBlank.API.Groups
             string[] permissions = GetPermissions();
             string[] sPermission = permission.Split('.');
 
-            for(int a = 0; a < sPermission.Length; a++)
+            for(int a = 0; a < permissions.Length; a++)
             {
-                bool found = false;
+                string[] sP = permissions[a].Split('.');
 
-                for(int b = 0; b < permissions.Length; b++)
+                for(int b = 0; b < sPermission.Length; b++)
                 {
-                    string[] sPerm = permissions[b].Split('.');
-
-                    if (sPerm[a] == "*")
-                        return true;
-                    if(sPerm[a] == sPermission[a])
+                    if (b >= sP.Length)
                     {
-                        found = true;
-                        break;
-                    }
-                }
+                        if (sPermission.Length > sP.Length)
+                            break;
 
-                if (!found)
-                    return false;
+                        return true;
+                    }
+
+                    if (sP[b] == "*")
+                        return true;
+                    if (sP[b] != sPermission[b])
+                        break;
+                }
             }
-            return true;
+            return false;
         }
         #endregion
     }

@@ -47,9 +47,6 @@ namespace PointBlank.Framework.Wrappers
                 PointBlankLogging.LogError("Error when starting service: " + ServiceClass.Name, ex);
             }
 
-            // Setup data
-            Enviroment.runtimeObjects["Services"].AddCodeObject(ServiceClass.GetType()); // Add the code object
-
             // Set the variables
             Enabled = true;
 
@@ -75,9 +72,6 @@ namespace PointBlank.Framework.Wrappers
             {
                 PointBlankLogging.LogError("Error when stopping service: " + ServiceClass.Name, ex);
             }
-
-            // Stop data
-            Enviroment.runtimeObjects["Services"].RemoveCodeObject(ServiceClass.GetType().Name); // Remove the code object
 
             // Set the variables
             Enabled = false;
