@@ -50,6 +50,8 @@ namespace PointBlank.Services.TaskManager
             {
                 Thread.Sleep(1);
 
+                if (Tasks.Count < 1)
+                    continue;
                 foreach (PointBlankTask task in Tasks)
                 {
                     if (!task.Running)
@@ -77,6 +79,8 @@ namespace PointBlank.Services.TaskManager
             if (!_Running)
                 return;
 
+            if (Tasks.Count < 1)
+                return;
             foreach (PointBlankTask task in Tasks)
             {
                 if (!task.Running)
