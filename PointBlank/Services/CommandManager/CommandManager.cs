@@ -159,10 +159,10 @@ namespace PointBlank.Services.CommandManager
         {
             string[] info = ParseCommand(text);
             List<string> args = new List<string>();
-            CommandWrapper wrapper = Commands.FirstOrDefault(a => a.Commands.FirstOrDefault(b => b.ToLower() == info[0].ToLower()) != null);
+            CommandWrapper wrapper = Commands.FirstOrDefault(a => a.Commands.FirstOrDefault(b => b.ToLower() == info[0].ToLower()) != null && a.Enabled);
             string permission = "";
 
-            if (wrapper == null || !wrapper.Enabled)
+            if (wrapper == null)
             {
                 PointBlankPlayer.SendMessage(executor, Enviroment.ServiceTranslations[typeof(ServiceTranslations)].Translations["CommandManager_Invalid"], ConsoleColor.Red);
                 return ECommandRunError.COMMAND_NOT_EXIST;
