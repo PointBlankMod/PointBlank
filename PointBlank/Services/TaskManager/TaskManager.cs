@@ -15,6 +15,7 @@ namespace PointBlank.Services.TaskManager
     {
         #region Variables
         private Thread _tTasker;
+        private Queue<PointBlankTask> _Remove = new Queue<PointBlankTask>();
 
         private bool _Running = false;
         #endregion
@@ -47,29 +48,24 @@ namespace PointBlank.Services.TaskManager
         {
             while (_Running)
             {
-                lock (Tasks)
+                Thread.Sleep(1);
+
+                foreach (PointBlankTask task in Tasks)
                 {
-                    Queue<PointBlankTask> remove = new Queue<PointBlankTask>();
-                    foreach (PointBlankTask task in Tasks)
+                    if (!task.Running)
+                        continue;
+                    if (!task.IsThreaded)
+                        continue;
+                    if (task.NextExecution == null)
+                        continue;
+
+                    if ((DateTime.Now - task.NextExecution).TotalMilliseconds >= 0)
                     {
-                        if (!task.Running)
-                            continue;
-                        if (!task.IsThreaded)
-                            continue;
-                        if (task.NextExecution == null)
-                            continue;
+                        task.Run();
 
-                        if ((DateTime.Now - task.NextExecution).TotalMilliseconds >= 0)
-                        {
-                            task.Run();
-
-                            if (!task.Loop)
-                                remove.Enqueue(task);
-                        }
+                        if (!task.Loop)
+                            _Remove.Enqueue(task);
                     }
-
-                    while (remove.Count > 0)
-                        remove.Dequeue().Stop();
                 }
             }
         }
@@ -81,29 +77,31 @@ namespace PointBlank.Services.TaskManager
             if (!_Running)
                 return;
 
+            foreach (PointBlankTask task in Tasks)
+            {
+                if (!task.Running)
+                    continue;
+                if (task.IsThreaded)
+                    continue;
+                if (task.NextExecution == null)
+                    continue;
+
+                if ((DateTime.Now - task.NextExecution).TotalMilliseconds >= 0)
+                {
+                    task.Run();
+
+                    if (!task.Loop)
+                        _Remove.Enqueue(task);
+                }
+            }
+
             lock (Tasks)
             {
-                Queue<PointBlankTask> remove = new Queue<PointBlankTask>();
-                foreach (PointBlankTask task in Tasks)
+                lock (_Remove)
                 {
-                    if (!task.Running)
-                        continue;
-                    if (task.IsThreaded)
-                        continue;
-                    if (task.NextExecution == null)
-                        continue;
-
-                    if ((DateTime.Now - task.NextExecution).TotalMilliseconds >= 0)
-                    {
-                        task.Run();
-
-                        if (!task.Loop)
-                            remove.Enqueue(task);
-                    }
+                    while (_Remove.Count > 0)
+                        _Remove.Dequeue().Stop();
                 }
-
-                while (remove.Count > 0)
-                    remove.Dequeue().Stop();
             }
         }
         #endregion

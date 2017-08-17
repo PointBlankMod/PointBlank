@@ -29,7 +29,6 @@ namespace PointBlank.Services.IPCManager
         public override int LaunchIndex => 1;
         #endregion
 
-        #region Override Functions
         public override void Load()
         {
             if (File.Exists(FileLocation))
@@ -51,7 +50,6 @@ namespace PointBlank.Services.IPCManager
             _FileUpdaterThread.Abort();
             File.Delete(FileLocation);
         }
-        #endregion
 
         #region Private Functions
         private void UpdateFile()

@@ -36,7 +36,6 @@ namespace PointBlank.Services.PluginManager
         public override int LaunchIndex => 3;
         #endregion
 
-        #region Override Functions
         public override void Load()
         {
             if (!Directory.Exists(PointBlankServer.LibrariesPath))
@@ -82,7 +81,6 @@ namespace PointBlank.Services.PluginManager
             PointBlankPluginEvents.RunPluginsUnloaded();
             SaveConfig();
         }
-        #endregion
 
         #region Public Functions
         public PluginWrapper GetWrapper(PointBlankPlugin plugin) => Plugins.First(a => a.PluginClass == plugin);

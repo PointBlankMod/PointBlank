@@ -25,36 +25,6 @@ namespace PointBlank.Services.DetourManager
         public override int LaunchIndex => 0;
         #endregion
 
-        #region Public Functions
-        public void LoadDetour(MethodInfo method)
-        {
-            // Setup variables
-            DetourAttribute attribute = (DetourAttribute)Attribute.GetCustomAttribute(method, typeof(DetourAttribute));
-
-            // Do checks
-            if (attribute == null)
-                return;
-            if (!attribute.MethodFound)
-                return;
-            if (Detours.Count(a => a.Key.Method == attribute.Method) > 0)
-                return;
-
-            try
-            {
-                DetourWrapper wrapper = new DetourWrapper(attribute.Method, method, attribute);
-
-                wrapper.Detour();
-
-                Detours.Add(attribute, wrapper);
-            }
-            catch (Exception ex)
-            {
-                PointBlankLogging.LogError("Error detouring: " + method.Name, ex);
-            }
-        }
-        #endregion
-
-        #region Override Functions
         public override void Load()
         {
             if (Initialized)
@@ -95,6 +65,34 @@ namespace PointBlank.Services.DetourManager
 
             // Set the variables
             Initialized = false;
+        }
+
+        #region Public Functions
+        public void LoadDetour(MethodInfo method)
+        {
+            // Setup variables
+            DetourAttribute attribute = (DetourAttribute)Attribute.GetCustomAttribute(method, typeof(DetourAttribute));
+
+            // Do checks
+            if (attribute == null)
+                return;
+            if (!attribute.MethodFound)
+                return;
+            if (Detours.Count(a => a.Key.Method == attribute.Method) > 0)
+                return;
+
+            try
+            {
+                DetourWrapper wrapper = new DetourWrapper(attribute.Method, method, attribute);
+
+                wrapper.Detour();
+
+                Detours.Add(attribute, wrapper);
+            }
+            catch (Exception ex)
+            {
+                PointBlankLogging.LogError("Error detouring: " + method.Name, ex);
+            }
         }
         #endregion
 

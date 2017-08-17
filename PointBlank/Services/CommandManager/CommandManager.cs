@@ -31,7 +31,6 @@ namespace PointBlank.Services.CommandManager
         public override int LaunchIndex => 2;
         #endregion
 
-        #region Override Functions
         public override void Load()
         {
             // Setup variables
@@ -60,7 +59,6 @@ namespace PointBlank.Services.CommandManager
             // Run the code
             SaveConfig();
         }
-        #endregion
 
         #region Private Functions
         private void LoadConfig()
