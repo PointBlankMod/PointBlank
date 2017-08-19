@@ -150,6 +150,14 @@ namespace PointBlank.API.Collections
             for (int i = 0; i < (this.Count - index); i++)
                 array.SetValue(this[index + i], i);
         }
+
+        /// <summary>
+        /// Translates text based on the key and values
+        /// </summary>
+        /// <param name="key">The key to find the text</param>
+        /// <param name="values">The values to insert into the text</param>
+        /// <returns>The translated text</returns>
+        public string Translate(string key, params object[] values) => string.Format(this[key], values);
         #endregion
 
         #region SubClasses

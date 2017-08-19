@@ -58,10 +58,7 @@ namespace PointBlank.Services.PluginManager
             {
                 try
                 {
-                    PluginWrapper wrapper = new PluginWrapper(plugin); // Create the plugin wrapper
-
-                    _plugins.Add(wrapper); // Add the wrapper
-                    if (!wrapper.Load() && !PluginConfiguration.ContinueOnError)
+                    if (!LoadPlugin(plugin))
                         break;
                 }
                 catch (Exception ex)
@@ -81,6 +78,38 @@ namespace PointBlank.Services.PluginManager
             PointBlankPluginEvents.RunPluginsUnloaded();
             SaveConfig();
         }
+
+        #region Static Functions
+        public static bool LoadPlugin(string plugin)
+        {
+            PluginWrapper wrapper = new PluginWrapper(plugin); // Create the plugin wrapper
+
+            _plugins.Add(wrapper); // Add the wrapper
+            if (!wrapper.Load() && !PluginConfiguration.ContinueOnError)
+                return false;
+            return true;
+        }
+        public static bool LoadPlugin(Type plugin)
+        {
+            PluginWrapper wrapper = new PluginWrapper(plugin); // Create the plugin wrapper
+
+            _plugins.Add(wrapper); // Add the wrapper
+            if (!wrapper.Load() && !PluginConfiguration.ContinueOnError)
+                return false;
+            return true;
+        }
+        public static bool LoadPlugin(PointBlankPlugin plugin)
+        {
+            PluginWrapper wrapper = new PluginWrapper(plugin); // Create the plugin wrapper
+
+            _plugins.Add(wrapper); // Add the wrapper
+            if (!wrapper.Load() && !PluginConfiguration.ContinueOnError)
+                return false;
+            return true;
+        }
+
+        public static void RemovePlugin(PluginWrapper wrapper) => _plugins.Remove(wrapper);
+        #endregion
 
         #region Public Functions
         public PluginWrapper GetWrapper(PointBlankPlugin plugin) => Plugins.First(a => a.PluginClass == plugin);

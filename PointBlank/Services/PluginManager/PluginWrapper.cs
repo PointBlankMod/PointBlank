@@ -70,6 +70,71 @@ namespace PointBlank.Services.PluginManager
             }));
         }
 
+        public PluginWrapper(Type plugin)
+        {
+            PluginAssembly = plugin.Assembly;
+            Enabled = false;
+            Location = Path.GetDirectoryName(PluginAssembly.Location);
+            Name = PluginAssembly.GetName().Name;
+
+            UniConfigurationData = new UniversalData(PluginManager.ConfigurationPath + "\\" + Name); // Load the configuration data
+            ConfigurationData = UniConfigurationData.GetData(EDataType.JSON) as JsonData; // Get the JSON
+            UniTranslationData = new UniversalData(PluginManager.TranslationPath + "\\" + Name); // Load the translation data
+            TranslationData = UniTranslationData.GetData(EDataType.JSON) as JsonData; // Get the JSON
+
+            // Setup the thread
+            t = new Thread(new ThreadStart(delegate ()
+            {
+                while (Enabled)
+                {
+                    if (LastUpdateCheck != null && !((DateTime.Now - LastUpdateCheck).TotalSeconds >=
+                                                     PluginConfiguration.CheckUpdateTimeSeconds)) continue;
+                    if (CheckUpdates())
+                    {
+                        if (PluginConfiguration.NotifyUpdates)
+                            Notify();
+                        if (PluginConfiguration.AutoUpdate)
+                            Update();
+                    }
+
+                    LastUpdateCheck = DateTime.Now;
+                }
+            }));
+        }
+
+        public PluginWrapper(PointBlankPlugin plugin)
+        {
+            PluginAssembly = plugin.GetType().Assembly;
+            Enabled = false;
+            Location = Path.GetDirectoryName(PluginAssembly.Location);
+            Name = PluginAssembly.GetName().Name;
+            PluginClass = plugin;
+
+            UniConfigurationData = new UniversalData(PluginManager.ConfigurationPath + "\\" + Name); // Load the configuration data
+            ConfigurationData = UniConfigurationData.GetData(EDataType.JSON) as JsonData; // Get the JSON
+            UniTranslationData = new UniversalData(PluginManager.TranslationPath + "\\" + Name); // Load the translation data
+            TranslationData = UniTranslationData.GetData(EDataType.JSON) as JsonData; // Get the JSON
+
+            // Setup the thread
+            t = new Thread(new ThreadStart(delegate ()
+            {
+                while (Enabled)
+                {
+                    if (LastUpdateCheck != null && !((DateTime.Now - LastUpdateCheck).TotalSeconds >=
+                                                     PluginConfiguration.CheckUpdateTimeSeconds)) continue;
+                    if (CheckUpdates())
+                    {
+                        if (PluginConfiguration.NotifyUpdates)
+                            Notify();
+                        if (PluginConfiguration.AutoUpdate)
+                            Update();
+                    }
+
+                    LastUpdateCheck = DateTime.Now;
+                }
+            }));
+        }
+
         #region Private Functions
         internal void LoadConfiguration()
         {
@@ -175,9 +240,19 @@ namespace PointBlank.Services.PluginManager
                     return true;
 
                 PointBlankLogging.Log("Starting " + Name + "...");
-                Type _class = PluginAssembly.GetTypes().First(a => a.IsClass && typeof(PointBlankPlugin).IsAssignableFrom(a)); // Get the first plugin class
+                if(PluginClass == null)
+                {
+                    Type _class = PluginAssembly.GetTypes().FirstOrDefault(a => a.IsClass && typeof(PointBlankPlugin).IsAssignableFrom(a)); // Get the first plugin class
 
-                PluginClass = Enviroment.runtimeObjects["Plugins"].AddCodeObject(_class) as PointBlankPlugin; // Instentate the plugin class
+                    if (_class == null)
+                    {
+                        PluginManager.RemovePlugin(this);
+                        return true;
+                    }
+
+                    PluginClass = Enviroment.runtimeObjects["Plugins"].AddCodeObject(_class) as PointBlankPlugin; // Instentate the plugin class
+                }
+                
                 Name = PluginClass.GetType().Name; // Change the name
                 Version = PluginClass.Version;
 

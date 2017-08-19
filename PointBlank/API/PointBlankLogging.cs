@@ -30,7 +30,7 @@ namespace PointBlank.API
         /// </summary>
         /// <param name="log">Object/Text to log</param>
         /// <param name="inConsole">Should the text be printed into the console</param>
-        public static void Log(object log, bool inConsole = true)
+        public static void Log(object log, bool inConsole = true, ConsoleColor color = ConsoleColor.White)
         {
             StackTrace stack = new StackTrace(false);
             string asm = "";
@@ -52,7 +52,7 @@ namespace PointBlank.API
             log = "[LOG] " + asm + " >> " + log;
             File.AppendAllText(LogPath, log.ToString() + Environment.NewLine);
             if (inConsole)
-                PointBlankConsole.WriteLine(log);
+                PointBlankConsole.WriteLine(log, color);
         }
 
         /// <summary>

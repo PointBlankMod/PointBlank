@@ -61,6 +61,17 @@ namespace PointBlank.API.Plugins
                 wrapper.Load();
             }
         }
+
+        /// <summary>
+        /// Dynamically loads a plugin
+        /// </summary>
+        /// <param name="plugin">The plugin to load</param>
+        public static void LoadPlugin(Type plugin) => PM.LoadPlugin(plugin);
+        /// <summary>
+        /// Dynamically loads a plugin
+        /// </summary>
+        /// <param name="plugin">The plugin to load</param>
+        public static void LoadPlugin(PointBlankPlugin plugin) => PM.LoadPlugin(plugin);
         #endregion
     }
 }
