@@ -18,22 +18,22 @@ namespace PointBlank.API.Plugins
     {
         #region Abstract Properties
         /// <summary>
-        /// The translations for the plugin
-        /// </summary>
-        public abstract TranslationList Translations { get; }
-
-        /// <summary>
-        /// The configurations for the plugin
-        /// </summary>
-        public abstract ConfigurationList Configurations { get; }
-
-        /// <summary>
         /// The current version of the plugin
         /// </summary>
         public abstract string Version { get; }
         #endregion
 
         #region Virtual Properties
+        /// <summary>
+        /// The translations for the plugin
+        /// </summary>
+        public virtual TranslationList Translations => new TranslationList();
+
+        /// <summary>
+        /// The configurations for the plugin
+        /// </summary>
+        public virtual ConfigurationList Configurations => new ConfigurationList();
+
         /// <summary>
         /// The latest version of the plugin(for auto-update)(Leave null if you don't want a version check)
         /// </summary>

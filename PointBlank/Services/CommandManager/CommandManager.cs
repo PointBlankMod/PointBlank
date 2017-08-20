@@ -162,15 +162,20 @@ namespace PointBlank.Services.CommandManager
             CommandWrapper wrapper = Commands.FirstOrDefault(a => a.Commands.FirstOrDefault(b => b.ToLower() == info[0].ToLower()) != null && a.Enabled);
             string permission = "";
 
+            if (info.Length > 1)
+                for (int i = 1; i < info.Length; i++)
+                    args.Add(info[i]);
+            bool allowExecute = true;
+
+            PointBlankCommandEvents.RunCommandParse(info[0], args.ToArray(), executor, ref allowExecute);
+            if (!allowExecute)
+                return ECommandRunError.NO_EXECUTE;
             if (wrapper == null)
             {
                 PointBlankPlayer.SendMessage(executor, Enviroment.ServiceTranslations[typeof(ServiceTranslations)].Translations["CommandManager_Invalid"], ConsoleColor.Red);
                 return ECommandRunError.COMMAND_NOT_EXIST;
             }
             permission = wrapper.Permission;
-            if (info.Length > 1)
-                for (int i = 1; i < info.Length; i++)
-                    args.Add(info[i]);
             if (args.Count > 0)
                 permission += "." + string.Join(".", args.ToArray());
             if (!PointBlankPlayer.IsServer(executor) && !executor.HasPermission(permission))
