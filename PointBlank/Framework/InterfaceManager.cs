@@ -16,7 +16,7 @@ using Newtonsoft.Json.Linq;
 
 namespace PointBlank.Framework
 {
-    internal class InterfaceManager : MonoBehaviour
+    internal class InterfaceManager : MonoBehaviour, ILoadable
     {
         #region Variables
         private static Dictionary<IConfigurable, UniversalData> _SavedConfigs = new Dictionary<IConfigurable, UniversalData>();
@@ -161,30 +161,7 @@ namespace PointBlank.Framework
         }
         #endregion
 
-        #region Public Functions
-        public void LoadInterface(Type _interface)
-        {
-            if (!_interface.IsClass)
-                return;
-
-            if (typeof(IConfigurable).IsAssignableFrom(_interface))
-                LoadConfigurable(_interface);
-            if (typeof(ITranslatable).IsAssignableFrom(_interface))
-                LoadTranslatable(_interface);
-        }
-
-        public void SaveInterface(Type _interface)
-        {
-            if (!_interface.IsClass)
-                return;
-
-            if (typeof(IConfigurable).IsAssignableFrom(_interface))
-                SaveConfigurable(_interface);
-            if (typeof(ITranslatable).IsAssignableFrom(_interface))
-                SaveTranslatable(_interface);
-        }
-
-        public void Init()
+        public void Load()
         {
             if (Initialized)
                 return;
@@ -208,7 +185,7 @@ namespace PointBlank.Framework
             Initialized = true;
         }
 
-        public void Shutdown()
+        public void Unload()
         {
             if (!Initialized)
                 return;
@@ -219,6 +196,29 @@ namespace PointBlank.Framework
 
             // Set the variables
             Initialized = false;
+        }
+
+        #region Public Functions
+        public void LoadInterface(Type _interface)
+        {
+            if (!_interface.IsClass)
+                return;
+
+            if (typeof(IConfigurable).IsAssignableFrom(_interface))
+                LoadConfigurable(_interface);
+            if (typeof(ITranslatable).IsAssignableFrom(_interface))
+                LoadTranslatable(_interface);
+        }
+
+        public void SaveInterface(Type _interface)
+        {
+            if (!_interface.IsClass)
+                return;
+
+            if (typeof(IConfigurable).IsAssignableFrom(_interface))
+                SaveConfigurable(_interface);
+            if (typeof(ITranslatable).IsAssignableFrom(_interface))
+                SaveTranslatable(_interface);
         }
         #endregion
 

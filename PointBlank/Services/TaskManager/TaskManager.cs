@@ -8,13 +8,13 @@ using PointBlank.API;
 using PointBlank.API.Services;
 using PointBlank.API.Tasks;
 using PointBlank.API.Plugins;
+using PointBlank.API.Extension;
 
 namespace PointBlank.Services.TaskManager
 {
     internal class TaskManager : PointBlankService
     {
         #region Variables
-        private Thread _tTasker;
         private Queue<PointBlankTask> _Remove = new Queue<PointBlankTask>();
 
         private bool _Running = false;
@@ -30,44 +30,41 @@ namespace PointBlank.Services.TaskManager
         {
             // Set the variables
             Tasks = new List<PointBlankTask>();
-            _tTasker = new Thread(new ThreadStart(Tasker));
             _Running = true;
 
-            // Run the code
-            _tTasker.Start();
+            // Set the events
+            ExtensionEvents.OnAPITick += Tasker;
         }
 
         public override void Unload()
         {
             // Set the variables
             _Running = false;
+
+            // Remove the events
+            ExtensionEvents.OnAPITick -= Tasker;
         }
 
         #region Threads
         private void Tasker()
         {
-            while (_Running)
+            if (Tasks.Count < 1)
+                return;
+            foreach (PointBlankTask task in Tasks)
             {
-                Thread.Sleep(1);
-
-                if (Tasks.Count < 1)
+                if (!task.Running)
                     continue;
-                foreach (PointBlankTask task in Tasks)
+                if (!task.IsThreaded)
+                    continue;
+                if (task.NextExecution == null)
+                    continue;
+
+                if ((DateTime.Now - task.NextExecution).TotalMilliseconds >= 0)
                 {
-                    if (!task.Running)
-                        continue;
-                    if (!task.IsThreaded)
-                        continue;
-                    if (task.NextExecution == null)
-                        continue;
+                    task.Run();
 
-                    if ((DateTime.Now - task.NextExecution).TotalMilliseconds >= 0)
-                    {
-                        task.Run();
-
-                        if (!task.Loop)
-                            _Remove.Enqueue(task);
-                    }
+                    if (!task.Loop)
+                        _Remove.Enqueue(task);
                 }
             }
         }

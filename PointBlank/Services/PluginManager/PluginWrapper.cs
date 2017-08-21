@@ -11,13 +11,13 @@ using PointBlank.API;
 using PointBlank.API.Plugins;
 using PointBlank.API.Collections;
 using PointBlank.API.DataManagment;
+using PointBlank.API.Extension;
 
 namespace PointBlank.Services.PluginManager
 {
     internal class PluginWrapper
     {
         #region Variables
-        private Thread t;
         private DateTime LastUpdateCheck;
         #endregion
 
@@ -49,27 +49,7 @@ namespace PointBlank.Services.PluginManager
             ConfigurationData = UniConfigurationData.GetData(EDataType.JSON) as JsonData; // Get the JSON
             UniTranslationData = new UniversalData(PluginManager.TranslationPath + "\\" + Name); // Load the translation data
             TranslationData = UniTranslationData.GetData(EDataType.JSON) as JsonData; // Get the JSON
-
-            // Setup the thread
-            t = new Thread(new ThreadStart(delegate ()
-            {
-                while (Enabled)
-                {
-                    if (LastUpdateCheck != null && !((DateTime.Now - LastUpdateCheck).TotalSeconds >=
-                                                     PluginConfiguration.CheckUpdateTimeSeconds)) continue;
-                    if (CheckUpdates())
-                    {
-                        if (PluginConfiguration.NotifyUpdates)
-                            Notify();
-                        if (PluginConfiguration.AutoUpdate)
-                            Update();
-                    }
-
-                    LastUpdateCheck = DateTime.Now;
-                }
-            }));
         }
-
         public PluginWrapper(Type plugin)
         {
             PluginAssembly = plugin.Assembly;
@@ -81,27 +61,7 @@ namespace PointBlank.Services.PluginManager
             ConfigurationData = UniConfigurationData.GetData(EDataType.JSON) as JsonData; // Get the JSON
             UniTranslationData = new UniversalData(PluginManager.TranslationPath + "\\" + Name); // Load the translation data
             TranslationData = UniTranslationData.GetData(EDataType.JSON) as JsonData; // Get the JSON
-
-            // Setup the thread
-            t = new Thread(new ThreadStart(delegate ()
-            {
-                while (Enabled)
-                {
-                    if (LastUpdateCheck != null && !((DateTime.Now - LastUpdateCheck).TotalSeconds >=
-                                                     PluginConfiguration.CheckUpdateTimeSeconds)) continue;
-                    if (CheckUpdates())
-                    {
-                        if (PluginConfiguration.NotifyUpdates)
-                            Notify();
-                        if (PluginConfiguration.AutoUpdate)
-                            Update();
-                    }
-
-                    LastUpdateCheck = DateTime.Now;
-                }
-            }));
         }
-
         public PluginWrapper(PointBlankPlugin plugin)
         {
             PluginAssembly = plugin.GetType().Assembly;
@@ -114,25 +74,6 @@ namespace PointBlank.Services.PluginManager
             ConfigurationData = UniConfigurationData.GetData(EDataType.JSON) as JsonData; // Get the JSON
             UniTranslationData = new UniversalData(PluginManager.TranslationPath + "\\" + Name); // Load the translation data
             TranslationData = UniTranslationData.GetData(EDataType.JSON) as JsonData; // Get the JSON
-
-            // Setup the thread
-            t = new Thread(new ThreadStart(delegate ()
-            {
-                while (Enabled)
-                {
-                    if (LastUpdateCheck != null && !((DateTime.Now - LastUpdateCheck).TotalSeconds >=
-                                                     PluginConfiguration.CheckUpdateTimeSeconds)) continue;
-                    if (CheckUpdates())
-                    {
-                        if (PluginConfiguration.NotifyUpdates)
-                            Notify();
-                        if (PluginConfiguration.AutoUpdate)
-                            Update();
-                    }
-
-                    LastUpdateCheck = DateTime.Now;
-                }
-            }));
         }
 
         #region Private Functions
@@ -195,6 +136,21 @@ namespace PointBlank.Services.PluginManager
                     TranslationData.Document.Add(translation.Key, translation.Value);
             }
             UniTranslationData.Save();
+        }
+
+        private void ExecuteCheck()
+        {
+            if (LastUpdateCheck != null && !((DateTime.Now - LastUpdateCheck).TotalSeconds >=
+                                                     PluginConfiguration.CheckUpdateTimeSeconds)) return;
+            if (CheckUpdates())
+            {
+                if (PluginConfiguration.NotifyUpdates)
+                    Notify();
+                if (PluginConfiguration.AutoUpdate)
+                    Update();
+            }
+
+            LastUpdateCheck = DateTime.Now;
         }
 
         private bool CheckUpdates()
@@ -271,7 +227,7 @@ namespace PointBlank.Services.PluginManager
                 PointBlankPluginEvents.RunPluginLoaded(PluginClass); // Run the loaded event
 
                 Enabled = true; // Set the enabled to true
-                t.Start(); // Start the thread
+                ExtensionEvents.OnFrameworkTick += ExecuteCheck;
                 return true;
             }
             catch (Exception ex)
@@ -300,7 +256,7 @@ namespace PointBlank.Services.PluginManager
                 Enviroment.runtimeObjects["Plugins"].RemoveCodeObject(PluginClass.GetType().Name); // Remove the plugin from gameobject
 
                 Enabled = false; // Set the enabled to false
-                t.Abort(); // Abort the thread
+                ExtensionEvents.OnFrameworkTick -= ExecuteCheck;
                 return true;
             }
             catch (Exception ex)

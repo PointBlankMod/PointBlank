@@ -76,9 +76,11 @@
     <Compile Include="API\Discord\DiscordWebhook.cs" />
     <Compile Include="API\Discord\EDiscordHttpCodes.cs" />
     <Compile Include="API\Discord\EDiscordJsonCodes.cs" />
+    <Compile Include="API\Extension\ExtensionEvents.cs" />
     <Compile Include="API\Extension\PointBlankExtensionAttribute.cs" />
     <Compile Include="API\Implements\PointBlank.cs" />
     <Compile Include="API\Implements\UnityEngine.cs" />
+    <Compile Include="API\Interfaces\ILoadable.cs" />
     <Compile Include="API\IPC\EIPCType.cs" />
     <Compile Include="API\IPC\IPCEvents.cs" />
     <Compile Include="API\IPC\IPCManager.cs" />
@@ -109,6 +111,7 @@
     <Compile Include="API\Tasks\PointBlankTask.cs" />
     <Compile Include="Enviroment.cs" />
     <Compile Include="Framework\Configurations\PointBlankConfigurations.cs" />
+    <Compile Include="Framework\ExtensionManager.cs" />
     <Compile Include="Framework\InterfaceManager.cs" />
     <Compile Include="Framework\Objects\RuntimeObject.cs" />
     <Compile Include="Framework\Permissions\Ring\RingPermission.cs" />
@@ -131,7 +134,6 @@
     <Compile Include="Services\PluginManager\PluginWrapper.cs" />
     <Compile Include="Services\PluginManager\PluginManager.cs" />
     <Compile Include="Services\TaskManager\TaskManager.cs" />
-    <Compile Include="Services\UpdateChecker\UpdateChecker.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

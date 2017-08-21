@@ -47,11 +47,13 @@ namespace PointBlank
 
             // Add the code objects
             Enviroment.runtimeObjects["Framework"].AddCodeObject<InterfaceManager>(); // Both the service manager and interface manager are important without them
-            Enviroment.runtimeObjects["Framework"].AddCodeObject<ServiceManager>(); // the modloader won't be able to function properly making it as usefull as Rocket
+            Enviroment.runtimeObjects["Framework"].AddCodeObject<ServiceManager>(); // the mod loader won't be able to function properly making it as useful as Rocket
+            Enviroment.runtimeObjects["Framework"].AddCodeObject<ExtensionManager>(); // This one isn't as important but useful for extensions of the mod loader
 
             // Run the inits
-            Enviroment.runtimeObjects["Framework"].GetCodeObject<InterfaceManager>().Init();
-            Enviroment.runtimeObjects["Framework"].GetCodeObject<ServiceManager>().Init();
+            Enviroment.runtimeObjects["Framework"].GetCodeObject<InterfaceManager>().Load();
+            Enviroment.runtimeObjects["Framework"].GetCodeObject<ServiceManager>().Load();
+            Enviroment.runtimeObjects["Framework"].GetCodeObject<ExtensionManager>().Load();
 
             // Run required methods
             RunRequirements();
@@ -80,10 +82,12 @@ namespace PointBlank
             Instance = null;
 
             // Run the shutdowns
-            Enviroment.runtimeObjects["Framework"].GetCodeObject<ServiceManager>().Shutdown();
-            Enviroment.runtimeObjects["Framework"].GetCodeObject<InterfaceManager>().Shutdown();
+            Enviroment.runtimeObjects["Framework"].GetCodeObject<ExtensionManager>().Unload();
+            Enviroment.runtimeObjects["Framework"].GetCodeObject<ServiceManager>().Unload();
+            Enviroment.runtimeObjects["Framework"].GetCodeObject<InterfaceManager>().Unload();
 
             // Remove the runtime objects
+            Enviroment.runtimeObjects["Framework"].RemoveCodeObject<InterfaceManager>();
             Enviroment.runtimeObjects["Framework"].RemoveCodeObject<ServiceManager>();
             Enviroment.runtimeObjects["Framework"].RemoveCodeObject<InterfaceManager>();
 

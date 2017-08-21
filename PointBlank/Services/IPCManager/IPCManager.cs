@@ -7,6 +7,7 @@ using System.Text;
 using PointBlank.API;
 using PointBlank.API.Services;
 using PointBlank.API.IPC;
+using PointBlank.API.Extension;
 using IPCM = PointBlank.API.IPC.IPCManager;
 
 namespace PointBlank.Services.IPCManager
@@ -19,7 +20,6 @@ namespace PointBlank.Services.IPCManager
 
         #region Variables
         private bool _Update = false;
-        private bool _Running = true;
         private Thread _FileUpdaterThread;
         #endregion
 
@@ -35,8 +35,7 @@ namespace PointBlank.Services.IPCManager
                 File.Delete(FileLocation);
 
             // Setup the thread
-            _FileUpdaterThread = new Thread(new ThreadStart(UpdateFile));
-            _FileUpdaterThread.Start();
+            ExtensionEvents.OnFrameworkTick += UpdateFile;
 
             // Setup the events
             IPCEvents.OnKeyValueChanged += new IPCEvents.KeyValueChangedHandler(OnKeySet);
@@ -46,34 +45,31 @@ namespace PointBlank.Services.IPCManager
 
         public override void Unload()
         {
-            _Running = false;
-            _FileUpdaterThread.Abort();
+            ExtensionEvents.OnFrameworkTick -= UpdateFile;
+
             File.Delete(FileLocation);
         }
 
         #region Private Functions
         private void UpdateFile()
         {
-            while(_Running)
+            if (!_Update || IPCM.IPCType != EIPCType.FILE)
+                return;
+            List<string> contents = new List<string>();
+
+            foreach (string key in IPC.Keys)
+                contents.Add(key + ":" + IPC[key]);
+
+            try
             {
-                if (!_Update || IPCM.IPCType != EIPCType.FILE)
-                    continue;
-                List<string> contents = new List<string>();
-
-                foreach (string key in IPC.Keys)
-                    contents.Add(key + ":" + IPC[key]);
-
-                try
-                {
-                    File.WriteAllLines(FileLocation, contents.ToArray());
-                    _Update = false;
-                }
+                File.WriteAllLines(FileLocation, contents.ToArray());
+                _Update = false;
+            }
 #pragma warning disable CS0168 // Variable is declared but never used
-                catch (Exception ex)
+            catch (Exception ex)
 #pragma warning restore CS0168 // Variable is declared but never used
-                {
-                    Thread.Sleep(1);
-                }
+            {
+                Thread.Sleep(1);
             }
         }
         #endregion
