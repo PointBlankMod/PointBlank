@@ -20,7 +20,7 @@ namespace PointBlank.API.Collections
         /// <summary>
         /// The list of the configurations
         /// </summary>
-        protected Dictionary<string, object> Configurations { get; private set; }
+        public Dictionary<string, object> Configurations { get; protected set; }
 
         /// <summary>
         /// Gets/Sets the configuration object with the configuration name provided
@@ -73,13 +73,27 @@ namespace PointBlank.API.Collections
             }
             MethodBase jumpMethod = stack.GetFrame(1).GetMethod();
 
-            if (!Memory.ConfigurationCollection.ContainsKey(jumpMethod))
+            if (!Memory.ConfigurationCollection.ContainsKey(jumpMethod.MethodHandle.GetFunctionPointer().ToString()))
             {
                 Configurations = new Dictionary<string, object>();
-                Memory.ConfigurationCollection.Add(jumpMethod, this);
+                Memory.ConfigurationCollection.Add(jumpMethod.MethodHandle.GetFunctionPointer().ToString(), this);
                 return;
             }
-            Configurations = Memory.ConfigurationCollection[jumpMethod].Configurations;
+            Configurations = Memory.ConfigurationCollection[jumpMethod.MethodHandle.GetFunctionPointer().ToString()].Configurations;
+        }
+        /// <summary>
+        /// Custom collection for configurations
+        /// <param name="key">The key to save the list under</param>
+        /// </summary>
+        public ConfigurationList(string key)
+        {
+            if (!Memory.ConfigurationCollection.ContainsKey(key))
+            {
+                Configurations = new Dictionary<string, object>();
+                Memory.ConfigurationCollection.Add(key, this);
+                return;
+            }
+            Configurations = Memory.ConfigurationCollection[key].Configurations;
         }
 
         #region Collection Functions
@@ -164,9 +178,9 @@ namespace PointBlank.API.Collections
         #endregion
 
         #region SubClasses
-        private static class Memory
+        protected static class Memory
         {
-            public static Dictionary<MethodBase, ConfigurationList> ConfigurationCollection = new Dictionary<MethodBase, ConfigurationList>();
+            public static Dictionary<string, ConfigurationList> ConfigurationCollection = new Dictionary<string, ConfigurationList>();
         }
         #endregion
     }

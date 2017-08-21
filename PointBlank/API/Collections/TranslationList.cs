@@ -20,7 +20,7 @@ namespace PointBlank.API.Collections
         /// <summary>
         /// The list of transaltions
         /// </summary>
-        protected Dictionary<string, string> Translations { get; private set; }
+        public Dictionary<string, string> Translations { get; protected set; }
 
         /// <summary>
         /// Gets/Sets the translation text using the key provided
@@ -67,13 +67,27 @@ namespace PointBlank.API.Collections
             }
             MethodBase jumpMethod = stack.GetFrame(1).GetMethod();
 
-            if (!Memory.TranslationCollection.ContainsKey(jumpMethod))
+            if (!Memory.TranslationCollection.ContainsKey(jumpMethod.MethodHandle.GetFunctionPointer().ToString()))
             {
                 Translations = new Dictionary<string, string>();
-                Memory.TranslationCollection.Add(jumpMethod, this);
+                Memory.TranslationCollection.Add(jumpMethod.MethodHandle.GetFunctionPointer().ToString(), this);
                 return;
             }
-            Translations = Memory.TranslationCollection[jumpMethod].Translations;
+            Translations = Memory.TranslationCollection[jumpMethod.MethodHandle.GetFunctionPointer().ToString()].Translations;
+        }
+        /// <summary>
+        /// Custom collection for tranlsations
+        /// <param name="key">Key to store the list under</param>
+        /// </summary>
+        public TranslationList(string key)
+        {
+            if (!Memory.TranslationCollection.ContainsKey(key))
+            {
+                Translations = new Dictionary<string, string>();
+                Memory.TranslationCollection.Add(key, this);
+                return;
+            }
+            Translations = Memory.TranslationCollection[key].Translations;
         }
 
         #region Collection Functions
@@ -161,9 +175,9 @@ namespace PointBlank.API.Collections
         #endregion
 
         #region SubClasses
-        private static class Memory
+        protected static class Memory
         {
-            public static Dictionary<MethodBase, TranslationList> TranslationCollection = new Dictionary<MethodBase, TranslationList>();
+            public static Dictionary<string, TranslationList> TranslationCollection = new Dictionary<string, TranslationList>();
         }
         #endregion
     }
