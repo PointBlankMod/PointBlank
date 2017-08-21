@@ -12,7 +12,6 @@ using Newtonsoft.Json.Linq;
 using PointBlank.Framework.Translations;
 using PointBlank.API.Server;
 using PointBlank.API.Extension;
-using CMD = PointBlank.API.Commands.PointBlankCommand;
 
 namespace PointBlank.Services.CommandManager
 {
@@ -82,9 +81,9 @@ namespace PointBlank.Services.CommandManager
         #region Public Functions
         public void LoadCommand(Type _class)
         {
-            if (!typeof(CMD).IsAssignableFrom(_class))
+            if (!typeof(PointBlankCommand).IsAssignableFrom(_class))
                 return;
-            if (_class == typeof(CMD))
+            if (_class == typeof(PointBlankCommand))
                 return;
             if (Commands.Count(a => a.GetType().Name == _class.Name && a.GetType().Assembly == _class.Assembly) > 0)
                 return;
@@ -106,6 +105,49 @@ namespace PointBlank.Services.CommandManager
             {
                 PointBlankLogging.LogError("Error loading command: " + _class.Name, ex);
             }
+        }
+        public void LoadCommand(PointBlankCommand command)
+        {
+            Type _class = command.GetType();
+            if (Commands.Count(a => a.GetType().Name == _class.Name && a.GetType().Assembly == _class.Assembly) > 0)
+                return;
+
+            try
+            {
+                string name = _class.Assembly.GetName().Name + "." + _class.Name;
+                JObject objConfig = ((JArray)JSONConfig.Document["Commands"]).FirstOrDefault(a => (string)a["Name"] == name) as JObject;
+                if (objConfig == null)
+                {
+                    objConfig = new JObject();
+                    ((JArray)JSONConfig.Document["Commands"]).Add(objConfig);
+                }
+                CommandWrapper wrapper = new CommandWrapper(command, objConfig);
+
+                Commands.Add(wrapper);
+            }
+            catch (Exception ex)
+            {
+                PointBlankLogging.LogError("Error loading command: " + _class.Name, ex);
+            }
+        }
+
+        public void UnloadCommand(Type _class)
+        {
+            CommandWrapper wrapper = Commands.FirstOrDefault(a => a.Class == _class);
+
+            if (wrapper == null)
+                return;
+            wrapper.Save();
+            Commands.Remove(wrapper);
+        }
+        public void UnloadCommand(PointBlankCommand command)
+        {
+            CommandWrapper wrapper = Commands.FirstOrDefault(a => a.CommandClass == command);
+
+            if (wrapper == null)
+                return;
+            wrapper.Save();
+            Commands.Remove(wrapper);
         }
 
         public string[] ParseCommand(string command)

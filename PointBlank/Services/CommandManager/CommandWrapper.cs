@@ -45,7 +45,20 @@ namespace PointBlank.Services.CommandManager
 
             // Run the code
             Reload();
+            PointBlankLogging.Log("Loaded command: " + Commands[0]);
+        }
+        public CommandWrapper(PointBlankCommand command, JObject config)
+        {
+            // Set the variables
+            Class = command.GetType();
+            Config = config;
+            CommandClass = command;
 
+            // Setup the variables
+            Translations = Enviroment.ServiceTranslations[typeof(ServiceTranslations)].Translations;
+
+            // Run the code
+            Reload();
             PointBlankLogging.Log("Loaded command: " + Commands[0]);
         }
 
