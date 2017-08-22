@@ -69,11 +69,6 @@ namespace PointBlank.API.Commands
         public virtual string Name => GetType().Name;
 
         /// <summary>
-        /// The permissions the player requires to have
-        /// </summary>
-        public virtual string[] Permissions => new string[0];
-
-        /// <summary>
         /// The minimum amount of parameters required for the command
         /// </summary>
         public virtual int MinimumParams => 0;
