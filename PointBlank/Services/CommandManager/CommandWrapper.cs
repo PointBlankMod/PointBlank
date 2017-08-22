@@ -19,6 +19,8 @@ namespace PointBlank.Services.CommandManager
     {
         #region Variables
         private TranslationList Translations;
+
+        private CommandManager cmd = (CommandManager)Enviroment.services["CommandManager.CommandManager"].ServiceClass;
         #endregion
 
         #region Properties
@@ -33,29 +35,29 @@ namespace PointBlank.Services.CommandManager
         public bool Enabled { get; private set; }
         #endregion
 
-        public CommandWrapper(Type _class, JObject config)
+        public CommandWrapper(Type _class)
         {
             // Set the variables
             this.Class = _class;
-            this.Config = config;
 
             // Setup the variables
             CommandClass = (CMD)Activator.CreateInstance(Class);
             Translations = Enviroment.ServiceTranslations[typeof(ServiceTranslations)].Translations;
+            Config = ((JArray)cmd.JSONConfig.Document["Commands"]).FirstOrDefault(a => (string)a["Name"] == Class.Assembly.GetName().Name + "." + CommandClass.Name) as JObject;
 
             // Run the code
             Reload();
             PointBlankLogging.Log("Loaded command: " + Commands[0]);
         }
-        public CommandWrapper(PointBlankCommand command, JObject config)
+        public CommandWrapper(PointBlankCommand command)
         {
             // Set the variables
             Class = command.GetType();
-            Config = config;
             CommandClass = command;
 
             // Setup the variables
             Translations = Enviroment.ServiceTranslations[typeof(ServiceTranslations)].Translations;
+            Config = ((JArray)cmd.JSONConfig.Document["Commands"]).FirstOrDefault(a => (string)a["Name"] == Class.Assembly.GetName().Name + "." + CommandClass.Name) as JObject;
 
             // Run the code
             Reload();
@@ -77,7 +79,12 @@ namespace PointBlank.Services.CommandManager
 
         public void Reload()
         {
-            string name = Class.Assembly.GetName().Name + "." + Class.Name;
+            if (Config == null)
+            {
+                Config = new JObject();
+                ((JArray)cmd.JSONConfig.Document["Commands"]).Add(Config);
+            }
+            string name = Class.Assembly.GetName().Name + "." + CommandClass.Name;
             if (Config["Name"] == null)
             {
                 Config["Name"] = name;

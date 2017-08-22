@@ -85,20 +85,13 @@ namespace PointBlank.Services.CommandManager
                 return;
             if (_class == typeof(PointBlankCommand))
                 return;
-            if (Commands.Count(a => a.GetType().Name == _class.Name && a.GetType().Assembly == _class.Assembly) > 0)
-                return;
 
             try
             {
-                string name = _class.Assembly.GetName().Name + "." + _class.Name;
-                JObject objConfig = ((JArray)JSONConfig.Document["Commands"]).FirstOrDefault(a => (string)a["Name"] == name) as JObject;
-                if(objConfig == null)
-                {
-                    objConfig = new JObject();
-                    ((JArray)JSONConfig.Document["Commands"]).Add(objConfig);
-                }
-                CommandWrapper wrapper = new CommandWrapper(_class, objConfig);
+                CommandWrapper wrapper = new CommandWrapper(_class);
 
+                if (Commands.Count(a => a.CommandClass.Name == wrapper.CommandClass.Name && a.Class.Assembly == _class.Assembly) > 0)
+                    return;
                 Commands.Add(wrapper);
             }
             catch (Exception ex)
@@ -109,20 +102,13 @@ namespace PointBlank.Services.CommandManager
         public void LoadCommand(PointBlankCommand command)
         {
             Type _class = command.GetType();
-            if (Commands.Count(a => a.GetType().Name == _class.Name && a.GetType().Assembly == _class.Assembly) > 0)
-                return;
 
             try
             {
-                string name = _class.Assembly.GetName().Name + "." + _class.Name;
-                JObject objConfig = ((JArray)JSONConfig.Document["Commands"]).FirstOrDefault(a => (string)a["Name"] == name) as JObject;
-                if (objConfig == null)
-                {
-                    objConfig = new JObject();
-                    ((JArray)JSONConfig.Document["Commands"]).Add(objConfig);
-                }
-                CommandWrapper wrapper = new CommandWrapper(command, objConfig);
+                CommandWrapper wrapper = new CommandWrapper(command);
 
+                if (Commands.Count(a => a.CommandClass.Name == command.Name && a.Class.Assembly == _class.Assembly) > 0)
+                    return;
                 Commands.Add(wrapper);
             }
             catch (Exception ex)
