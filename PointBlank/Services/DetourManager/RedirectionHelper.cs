@@ -42,10 +42,13 @@ namespace PointBlank.Services.DetourManager
                         {
                             byte* ptrFrom = (byte*)ptrOriginal.ToPointer();
 
-                            *(ptrFrom + 1) = 0xBB;
+                            *ptrFrom = 0x68;
+                            *((uint*)(ptrFrom + 2)) = (uint)ptrModified.ToInt32();
+                            *(ptrFrom + 6) = 0xC3;
+                            /**(ptrFrom + 1) = 0xBB;
                             *((uint*)(ptrFrom + 2)) = (uint)ptrModified.ToInt32();
                             *(ptrFrom + 11) = 0xFF;
-                            *(ptrFrom + 12) = 0xE3;
+                            *(ptrFrom + 12) = 0xE3;*/
                         }
                         break;
                     case sizeof(Int64):
@@ -53,12 +56,17 @@ namespace PointBlank.Services.DetourManager
                         {
                             byte* ptrFrom = (byte*)ptrOriginal.ToPointer();
 
-                            *ptrFrom = 0x49;
+                            *ptrFrom = 0x48;
+                            *(ptrFrom + 1) = 0xB8;
+                            *((ulong*)(ptrFrom + 2)) = (ulong)ptrModified.ToInt64();
+                            *(ptrFrom + 10) = 0xFF;
+                            *(ptrFrom + 11) = 0xE0;
+                            /**ptrFrom = 0x49;
                             *(ptrFrom + 1) = 0xBB;
                             *((ulong*)(ptrFrom + 2)) = (ulong)ptrModified.ToInt64();
                             *(ptrFrom + 10) = 0x41;
                             *(ptrFrom + 11) = 0xFF;
-                            *(ptrFrom + 12) = 0xE3;
+                            *(ptrFrom + 12) = 0xE3;*/
                         }
                         break;
                     default:
@@ -88,9 +96,14 @@ namespace PointBlank.Services.DetourManager
                     *(ptrOriginal + 11) = backup.D;
                     *(ptrOriginal + 12) = backup.E;
                     if (IntPtr.Size == sizeof(Int32))
+                    {
                         *((uint*)(ptrOriginal + 2)) = backup.F32;
+                        *(ptrOriginal + 8) = backup.G;
+                    }
                     else
+                    {
                         *((ulong*)(ptrOriginal + 2)) = backup.F64;
+                    }
                 }
 
                 return true;
@@ -109,7 +122,7 @@ namespace PointBlank.Services.DetourManager
             #region Variables
             public IntPtr Method;
 
-            public byte A, B, C, D, E;
+            public byte A, B, C, D, E, G;
             public ulong F64;
             public uint F32;
             #endregion
@@ -128,9 +141,14 @@ namespace PointBlank.Services.DetourManager
                     D = *(ptrMethod + 11);
                     E = *(ptrMethod + 12);
                     if (IntPtr.Size == sizeof(Int32))
+                    {
                         F32 = *((uint*)(ptrMethod + 2));
+                        G = *(ptrMethod + 6);
+                    }
                     else
+                    {
                         F64 = *((ulong*)(ptrMethod + 2));
+                    }
                 }
             }
         }

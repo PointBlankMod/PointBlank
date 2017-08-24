@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Diagnostics;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Linq;
 using System.Text;
 using PointBlank.API;
@@ -35,6 +36,8 @@ namespace PointBlank.Services.DetourManager
             Attribute = attribute;
             Local = (Modified.DeclaringType.Assembly == Assembly.GetExecutingAssembly());
 
+            RuntimeHelpers.PrepareMethod(original.MethodHandle);
+            RuntimeHelpers.PrepareMethod(modified.MethodHandle);
             ptrOriginal = Original.MethodHandle.GetFunctionPointer();
             ptrModified = Modified.MethodHandle.GetFunctionPointer();
 
