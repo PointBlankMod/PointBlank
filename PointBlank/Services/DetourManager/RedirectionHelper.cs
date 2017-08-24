@@ -143,7 +143,7 @@ namespace PointBlank.Services.DetourManager
                     if (IntPtr.Size == sizeof(Int32))
                     {
                         F32 = *((uint*)(ptrMethod + 2));
-                        G = *(ptrMethod + 6);
+                        G = *(ptrMethod + 8);
                     }
                     else
                     {
