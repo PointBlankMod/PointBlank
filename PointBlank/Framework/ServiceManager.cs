@@ -3,7 +3,6 @@ using System.IO;
 using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 using Newtonsoft.Json.Linq;
 using PointBlank.API;

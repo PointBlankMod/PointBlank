@@ -19,11 +19,6 @@ THE SOFTWARE.
 */
 
 using System;
-using System.Reflection;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Linq;
-using System.Text;
 using PointBlank.API;
 
 namespace PointBlank.Services.DetourManager

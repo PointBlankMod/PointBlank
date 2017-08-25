@@ -1,21 +1,15 @@
 ﻿using System;
 using System.Reflection;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Security.Permissions;
-using PointBlank.Framework.Permissions.Ring;
 using PointBlank.Services.DetourManager;
-using DM = PointBlank.Services.DetourManager.DetourManager;
 
 namespace PointBlank.API.Detour
 {
     /// <summary>
     /// Contains function for managing detours
     /// </summary>
-    [RingPermission(SecurityAction.Demand, ring = RingPermissionRing.None)]
-    public static class DetourManager
+    public static class PointBlankDetourManager
     {
         #region Public Functions
         /// <summary>
@@ -28,7 +22,7 @@ namespace PointBlank.API.Detour
         public static object CallOriginal(MethodInfo method, object instance = null, params object[] args)
         {
             // Set the variables
-            DetourWrapper wrapper = DM.Detours.First(a => a.Value.Original == method).Value;
+            DetourWrapper wrapper = DetourManager.Detours.First(a => a.Value.Original == method).Value;
 
             // Do the checks
             if (wrapper == null)
@@ -63,7 +57,7 @@ namespace PointBlank.API.Detour
                 throw new Exception("The original method was never found!");
             original = att.Method;
 
-            DetourWrapper wrapper = DM.Detours.First(a => a.Value.Original == original).Value;
+            DetourWrapper wrapper = DetourManager.Detours.First(a => a.Value.Original == original).Value;
 
             if (wrapper == null)
                 throw new Exception("The detour specified was not found!");
@@ -79,7 +73,7 @@ namespace PointBlank.API.Detour
         public static bool EnableDetour(MethodInfo method)
         {
             // Set the variables
-            DetourWrapper wrapper = DM.Detours.First(a => a.Value.Original == method).Value;
+            DetourWrapper wrapper = DetourManager.Detours.First(a => a.Value.Original == method).Value;
 
             // Do the checks
             if (wrapper == null)
@@ -96,7 +90,7 @@ namespace PointBlank.API.Detour
         public static bool DisableDetour(MethodInfo method)
         {
             // Set the variables
-            DetourWrapper wrapper = DM.Detours.First(a => a.Value.Original == method).Value;
+            DetourWrapper wrapper = DetourManager.Detours.First(a => a.Value.Original == method).Value;
 
             // Do the checks
             if (wrapper == null)

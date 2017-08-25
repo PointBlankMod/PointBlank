@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace PointBlank.API.Interfaces
+﻿namespace PointBlank.API.Interfaces
 {
     /// <summary>
     /// Used for setting loadable objects

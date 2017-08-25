@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using PointBlank.API.Groups;
 using PointBlank.API.Server;
 using PointBlank.API.Services;
 using PointBlank.API.DataManagment;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
-using GM = PointBlank.API.Groups.PointBlankGroupManager;
 
 namespace PointBlank.Services.GroupManager
 {
@@ -43,18 +39,18 @@ namespace PointBlank.Services.GroupManager
         #region Private Functions
         internal void LoadGroups()
         {
-            GM.Loaded = false;
+            PointBlankGroupManager.Loaded = false;
             foreach (JProperty obj in GroupConfig.Document.Properties())
             {
-                if (GM.Groups.Count(a => a.ID == obj.Name) > 0)
+                if (PointBlankGroupManager.Groups.Count(a => a.ID == obj.Name) > 0)
                     continue;
 
                 PointBlankGroup g = new PointBlankGroup(obj.Name);
 
-                GM.AddGroup(g);
+                PointBlankGroupManager.AddGroup(g);
             }
 
-            foreach (PointBlankGroup g in GM.Groups)
+            foreach (PointBlankGroup g in PointBlankGroupManager.Groups)
             {
                 JObject obj = GroupConfig.Document[g.ID] as JObject;
 
@@ -76,7 +72,7 @@ namespace PointBlank.Services.GroupManager
                 {
                     foreach (JToken token in (JArray)obj["Inherits"])
                     {
-                        PointBlankGroup i = GM.Groups.FirstOrDefault(a => a.ID == (string)token);
+                        PointBlankGroup i = PointBlankGroupManager.Groups.FirstOrDefault(a => a.ID == (string)token);
 
                         if (i == null || g.Inherits.Contains(i) || g == i)
                             continue;
@@ -85,7 +81,7 @@ namespace PointBlank.Services.GroupManager
                 }
                 else
                 {
-                    PointBlankGroup i = GM.Groups.FirstOrDefault(a => a.ID == (string)obj["Inherits"]);
+                    PointBlankGroup i = PointBlankGroupManager.Groups.FirstOrDefault(a => a.ID == (string)obj["Inherits"]);
 
                     if (i == null || g.Inherits.Contains(i) || g == i)
                         continue;
@@ -143,7 +139,7 @@ namespace PointBlank.Services.GroupManager
                     g.AddSuffix((string)obj["Suffixes"]);
                 }
             }
-            GM.Loaded = true;
+            PointBlankGroupManager.Loaded = true;
         }
 
         internal void FirstGroups()
@@ -156,14 +152,14 @@ namespace PointBlank.Services.GroupManager
             guest.AddPermission("unturned.commands.nonadmin.*");
             guest.AddPrefix("Guest");
             guest.AddSuffix("Guest");
-            GM.AddGroup(guest);
+            PointBlankGroupManager.AddGroup(guest);
 
             // Configure admin group
             admin.AddPermission("unturned.commands.admin.*");
             admin.AddPrefix("Admin");
             admin.AddSuffix("Admin");
             admin.AddInherit(guest);
-            GM.AddGroup(admin);
+            PointBlankGroupManager.AddGroup(admin);
 
             // Save the groups
             SaveGroups();
@@ -171,7 +167,7 @@ namespace PointBlank.Services.GroupManager
 
         internal void SaveGroups()
         {
-            foreach (PointBlankGroup g in GM.Groups)
+            foreach (PointBlankGroup g in PointBlankGroupManager.Groups)
             {
                 if (GroupConfig.Document[g.ID] != null)
                 {

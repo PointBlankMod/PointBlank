@@ -2,13 +2,10 @@
 using System.IO;
 using System.Threading;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using PointBlank.API;
 using PointBlank.API.Services;
 using PointBlank.API.IPC;
 using PointBlank.API.Extension;
-using IPCM = PointBlank.API.IPC.IPCManager;
 
 namespace PointBlank.Services.IPCManager
 {
@@ -20,7 +17,6 @@ namespace PointBlank.Services.IPCManager
 
         #region Variables
         private bool _Update = false;
-        private Thread _FileUpdaterThread;
         #endregion
 
         #region Properties
@@ -53,7 +49,7 @@ namespace PointBlank.Services.IPCManager
         #region Private Functions
         private void UpdateFile()
         {
-            if (!_Update || IPCM.IPCType != EIPCType.FILE)
+            if (!_Update || PointBlankIPCManager.IPCType != EIPCType.FILE)
                 return;
             List<string> contents = new List<string>();
 
@@ -77,23 +73,23 @@ namespace PointBlank.Services.IPCManager
         #region Event Functions
         public static void OnOutput(string text)
         {
-            if (IPCM.IPCType == EIPCType.CONSOLE)
+            if (PointBlankIPCManager.IPCType == EIPCType.CONSOLE)
                 PointBlankConsole.WriteLine("0x0:" + text);
         }
 
         private void OnKeySet(string key, string value)
         {
-            if (IPCM.IPCType == EIPCType.CONSOLE)
+            if (PointBlankIPCManager.IPCType == EIPCType.CONSOLE)
                 PointBlankConsole.WriteLine("0x1:" + key + ":" + value);
-            else if (IPCM.IPCType == EIPCType.FILE)
+            else if (PointBlankIPCManager.IPCType == EIPCType.FILE)
                 _Update = true;
         }
 
         private void OnKeyUpdated(string key)
         {
-            if (IPCM.IPCType == EIPCType.CONSOLE)
+            if (PointBlankIPCManager.IPCType == EIPCType.CONSOLE)
                 PointBlankConsole.WriteLine("0x1:" + key + ":" + IPC[key]);
-            else if (IPCM.IPCType == EIPCType.FILE)
+            else if (PointBlankIPCManager.IPCType == EIPCType.FILE)
                 _Update = true;
         }
         #endregion

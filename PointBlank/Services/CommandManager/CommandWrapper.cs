@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Reflection;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using PointBlank.API;
 using PointBlank.API.Commands;
-using CMD = PointBlank.API.Commands.PointBlankCommand;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 using PointBlank.Framework.Translations;
@@ -27,7 +23,7 @@ namespace PointBlank.Services.CommandManager
         public Type Class { get; private set; }
         public JObject Config { get; private set; }
 
-        public CMD CommandClass { get; private set; }
+        public PointBlankCommand CommandClass { get; private set; }
 
         public string[] Commands { get; private set; }
         public string Permission { get; private set; }
@@ -41,7 +37,7 @@ namespace PointBlank.Services.CommandManager
             this.Class = _class;
 
             // Setup the variables
-            CommandClass = (CMD)Activator.CreateInstance(Class);
+            CommandClass = (PointBlankCommand)Activator.CreateInstance(Class);
             Translations = Enviroment.ServiceTranslations[typeof(ServiceTranslations)].Translations;
             Config = ((JArray)cmd.JSONConfig.Document["Commands"]).FirstOrDefault(a => (string)a["Name"] == Class.Assembly.GetName().Name + "." + CommandClass.Name) as JObject;
 

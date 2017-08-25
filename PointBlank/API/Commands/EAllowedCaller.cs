@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace PointBlank.API.Commands
+﻿namespace PointBlank.API.Commands
 {
     /// <summary>
-    /// The allowed caller
+    /// The allowed caller for calling commands
     /// </summary>
     public enum EAllowedCaller
     {

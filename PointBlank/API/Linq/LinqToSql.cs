@@ -6,10 +6,12 @@ using System.Text;
 
 namespace PointBlank.API.Linq
 {
+#if DEBUG
     /// <summary>
     /// Functions that will allow you to use LINQ for SQL commands
     /// </summary>
-    internal static class LinqToSql
+    public static class LinqToSql
     {
     }
+#endif
 }

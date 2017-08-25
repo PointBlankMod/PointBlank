@@ -1,21 +1,12 @@
 ﻿using System;
-using System.IO;
-using System.Net;
-using System.Reflection;
 using System.Net.Security;
-using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using System.Linq;
-using System.Text;
 using PointBlank.API;
 using UnityEngine;
 using PointBlank.Framework.Objects;
 using PointBlank.Framework;
 using PointBlank.API.DataManagment;
-using PointBlank.API.Interfaces;
-using PointBlank.Services.PluginManager;
-using Newtonsoft.Json.Linq;
-using PointBlank.API.Collections;
 
 namespace PointBlank
 {

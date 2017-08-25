@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using IPCM = PointBlank.Services.IPCManager.IPCManager;
+﻿using System.Linq;
+using PointBlank.Services.IPCManager;
 
 namespace PointBlank.API.IPC
 {
     /// <summary>
     /// Inter-process communication library
     /// </summary>
-    public static class IPCManager
+    public static class PointBlankIPCManager
     {
         #region Properties
         /// <summary>
         /// List of all Inter-Process communication keys
         /// </summary>
-        public static string[] IPCKeys => IPCM.IPC.Keys.ToArray();
+        public static string[] IPCKeys => IPCManager.IPC.Keys.ToArray();
 
         /// <summary>
         /// The current method used for IPC
@@ -31,10 +28,10 @@ namespace PointBlank.API.IPC
         /// <param name="value">The default value of the key</param>
         public static void AddKey(string key, string value)
         {
-            if (IPCM.IPC.ContainsKey(key))
+            if (IPCManager.IPC.ContainsKey(key))
                 return;
 
-            IPCM.IPC.Add(key, value);
+            IPCManager.IPC.Add(key, value);
             IPCEvents.RunKeyAdded(key);
         }
         /// <summary>
@@ -43,10 +40,10 @@ namespace PointBlank.API.IPC
         /// <param name="key">The key to remove</param>
         public static void RemoveKey(string key)
         {
-            if (!IPCM.IPC.ContainsKey(key))
+            if (!IPCManager.IPC.ContainsKey(key))
                 return;
 
-            IPCM.IPC.Remove(key);
+            IPCManager.IPC.Remove(key);
             IPCEvents.RunKeyRemoved(key);
         }
 
@@ -57,10 +54,10 @@ namespace PointBlank.API.IPC
         /// <param name="value">The new value of the key</param>
         public static void SetValue(string key, string value)
         {
-            if (!IPCM.IPC.ContainsKey(key))
+            if (!IPCManager.IPC.ContainsKey(key))
                 return;
 
-            IPCM.IPC[key] = value;
+            IPCManager.IPC[key] = value;
             IPCEvents.RunKeyValueChanged(key, value);
         }
         /// <summary>
@@ -69,10 +66,10 @@ namespace PointBlank.API.IPC
         /// <param name="key">The key to get the value from</param>
         public static string GetValue(string key)
         {
-            if (!IPCM.IPC.ContainsKey(key))
+            if (!IPCManager.IPC.ContainsKey(key))
                 return null;
 
-            return IPCM.IPC[key];
+            return IPCManager.IPC[key];
         }
         #endregion
 
@@ -82,7 +79,7 @@ namespace PointBlank.API.IPC
         /// WARNING: Do not hook to the console output as it will cause issues!
         /// </summary>
         /// <param name="text">The printed text</param>
-        public static void HookOutput(string text) => IPCM.OnOutput(text);
+        public static void HookOutput(string text) => IPCManager.OnOutput(text);
         #endregion
     }
 }

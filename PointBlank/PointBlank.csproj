@@ -22,6 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <NoWarn>CS0168</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -68,7 +69,7 @@
     <Compile Include="API\DataManagment\WebsiteData.cs" />
     <Compile Include="API\DataManagment\XMLData.cs" />
     <Compile Include="API\Detour\DetourAttribute.cs" />
-    <Compile Include="API\Detour\DetourManager.cs" />
+    <Compile Include="API\Detour\PointBlankDetourManager.cs" />
     <Compile Include="API\Discord\DiscordAPI.cs" />
     <Compile Include="API\Discord\DiscordClient.cs">
       <SubType>Component</SubType>
@@ -83,7 +84,7 @@
     <Compile Include="API\Interfaces\ILoadable.cs" />
     <Compile Include="API\IPC\EIPCType.cs" />
     <Compile Include="API\IPC\IPCEvents.cs" />
-    <Compile Include="API\IPC\IPCManager.cs" />
+    <Compile Include="API\IPC\PointBlankIPCManager.cs" />
     <Compile Include="API\Linq\LinqToSql.cs" />
     <Compile Include="API\Player\PointBlankPlayer.cs" />
     <Compile Include="API\Groups\PointBlankGroup.cs" />

@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.IO;
 using System.Text;
 using PointBlank.API.Server;
 using PointBlank.API.Storage.Compressions;

@@ -1,19 +1,14 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
-using System.Security.Permissions;
-using System.Linq;
-using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using PointBlank.Framework.Permissions.Ring;
 
 namespace PointBlank.API.DataManagment
 {
     /// <summary>
     /// JSON data managment
     /// </summary>
-    [RingPermission(SecurityAction.Demand, ring = RingPermissionRing.None)]
     public class JsonData
     {
         #region Properties

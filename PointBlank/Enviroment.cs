@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using PointBlank.Framework.Objects;
 using PointBlank.Framework.Wrappers;
 using PointBlank.API.DataManagment;
-using PointBlank.Services.DetourManager;
 using PointBlank.API.Interfaces;
-using UnityEngine;
 
 namespace PointBlank
 {

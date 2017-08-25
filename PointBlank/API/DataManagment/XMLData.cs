@@ -1,13 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Xml;
-using System.Reflection;
 using System.Xml.Serialization;
 using System.Collections.Generic;
-using System.Security.Permissions;
-using System.Linq;
-using System.Text;
-using PointBlank.Framework.Permissions.Ring;
 using XFile = System.IO.File;
 
 namespace PointBlank.API.DataManagment
@@ -15,7 +10,6 @@ namespace PointBlank.API.DataManagment
     /// <summary>
     /// XML data managment
     /// </summary>
-    [RingPermission(SecurityAction.Demand, ring = RingPermissionRing.None)]
     public class XMLData
     {
         #region Properties

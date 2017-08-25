@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Security.Permissions;
-using PointBlank.Framework.Permissions.Ring;
-
-namespace PointBlank.API.Services
+﻿namespace PointBlank.API.Services
 {
     /// <summary>
     /// All the service events
     /// </summary>
-    [RingPermission(SecurityAction.Demand, ring = RingPermissionRing.None)]
     public static class PointBlankServiceEvents
     {
         #region Handlers

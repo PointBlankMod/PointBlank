@@ -3,17 +3,14 @@ using System.IO;
 using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Security.Permissions;
-using PointBlank.Framework.Permissions.Ring;
 
 namespace PointBlank.API.DataManagment
 {
+#if DEBUG
     /// <summary>
     /// CONF data managment
     /// </summary>
-    [RingPermission(SecurityAction.Demand, ring = RingPermissionRing.None)]
-    internal class ConfData // This is still under development and is currently not to be used.
+    public class ConfData // This is still under development and is currently not to be used.
     {
         #region Properties
         /// <summary>
@@ -183,7 +180,6 @@ namespace PointBlank.API.DataManagment
     /// <summary>
     /// The CONF storage class
     /// </summary>
-    [RingPermission(SecurityAction.Demand, ring = RingPermissionRing.None)]
     public class CONF
     {
         #region Properties
@@ -213,4 +209,5 @@ namespace PointBlank.API.DataManagment
         public override string ToString() => Key + "=" + Value;
         #endregion
     }
+#endif
 }

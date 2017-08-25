@@ -1,14 +1,6 @@
-﻿using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Security.Permissions;
-using PointBlank.Framework.Permissions.Ring;
+﻿using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using PointBlank.API;
-using PointBlank.Framework;
 using PT = System.IO.Path;
 
 namespace PointBlank.API.DataManagment
@@ -16,7 +8,6 @@ namespace PointBlank.API.DataManagment
     /// <summary>
     /// Universal data managment
     /// </summary>
-    [RingPermission(SecurityAction.Demand, ring = RingPermissionRing.None)]
     public class UniversalData
     {
         #region Properties

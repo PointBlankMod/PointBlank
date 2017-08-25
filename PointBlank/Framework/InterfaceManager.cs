@@ -3,8 +3,6 @@ using System.IO;
 using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using PointBlank.API;
 using PointBlank.API.Plugins;
 using PointBlank.API.Collections;
 using PointBlank.API.Interfaces;

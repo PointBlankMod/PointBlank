@@ -3,13 +3,12 @@ using System.IO;
 using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using PointBlank.API;
 using PointBlank.API.Server;
 using PointBlank.API.Plugins;
 using PointBlank.API.Services;
 using PointBlank.API.DataManagment;
-using SM = PointBlank.Framework.ServiceManager;
+using PointBlank.Framework;
 
 namespace PointBlank.Services.PluginManager
 {
@@ -48,7 +47,7 @@ namespace PointBlank.Services.PluginManager
                 Directory.CreateDirectory(TranslationPath); // Create plugins directory
 
             // Setup the config
-            UniConfig = new UniversalData(SM.ConfigurationPath + "\\PluginManager");
+            UniConfig = new UniversalData(ServiceManager.ConfigurationPath + "\\PluginManager");
             JSONConfig = UniConfig.GetData(EDataType.JSON) as JsonData;
             LoadConfig();
 

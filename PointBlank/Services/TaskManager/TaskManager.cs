@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Threading;
-using System.Reflection;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using PointBlank.API;
 using PointBlank.API.Services;
 using PointBlank.API.Tasks;
-using PointBlank.API.Plugins;
 using PointBlank.API.Extension;
 
 namespace PointBlank.Services.TaskManager

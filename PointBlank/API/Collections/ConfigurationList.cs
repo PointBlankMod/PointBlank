@@ -4,16 +4,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 using System.Linq;
-using System.Text;
-using System.Security.Permissions;
-using PointBlank.Framework.Permissions.Ring;
 
 namespace PointBlank.API.Collections
 {
     /// <summary>
     /// Custom collection for configurations
     /// </summary>
-    [RingPermission(SecurityAction.Demand, ring = RingPermissionRing.None)]
     public class ConfigurationList : ICollection
     {
         #region Properties

@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 using PointBlank.API.Services;
-using GM = PointBlank.Services.GroupManager.GroupManager;
+using PointBlank.Services.GroupManager;
 
 namespace PointBlank.API.Groups
 {
@@ -116,7 +114,7 @@ namespace PointBlank.API.Groups
         /// </summary>
         public static void Reload()
         {
-            GM gm = (GM)PointBlankServiceManager.GetService("GroupManager.GroupManager");
+            GroupManager gm = (GroupManager)PointBlankServiceManager.GetService("GroupManager.GroupManager");
 
             gm.GroupConfig.Reload();
             gm.LoadGroups();

@@ -5,6 +5,7 @@ using System.Text;
 
 namespace PointBlank.API.Storage.Compressions
 {
+#if DEBUG
     internal static class Huffman
     {
         #region Public Functions
@@ -84,4 +85,5 @@ namespace PointBlank.API.Storage.Compressions
         }
         #endregion
     }
+#endif
 }

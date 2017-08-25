@@ -2,9 +2,6 @@
 using System.IO;
 using System.Net;
 using System.Net.Security;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Newtonsoft.Json.Linq;
 
 namespace PointBlank.API.Discord
@@ -30,10 +27,7 @@ namespace PointBlank.API.Discord
         public EDiscordJsonCodes LastJSONCode { get; private set; }
         #endregion
 
-        public DiscordClient()
-        {
-            base.Headers[HttpRequestHeader.ContentType] = "application/json";
-        }
+        public DiscordClient() => base.Headers[HttpRequestHeader.ContentType] = "application/json";
 
         #region Private Functions
         private void ParseJsonCode(string response)

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace PointBlank.API.Discord
+﻿namespace PointBlank.API.Discord
 {
     /// <summary>
     /// List of discord http response codes

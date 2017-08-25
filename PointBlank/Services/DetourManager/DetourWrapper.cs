@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Reflection;
-using System.Diagnostics;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using System.Linq;
-using System.Text;
 using PointBlank.API;
 using PointBlank.API.Detour;
 

@@ -3,17 +3,13 @@ using System.Data;
 using System.Threading;
 using System.Data.SqlClient;
 using System.Collections.Generic;
-using System.Security.Permissions;
 using System.Linq;
-using System.Text;
-using PointBlank.Framework.Permissions.Ring;
 
 namespace PointBlank.API.DataManagment
 {
     /// <summary>
     /// Easy SQL manager
     /// </summary>
-    [RingPermission(SecurityAction.Demand, ring = RingPermissionRing.None)]
     public class SQLData
     {
         #region Variables

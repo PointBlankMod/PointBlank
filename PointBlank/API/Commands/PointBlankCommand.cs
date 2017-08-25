@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using PointBlank.API.Plugins;
 using PointBlank.API.Player;
-using CM = PointBlank.Services.CommandManager.CommandManager;
+using PointBlank.Services.CommandManager;
 
 namespace PointBlank.API.Commands
 {
@@ -22,22 +19,22 @@ namespace PointBlank.API.Commands
         /// <summary>
         /// The commands used to execute this command
         /// </summary>
-        public string[] Commands => CM.Commands.FirstOrDefault(a => a.CommandClass == this).Commands;
+        public string[] Commands => CommandManager.Commands.FirstOrDefault(a => a.CommandClass == this).Commands;
 
         /// <summary>
         /// The permissions needed to execute the command
         /// </summary>
-        public string Permission => CM.Commands.FirstOrDefault(a => a.CommandClass == this).Permission;
+        public string Permission => CommandManager.Commands.FirstOrDefault(a => a.CommandClass == this).Permission;
 
         /// <summary>
         /// The cooldown needed to execute the command
         /// </summary>
-        public int Cooldown => CM.Commands.FirstOrDefault(a => a.CommandClass == this).Cooldown;
+        public int Cooldown => CommandManager.Commands.FirstOrDefault(a => a.CommandClass == this).Cooldown;
 
         /// <summary>
         /// Is the command enabled
         /// </summary>
-        public bool Enabled => CM.Commands.FirstOrDefault(a => a.CommandClass == this).Enabled;
+        public bool Enabled => CommandManager.Commands.FirstOrDefault(a => a.CommandClass == this).Enabled;
         #endregion
 
         #region Abstract Properties
@@ -98,10 +95,7 @@ namespace PointBlank.API.Commands
         public abstract void Execute(PointBlankPlayer executor, string[] args);
         #endregion
 
-        public PointBlankCommand()
-        {
-            Instance = this;
-        }
+        public PointBlankCommand() => Instance = this;
 
         #region Functions
         /// <summary>

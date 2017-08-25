@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace PointBlank.API.Groups
+﻿namespace PointBlank.API.Groups
 {
     /// <summary>
     /// List of events for groups
