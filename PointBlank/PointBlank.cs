@@ -52,9 +52,6 @@ namespace PointBlank
             // Initialize
             Instance = this;
             Enabled = true;
-#if !DEBUG
-            Console.Clear();
-#endif
 
             PointBlankLogging.LogImportant("Loaded " + PointBlankInfo.Name + " v" + PointBlankInfo.Version + "!");
         }
