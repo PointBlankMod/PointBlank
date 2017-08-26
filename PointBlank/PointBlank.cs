@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Linq;
@@ -15,14 +16,25 @@ namespace PointBlank
         #region Properties
         public static PointBlank Instance { get; private set; } // Self instance
         public static bool Enabled { get; private set; } // Is PointBlank running
-        #endregion
+		#endregion
 
-        #region Loader Functions
-        public void Initialize()
+		#region Variables
+		public static string LogDirectory; // This is pretty self explanatory
+		#endregion
+
+		#region Initializers 
+	    public PointBlank()
+	    {
+		    LogDirectory = Directory.GetCurrentDirectory();
+	    }
+		#endregion
+
+		#region Loader Functions
+		public void Initialize()
         {
             if (!Environment.GetCommandLineArgs().Contains("-pointblank")) // Don't run if this isn't a server or if the -pointblank argument wasn't added
                 return;
-            if (Instance != null && Enabled) // Don't run if already running
+			if (Instance != null && Enabled) // Don't run if already running
                 return;
 
             PointBlankLogging.LogImportant("Loading " + PointBlankInfo.Name + " v" + PointBlankInfo.Version + "...");

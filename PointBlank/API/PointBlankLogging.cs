@@ -9,17 +9,9 @@ namespace PointBlank.API
     /// </summary>
     public static class PointBlankLogging
     {
-        #region Info
-        public static readonly string LogPath = Directory.GetCurrentDirectory() + "//PointBlank.log";
-        public static readonly string LogPathPrev = Directory.GetCurrentDirectory() + "//PointBlankOld.log";
-        #endregion
-
         static PointBlankLogging()
         {
-            if (File.Exists(LogPathPrev))
-                File.Delete(LogPathPrev);
-            if (File.Exists(LogPath))
-                File.Move(LogPath, LogPathPrev);
+            File.WriteAllText(PointBlank.LogDirectory + "/PointBlank.log", "");
         }
 
         /// <summary>
@@ -27,27 +19,13 @@ namespace PointBlank.API
         /// </summary>
         /// <param name="log">Object/Text to log</param>
         /// <param name="inConsole">Should the text be printed into the console</param>
-        public static void Log(object log, bool inConsole = true, ConsoleColor color = ConsoleColor.White)
+        /// <param name="prefix">The logging prefix, ex. [LOG] or [ERROR]</param>
+        public static void Log(object log, bool inConsole = true, ConsoleColor color = ConsoleColor.White, string prefix = "[LOG]")
         {
-            StackTrace stack = new StackTrace(false);
-            string asm = "";
+			string asm = GetAsm();
 
-            try
-            {
-                asm = stack.FrameCount > 0 ? stack.GetFrame(1).GetMethod().DeclaringType.Assembly.GetName().Name : "Not Found";
-
-                if (stack.FrameCount > 1 && (asm == "PointBlank" || asm == "Assembly-CSharp" || asm == "UnityEngine"))
-                    asm = stack.GetFrame(2).GetMethod().DeclaringType.Assembly.GetName().Name;
-                if (asm == "Assembly-CSharp" || asm == "UnityEngine")
-                    asm = "Game";
-            }
-            catch (Exception ex)
-            {
-                asm = "Mono";
-            }
-
-            log = "[LOG] " + asm + " >> " + log;
-            File.AppendAllText(LogPath, log.ToString() + Environment.NewLine);
+			log = prefix + " " + asm + " >> " + log;
+            File.AppendAllText(PointBlank.LogDirectory + "/PointBlank.log", log + Environment.NewLine);
             if (inConsole)
                 PointBlankConsole.WriteLine(log, color);
         }
@@ -61,30 +39,8 @@ namespace PointBlank.API
         /// <param name="inConsole">Should the text be printed into the console</param>
         public static void LogError(object log, Exception ex, bool exInConsole = false, bool inConsole = true)
         {
-            StackTrace stack = new StackTrace(false);
-            string asm = "";
-
-            try
-            {
-                asm = stack.FrameCount > 0 ? stack.GetFrame(1).GetMethod().DeclaringType.Assembly.GetName().Name : "Not Found";
-
-                if (stack.FrameCount > 1 && (asm == "PointBlank" || asm == "Assembly-CSharp" || asm == "UnityEngine"))
-                    asm = stack.GetFrame(2).GetMethod().DeclaringType.Assembly.GetName().Name;
-                if (asm == "Assembly-CSharp" || asm == "UnityEngine")
-                    asm = "Game";
-            }
-            catch (Exception exc)
-            {
-                asm = "Mono";
-            }
-
-            log = "[ERROR] " + asm + " >> " + log;
-            File.AppendAllText(LogPath, log.ToString() + Environment.NewLine);
-            File.AppendAllText(LogPath, ex.ToString() + Environment.NewLine);
-            if (inConsole)
-                PointBlankConsole.WriteLine(log, ConsoleColor.Red);
-            if (exInConsole)
-                PointBlankConsole.WriteLine(ex, ConsoleColor.Red);
+			Log(log, inConsole, ConsoleColor.Red, "[ERROR]");
+			Log(log, inConsole, ConsoleColor.DarkRed);
         }
 
         /// <summary>
@@ -94,27 +50,7 @@ namespace PointBlank.API
         /// <param name="inConsole">Should the text be printed into the console</param>
         public static void LogWarning(object log, bool inConsole = true)
         {
-            StackTrace stack = new StackTrace(false);
-            string asm = "";
-
-            try
-            {
-                asm = stack.FrameCount > 0 ? stack.GetFrame(1).GetMethod().DeclaringType.Assembly.GetName().Name : "Not Found";
-
-                if (stack.FrameCount > 1 && (asm == "PointBlank" || asm == "Assembly-CSharp" || asm == "UnityEngine"))
-                    asm = stack.GetFrame(2).GetMethod().DeclaringType.Assembly.GetName().Name;
-                if (asm == "Assembly-CSharp" || asm == "UnityEngine")
-                    asm = "Game";
-            }
-            catch (Exception ex)
-            {
-                asm = "Mono";
-            }
-
-            log = "[WARNING] " + asm + " >> " + log;
-            File.AppendAllText(LogPath, log.ToString() + Environment.NewLine);
-            if (inConsole)
-                PointBlankConsole.WriteLine(log, ConsoleColor.Yellow);
+			Log(log, inConsole, ConsoleColor.Yellow, "[WARNING]");
         }
 
         /// <summary>
@@ -124,27 +60,30 @@ namespace PointBlank.API
         /// <param name="inConsole">Should the text be printed into the console</param>
         public static void LogImportant(object log, bool inConsole = true)
         {
-            StackTrace stack = new StackTrace(false);
-            string asm = "";
-
-            try
-            {
-                asm = stack.FrameCount > 0 ? stack.GetFrame(1).GetMethod().DeclaringType.Assembly.GetName().Name : "Not Found";
-
-                if (stack.FrameCount > 1 && (asm == "PointBlank" || asm == "Assembly-CSharp" || asm == "UnityEngine"))
-                    asm = stack.GetFrame(2).GetMethod().DeclaringType.Assembly.GetName().Name;
-                if (asm == "Assembly-CSharp" || asm == "UnityEngine")
-                    asm = "Game";
-            }
-            catch (Exception ex)
-            {
-                asm = "Mono";
-            }
-
-            log = "[IMPORTANT] " + asm + " >> " + log;
-            File.AppendAllText(LogPath, log.ToString() + Environment.NewLine);
-            if (inConsole)
-                PointBlankConsole.WriteLine(log, ConsoleColor.Cyan);
+			Log(log, inConsole, ConsoleColor.Cyan, "[IMPORTANT]");
         }
+		/// <summary>
+		/// Get the assembly name from the stack trace.
+		/// </summary>
+	    public static string GetAsm()
+	    {
+		    StackTrace stack = new StackTrace(false);
+		    string asm = "";
+
+		    try
+		    {
+			    asm = stack.FrameCount > 0 ? stack.GetFrame(1).GetMethod().DeclaringType.Assembly.GetName().Name : "Not Found";
+
+			    if (stack.FrameCount > 1 && (asm == "PointBlank" || asm == "Assembly-CSharp" || asm == "UnityEngine"))
+				    asm = stack.GetFrame(2).GetMethod().DeclaringType.Assembly.GetName().Name;
+			    if (asm == "Assembly-CSharp" || asm == "UnityEngine")
+				    asm = "Game";
+		    }
+		    catch (Exception ex)
+		    {
+			    asm = "Mono";
+		    }
+		    return asm;
+	    }
     }
 }
