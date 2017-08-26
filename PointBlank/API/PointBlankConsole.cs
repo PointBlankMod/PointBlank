@@ -25,6 +25,7 @@ namespace PointBlank.API
             if (Console.CursorLeft != 0)
                 ClearLine();
             Console.WriteLine(text);
+			PointBlankConsoleEvents.RunConsoleLineWritten(text, color);
             Console.ForegroundColor = SavedColor;
         }
 
