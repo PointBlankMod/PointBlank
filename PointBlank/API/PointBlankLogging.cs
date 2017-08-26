@@ -9,9 +9,16 @@ namespace PointBlank.API
     /// </summary>
     public static class PointBlankLogging
     {
+        #region Info
+        private static string LogDirectory = Directory.GetCurrentDirectory();
+        #endregion
+
         static PointBlankLogging()
         {
-            File.WriteAllText(PointBlank.LogDirectory + "/PointBlank.log", "");
+            if (File.Exists(LogDirectory + "/PointBlankOld.log"))
+                File.Delete(LogDirectory + "/PointBlankOld.log");
+            if (File.Exists(LogDirectory + "/PointBlank.log"))
+                File.Move(LogDirectory + "/PointBlank.log", LogDirectory + "/PointBlankOld.log");
         }
 
         /// <summary>
@@ -25,7 +32,7 @@ namespace PointBlank.API
 			string asm = GetAsm();
 
 			log = prefix + " " + asm + " >> " + log;
-            File.AppendAllText(PointBlank.LogDirectory + "/PointBlank.log", log + Environment.NewLine);
+            File.AppendAllText(LogDirectory + "/PointBlank.log", log + Environment.NewLine);
             if (inConsole)
                 PointBlankConsole.WriteLine(log, color);
         }
@@ -40,7 +47,7 @@ namespace PointBlank.API
         public static void LogError(object log, Exception ex, bool exInConsole = false, bool inConsole = true)
         {
 			Log(log, inConsole, ConsoleColor.Red, "[ERROR]");
-			Log(log, inConsole, ConsoleColor.DarkRed);
+			Log(log, exInConsole, ConsoleColor.DarkRed);
         }
 
         /// <summary>
@@ -48,24 +55,21 @@ namespace PointBlank.API
         /// </summary>
         /// <param name="log">Object/Text to log</param>
         /// <param name="inConsole">Should the text be printed into the console</param>
-        public static void LogWarning(object log, bool inConsole = true)
-        {
+        public static void LogWarning(object log, bool inConsole = true) =>
 			Log(log, inConsole, ConsoleColor.Yellow, "[WARNING]");
-        }
 
         /// <summary>
         /// Logs important text into the logs file and console
         /// </summary>
         /// <param name="log">Object/Text to log</param>
         /// <param name="inConsole">Should the text be printed into the console</param>
-        public static void LogImportant(object log, bool inConsole = true)
-        {
+        public static void LogImportant(object log, bool inConsole = true) =>
 			Log(log, inConsole, ConsoleColor.Cyan, "[IMPORTANT]");
-        }
+
 		/// <summary>
 		/// Get the assembly name from the stack trace.
 		/// </summary>
-	    public static string GetAsm()
+	    private static string GetAsm()
 	    {
 		    StackTrace stack = new StackTrace(false);
 		    string asm = "";
