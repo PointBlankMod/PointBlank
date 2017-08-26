@@ -18,17 +18,6 @@ namespace PointBlank
         public static bool Enabled { get; private set; } // Is PointBlank running
 		#endregion
 
-		#region Variables
-		public static string LogDirectory; // This is pretty self explanatory
-		#endregion
-
-		#region Initializers 
-	    public PointBlank()
-	    {
-		    LogDirectory = Directory.GetCurrentDirectory();
-	    }
-		#endregion
-
 		#region Loader Functions
 		public void Initialize()
         {
