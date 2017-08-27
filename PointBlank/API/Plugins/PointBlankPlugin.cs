@@ -11,6 +11,39 @@ namespace PointBlank.API.Plugins
     /// </summary>
     public abstract class PointBlankPlugin : MonoBehaviour
     {
+        #region Variables
+        private TranslationList _Translations = null;
+        private ConfigurationList _Configurations = null;
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// The translations for the plugin
+        /// </summary>
+        public TranslationList Translations
+        {
+            get
+            {
+                if (_Translations == null)
+                    _Translations = DefaultTranslations;
+                return _Translations;
+            }
+        }
+
+        /// <summary>
+        /// The configurations for the plugin
+        /// </summary>
+        public ConfigurationList Configurations
+        {
+            get
+            {
+                if (_Configurations == null)
+                    _Configurations = DefaultConfigurations;
+                return _Configurations;
+            }
+        }
+        #endregion
+
         #region Abstract Properties
         /// <summary>
         /// The current version of the plugin
@@ -22,12 +55,12 @@ namespace PointBlank.API.Plugins
         /// <summary>
         /// The translations for the plugin
         /// </summary>
-        public virtual TranslationList Translations => new TranslationList();
+        public virtual TranslationList DefaultTranslations => new TranslationList();
 
         /// <summary>
         /// The configurations for the plugin
         /// </summary>
-        public virtual ConfigurationList Configurations => new ConfigurationList();
+        public virtual ConfigurationList DefaultConfigurations => new ConfigurationList();
 
         /// <summary>
         /// The latest version of the plugin(for auto-update)(Leave null if you don't want a version check)

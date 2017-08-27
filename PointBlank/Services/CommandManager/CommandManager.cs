@@ -17,11 +17,9 @@ namespace PointBlank.Services.CommandManager
 {
     internal class CommandManager : PointBlankService
     {
-        #region Info
-        public static readonly string ConfigurationPath = PointBlankServer.ConfigurationsPath + "//Commands";
-        #endregion
-
         #region Properties
+        public static string ConfigurationPath => PointBlankServer.ConfigurationsPath + "//Commands";
+
         public static List<CommandWrapper> Commands { get; private set; }
 
         public UniversalData UniConfig { get; private set; }

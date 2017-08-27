@@ -14,17 +14,15 @@ namespace PointBlank.Services.PluginManager
 {
     internal class PluginManager : PointBlankService
     {
-        #region Info
-        public static readonly string ConfigurationPath = PointBlankServer.ConfigurationsPath + "/Plugins"; // Set the plugins configuration path
-        public static readonly string TranslationPath = PointBlankServer.TranslationsPath + "/Plugins";
-        #endregion
-
         #region Variables
         private static List<PluginWrapper> _plugins = new List<PluginWrapper>(); // List of plugins
         private static List<Assembly> _libraries = new List<Assembly>(); // List of libraries
         #endregion
 
         #region Properties
+        public static string ConfigurationPath => PointBlankServer.ConfigurationsPath + "/Plugins";
+        public static string TranslationPath => PointBlankServer.TranslationsPath + "/Plugins";
+
         public static PluginWrapper[] Plugins => _plugins.ToArray(); // Returns the plugins
 
         public static Assembly[] Libraries => _libraries.ToArray(); // Returns the libraries

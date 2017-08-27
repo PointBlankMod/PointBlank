@@ -53,38 +53,8 @@ namespace PointBlank.API.Collections
         /// <summary>
         /// Custom collection for tranlsations
         /// </summary>
-        public TranslationList()
-        {
-            StackTrace stack = new StackTrace(false);
-            if (stack.FrameCount <= 0)
-            {
-                Translations = new Dictionary<string, string>();
-                return;
-            }
-            MethodBase jumpMethod = stack.GetFrame(1).GetMethod();
-
-            if (!Memory.TranslationCollection.ContainsKey(jumpMethod.MethodHandle.GetFunctionPointer().ToString()))
-            {
-                Translations = new Dictionary<string, string>();
-                Memory.TranslationCollection.Add(jumpMethod.MethodHandle.GetFunctionPointer().ToString(), this);
-                return;
-            }
-            Translations = Memory.TranslationCollection[jumpMethod.MethodHandle.GetFunctionPointer().ToString()].Translations;
-        }
-        /// <summary>
-        /// Custom collection for tranlsations
-        /// <param name="key">Key to store the list under</param>
-        /// </summary>
-        public TranslationList(string key)
-        {
-            if (!Memory.TranslationCollection.ContainsKey(key))
-            {
-                Translations = new Dictionary<string, string>();
-                Memory.TranslationCollection.Add(key, this);
-                return;
-            }
-            Translations = Memory.TranslationCollection[key].Translations;
-        }
+        public TranslationList() =>
+            Translations = new Dictionary<string, string>();
 
         #region Collection Functions
         /// <summary>
@@ -168,13 +138,6 @@ namespace PointBlank.API.Collections
         /// <param name="values">The values to insert into the text</param>
         /// <returns>The translated text</returns>
         public string Translate(string key, params object[] values) => string.Format(this[key], values);
-        #endregion
-
-        #region SubClasses
-        protected static class Memory
-        {
-            public static Dictionary<string, TranslationList> TranslationCollection = new Dictionary<string, TranslationList>();
-        }
         #endregion
     }
 }

@@ -7,19 +7,40 @@ namespace PointBlank.API.Interfaces
     /// <summary>
     /// Makes a class configurable by adding configurations to it
     /// </summary>
-    public interface IConfigurable
+    public abstract class IConfigurable
     {
-        /// <summary>
-        /// The directory inside the configurations folder where the file will be save(leave null or empty to use default path)
-        /// </summary>
-        string ConfigurationDirectory { get; }
+        #region Variables
+        private ConfigurationList _Configurations = null;
+        #endregion
+
+        #region Properties
         /// <summary>
         /// The list of configurations
         /// </summary>
-        ConfigurationList Configurations { get; }
+        public ConfigurationList Configurations
+        {
+            get
+            {
+                if (_Configurations == null)
+                    _Configurations = DefaultConfigurations;
+                return _Configurations;
+            }
+        }
+        #endregion
+
+        #region Abstract Properties
+        /// <summary>
+        /// The directory inside the configurations folder where the file will be save(leave null or empty to use default path)
+        /// </summary>
+        public abstract string ConfigurationDirectory { get; }
+        /// <summary>
+        /// The list of configurations
+        /// </summary>
+        public abstract ConfigurationList DefaultConfigurations { get; }
         /// <summary>
         /// The dictionary to save the IConfigurable instance to(set to null if the Configurations and ConfigurationDirectory are static)
         /// </summary>
-        Dictionary<Type, IConfigurable> ConfigurationDictionary { get; }
+        public abstract Dictionary<Type, IConfigurable> ConfigurationDictionary { get; }
+        #endregion
     }
 }

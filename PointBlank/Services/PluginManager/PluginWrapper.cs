@@ -159,7 +159,11 @@ namespace PointBlank.Services.PluginManager
 
             WebsiteData.GetData(PluginClass.VersionURL, out bVersion);
 
-            return (bVersion != Version);
+            if (!int.TryParse(bVersion.Replace('.', '\0'), out int newVersion))
+                return (bVersion != Version);
+            if (!int.TryParse(Version.Replace('.', '\0'), out int curVersion))
+                return (bVersion != Version);
+            return (newVersion > curVersion);
         }
 
         private void Update()
@@ -215,6 +219,7 @@ namespace PointBlank.Services.PluginManager
                     if (PluginConfiguration.AutoUpdate)
                         Update();
                 }
+                LastUpdateCheck = DateTime.Now;
 
                 LoadConfiguration(); // Load the configuration
                 LoadTranslation(); // Load the translation

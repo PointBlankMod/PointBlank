@@ -7,9 +7,9 @@ namespace PointBlank.Framework.Translations
 {
     internal class ServiceTranslations : ITranslatable
     {
-        public string TranslationDirectory => "";
+        public override string TranslationDirectory => "";
 
-        public TranslationList Translations => new TranslationList()
+        public override TranslationList DefaultTranslations => new TranslationList()
         {
             // CommandManager
             { "CommandManager_Invalid", "Invalid command! Use the help command to get the list of commands!" },
@@ -24,6 +24,6 @@ namespace PointBlank.Framework.Translations
             { "CommandWrapper_Running", "This command can only be executed while the server is loading!" }
         };
 
-        public Dictionary<Type, ITranslatable> TranslationDictionary => Enviroment.ServiceTranslations;
+        public override Dictionary<Type, ITranslatable> TranslationDictionary => Enviroment.ServiceTranslations;
     }
 }

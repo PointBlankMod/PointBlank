@@ -18,16 +18,14 @@ namespace PointBlank.Framework
 {
     internal class ServiceManager : MonoBehaviour, ILoadable
     {
-        #region Info
-        public static readonly string ConfigurationPath = PointBlankServer.ConfigurationsPath + "/Services";
-        #endregion
-
         #region Variables
         private List<PointBlankService> _tempServices = new List<PointBlankService>();
         private List<ServiceWrapper> _tempWrappers = new List<ServiceWrapper>();
         #endregion
 
         #region Properties
+        public static string ConfigurationPath => PointBlankServer.ConfigurationsPath + "/Services";
+
         public bool Initialized { get; private set; } = false; // Is the service manager initialized
 
         public UniversalData UniServicesData { get; private set; } // The universal data for services

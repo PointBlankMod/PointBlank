@@ -10,11 +10,9 @@ namespace PointBlank.Services.GroupManager
 {
     internal class GroupManager : PointBlankService
     {
-        #region Info
-        public static readonly string GroupPath = PointBlankServer.ConfigurationsPath + "/Groups";
-        #endregion
-
         #region Properties
+        public static string GroupPath => PointBlankServer.ConfigurationsPath + "/Groups";
+
         public UniversalData UniGroupConfig { get; private set; }
 
         public JsonData GroupConfig { get; private set; }
