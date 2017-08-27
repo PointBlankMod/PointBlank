@@ -56,7 +56,6 @@ namespace PointBlank.API.Storage
         }
 
         #region Private Functions
-
         private void Read()
         {
             switch (Compression)
@@ -65,21 +64,15 @@ namespace PointBlank.API.Storage
                     File_Compressed = File.ReadAllBytes(Path);
                     File_Decompressed = GZip.UnZip(File_Compressed);
                     break;
-                case ECompression.LZMA:
-                    File_Compressed = File.ReadAllBytes(Path);
-                    File_Decompressed = PBLZMA.DecompressFile(Path);
-                    break;
                 default:
                     File_Decompressed = File.ReadAllBytes(Path);
                     break;
             }
             File_String = Encoding.Unicode.GetString(File_Decompressed);
         }
-
         #endregion
 
         #region Public Functions
-
         /// <summary>
         /// Compresses the data and writes it to the file
         /// </summary>
@@ -89,28 +82,8 @@ namespace PointBlank.API.Storage
                 File_Decompressed = Encoding.Unicode.GetBytes(File_String);
             switch (Compression)
             {
-                case ECompression.SMART:
-                    if (File_Decompressed.Length > 1000000)
-                    {
-                        Compression = ECompression.LZMA;
-                        goto LZMA;
-                    }
-                    else
-                    {
-                        Compression = ECompression.GZIP;
-                        goto GZip;
-                    }
-                    break;
                 case ECompression.GZIP:
-                    GZip:
-
                     File_Compressed = GZip.Zip(File_Decompressed);
-                    File.WriteAllBytes(Path, File_Compressed);
-                    break;
-                case ECompression.LZMA:
-                    LZMA:
-
-                    File_Compressed = PBLZMA.CompressBytes(File_Decompressed);
                     File.WriteAllBytes(Path, File_Compressed);
                     break;
                 default:
@@ -118,7 +91,6 @@ namespace PointBlank.API.Storage
                     break;
             }
         }
-
         #endregion
     }
 }

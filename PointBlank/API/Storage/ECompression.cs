@@ -18,14 +18,6 @@ namespace PointBlank.API.Storage
         /// Use GZIP for compressing the file
         /// </summary>
         GZIP,
-        /// <summary>
-        /// Use LZMA for compression
-        /// </summary>
-        LZMA,
-        /// <summary>
-        /// Use LZMA or GZIP depending on file size
-        /// </summary>
-        SMART,
 #if DEBUG
         /// <summary>
         /// Use the huffman algorithm to compress the file
