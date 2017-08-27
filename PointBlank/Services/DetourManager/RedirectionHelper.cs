@@ -37,13 +37,9 @@ namespace PointBlank.Services.DetourManager
                         {
                             byte* ptrFrom = (byte*)ptrOriginal.ToPointer();
 
-                            *ptrFrom = 0x68;
-                            *((uint*)(ptrFrom + 2)) = (uint)ptrModified.ToInt32();
-                            *(ptrFrom + 6) = 0xC3;
-                            /**(ptrFrom + 1) = 0xBB;
-                            *((uint*)(ptrFrom + 2)) = (uint)ptrModified.ToInt32();
-                            *(ptrFrom + 11) = 0xFF;
-                            *(ptrFrom + 12) = 0xE3;*/
+                            *ptrFrom = 0x68; // PUSH
+                            *((uint*)(ptrFrom + 2)) = (uint)ptrModified.ToInt32(); // Pointer
+                            *(ptrFrom + 8) = 0xC3; // RETN
                         }
                         break;
                     case sizeof(Int64):
@@ -51,17 +47,11 @@ namespace PointBlank.Services.DetourManager
                         {
                             byte* ptrFrom = (byte*)ptrOriginal.ToPointer();
 
-                            *ptrFrom = 0x48;
-                            *(ptrFrom + 1) = 0xB8;
-                            *((ulong*)(ptrFrom + 2)) = (ulong)ptrModified.ToInt64();
-                            *(ptrFrom + 10) = 0xFF;
-                            *(ptrFrom + 11) = 0xE0;
-                            /**ptrFrom = 0x49;
-                            *(ptrFrom + 1) = 0xBB;
-                            *((ulong*)(ptrFrom + 2)) = (ulong)ptrModified.ToInt64();
-                            *(ptrFrom + 10) = 0x41;
-                            *(ptrFrom + 11) = 0xFF;
-                            *(ptrFrom + 12) = 0xE3;*/
+                            *ptrFrom = 0x48; // REX.W
+                            *(ptrFrom + 1) = 0xB8; // MOV
+                            *((ulong*)(ptrFrom + 2)) = (ulong)ptrModified.ToInt64(); // Pointer
+                            *(ptrFrom + 10) = 0xFF; // INC 1
+                            *(ptrFrom + 11) = 0xE0; // LOOPE
                         }
                         break;
                     default:
