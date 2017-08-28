@@ -47,7 +47,7 @@ namespace PointBlank.API
         public static void LogError(object log, Exception ex, bool exInConsole = false, bool inConsole = true)
         {
 			Log(log, inConsole, ConsoleColor.Red, "[ERROR]");
-			Log(log, exInConsole, ConsoleColor.DarkRed);
+			Log(ex, exInConsole, ConsoleColor.DarkRed);
         }
 
         /// <summary>

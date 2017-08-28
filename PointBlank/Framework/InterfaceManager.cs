@@ -189,7 +189,7 @@ namespace PointBlank.Framework
             if (!Initialized)
                 return;
 
-            foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
+            foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies().Where(a => Attribute.GetCustomAttribute(a, typeof(PointBlankExtensionAttribute)) != null))
                 foreach (Type class_type in asm.GetTypes())
                     SaveInterface(class_type);
 

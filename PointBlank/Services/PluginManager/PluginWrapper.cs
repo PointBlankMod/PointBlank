@@ -102,6 +102,8 @@ namespace PointBlank.Services.PluginManager
         {
             foreach(KeyValuePair<string, object> config in PluginClass.Configurations)
             {
+                if (config.Value == null)
+                    continue;
                 if (ConfigurationData.CheckKey(config.Key))
                     ConfigurationData.Document[config.Key] = JToken.FromObject(config.Value);
                 else
@@ -126,6 +128,8 @@ namespace PointBlank.Services.PluginManager
         {
             foreach(KeyValuePair<string, string> translation in PluginClass.Translations)
             {
+                if (string.IsNullOrEmpty(translation.Value))
+                    continue;
                 if (TranslationData.CheckKey(translation.Key))
                     TranslationData.Document[translation.Key] = translation.Value;
                 else
