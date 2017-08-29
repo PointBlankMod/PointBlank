@@ -86,6 +86,8 @@
     <Compile Include="API\IPC\IPCEvents.cs" />
     <Compile Include="API\IPC\PointBlankIPCManager.cs" />
     <Compile Include="API\Linq\LinqToSql.cs" />
+    <Compile Include="API\Permissions\PointBlankPermission.cs" />
+    <Compile Include="API\Permissions\PointBlankPermissionManager.cs" />
     <Compile Include="API\Player\PointBlankPlayer.cs" />
     <Compile Include="API\Groups\PointBlankGroup.cs" />
     <Compile Include="API\Groups\PointBlankGroupEvents.cs" />
@@ -133,6 +135,7 @@
     <Compile Include="Services\DetourManager\RedirectionHelper.cs" />
     <Compile Include="Services\GroupManager\GroupManager.cs" />
     <Compile Include="Services\IPCManager\IPCManager.cs" />
+    <Compile Include="Services\PermissionManager\PermissionManager.cs" />
     <Compile Include="Services\PluginManager\PluginConfiguration.cs" />
     <Compile Include="Services\PluginManager\PluginWrapper.cs" />
     <Compile Include="Services\PluginManager\PluginManager.cs" />

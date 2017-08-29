@@ -2,6 +2,7 @@
 using PointBlank.API.Groups;
 using PointBlank.API.Server;
 using PointBlank.API.Services;
+using PointBlank.API.Permissions;
 using PointBlank.API.DataManagment;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
@@ -89,7 +90,7 @@ namespace PointBlank.Services.GroupManager
                 {
                     foreach (JToken token in (JArray)obj["Permissions"])
                     {
-                        if (g.Permissions.Contains((string)token))
+                        if (g.Permissions.Contains(PointBlankPermissionManager.AddPermission((string)token)))
                             continue;
 
                         g.AddPermission((string)token);
@@ -97,7 +98,7 @@ namespace PointBlank.Services.GroupManager
                 }
                 else
                 {
-                    if (g.Permissions.Contains((string)obj["Permissions"]))
+                    if (g.Permissions.Contains(PointBlankPermissionManager.AddPermission((string)obj["Permissions"])))
                         continue;
 
                     g.AddPermission((string)obj["Permissions"]);

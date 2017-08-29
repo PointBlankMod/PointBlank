@@ -8,6 +8,7 @@ using PointBlank.API.Services;
 using PointBlank.API.Commands;
 using PointBlank.API.DataManagment;
 using PointBlank.API.Player;
+using PointBlank.API.Permissions;
 using Newtonsoft.Json.Linq;
 using PointBlank.Framework.Translations;
 using PointBlank.API.Server;
@@ -186,7 +187,7 @@ namespace PointBlank.Services.CommandManager
             string[] info = ParseCommand(text);
             List<string> args = new List<string>();
             CommandWrapper wrapper = Commands.FirstOrDefault(a => a.Commands.FirstOrDefault(b => b.ToLower() == info[0].ToLower()) != null && a.Enabled);
-            string permission = "";
+            PointBlankPermission permission = null;
 
             if (info.Length > 1)
                 for (int i = 1; i < info.Length; i++)
@@ -201,9 +202,9 @@ namespace PointBlank.Services.CommandManager
                 PointBlankPlayer.SendMessage(executor, Enviroment.ServiceTranslations[typeof(ServiceTranslations)].Translations["CommandManager_Invalid"], ConsoleColor.Red);
                 return ECommandRunError.COMMAND_NOT_EXIST;
             }
-            permission = wrapper.Permission;
+            permission = wrapper.Permission.Duplicate();
             if (args.Count > 0)
-                permission += "." + string.Join(".", args.ToArray());
+                permission.Permission += "." + string.Join(".", args.ToArray());
             if (!PointBlankPlayer.IsServer(executor) && !executor.HasPermission(permission))
             {
                 PointBlankPlayer.SendMessage(executor, Enviroment.ServiceTranslations[typeof(ServiceTranslations)].Translations["CommandManager_NotEnoughPermissions"], ConsoleColor.Red);

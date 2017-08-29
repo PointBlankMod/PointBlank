@@ -1,4 +1,6 @@
-﻿namespace PointBlank.API.Groups
+﻿using PointBlank.API.Permissions;
+
+namespace PointBlank.API.Groups
 {
     /// <summary>
     /// List of events for groups
@@ -17,7 +19,7 @@
         /// </summary>
         /// <param name="permission">The affected permission</param>
         /// <param name="instance">The affected group's instance</param>
-        public delegate void PermissionEventHandler(PointBlankGroup instance, string permission);
+        public delegate void PermissionEventHandler(PointBlankGroup instance, PointBlankPermission permission);
         /// <summary>
         /// Handler for inherited groups events
         /// </summary>
@@ -90,8 +92,8 @@
         internal static void RunGroupAdded(PointBlankGroup g) => OnGroupAdded?.Invoke(g);
         internal static void RunGroupRemoved(PointBlankGroup g) => OnGroupRemoved?.Invoke(g);
 
-        internal static void RunPermissionAdded(PointBlankGroup instance, string permission) => OnPermissionAdded?.Invoke(instance, permission);
-        internal static void RunPermissionRemoved(PointBlankGroup instance, string permission) => OnPermissionRemoved?.Invoke(instance, permission);
+        internal static void RunPermissionAdded(PointBlankGroup instance, PointBlankPermission permission) => OnPermissionAdded?.Invoke(instance, permission);
+        internal static void RunPermissionRemoved(PointBlankGroup instance, PointBlankPermission permission) => OnPermissionRemoved?.Invoke(instance, permission);
 
         internal static void RunPrefixAdded(PointBlankGroup instance, string prefix) => OnPrefixAdded?.Invoke(instance, prefix);
         internal static void RunPrefixRemoved(PointBlankGroup instance, string prefix) => OnPrefixRemoved?.Invoke(instance, prefix);

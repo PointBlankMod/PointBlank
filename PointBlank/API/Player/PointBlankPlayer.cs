@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using PointBlank.API.Groups;
 using PointBlank.API.Commands;
+using PointBlank.API.Permissions;
 using UnityEngine;
 
 namespace PointBlank.API.Player
@@ -14,7 +15,7 @@ namespace PointBlank.API.Player
     {
         #region Variables
         private List<PointBlankGroup> _Groups = new List<PointBlankGroup>();
-        private List<string> _Permissions = new List<string>();
+        private List<PointBlankPermission> _Permissions = new List<PointBlankPermission>();
         private readonly Dictionary<PointBlankCommand, DateTime> _Cooldowns = new Dictionary<PointBlankCommand, DateTime>();
         #endregion
 
@@ -45,7 +46,7 @@ namespace PointBlank.API.Player
         /// <summary>
         /// The permissions this player has(groups not included)
         /// </summary>
-        public virtual string[] Permissions => _Permissions.ToArray();
+        public virtual PointBlankPermission[] Permissions => _Permissions.ToArray();
         /// <summary>
         /// Is the player loaded or not(used for event triggers)
         /// </summary>
@@ -109,6 +110,18 @@ namespace PointBlank.API.Player
         /// <param name="permission">The permission to add</param>
         public virtual void AddPermission(string permission)
         {
+            PointBlankPermission perm = PointBlankPermissionManager.AddPermission(permission);
+
+            if (perm == null)
+                return;
+            AddPermission(perm);
+        }
+        /// <summary>
+        /// Adds a permission to the player
+        /// </summary>
+        /// <param name="permission">The permission instance to add to the player</param>
+        public virtual void AddPermission(PointBlankPermission permission)
+        {
             if (Permissions.Contains(permission))
                 return;
 
@@ -121,6 +134,18 @@ namespace PointBlank.API.Player
         /// </summary>
         /// <param name="permission">The permission to remove</param>
         public virtual void RemovePermission(string permission)
+        {
+            PointBlankPermission perm = PointBlankPermissionManager.AddPermission(permission);
+
+            if (perm == null)
+                return;
+            RemovePermission(perm);
+        }
+        /// <summary>
+        /// Removes a permission from the player
+        /// </summary>
+        /// <param name="permission">The permission to remove</param>
+        public virtual void RemovePermission(PointBlankPermission permission)
         {
             if (!Permissions.Contains(permission))
                 return;
@@ -142,11 +167,36 @@ namespace PointBlank.API.Player
             return true;
         }
         /// <summary>
+        /// Checks if the player has the permissions specified
+        /// </summary>
+        /// <param name="permissions">The permissions to check for</param>
+        /// <returns>If the player has the permissions specified</returns>
+        public virtual bool HasPermissions(params PointBlankPermission[] permissions)
+        {
+            for (int i = 0; i < permissions.Length; i++)
+                if (!HasPermission(permissions[i]))
+                    return false;
+            return true;
+        }
+        /// <summary>
         /// Checks if the player has the specified permission
         /// </summary>
         /// <param name="permission">The permission to check for</param>
         /// <returns>If the player has the specified permission</returns>
         public virtual bool HasPermission(string permission)
+        {
+            PointBlankPermission perm = new PointBlankPermission(permission);
+
+            if (perm == null)
+                return false;
+            return HasPermission(perm);
+        }
+        /// <summary>
+        /// Checks if the player has the specified permission
+        /// </summary>
+        /// <param name="permission">The permission to check for</param>
+        /// <returns>If the player has the specified permission</returns>
+        public virtual bool HasPermission(PointBlankPermission permission)
         {
             if (IsAdmin)
                 return true;
@@ -154,11 +204,11 @@ namespace PointBlank.API.Player
                 if (Groups[i].HasPermission(permission))
                     return true;
 
-            string[] sPermission = permission.Split('.');
+            string[] sPermission = permission.Permission.Split('.');
 
             for (int a = 0; a < Permissions.Length; a++)
             {
-                string[] sP = Permissions[a].Split('.');
+                string[] sP = Permissions[a].Permission.Split('.');
 
                 for (int b = 0; b < sPermission.Length; b++)
                 {
