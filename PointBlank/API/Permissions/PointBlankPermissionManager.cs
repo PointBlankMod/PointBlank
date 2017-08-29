@@ -11,6 +11,10 @@ namespace PointBlank.API.Permissions
     /// </summary>
     public static class PointBlankPermissionManager
     {
+        #region Variables
+        private static Dictionary<PointBlankPermission, DateTime> _Cooldowns = new Dictionary<PointBlankPermission, DateTime>();
+        #endregion
+
         #region Properties
         /// <summary>
         /// The list of all custom PointBlank permissions
@@ -105,6 +109,21 @@ namespace PointBlank.API.Permissions
         /// <param name="permission">The permission string used to find the permission instance</param>
         /// <returns>The permission instance</returns>
         public static PointBlankPermission GetPermission(string permission) => Permissions.FirstOrDefault(a => a.Permission == permission);
+
+        /// <summary>
+        /// Gets a permission's cooldown based on the permission string
+        /// </summary>
+        /// <param name="permission">The permission string</param>
+        /// <returns>The permission cooldown</returns>
+        public static int? GetCooldown(string permission)
+        {
+            PointBlankPermission perm = GetPermission(permission);
+
+            if (perm == null)
+                return null;
+
+            return perm.Cooldown;
+        }
         #endregion
     }
 }

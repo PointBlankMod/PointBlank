@@ -17,7 +17,7 @@ namespace PointBlank.API.Permissions
         /// </summary>
         public string Permission { get; set; }
         /// <summary>
-        /// The permission cooldown
+        /// The permission cooldown in seconds
         /// </summary>
         public int? Cooldown { get; set; }
         #endregion

@@ -16,7 +16,6 @@ namespace PointBlank.API.Player
         #region Variables
         private List<PointBlankGroup> _Groups = new List<PointBlankGroup>();
         private List<PointBlankPermission> _Permissions = new List<PointBlankPermission>();
-        private readonly Dictionary<PointBlankCommand, DateTime> _Cooldowns = new Dictionary<PointBlankCommand, DateTime>();
         #endregion
 
         #region Properties
@@ -35,10 +34,6 @@ namespace PointBlank.API.Player
         /// Any custom data you want to attach to the player
         /// </summary>
         public virtual Dictionary<string, object> Metadata { get; private set; } = new Dictionary<string, object>();
-        /// <summary>
-        /// The command cooldown for the player
-        /// </summary>
-        public virtual int Cooldown { get; set; } = -1;
         /// <summary>
         /// The groups this player is part of
         /// </summary>

@@ -43,10 +43,6 @@ namespace PointBlank.API.Groups
         public string[] Suffixes => _Suffixes.ToArray();
 
         /// <summary>
-        /// The cooldown for the commands
-        /// </summary>
-        public int Cooldown { get; set; }
-        /// <summary>
         /// The color of the group(visible in chat)
         /// </summary>
         public Color Color { get; set; }
