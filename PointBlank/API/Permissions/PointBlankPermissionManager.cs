@@ -12,7 +12,7 @@ namespace PointBlank.API.Permissions
     public static class PointBlankPermissionManager
     {
         #region Variables
-        private static Dictionary<PointBlankPermission, DateTime> _Cooldowns = new Dictionary<PointBlankPermission, DateTime>();
+        private static List<PointBlankCooldown> _Cooldowns = new List<PointBlankCooldown>();
         #endregion
 
         #region Properties
@@ -20,6 +20,11 @@ namespace PointBlank.API.Permissions
         /// The list of all custom PointBlank permissions
         /// </summary>
         public static PointBlankPermission[] Permissions => PermissionManager.Permissions.ToArray();
+
+        /// <summary>
+        /// The list of all cooldowns
+        /// </summary>
+        public static PointBlankCooldown[] Cooldowns => _Cooldowns.ToArray();
         #endregion
 
         #region Functions
