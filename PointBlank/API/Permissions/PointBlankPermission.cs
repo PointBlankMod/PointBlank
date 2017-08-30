@@ -68,6 +68,8 @@ namespace PointBlank.API.Permissions
         #region Operator Functions
         public static bool operator ==(PointBlankPermission permission1, PointBlankPermission permission2)
         {
+            if (Object.ReferenceEquals(permission1, null) || Object.ReferenceEquals(permission2, null))
+                return false;
             if (Object.ReferenceEquals(permission1, permission2))
                 return true;
 
