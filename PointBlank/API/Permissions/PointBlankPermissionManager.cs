@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PointBlank.Services.PermissionManager;
 
 namespace PointBlank.API.Permissions
 {
@@ -17,11 +16,6 @@ namespace PointBlank.API.Permissions
 
         #region Properties
         /// <summary>
-        /// The list of all custom PointBlank permissions
-        /// </summary>
-        public static PointBlankPermission[] Permissions => PermissionManager.Permissions.ToArray();
-
-        /// <summary>
         /// The list of all cooldowns
         /// </summary>
         public static PointBlankCooldown[] Cooldowns => _Cooldowns.ToArray();
@@ -29,105 +23,111 @@ namespace PointBlank.API.Permissions
 
         #region Functions
         /// <summary>
-        /// Adds a permission or edits an existing one then returns it's instance
-        /// </summary>
-        /// <param name="permission">The permission string</param>
-        /// <param name="cooldown">The permission cooldown</param>
-        /// <returns>The permission instance</returns>
-        public static PointBlankPermission AddPermission(string permission, int cooldown)
-        {
-            PointBlankPermission perm = Permissions.FirstOrDefault(a => a.Permission == permission);
-
-            if(perm == null)
-            {
-                perm = new PointBlankPermission(permission, cooldown);
-                return AddPermission(perm);
-            }
-            else
-            {
-                perm.Cooldown = cooldown;
-                return perm;
-            }
-        }
-        /// <summary>
-        /// Adds a permission or returns an existing one
-        /// </summary>
-        /// <param name="permission">The permission string</param>
-        /// <returns>The existing/new permission instance</returns>
-        public static PointBlankPermission AddPermission(string permission)
-        {
-            PointBlankPermission perm = Permissions.FirstOrDefault(a => a.Permission == permission);
-
-            if (perm != null)
-                return perm;
-            perm = AddPermission(permission, -1);
-
-            return perm;
-        }
-        /// <summary>
-        /// Adds a permission to PointBlank
-        /// </summary>
-        /// <param name="permission">The permission to add</param>
-        /// <returns>The permission instance</returns>
-        public static PointBlankPermission AddPermission(PointBlankPermission permission)
-        {
-            PointBlankPermission perm = Permissions.FirstOrDefault(a => a == permission);
-
-            if(perm != null)
-            {
-                if (permission.Cooldown != null)
-                    perm.Cooldown = permission.Cooldown;
-                return perm;
-            }
-
-            ((PermissionManager)Enviroment.services["PermissionManager.PermissionManager"].ServiceClass).AddPermission(permission);
-            return permission;
-        }
-
-        /// <summary>
-        /// Removes a permission from PointBlank using the permission string
-        /// </summary>
-        /// <param name="permission">The permission string of the targeted permission</param>
-        public static void RemovePermission(string permission)
-        {
-            PointBlankPermission perm = Permissions.FirstOrDefault(a => a.Permission == permission);
-
-            if (perm == null)
-                return;
-            RemovePermission(perm);
-        }
-        /// <summary>
-        /// Removes a permission from PointBlank using the permission instance
-        /// </summary>
-        /// <param name="permission">The permission instance</param>
-        public static void RemovePermission(PointBlankPermission permission)
-        {
-            if (!Permissions.Contains(permission))
-                return;
-
-            ((PermissionManager)Enviroment.services["PermissionManager.PermissionManager"].ServiceClass).RemovePermission(permission);
-        }
-
-        /// <summary>
         /// Gets and returns the permission using the permission string
         /// </summary>
         /// <param name="permission">The permission string used to find the permission instance</param>
+        /// <param name="target">The targeted class containing the permission list</param>
         /// <returns>The permission instance</returns>
-        public static PointBlankPermission GetPermission(string permission) => Permissions.FirstOrDefault(a => a.Permission == permission);
+        public static PointBlankPermission GetPermission(IPermitable target, string permission) => target.Permissions.FirstOrDefault(a => a.Permission == permission);
 
         /// <summary>
-        /// Gets a permission's cooldown based on the permission string
+        /// Gets the current cooldown of a targeted object and permission
         /// </summary>
-        /// <param name="permission">The permission string</param>
-        /// <returns>The permission cooldown</returns>
-        public static int? GetCooldown(string permission)
+        /// <param name="target">The targeted object that has the cooldown</param>
+        /// <param name="permission">The permission that the cooldown is applied to</param>
+        /// <returns>The cooldown that is applied to the target object and permission or null if no cooldown is applied</returns>
+        public static PointBlankCooldown GetCooldown(IPermitable target, PointBlankPermission permission) =>
+            Cooldowns.FirstOrDefault(a => a.Target == target && a.Permission == permission);
+
+        /// <summary>
+        /// Checks to see if a target has a cooldown on a permission
+        /// </summary>
+        /// <param name="target">The target to check for the cooldown</param>
+        /// <param name="permission">The permission the cooldown is applied to</param>
+        /// <returns>If the target has a cooldown on that permission</returns>
+        public static bool HasCooldown(IPermitable target, PointBlankPermission permission)
         {
-            PointBlankPermission perm = GetPermission(permission);
+            PointBlankCooldown cooldown = GetCooldown(target, permission);
+
+            if (cooldown == null)
+                return false;
+            if (cooldown.IsExpired)
+            {
+                RemoveCooldown(target, permission);
+                return false;
+            }
+            return true;
+        }
+        /// <summary>
+        /// Checks to see if a target has a cooldown on a permission
+        /// </summary>
+        /// <param name="target">The target to check for the cooldown</param>
+        /// <param name="permission">The permission the cooldown is applied to</param>
+        /// <returns>If the target has a cooldown on that permission</returns>
+        public static bool HasCooldown(IPermitable target, string permission)
+        {
+            PointBlankPermission perm = GetPermission(target, permission);
+
+            if (perm == null)
+                return false;
+            return HasCooldown(target, perm);
+        }
+        
+        /// <summary>
+        /// Removes a cooldown from a target and permission
+        /// </summary>
+        /// <param name="target">The target that the cooldown is applied to</param>
+        /// <param name="permission">The permission the cooldown is applied to</param>
+        public static void RemoveCooldown(IPermitable target, PointBlankPermission permission)
+        {
+            PointBlankCooldown cooldown = GetCooldown(target, permission);
+
+            if (cooldown == null)
+                return;
+            _Cooldowns.Remove(cooldown);
+        }
+        /// <summary>
+        /// Removes a cooldown from a target and permission
+        /// </summary>
+        /// <param name="target">The target that the cooldown is applied to</param>
+        /// <param name="permission">The permission the cooldown is applied to</param>
+        public static void RemoveCooldown(IPermitable target, string permission)
+        {
+            PointBlankPermission perm = GetPermission(target, permission);
+
+            if (perm == null)
+                return;
+            RemoveCooldown(target, perm);
+        }
+
+        /// <summary>
+        /// Adds a cooldown to a target on a specific permission
+        /// </summary>
+        /// <param name="target">The target to add the cooldown to</param>
+        /// <param name="permission">The permission to apply it to</param>
+        /// <returns>The cooldown instance of an existing cooldown or the new cooldown</returns>
+        public static PointBlankCooldown AddCooldown(IPermitable target, PointBlankPermission permission)
+        {
+            PointBlankCooldown cooldown = GetCooldown(target, permission);
+
+            if (cooldown == null)
+                cooldown = new PointBlankCooldown(permission, DateTime.Now, target);
+
+            return cooldown;
+        }
+        /// <summary>
+        /// Adds a cooldown to a target on a specific permission
+        /// </summary>
+        /// <param name="target">The target to add the cooldown to</param>
+        /// <param name="permission">The permission to apply it to</param>
+        /// <returns>The cooldown instance of an existing cooldown or the new cooldown</returns>
+        public static PointBlankCooldown AddCooldown(IPermitable target, string permission)
+        {
+            PointBlankPermission perm = GetPermission(target, permission);
 
             if (perm == null)
                 return null;
-
-            return perm.Cooldown;
+            return AddCooldown(target, perm);
         }
         #endregion
     }

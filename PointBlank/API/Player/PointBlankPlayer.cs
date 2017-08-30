@@ -11,7 +11,7 @@ namespace PointBlank.API.Player
     /// <summary>
     /// The player extension used to identify players
     /// </summary>
-    public abstract class PointBlankPlayer
+    public abstract class PointBlankPlayer : IPermitable
     {
         #region Variables
         private List<PointBlankGroup> _Groups = new List<PointBlankGroup>();
@@ -105,7 +105,7 @@ namespace PointBlank.API.Player
         /// <param name="permission">The permission to add</param>
         public virtual void AddPermission(string permission)
         {
-            PointBlankPermission perm = PointBlankPermissionManager.AddPermission(permission);
+            PointBlankPermission perm = PointBlankPermissionManager.GetPermission(this, permission);
 
             if (perm == null)
                 return;
@@ -130,7 +130,7 @@ namespace PointBlank.API.Player
         /// <param name="permission">The permission to remove</param>
         public virtual void RemovePermission(string permission)
         {
-            PointBlankPermission perm = PointBlankPermissionManager.AddPermission(permission);
+            PointBlankPermission perm = PointBlankPermissionManager.GetPermission(this, permission);
 
             if (perm == null)
                 return;
@@ -225,59 +225,50 @@ namespace PointBlank.API.Player
         }
 
         /// <summary>
-        /// Gets the command cooldown for the player
+        /// Checks if the player has a cooldown on a specific permission
         /// </summary>
-        /// <returns>The command cooldown for the player</returns>
-        public virtual int GetCooldown()
+        /// <param name="permission">The permission the cooldown is applied to</param>
+        /// <returns>If the player has a cooldown or not</returns>
+        public virtual bool HasCooldown(PointBlankPermission permission)
         {
             if (HasPermission("pointblank.nocooldown"))
-                return 0;
-            if (Cooldown != -1)
-                return Cooldown;
-            for (int i = 0; i < Groups.Length; i++)
-                if (Groups[i].Cooldown != -1)
-                    return Groups[i].Cooldown;
-            return 0;
-        }
-        /// <summary>
-        /// Checks if the player has a cooldown on a specific command
-        /// </summary>
-        /// <param name="command">The command to check for</param>
-        /// <returns>If there is a cooldown on the command</returns>
-        public virtual bool HasCooldown(PointBlankCommand command)
-        {
-            if (!_Cooldowns.ContainsKey(command))
                 return false;
-            int cooldown = GetCooldown();
 
-            if (cooldown != -1)
-            {
-                if (!((DateTime.Now - _Cooldowns[command]).TotalSeconds >= cooldown)) return true;
-                _Cooldowns.Remove(command);
-                return false;
-            }
-            if (command.Cooldown == -1) return false;
-            if (!((DateTime.Now - _Cooldowns[command]).TotalSeconds >= command.Cooldown)) return true;
-            _Cooldowns.Remove(command);
+            if (PointBlankPermissionManager.HasCooldown(this, permission))
+                return true;
+            for(int i = 0; i < Groups.Length; i++)
+                if (PointBlankPermissionManager.HasCooldown(Groups[i], permission))
+                    return true;
             return false;
         }
         /// <summary>
-        /// Gives the player a cooldown on a specific command
+        /// Checks if the player has a cooldown on a specific permission
         /// </summary>
-        /// <param name="command">The command to set the cooldown on</param>
-        /// <param name="time">The time when the cooldown was applied(set to null to remove cooldown)</param>
-        public virtual void SetCooldown(PointBlankCommand command, DateTime time)
-        {
-            if (time == null)
-            {
-                if (_Cooldowns.ContainsKey(command))
-                    _Cooldowns.Remove(command);
-                return;
-            }
+        /// <param name="permission">The permission the cooldown is applied to</param>
+        /// <returns>If the player has a cooldown or not</returns>
+        public virtual bool HasCooldown(string permission) => HasCooldown(PointBlankPermissionManager.GetPermission(this, permission));
 
-            if (_Cooldowns.ContainsKey(command))
-                _Cooldowns.Add(command, time);
-        }
+        /// <summary>
+        /// Adds a cooldown to the player on a specific permission
+        /// </summary>
+        /// <param name="permission">The permission to add the cooldown to</param>
+        public virtual void AddCooldown(PointBlankPermission permission) => PointBlankPermissionManager.AddCooldown(this, permission);
+        /// <summary>
+        /// Adds a cooldown to the player on a specific permission
+        /// </summary>
+        /// <param name="permission">The permission to add the cooldown to</param>
+        public virtual void AddCooldown(string permission) => PointBlankPermissionManager.AddCooldown(this, permission);
+
+        /// <summary>
+        /// Removes a cooldown from the player on a specific permission
+        /// </summary>
+        /// <param name="permission">The permission to remove the cooldown from</param>
+        public virtual void RemoveCooldown(PointBlankPermission permission) => PointBlankPermissionManager.RemoveCooldown(this, permission);
+        /// <summary>
+        /// Removes a cooldown from the player on a specific permission
+        /// </summary>
+        /// <param name="permission">The permission to remove the cooldown from</param>
+        public virtual void RemoveCooldown(string permission) => PointBlankPermissionManager.RemoveCooldown(this, permission);
 
         /// <summary>
         /// Gets the player color

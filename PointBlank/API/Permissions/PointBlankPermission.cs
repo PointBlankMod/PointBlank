@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PointBlank.Services.PermissionManager;
+using Newtonsoft.Json;
 
 namespace PointBlank.API.Permissions
 {
@@ -43,6 +43,7 @@ namespace PointBlank.API.Permissions
             Permission = permission;
             Cooldown = null;
         }
+        public PointBlankPermission() { }
 
         #region Functions
         public override string ToString() => Permission;

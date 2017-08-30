@@ -63,7 +63,6 @@ namespace PointBlank.Services.GroupManager
                     g.RemoveSuffix(g.Suffixes[0]);
                 g.Name = (string)obj["Name"];
                 g.Default = (bool)obj["Default"];
-                g.Cooldown = (int)obj["Cooldown"];
                 if (!ColorUtility.TryParseHtmlString((string)obj["Color"], out Color color))
                     color = Color.clear;
                 g.Color = color;
@@ -90,18 +89,18 @@ namespace PointBlank.Services.GroupManager
                 {
                     foreach (JToken token in (JArray)obj["Permissions"])
                     {
-                        if (g.Permissions.Contains(PointBlankPermissionManager.AddPermission((string)token)))
+                        if (g.Permissions.Contains(token.ToObject<PointBlankPermission>()))
                             continue;
 
-                        g.AddPermission((string)token);
+                        g.AddPermission(token.ToObject<PointBlankPermission>());
                     }
                 }
                 else
                 {
-                    if (g.Permissions.Contains(PointBlankPermissionManager.AddPermission((string)obj["Permissions"])))
+                    if (g.Permissions.Contains(obj["Permissions"].ToObject<PointBlankPermission>()))
                         continue;
 
-                    g.AddPermission((string)obj["Permissions"]);
+                    g.AddPermission(obj["Permissions"].ToObject<PointBlankPermission>());
                 }
                 if (obj["Prefixes"] is JArray)
                 {
@@ -144,17 +143,17 @@ namespace PointBlank.Services.GroupManager
         internal void FirstGroups()
         {
             // Create the groups
-            PointBlankGroup guest = new PointBlankGroup("Guest", "Guest Group", true, -1, Color.clear);
-            PointBlankGroup admin = new PointBlankGroup("Admin", "Admin Group", false, 0, Color.blue);
+            PointBlankGroup guest = new PointBlankGroup("Guest", "Guest Group", true, Color.clear);
+            PointBlankGroup admin = new PointBlankGroup("Admin", "Admin Group", false, Color.blue);
 
             // Configure guest group
-            guest.AddPermission("unturned.commands.nonadmin.*");
+            guest.AddPermission(new PointBlankPermission("unturned.commands.nonadmin.*", 0));
             guest.AddPrefix("Guest");
             guest.AddSuffix("Guest");
             PointBlankGroupManager.AddGroup(guest);
 
             // Configure admin group
-            admin.AddPermission("unturned.commands.admin.*");
+            admin.AddPermission(new PointBlankPermission("unturned.commands.admin.*", 0));
             admin.AddPrefix("Admin");
             admin.AddSuffix("Admin");
             admin.AddInherit(guest);
@@ -176,7 +175,6 @@ namespace PointBlank.Services.GroupManager
                     obj["Prefixes"] = JToken.FromObject(g.Prefixes);
                     obj["Suffixes"] = JToken.FromObject(g.Suffixes);
                     obj["Inherits"] = JToken.FromObject(g.Inherits.Select(a => a.ID));
-                    obj["Cooldown"] = g.Cooldown;
                     obj["Color"] = (g.Color == Color.clear ? "none" : "#" + ColorUtility.ToHtmlStringRGB(g.Color));
                 }
                 else
@@ -189,7 +187,6 @@ namespace PointBlank.Services.GroupManager
                         {"Prefixes", JToken.FromObject(g.Prefixes)},
                         {"Suffixes", JToken.FromObject(g.Suffixes)},
                         {"Inherits", JToken.FromObject(g.Inherits.Select(a => a.ID))},
-                        {"Cooldown", g.Cooldown},
                         {"Color", (g.Color == Color.clear ? "none" : "#" + ColorUtility.ToHtmlStringRGB(g.Color))}
                     };
 

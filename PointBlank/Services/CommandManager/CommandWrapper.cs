@@ -89,13 +89,13 @@ namespace PointBlank.Services.CommandManager
                 Config["Enabled"] = Enabled;
 
                 Commands = CommandClass.DefaultCommands;
-                Permission = PointBlankPermissionManager.AddPermission(CommandClass.DefaultPermission);
+                Permission = new PointBlankPermission(CommandClass.DefaultPermission);
                 Enabled = true;
             }
             else
             {
                 Commands = Config["Commands"].ToObject<string[]>();
-                Permission = PointBlankPermissionManager.AddPermission((string)Config["Permission"]);
+                Permission = new PointBlankPermission((string)Config["Permission"]);
                 Enabled = (bool)Config["Enabled"];
             }
         }
@@ -131,7 +131,7 @@ namespace PointBlank.Services.CommandManager
                     PointBlankPlayer.SendMessage(executor, Translations["CommandWrapper_Arguments"], ConsoleColor.Red);
                     return ECommandRunError.ARGUMENT_COUNT;
                 }
-                if(executor != null && executor.HasCooldown(CommandClass))
+                if(executor != null && executor.HasCooldown(CommandClass.Permission))
                 {
                     executor.SendMessage(Translations["CommandWrapper_Cooldown"], Color.red);
                     return ECommandRunError.COOLDOWN;
@@ -140,7 +140,7 @@ namespace PointBlank.Services.CommandManager
 
                 PointBlankCommandEvents.RunCommandExecute(CommandClass, args, executor, ref shouldExecute);
                 if (!shouldExecute) return ECommandRunError.NO_EXECUTE;
-                executor?.SetCooldown(CommandClass, DateTime.Now);
+                executor?.AddCooldown(CommandClass.Permission);
                 CommandClass.Execute(executor, args);
                 return ECommandRunError.NONE;
             }

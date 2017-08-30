@@ -27,9 +27,9 @@ namespace PointBlank.API.Permissions
         public DateTime EndTime { get; private set; }
 
         /// <summary>
-        /// The target object
+        /// The object the cooldown is attached to
         /// </summary>
-        public object Target { get; private set; }
+        public IPermitable Target { get; private set; }
 
         /// <summary>
         /// Is the cooldown expired already
@@ -43,7 +43,7 @@ namespace PointBlank.API.Permissions
         /// <param name="permission">The permission the cooldown is applied to</param>
         /// <param name="startTime">The cooldown start time</param>
         /// <param name="target">The target object the cooldown is attached to</param>
-        public PointBlankCooldown(PointBlankPermission permission, DateTime startTime, object target)
+        public PointBlankCooldown(PointBlankPermission permission, DateTime startTime, IPermitable target)
         {
             // Set the variables
             Permission = permission;

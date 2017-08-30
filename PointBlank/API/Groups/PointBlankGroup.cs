@@ -8,7 +8,7 @@ namespace PointBlank.API.Groups
     /// <summary>
     /// A server group
     /// </summary>
-    public class PointBlankGroup
+    public class PointBlankGroup : IPermitable
     {
         #region Variables
         private List<PointBlankPermission> _Permissions = new List<PointBlankPermission>();
@@ -64,12 +64,11 @@ namespace PointBlank.API.Groups
         /// <param name="cooldown">The cooldown of the group</param>
         /// <param name="color">The color of the group</param>
         /// <param name="isDefault">Is the group a default group</param>
-        public PointBlankGroup(string id, string name, bool isDefault, int cooldown, Color color)
+        public PointBlankGroup(string id, string name, bool isDefault, Color color)
         {
             // Set the variables
             this.ID = id;
             this.Name = name;
-            this.Cooldown = cooldown;
             this.Default = isDefault;
             this.Color = color;
         }
@@ -114,7 +113,7 @@ namespace PointBlank.API.Groups
         /// <param name="permission">The permission to add</param>
         public void AddPermission(string permission)
         {
-            PointBlankPermission perm = PointBlankPermissionManager.AddPermission(permission);
+            PointBlankPermission perm = PointBlankPermissionManager.GetPermission(this, permission);
 
             if (perm == null)
                 return;
@@ -139,7 +138,7 @@ namespace PointBlank.API.Groups
         /// <param name="permission">The permission to remove</param>
         public void RemovePermission(string permission)
         {
-            PointBlankPermission perm = PointBlankPermissionManager.AddPermission(permission);
+            PointBlankPermission perm = PointBlankPermissionManager.GetPermission(this, permission);
 
             if (perm == null)
                 return;
