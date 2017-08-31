@@ -150,6 +150,40 @@ namespace PointBlank.API.Player
                 PointBlankPlayerEvents.RunPermissionRemove(this, permission);
         }
         /// <summary>
+        /// Gets all permissions attached to the user
+        /// </summary>
+        /// <returns>The list of permissions attached to the user</returns>
+        public virtual PointBlankPermission[] GetPermissions()
+        {
+            List<PointBlankPermission> permissions = Permissions.ToList();
+
+            for(int i = 0; i < Groups.Length; i++)
+            {
+                foreach(PointBlankPermission perm in Groups[i].GetPermissions())
+                {
+                    PointBlankPermission cPerm = permissions.FirstOrDefault(a => a == perm);
+                    if(cPerm != null)
+                    {
+                        if(cPerm.Cooldown > perm.Cooldown)
+                            cPerm.Cooldown = perm.Cooldown;
+                    }
+                    else
+                    {
+                        permissions.Add(perm);
+                    }
+                }
+            }
+
+            return permissions.ToArray();
+
+        }
+        /// <summary>
+        /// Converts a string to a permission object or returns null if not found
+        /// </summary>
+        /// <param name="permission">The permission string used for the conversion</param>
+        /// <returns>The permission object or null if not found</returns>
+        public virtual PointBlankPermission GetPermission(string permission) => GetPermissions().FirstOrDefault(a => a.Permission == permission);
+        /// <summary>
         /// Checks if the player has the permissions specified
         /// </summary>
         /// <param name="permissions">The permissions to check for</param>
@@ -195,35 +229,46 @@ namespace PointBlank.API.Player
         {
             if (IsAdmin)
                 return true;
-            for (int i = 0; i < Groups.Length; i++)
-                if (Groups[i].HasPermission(permission))
+            foreach (PointBlankPermission perm in GetPermissions())
+                if (perm.IsOverlappingPermission(permission))
                     return true;
-
-            string[] sPermission = permission.Permission.Split('.');
-
-            for (int a = 0; a < Permissions.Length; a++)
-            {
-                string[] sP = Permissions[a].Permission.Split('.');
-
-                for (int b = 0; b < sPermission.Length; b++)
-                {
-                    if (b >= sP.Length)
-                    {
-                        if (sPermission.Length > sP.Length)
-                            break;
-
-                        return true;
-                    }
-
-                    if (sP[b] == "*")
-                        return true;
-                    if (sP[b] != sPermission[b])
-                        break;
-                }
-            }
             return false;
         }
 
+        /// <summary>
+        /// Adds a cooldown to the player on a specific permission
+        /// </summary>
+        /// <param name="permission">The permission to add the cooldown to</param>
+        public virtual void AddCooldown(PointBlankPermission permission)
+        {
+            PointBlankPermission perm = GetPermission(permission.Permission);
+
+            if (perm == null)
+                return;
+            PointBlankPermissionManager.AddCooldown(this, perm);
+        }
+        /// <summary>
+        /// Adds a cooldown to the player on a specific permission
+        /// </summary>
+        /// <param name="permission">The permission to add the cooldown to</param>
+        public virtual void AddCooldown(string permission) => AddCooldown(new PointBlankPermission(permission));
+        /// <summary>
+        /// Removes a cooldown from the player on a specific permission
+        /// </summary>
+        /// <param name="permission">The permission to remove the cooldown from</param>
+        public virtual void RemoveCooldown(PointBlankPermission permission)
+        {
+            PointBlankPermission perm = GetPermission(permission.Permission);
+
+            if (perm == null)
+                return;
+            PointBlankPermissionManager.RemoveCooldown(this, perm);
+        }
+        /// <summary>
+        /// Removes a cooldown from the player on a specific permission
+        /// </summary>
+        /// <param name="permission">The permission to remove the cooldown from</param>
+        public virtual void RemoveCooldown(string permission) => RemoveCooldown(new PointBlankPermission(permission));
         /// <summary>
         /// Checks if the player has a cooldown on a specific permission
         /// </summary>
@@ -236,9 +281,6 @@ namespace PointBlank.API.Player
 
             if (PointBlankPermissionManager.HasCooldown(this, permission))
                 return true;
-            for(int i = 0; i < Groups.Length; i++)
-                if (PointBlankPermissionManager.HasCooldown(Groups[i], permission))
-                    return true;
             return false;
         }
         /// <summary>
@@ -247,28 +289,6 @@ namespace PointBlank.API.Player
         /// <param name="permission">The permission the cooldown is applied to</param>
         /// <returns>If the player has a cooldown or not</returns>
         public virtual bool HasCooldown(string permission) => HasCooldown(PointBlankPermissionManager.GetPermission(this, permission));
-
-        /// <summary>
-        /// Adds a cooldown to the player on a specific permission
-        /// </summary>
-        /// <param name="permission">The permission to add the cooldown to</param>
-        public virtual void AddCooldown(PointBlankPermission permission) => PointBlankPermissionManager.AddCooldown(this, permission);
-        /// <summary>
-        /// Adds a cooldown to the player on a specific permission
-        /// </summary>
-        /// <param name="permission">The permission to add the cooldown to</param>
-        public virtual void AddCooldown(string permission) => PointBlankPermissionManager.AddCooldown(this, permission);
-
-        /// <summary>
-        /// Removes a cooldown from the player on a specific permission
-        /// </summary>
-        /// <param name="permission">The permission to remove the cooldown from</param>
-        public virtual void RemoveCooldown(PointBlankPermission permission) => PointBlankPermissionManager.RemoveCooldown(this, permission);
-        /// <summary>
-        /// Removes a cooldown from the player on a specific permission
-        /// </summary>
-        /// <param name="permission">The permission to remove the cooldown from</param>
-        public virtual void RemoveCooldown(string permission) => PointBlankPermissionManager.RemoveCooldown(this, permission);
 
         /// <summary>
         /// Gets the player color

@@ -14,5 +14,12 @@ namespace PointBlank.API.Permissions
         /// The permissions of the class
         /// </summary>
         PointBlankPermission[] Permissions { get; }
+
+        /// <summary>
+        /// Converts a string to a permission object or returns null if not found
+        /// </summary>
+        /// <param name="permission">The permission string used for the conversion</param>
+        /// <returns>The permission object or null if not found</returns>
+        PointBlankPermission GetPermission(string permission);
     }
 }

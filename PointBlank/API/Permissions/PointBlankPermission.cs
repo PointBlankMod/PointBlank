@@ -63,6 +63,45 @@ namespace PointBlank.API.Permissions
         /// </summary>
         /// <returns>The duplicated instance of a permission</returns>
         public PointBlankPermission Duplicate() => new PointBlankPermission(Permission, Cooldown);
+
+        /// <summary>
+        /// Checks if the permissions overlap mostly used for checking if a user has a permission
+        /// </summary>
+        /// <param name="permission">The permission to compare with</param>
+        /// <returns>If the permissions overlap</returns>
+        public bool IsOverlappingPermission(string permission)
+        {
+            if (string.IsNullOrEmpty(Permission))
+                return true;
+            if (string.IsNullOrEmpty(permission))
+                return false;
+
+            string[] sPermission = permission.Split('.');
+            string[] sP = Permission.Split('.');
+
+            for (int b = 0; b < sPermission.Length; b++)
+            {
+                if (b >= sP.Length)
+                {
+                    if (sPermission.Length > sP.Length)
+                        break;
+
+                    return true;
+                }
+
+                if (sP[b] == "*")
+                    return true;
+                if (sP[b] != sPermission[b])
+                    break;
+            }
+            return false;
+        }
+        /// <summary>
+        /// Checks if the permissions overlap mostly used for checking if a user has a permission
+        /// </summary>
+        /// <param name="permission">The permission to compare with</param>
+        /// <returns>If the permissions overlap</returns>
+        public bool IsOverlappingPermission(PointBlankPermission permission) => IsOverlappingPermission(permission.Permission);
         #endregion
 
         #region Operator Functions

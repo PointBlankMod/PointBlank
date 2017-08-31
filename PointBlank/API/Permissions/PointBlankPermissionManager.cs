@@ -86,19 +86,6 @@ namespace PointBlank.API.Permissions
                 return;
             _Cooldowns.Remove(cooldown);
         }
-        /// <summary>
-        /// Removes a cooldown from a target and permission
-        /// </summary>
-        /// <param name="target">The target that the cooldown is applied to</param>
-        /// <param name="permission">The permission the cooldown is applied to</param>
-        public static void RemoveCooldown(IPermitable target, string permission)
-        {
-            PointBlankPermission perm = GetPermission(target, permission);
-
-            if (perm == null)
-                return;
-            RemoveCooldown(target, perm);
-        }
 
         /// <summary>
         /// Adds a cooldown to a target on a specific permission
@@ -114,20 +101,6 @@ namespace PointBlank.API.Permissions
                 cooldown = new PointBlankCooldown(permission, DateTime.Now, target);
 
             return cooldown;
-        }
-        /// <summary>
-        /// Adds a cooldown to a target on a specific permission
-        /// </summary>
-        /// <param name="target">The target to add the cooldown to</param>
-        /// <param name="permission">The permission to apply it to</param>
-        /// <returns>The cooldown instance of an existing cooldown or the new cooldown</returns>
-        public static PointBlankCooldown AddCooldown(IPermitable target, string permission)
-        {
-            PointBlankPermission perm = GetPermission(target, permission);
-
-            if (perm == null)
-                return null;
-            return AddCooldown(target, perm);
         }
         #endregion
     }

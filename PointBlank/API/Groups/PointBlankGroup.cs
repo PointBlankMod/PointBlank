@@ -281,30 +281,19 @@ namespace PointBlank.API.Groups
         public bool HasPermission(PointBlankPermission permission)
         {
             PointBlankPermission[] permissions = GetPermissions();
-            string[] sPermission = permission.Permission.Split('.');
 
-            for (int a = 0; a < permissions.Length; a++)
-            {
-                string[] sP = permissions[a].Permission.Split('.');
-
-                for (int b = 0; b < sPermission.Length; b++)
-                {
-                    if (b >= sP.Length)
-                    {
-                        if (sPermission.Length > sP.Length)
-                            break;
-
-                        return true;
-                    }
-
-                    if (sP[b] == "*")
-                        return true;
-                    if (sP[b] != sPermission[b])
-                        break;
-                }
-            }
+            for (int i = 0; i < permissions.Length; i++)
+                if (permissions[i].IsOverlappingPermission(permission))
+                    return true;
             return false;
         }
+
+        /// <summary>
+        /// Converts a string to a permission object or returns null if not found
+        /// </summary>
+        /// <param name="permission">The permission string used for the conversion</param>
+        /// <returns>The permission object or null if not found</returns>
+        public PointBlankPermission GetPermission(string permission) => GetPermissions().FirstOrDefault(a => a.Permission == permission);
         #endregion
     }
 }

@@ -23,11 +23,6 @@ namespace PointBlank.API.Commands
         public PointBlankPermission Permission => CommandManager.Commands.FirstOrDefault(a => a.CommandClass == this).Permission;
 
         /// <summary>
-        /// The cooldown needed to execute the command
-        /// </summary>
-        public int Cooldown => (Permission.Cooldown == null ? -1 : (int)Permission.Cooldown);
-
-        /// <summary>
         /// Is the command enabled
         /// </summary>
         public bool Enabled => CommandManager.Commands.FirstOrDefault(a => a.CommandClass == this).Enabled;
