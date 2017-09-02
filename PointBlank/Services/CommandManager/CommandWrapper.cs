@@ -8,6 +8,7 @@ using PointBlank.Framework.Translations;
 using PointBlank.API.Collections;
 using PointBlank.API.Player;
 using PointBlank.API.Server;
+using PointBlank.API.Permissions;
 
 namespace PointBlank.Services.CommandManager
 {
@@ -26,8 +27,7 @@ namespace PointBlank.Services.CommandManager
         public PointBlankCommand CommandClass { get; private set; }
 
         public string[] Commands { get; private set; }
-        public string Permission { get; private set; }
-        public int Cooldown { get; private set; }
+        public PointBlankPermission Permission { get; private set; }
         public bool Enabled { get; private set; }
         #endregion
 
@@ -86,19 +86,16 @@ namespace PointBlank.Services.CommandManager
                 Config["Name"] = name;
                 Config["Commands"] = JToken.FromObject(CommandClass.DefaultCommands);
                 Config["Permission"] = CommandClass.DefaultPermission;
-                Config["Cooldown"] = CommandClass.DefaultCooldown;
                 Config["Enabled"] = Enabled;
 
                 Commands = CommandClass.DefaultCommands;
-                Permission = CommandClass.DefaultPermission;
-                Cooldown = CommandClass.DefaultCooldown;
+                Permission = new PointBlankPermission(CommandClass.DefaultPermission);
                 Enabled = true;
             }
             else
             {
                 Commands = Config["Commands"].ToObject<string[]>();
-                Permission = (string)Config["Permission"];
-                Cooldown = (int)Config["Cooldown"];
+                Permission = new PointBlankPermission((string)Config["Permission"]);
                 Enabled = (bool)Config["Enabled"];
             }
         }
@@ -134,7 +131,7 @@ namespace PointBlank.Services.CommandManager
                     PointBlankPlayer.SendMessage(executor, Translations["CommandWrapper_Arguments"], ConsoleColor.Red);
                     return ECommandRunError.ARGUMENT_COUNT;
                 }
-                if(executor != null && executor.HasCooldown(CommandClass))
+                if(executor != null && executor.HasCooldown(CommandClass.Permission))
                 {
                     executor.SendMessage(Translations["CommandWrapper_Cooldown"], Color.red);
                     return ECommandRunError.COOLDOWN;
@@ -143,7 +140,7 @@ namespace PointBlank.Services.CommandManager
 
                 PointBlankCommandEvents.RunCommandExecute(CommandClass, args, executor, ref shouldExecute);
                 if (!shouldExecute) return ECommandRunError.NO_EXECUTE;
-                executor?.SetCooldown(CommandClass, DateTime.Now);
+                executor?.AddCooldown(CommandClass.Permission);
                 CommandClass.Execute(executor, args);
                 return ECommandRunError.NONE;
             }

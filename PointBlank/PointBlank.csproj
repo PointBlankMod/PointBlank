@@ -86,6 +86,10 @@
     <Compile Include="API\IPC\IPCEvents.cs" />
     <Compile Include="API\IPC\PointBlankIPCManager.cs" />
     <Compile Include="API\Linq\LinqToSql.cs" />
+    <Compile Include="API\Permissions\IPermitable.cs" />
+    <Compile Include="API\Permissions\PointBlankCooldown.cs" />
+    <Compile Include="API\Permissions\PointBlankPermission.cs" />
+    <Compile Include="API\Permissions\PointBlankPermissionManager.cs" />
     <Compile Include="API\Player\PointBlankPlayer.cs" />
     <Compile Include="API\Groups\PointBlankGroup.cs" />
     <Compile Include="API\Groups\PointBlankGroupEvents.cs" />

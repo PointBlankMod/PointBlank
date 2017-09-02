@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using PointBlank.API.Plugins;
 using PointBlank.API.Player;
+using PointBlank.API.Permissions;
 using PointBlank.Services.CommandManager;
 
 namespace PointBlank.API.Commands
@@ -12,11 +13,6 @@ namespace PointBlank.API.Commands
     {
         #region Properties
         /// <summary>
-        /// The command instance
-        /// </summary>
-        public static PointBlankCommand Instance { get; internal set; }
-
-        /// <summary>
         /// The commands used to execute this command
         /// </summary>
         public string[] Commands => CommandManager.Commands.FirstOrDefault(a => a.CommandClass == this).Commands;
@@ -24,12 +20,7 @@ namespace PointBlank.API.Commands
         /// <summary>
         /// The permissions needed to execute the command
         /// </summary>
-        public string Permission => CommandManager.Commands.FirstOrDefault(a => a.CommandClass == this).Permission;
-
-        /// <summary>
-        /// The cooldown needed to execute the command
-        /// </summary>
-        public int Cooldown => CommandManager.Commands.FirstOrDefault(a => a.CommandClass == this).Cooldown;
+        public PointBlankPermission Permission => CommandManager.Commands.FirstOrDefault(a => a.CommandClass == this).Permission;
 
         /// <summary>
         /// Is the command enabled
@@ -71,11 +62,6 @@ namespace PointBlank.API.Commands
         public virtual int MinimumParams => 0;
 
         /// <summary>
-        /// The default cooldown(-1 to not override cooldown)
-        /// </summary>
-        public virtual int DefaultCooldown => -1;
-
-        /// <summary>
         /// At what state is the command allowed to be executed
         /// </summary>
         public virtual EAllowedServerState AllowedServerState => EAllowedServerState.BOTH;
@@ -94,8 +80,6 @@ namespace PointBlank.API.Commands
         /// <param name="executor">The player executing the command</param>
         public abstract void Execute(PointBlankPlayer executor, string[] args);
         #endregion
-
-        public PointBlankCommand() => Instance = this;
 
         #region Functions
         /// <summary>

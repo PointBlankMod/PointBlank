@@ -3,6 +3,7 @@ using System.IO;
 using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
+using PointBlank.API;
 using PointBlank.API.Plugins;
 using PointBlank.API.Collections;
 using PointBlank.API.Interfaces;
@@ -188,7 +189,7 @@ namespace PointBlank.Framework
             if (!Initialized)
                 return;
 
-            foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
+            foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies().Where(a => Attribute.GetCustomAttribute(a, typeof(PointBlankExtensionAttribute)) != null))
                 foreach (Type class_type in asm.GetTypes())
                     SaveInterface(class_type);
 
@@ -202,9 +203,9 @@ namespace PointBlank.Framework
             if (!_interface.IsClass)
                 return;
 
-            if (typeof(IConfigurable).IsAssignableFrom(_interface))
+            if (typeof(IConfigurable).IsAssignableFrom(_interface) && _interface != typeof(IConfigurable))
                 LoadConfigurable(_interface);
-            if (typeof(ITranslatable).IsAssignableFrom(_interface))
+            if (typeof(ITranslatable).IsAssignableFrom(_interface) && _interface != typeof(ITranslatable))
                 LoadTranslatable(_interface);
         }
 
@@ -213,9 +214,9 @@ namespace PointBlank.Framework
             if (!_interface.IsClass)
                 return;
 
-            if (typeof(IConfigurable).IsAssignableFrom(_interface))
+            if (typeof(IConfigurable).IsAssignableFrom(_interface) && _interface != typeof(IConfigurable))
                 SaveConfigurable(_interface);
-            if (typeof(ITranslatable).IsAssignableFrom(_interface))
+            if (typeof(ITranslatable).IsAssignableFrom(_interface) && _interface != typeof(ITranslatable))
                 SaveTranslatable(_interface);
         }
         #endregion

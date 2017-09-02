@@ -59,38 +59,8 @@ namespace PointBlank.API.Collections
         /// <summary>
         /// Custom collection for configurations
         /// </summary>
-        public ConfigurationList()
-        {
-            StackTrace stack = new StackTrace(false);
-            if (stack.FrameCount <= 0)
-            {
-                Configurations = new Dictionary<string, object>();
-                return;
-            }
-            MethodBase jumpMethod = stack.GetFrame(1).GetMethod();
-
-            if (!Memory.ConfigurationCollection.ContainsKey(jumpMethod.MethodHandle.GetFunctionPointer().ToString()))
-            {
-                Configurations = new Dictionary<string, object>();
-                Memory.ConfigurationCollection.Add(jumpMethod.MethodHandle.GetFunctionPointer().ToString(), this);
-                return;
-            }
-            Configurations = Memory.ConfigurationCollection[jumpMethod.MethodHandle.GetFunctionPointer().ToString()].Configurations;
-        }
-        /// <summary>
-        /// Custom collection for configurations
-        /// <param name="key">The key to save the list under</param>
-        /// </summary>
-        public ConfigurationList(string key)
-        {
-            if (!Memory.ConfigurationCollection.ContainsKey(key))
-            {
-                Configurations = new Dictionary<string, object>();
-                Memory.ConfigurationCollection.Add(key, this);
-                return;
-            }
-            Configurations = Memory.ConfigurationCollection[key].Configurations;
-        }
+        public ConfigurationList() =>
+            Configurations = new Dictionary<string, object>();
 
         #region Collection Functions
         /// <summary>
@@ -171,13 +141,6 @@ namespace PointBlank.API.Collections
         /// Clears the list
         /// </summary>
         public void Clear() => Configurations.Clear();
-        #endregion
-
-        #region SubClasses
-        protected static class Memory
-        {
-            public static Dictionary<string, ConfigurationList> ConfigurationCollection = new Dictionary<string, ConfigurationList>();
-        }
         #endregion
     }
 }

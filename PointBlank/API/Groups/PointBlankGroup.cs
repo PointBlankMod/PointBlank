@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using PointBlank.API.Permissions;
 using UnityEngine;
 
 namespace PointBlank.API.Groups
@@ -7,10 +8,10 @@ namespace PointBlank.API.Groups
     /// <summary>
     /// A server group
     /// </summary>
-    public class PointBlankGroup
+    public class PointBlankGroup : IPermitable
     {
         #region Variables
-        private List<string> _Permissions = new List<string>();
+        private List<PointBlankPermission> _Permissions = new List<PointBlankPermission>();
         private List<PointBlankGroup> _Inherits = new List<PointBlankGroup>();
 
         private List<string> _Prefixes = new List<string>();
@@ -26,7 +27,7 @@ namespace PointBlank.API.Groups
         /// <summary>
         /// The list of permissions this group has
         /// </summary>
-        public string[] Permissions => _Permissions.ToArray();
+        public PointBlankPermission[] Permissions => _Permissions.ToArray();
         /// <summary>
         /// List of permission inherits this group has
         /// </summary>
@@ -41,10 +42,6 @@ namespace PointBlank.API.Groups
         /// </summary>
         public string[] Suffixes => _Suffixes.ToArray();
 
-        /// <summary>
-        /// The cooldown for the commands
-        /// </summary>
-        public int Cooldown { get; set; }
         /// <summary>
         /// The color of the group(visible in chat)
         /// </summary>
@@ -67,16 +64,14 @@ namespace PointBlank.API.Groups
         /// <param name="cooldown">The cooldown of the group</param>
         /// <param name="color">The color of the group</param>
         /// <param name="isDefault">Is the group a default group</param>
-        public PointBlankGroup(string id, string name, bool isDefault, int cooldown, Color color)
+        public PointBlankGroup(string id, string name, bool isDefault, Color color)
         {
             // Set the variables
             this.ID = id;
             this.Name = name;
-            this.Cooldown = cooldown;
             this.Default = isDefault;
             this.Color = color;
         }
-
         /// <summary>
         /// Creates a group instance
         /// </summary>
@@ -118,6 +113,18 @@ namespace PointBlank.API.Groups
         /// <param name="permission">The permission to add</param>
         public void AddPermission(string permission)
         {
+            PointBlankPermission perm = PointBlankPermissionManager.GetPermission(this, permission);
+
+            if (perm == null)
+                return;
+            AddPermission(perm);
+        }
+        /// <summary>
+        /// Add a permission to the group
+        /// </summary>
+        /// <param name="permission">The permission to add</param>
+        public void AddPermission(PointBlankPermission permission)
+        {
             if (_Permissions.Contains(permission))
                 return;
 
@@ -130,6 +137,18 @@ namespace PointBlank.API.Groups
         /// </summary>
         /// <param name="permission">The permission to remove</param>
         public void RemovePermission(string permission)
+        {
+            PointBlankPermission perm = PointBlankPermissionManager.GetPermission(this, permission);
+
+            if (perm == null)
+                return;
+            RemovePermission(perm);
+        }
+        /// <summary>
+        /// Removes a permission from the group
+        /// </summary>
+        /// <param name="permission">The permission to remove</param>
+        public void RemovePermission(PointBlankPermission permission)
         {
             if (!_Permissions.Contains(permission))
                 return;
@@ -222,14 +241,14 @@ namespace PointBlank.API.Groups
         /// Gets the list of all permissions including inheritences
         /// </summary>
         /// <returns>The list of all permissions including inheritences</returns>
-        public string[] GetPermissions()
+        public PointBlankPermission[] GetPermissions()
         {
-            List<string> permissions = new List<string>();
+            List<PointBlankPermission> permissions = new List<PointBlankPermission>();
 
             permissions.AddRange(Permissions);
             PointBlankTools.ForeachLoop<PointBlankGroup>(Inherits, delegate (int index, PointBlankGroup value)
             {
-                PointBlankTools.ForeachLoop<string>(value.GetPermissions(), delegate (int i, string v)
+                PointBlankTools.ForeachLoop<PointBlankPermission>(value.GetPermissions(), delegate (int i, PointBlankPermission v)
                 {
                     if (permissions.Contains(v))
                         return;
@@ -248,31 +267,33 @@ namespace PointBlank.API.Groups
         /// <returns>If the group has the permission specified</returns>
         public bool HasPermission(string permission)
         {
-            string[] permissions = GetPermissions();
-            string[] sPermission = permission.Split('.');
+            PointBlankPermission perm = new PointBlankPermission(permission);
 
-            for(int a = 0; a < permissions.Length; a++)
-            {
-                string[] sP = permissions[a].Split('.');
+            if (perm == null)
+                return false;
+            return HasPermission(perm);
+        }
+        /// <summary>
+        /// Checks if the group has the permission specified
+        /// </summary>
+        /// <param name="permission">The permission to check for</param>
+        /// <returns>If the group has the permission specified</returns>
+        public bool HasPermission(PointBlankPermission permission)
+        {
+            PointBlankPermission[] permissions = GetPermissions();
 
-                for(int b = 0; b < sPermission.Length; b++)
-                {
-                    if (b >= sP.Length)
-                    {
-                        if (sPermission.Length > sP.Length)
-                            break;
-
-                        return true;
-                    }
-
-                    if (sP[b] == "*")
-                        return true;
-                    if (sP[b] != sPermission[b])
-                        break;
-                }
-            }
+            for (int i = 0; i < permissions.Length; i++)
+                if (permissions[i].IsOverlappingPermission(permission))
+                    return true;
             return false;
         }
+
+        /// <summary>
+        /// Converts a string to a permission object or returns null if not found
+        /// </summary>
+        /// <param name="permission">The permission string used for the conversion</param>
+        /// <returns>The permission object or null if not found</returns>
+        public PointBlankPermission GetPermission(string permission) => GetPermissions().FirstOrDefault(a => a.Permission == permission);
         #endregion
     }
 }

@@ -76,7 +76,7 @@ namespace PointBlank.Services.DetourManager
             }
             catch (Exception ex)
             {
-                PointBlankLogging.LogError("Error when attempting to run original method!", ex);
+                PointBlankLogging.LogError("Error when attempting to run original method " + Original.Name + "!", ex);
             }
 
             Detour();

@@ -102,6 +102,8 @@ namespace PointBlank.Services.PluginManager
         {
             foreach(KeyValuePair<string, object> config in PluginClass.Configurations)
             {
+                if (config.Value == null)
+                    continue;
                 if (ConfigurationData.CheckKey(config.Key))
                     ConfigurationData.Document[config.Key] = JToken.FromObject(config.Value);
                 else
@@ -126,6 +128,8 @@ namespace PointBlank.Services.PluginManager
         {
             foreach(KeyValuePair<string, string> translation in PluginClass.Translations)
             {
+                if (string.IsNullOrEmpty(translation.Value))
+                    continue;
                 if (TranslationData.CheckKey(translation.Key))
                     TranslationData.Document[translation.Key] = translation.Value;
                 else
@@ -159,7 +163,11 @@ namespace PointBlank.Services.PluginManager
 
             WebsiteData.GetData(PluginClass.VersionURL, out bVersion);
 
-            return (bVersion != Version);
+            if (!int.TryParse(bVersion.Replace('.', '\0'), out int newVersion))
+                return (bVersion != Version);
+            if (!int.TryParse(Version.Replace('.', '\0'), out int curVersion))
+                return (bVersion != Version);
+            return (newVersion > curVersion);
         }
 
         private void Update()
@@ -215,6 +223,7 @@ namespace PointBlank.Services.PluginManager
                     if (PluginConfiguration.AutoUpdate)
                         Update();
                 }
+                LastUpdateCheck = DateTime.Now;
 
                 LoadConfiguration(); // Load the configuration
                 LoadTranslation(); // Load the translation
