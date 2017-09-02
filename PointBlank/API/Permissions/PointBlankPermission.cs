@@ -9,7 +9,7 @@ namespace PointBlank.API.Permissions
     /// <summary>
     /// The permission instance of PointBlank
     /// </summary>
-    public class PointBlankPermission
+    public class PointBlankPermission : IEquatable<PointBlankPermission>
     {
         #region Properties
         /// <summary>
@@ -102,15 +102,17 @@ namespace PointBlank.API.Permissions
         /// <param name="permission">The permission to compare with</param>
         /// <returns>If the permissions overlap</returns>
         public bool IsOverlappingPermission(PointBlankPermission permission) => IsOverlappingPermission(permission.Permission);
+
+        public bool Equals(PointBlankPermission other) => this == other;
         #endregion
 
         #region Operator Functions
         public static bool operator ==(PointBlankPermission permission1, PointBlankPermission permission2)
         {
-            if (Object.ReferenceEquals(permission1, null) || Object.ReferenceEquals(permission2, null))
-                return false;
             if (Object.ReferenceEquals(permission1, permission2))
                 return true;
+            if ((object)permission1 == null || (object)permission2 == null)
+                return false;
 
             return (permission1.Permission == permission2.Permission);
         }

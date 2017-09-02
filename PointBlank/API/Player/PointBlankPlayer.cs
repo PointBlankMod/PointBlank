@@ -157,20 +157,16 @@ namespace PointBlank.API.Player
         {
             List<PointBlankPermission> permissions = Permissions.ToList();
 
-            for(int i = 0; i < Groups.Length; i++)
+            for (int i = 0; i < Groups.Length; i++)
             {
-                foreach(PointBlankPermission perm in Groups[i].GetPermissions())
+                foreach (PointBlankPermission perm in Groups[i].GetPermissions())
                 {
                     PointBlankPermission cPerm = permissions.FirstOrDefault(a => a == perm);
-                    if(cPerm != null)
-                    {
-                        if(cPerm.Cooldown > perm.Cooldown)
-                            cPerm.Cooldown = perm.Cooldown;
-                    }
-                    else
-                    {
-                        permissions.Add(perm);
-                    }
+
+                    if (cPerm != null && cPerm.Cooldown != null && perm.Cooldown != null)
+                        if (cPerm.Cooldown > perm.Cooldown)
+                            permissions.Remove(cPerm);
+                    permissions.Add(perm);
                 }
             }
 
