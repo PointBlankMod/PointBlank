@@ -3,7 +3,7 @@
     /// <summary>
     /// Events for the inter-process communication library
     /// </summary>
-    public static class IPCEvents
+    public static class IpcEvents
     {
         #region Handlers
         /// <summary>

@@ -27,15 +27,15 @@ namespace PointBlank.API.Storage
         /// <summary>
         /// This is the compressed version of the file
         /// </summary>
-        public byte[] File_Compressed { get; private set; }
+        public byte[] FileCompressed { get; private set; }
         /// <summary>
         /// This is the raw version of the file
         /// </summary>
-        public byte[] File_Decompressed { get; private set; }
+        public byte[] FileDecompressed { get; private set; }
         /// <summary>
         /// This is the file contents. Anything you write here will be written back to the file
         /// </summary>
-        public string File_String { get; set; }
+        public string FileString { get; set; }
         #endregion
 
         /// <summary>
@@ -60,15 +60,15 @@ namespace PointBlank.API.Storage
         {
             switch (Compression)
             {
-                case ECompression.GZIP:
-                    File_Compressed = File.ReadAllBytes(Path);
-                    File_Decompressed = GZip.UnZip(File_Compressed);
+                case ECompression.Gzip:
+                    FileCompressed = File.ReadAllBytes(Path);
+                    FileDecompressed = GZip.UnZip(FileCompressed);
                     break;
                 default:
-                    File_Decompressed = File.ReadAllBytes(Path);
+                    FileDecompressed = File.ReadAllBytes(Path);
                     break;
             }
-            File_String = Encoding.Unicode.GetString(File_Decompressed);
+            FileString = Encoding.Unicode.GetString(FileDecompressed);
         }
         #endregion
 
@@ -78,16 +78,16 @@ namespace PointBlank.API.Storage
         /// </summary>
         public void Write()
         {
-            if (!string.IsNullOrEmpty(File_String))
-                File_Decompressed = Encoding.Unicode.GetBytes(File_String);
+            if (!string.IsNullOrEmpty(FileString))
+                FileDecompressed = Encoding.Unicode.GetBytes(FileString);
             switch (Compression)
             {
-                case ECompression.GZIP:
-                    File_Compressed = GZip.Zip(File_Decompressed);
-                    File.WriteAllBytes(Path, File_Compressed);
+                case ECompression.Gzip:
+                    FileCompressed = GZip.Zip(FileDecompressed);
+                    File.WriteAllBytes(Path, FileCompressed);
                     break;
                 default:
-                    File.WriteAllBytes(Path, File_Decompressed);
+                    File.WriteAllBytes(Path, FileDecompressed);
                     break;
             }
         }

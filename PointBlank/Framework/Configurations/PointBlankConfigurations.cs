@@ -12,9 +12,9 @@ namespace PointBlank.Framework.Configurations
 
         public ConfigurationList Configurations => new ConfigurationList()
         {
-            //{ "ConfigFormat", EDataType.JSON }
+            //{ "ConfigFormat", EDataType.Json }
         };
 
-        public Dictionary<Type, IConfigurable> ConfigurationDictionary => Enviroment.FrameworkConfig;
+        public Dictionary<Type, Configurable> ConfigurationDictionary => PointBlankEnvironment.FrameworkConfig;
     }
 }

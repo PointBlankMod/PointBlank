@@ -12,8 +12,13 @@ namespace PointBlank.API.Plugins
     public abstract class PointBlankPlugin : MonoBehaviour
     {
         #region Variables
+<<<<<<< HEAD
         private TranslationList _Translations = null;
         private ConfigurationList _Configurations = null;
+=======
+        private TranslationList _translations = null;
+        private ConfigurationList _configurations = null;
+>>>>>>> master
         #endregion
 
         #region Properties
@@ -24,9 +29,15 @@ namespace PointBlank.API.Plugins
         {
             get
             {
+<<<<<<< HEAD
                 if (_Translations == null)
                     _Translations = DefaultTranslations;
                 return _Translations;
+=======
+                if (_translations == null)
+                    _translations = DefaultTranslations;
+                return _translations;
+>>>>>>> master
             }
         }
 
@@ -37,9 +48,15 @@ namespace PointBlank.API.Plugins
         {
             get
             {
+<<<<<<< HEAD
                 if (_Configurations == null)
                     _Configurations = DefaultConfigurations;
                 return _Configurations;
+=======
+                if (_configurations == null)
+                    _configurations = DefaultConfigurations;
+                return _configurations;
+>>>>>>> master
             }
         }
         #endregion
@@ -65,12 +82,12 @@ namespace PointBlank.API.Plugins
         /// <summary>
         /// The latest version of the plugin(for auto-update)(Leave null if you don't want a version check)
         /// </summary>
-        public virtual string VersionURL => null;
+        public virtual string VersionUrl => null;
 
         /// <summary>
         /// The latest build of the plugin(for auto-update)(Leave null if you don't want an auto-update system)
         /// </summary>
-        public virtual string BuildURL => null;
+        public virtual string BuildUrl => null;
         #endregion
 
         #region Abstract Functions

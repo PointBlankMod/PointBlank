@@ -3,9 +3,9 @@
     /// <summary>
     /// The types of IPC you can use
     /// </summary>
-    public enum EIPCType
+    public enum EipcType
     {
-        FILE,
-        CONSOLE
+        File,
+        Console
     }
 }

@@ -24,7 +24,7 @@ namespace PointBlank.Services.CommandManager
         public static List<CommandWrapper> Commands { get; private set; }
 
         public UniversalData UniConfig { get; private set; }
-        public JsonData JSONConfig { get; private set; }
+        public JsonData JsonConfig { get; private set; }
 
         public override int LaunchIndex => 2;
         #endregion
@@ -34,7 +34,7 @@ namespace PointBlank.Services.CommandManager
             // Setup variables
             Commands = new List<CommandWrapper>();
             UniConfig = new UniversalData(ConfigurationPath);
-            JSONConfig = UniConfig.GetData(EDataType.JSON) as JsonData;
+            JsonConfig = UniConfig.GetData(EDataType.Json) as JsonData;
 
             // Setup events
             PointBlankPluginEvents.OnPluginLoaded += OnPluginLoaded;
@@ -64,7 +64,7 @@ namespace PointBlank.Services.CommandManager
             if (!UniConfig.CreatedNew)
                 return;
 
-            JSONConfig.Document.Add("Commands", new JArray());
+            JsonConfig.Document.Add("Commands", new JArray());
             SaveConfig();
         }
 
@@ -196,19 +196,27 @@ namespace PointBlank.Services.CommandManager
 
             PointBlankCommandEvents.RunCommandParse(info[0], args.ToArray(), executor, ref allowExecute);
             if (!allowExecute)
+<<<<<<< HEAD
                 return ECommandRunError.NO_EXECUTE;
             if (wrapper == null)
             {
                 PointBlankPlayer.SendMessage(executor, Enviroment.ServiceTranslations[typeof(ServiceTranslations)].Translations["CommandManager_Invalid"], ConsoleColor.Red);
                 return ECommandRunError.COMMAND_NOT_EXIST;
+=======
+                return ECommandRunError.NoExecute;
+            if (wrapper == null)
+            {
+                PointBlankPlayer.SendMessage(executor, PointBlankEnvironment.ServiceTranslations[typeof(ServiceTranslations)].Translations["CommandManager_Invalid"], ConsoleColor.Red);
+                return ECommandRunError.CommandNotExist;
+>>>>>>> master
             }
             permission = wrapper.Permission.Duplicate();
             if (args.Count > 0)
                 permission.Permission += "." + string.Join(".", args.ToArray());
             if (!PointBlankPlayer.IsServer(executor) && !executor.HasPermission(permission))
             {
-                PointBlankPlayer.SendMessage(executor, Enviroment.ServiceTranslations[typeof(ServiceTranslations)].Translations["CommandManager_NotEnoughPermissions"], ConsoleColor.Red);
-                return ECommandRunError.NO_PERMISSION;
+                PointBlankPlayer.SendMessage(executor, PointBlankEnvironment.ServiceTranslations[typeof(ServiceTranslations)].Translations["CommandManager_NotEnoughPermissions"], ConsoleColor.Red);
+                return ECommandRunError.NoPermission;
             }
 
             return wrapper.Execute(executor, args.ToArray());

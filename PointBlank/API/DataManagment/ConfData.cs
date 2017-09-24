@@ -20,7 +20,7 @@ namespace PointBlank.API.DataManagment
         /// <summary>
         /// CONF dictionary
         /// </summary>
-        public Dictionary<int, object> CONFs { get; private set; }
+        public Dictionary<int, object> ConFs { get; private set; }
 
         /// <summary>
         /// Was the CONF file just created
@@ -35,7 +35,7 @@ namespace PointBlank.API.DataManagment
         internal ConfData(string path)
         {
             this.Path = path; // Set the path
-            this.CONFs = new Dictionary<int, object>(); // Create the CONFs dictionary
+            this.ConFs = new Dictionary<int, object>(); // Create the CONFs dictionary
             this.CreatedNew = !File.Exists(path); // Check if we have to create a new file
 
             Reload(); // Run the reload
@@ -82,17 +82,17 @@ namespace PointBlank.API.DataManagment
                     case '\n':
                         continue; // Skip if empty
                     case '#':
-                        CONFs.Add(i, lines[i].Substring(1, lines[i].Length - 1)); // It's a comment add it
+                        ConFs.Add(i, lines[i].Substring(1, lines[i].Length - 1)); // It's a comment add it
                         continue;
                 }
 
                 if (!lines[i].Contains("=")) continue;
                 string[] spl = lines[i].Split('='); // Split the CONF
-                string Value = ""; // Set the value
+                string value = ""; // Set the value
 
                 for(int a = 1; a < spl.Length; a++)
-                    Value += spl[a] + ((a + 1) == spl.Length ? "" : "="); // Add to the value
-                CONFs.Add(i, new CONF(Value, spl[0])); // Add the CONF
+                    value += spl[a] + ((a + 1) == spl.Length ? "" : "="); // Add to the value
+                ConFs.Add(i, new Conf(value, spl[0])); // Add the CONF
                 continue;
             }
         }
@@ -103,16 +103,16 @@ namespace PointBlank.API.DataManagment
         public void Save()
         {
             int line = 0; // Set the line
-            Dictionary<int, object> tmpCONFs = new Dictionary<int, object>(); // Create temporary CONFs
+            Dictionary<int, object> tmpConFs = new Dictionary<int, object>(); // Create temporary CONFs
             List<string> lines = new List<string>(); // Create the lines list
 
-            while(CONFs.Count > 0) // Loop until both are empty
+            while(ConFs.Count > 0) // Loop until both are empty
             {
-                if (CONFs.ContainsKey(line))
+                if (ConFs.ContainsKey(line))
                 {
-                    lines.Add(CONFs[line].ToString()); // Add to the list of lines
-                    tmpCONFs.Add(line, CONFs[line]); // Add to tmp CONFs
-                    CONFs.Remove(line); // Remove from the original CONF
+                    lines.Add(ConFs[line].ToString()); // Add to the list of lines
+                    tmpConFs.Add(line, ConFs[line]); // Add to tmp CONFs
+                    ConFs.Remove(line); // Remove from the original CONF
 
                     line++; // Add the line
                     continue; // Continue
@@ -122,7 +122,7 @@ namespace PointBlank.API.DataManagment
                 line++; // Add the line
             }
 
-            CONFs = tmpCONFs; // Set the CONFs
+            ConFs = tmpConFs; // Set the CONFs
             File.WriteAllLines(Path, lines.ToArray()); // Write to file
         }
 
@@ -130,34 +130,34 @@ namespace PointBlank.API.DataManagment
         /// Adds a comment to the file
         /// </summary>
         /// <param name="comment">The comment to add</param>
-        public void AddComment(string comment) => CONFs.Add(CONFs.Keys.Max(), comment); // Add the comment
+        public void AddComment(string comment) => ConFs.Add(ConFs.Keys.Max(), comment); // Add the comment
 
         /// <summary>
         /// Adds a comment to the line
         /// </summary>
         /// <param name="comment">The comment to add</param>
         /// <param name="line">The line position</param>
-        public void AddComment(string comment, int line) => CONFs.Add(line, comment); // Add the comment
+        public void AddComment(string comment, int line) => ConFs.Add(line, comment); // Add the comment
 
         /// <summary>
         /// Edits a comment on that line
         /// </summary>
         /// <param name="comment">The comment to do</param>
         /// <param name="line">The line to edit</param>
-        public void EditComment(string comment, int line) => CONFs[line] = comment; // Change to the comment
+        public void EditComment(string comment, int line) => ConFs[line] = comment; // Change to the comment
 
         /// <summary>
         /// Remove the comment from the line
         /// </summary>
         /// <param name="line">The line to remove</param>
-        public void RemoveCONF(int line) => CONFs.Remove(line); // Remove the CONF
+        public void RemoveConf(int line) => ConFs.Remove(line); // Remove the CONF
 
         /// <summary>
         /// Adds a CONF to the file
         /// </summary>
         /// <param name="key">The key of the CONF</param>
         /// <param name="value">The value of the CONF</param>
-        public void AddCONF(string key, string value) => CONFs.Add(CONFs.Keys.Max(), new CONF(value, key)); // Add the CONF
+        public void AddConf(string key, string value) => ConFs.Add(ConFs.Keys.Max(), new Conf(value, key)); // Add the CONF
 
         /// <summary>
         /// Adds a CONF to the line
@@ -165,7 +165,7 @@ namespace PointBlank.API.DataManagment
         /// <param name="key">The key of the CONF</param>
         /// <param name="value">The value of the CONF</param>
         /// <param name="line">The line to add the CONF to</param>
-        public void AddCONF(string key, string value, int line) => CONFs.Add(line, new CONF(value, key)); // Add the CONF
+        public void AddConf(string key, string value, int line) => ConFs.Add(line, new Conf(value, key)); // Add the CONF
 
         /// <summary>
         /// Edits a CONF on that line
@@ -173,14 +173,14 @@ namespace PointBlank.API.DataManagment
         /// <param name="key">The key of the CONF</param>
         /// <param name="value">The value of the CONF</param>
         /// <param name="line">The CONF line</param>
-        public void EditCONF(string key, string value, int line) => CONFs[line] = new CONF(value, key); // Edit the CONF
+        public void EditConf(string key, string value, int line) => ConFs[line] = new Conf(value, key); // Edit the CONF
         #endregion
     }
 
     /// <summary>
     /// The CONF storage class
     /// </summary>
-    public class CONF
+    public class Conf
     {
         #region Properties
         /// <summary>
@@ -199,7 +199,7 @@ namespace PointBlank.API.DataManagment
         /// <param name="line">The line number</param>
         /// <param name="value">The value of the CONF</param>
         /// <param name="key">The key of the CONF</param>
-        internal CONF(string value, string key)
+        internal Conf(string value, string key)
         {
             this.Value = value;
             this.Key = key;

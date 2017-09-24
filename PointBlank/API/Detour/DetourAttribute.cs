@@ -33,6 +33,7 @@ namespace PointBlank.API.Detour
         public bool MethodFound { get; private set; }
         #endregion
 
+        /// <inheritdoc />
         /// <summary>
         /// Used to detour a specific function
         /// </summary>

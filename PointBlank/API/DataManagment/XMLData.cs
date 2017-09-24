@@ -10,7 +10,11 @@ namespace PointBlank.API.DataManagment
     /// <summary>
     /// XML data managment
     /// </summary>
+<<<<<<< HEAD
     public class XMLData
+=======
+    public class XmlData
+>>>>>>> master
     {
         #region Properties
         /// <summary>
@@ -36,7 +40,7 @@ namespace PointBlank.API.DataManagment
         /// XML data managment
         /// </summary>
         /// <param name="filepath">The path to the XML file</param>
-        internal XMLData(string filepath)
+        internal XmlData(string filepath)
         {
             File = filepath; // Set the file path
             CreatedNew = !XFile.Exists(File); // Check if we have to make the XML
@@ -49,7 +53,7 @@ namespace PointBlank.API.DataManagment
         /// </summary>
         /// <param name="doc">The document to copy</param>
         /// <param name="filepath">The path to the file</param>
-        internal XMLData(XmlDocument doc, string filepath)
+        internal XmlData(XmlDocument doc, string filepath)
         {
             this.File = filepath; // Set the file path
             this.CreatedNew = !XFile.Exists(File); // Check if we have to make the XML
@@ -60,7 +64,7 @@ namespace PointBlank.API.DataManagment
         /// <summary>
         /// XML data managment
         /// </summary>
-        internal XMLData()
+        internal XmlData()
         {
             this.CreatedNew = true; // Create new
 

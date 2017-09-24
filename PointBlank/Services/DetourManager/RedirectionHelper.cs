@@ -20,6 +20,7 @@ THE SOFTWARE.
 
 using System;
 using PointBlank.API;
+using UnityEngine;
 
 namespace PointBlank.Services.DetourManager
 {
@@ -35,11 +36,17 @@ namespace PointBlank.Services.DetourManager
                     case sizeof(Int32):
                         unsafe
                         {
+							Debug.LogWarning("Detouring " + ptrOriginal + " to " + ptrModified + "...");
                             byte* ptrFrom = (byte*)ptrOriginal.ToPointer();
 
                             *ptrFrom = 0x68; // PUSH
+<<<<<<< HEAD
                             *((uint*)(ptrFrom + 2)) = (uint)ptrModified.ToInt32(); // Pointer
                             *(ptrFrom + 8) = 0xC3; // RETN
+=======
+                            *((uint*)(ptrFrom + 1)) = (uint)ptrModified.ToInt32(); // Pointer
+                            *(ptrFrom + 5) = 0xC3; // RETN
+>>>>>>> master
                         }
                         break;
                     case sizeof(Int64):
@@ -82,8 +89,13 @@ namespace PointBlank.Services.DetourManager
                     *(ptrOriginal + 12) = backup.E;
                     if (IntPtr.Size == sizeof(Int32))
                     {
+<<<<<<< HEAD
                         *((uint*)(ptrOriginal + 2)) = backup.F32;
                         *(ptrOriginal + 8) = backup.G;
+=======
+                        *((uint*)(ptrOriginal + 1)) = backup.F32;
+                        *(ptrOriginal + 5) = backup.G;
+>>>>>>> master
                     }
                     else
                     {
@@ -127,8 +139,13 @@ namespace PointBlank.Services.DetourManager
                     E = *(ptrMethod + 12);
                     if (IntPtr.Size == sizeof(Int32))
                     {
+<<<<<<< HEAD
                         F32 = *((uint*)(ptrMethod + 2));
                         G = *(ptrMethod + 8);
+=======
+                        F32 = *((uint*)(ptrMethod + 1));
+                        G = *(ptrMethod + 5);
+>>>>>>> master
                     }
                     else
                     {

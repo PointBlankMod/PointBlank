@@ -9,9 +9,13 @@ namespace PointBlank.Services.TaskManager
     internal class TaskManager : PointBlankService
     {
         #region Variables
+<<<<<<< HEAD
         private Queue<PointBlankTask> _Remove = new Queue<PointBlankTask>();
+=======
+        private Queue<PointBlankTask> _remove = new Queue<PointBlankTask>();
+>>>>>>> master
 
-        private bool _Running = false;
+        private bool _running = false;
         #endregion
 
         #region Properties
@@ -24,19 +28,33 @@ namespace PointBlank.Services.TaskManager
         {
             // Set the variables
             Tasks = new List<PointBlankTask>();
+<<<<<<< HEAD
             _Running = true;
 
             // Set the events
             ExtensionEvents.OnAPITick += Tasker;
+=======
+            _running = true;
+
+            // Set the events
+            ExtensionEvents.OnApiTick += Tasker;
+>>>>>>> master
         }
 
         public override void Unload()
         {
             // Set the variables
+<<<<<<< HEAD
             _Running = false;
 
             // Remove the events
             ExtensionEvents.OnAPITick -= Tasker;
+=======
+            _running = false;
+
+            // Remove the events
+            ExtensionEvents.OnApiTick -= Tasker;
+>>>>>>> master
         }
 
         #region Threads
@@ -47,9 +65,15 @@ namespace PointBlank.Services.TaskManager
             foreach (PointBlankTask task in Tasks)
             {
                 if (!task.Running)
+<<<<<<< HEAD
                     continue;
                 if (!task.IsThreaded)
                     continue;
+=======
+                    continue;
+                if (!task.IsThreaded)
+                    continue;
+>>>>>>> master
                 if (task.NextExecution == null)
                     continue;
 
@@ -58,7 +82,11 @@ namespace PointBlank.Services.TaskManager
                     task.Run();
 
                     if (!task.Loop)
+<<<<<<< HEAD
                         _Remove.Enqueue(task);
+=======
+                        _remove.Enqueue(task);
+>>>>>>> master
                 }
             }
         }
@@ -67,7 +95,7 @@ namespace PointBlank.Services.TaskManager
         #region Mono Functions
         void Update()
         {
-            if (!_Running)
+            if (!_running)
                 return;
 
             if (Tasks.Count < 1)
@@ -86,16 +114,16 @@ namespace PointBlank.Services.TaskManager
                     task.Run();
 
                     if (!task.Loop)
-                        _Remove.Enqueue(task);
+                        _remove.Enqueue(task);
                 }
             }
 
             lock (Tasks)
             {
-                lock (_Remove)
+                lock (_remove)
                 {
-                    while (_Remove.Count > 0)
-                        _Remove.Dequeue().Stop();
+                    while (_remove.Count > 0)
+                        _remove.Dequeue().Stop();
                 }
             }
         }

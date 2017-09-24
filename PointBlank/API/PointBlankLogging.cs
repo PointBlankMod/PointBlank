@@ -10,15 +10,26 @@ namespace PointBlank.API
     public static class PointBlankLogging
     {
         #region Info
+<<<<<<< HEAD
         private static string LogDirectory = Directory.GetCurrentDirectory();
+=======
+        private static string _logDirectory = Directory.GetCurrentDirectory();
+>>>>>>> master
         #endregion
 
         static PointBlankLogging()
         {
+<<<<<<< HEAD
             if (File.Exists(LogDirectory + "/PointBlankOld.log"))
                 File.Delete(LogDirectory + "/PointBlankOld.log");
             if (File.Exists(LogDirectory + "/PointBlank.log"))
                 File.Move(LogDirectory + "/PointBlank.log", LogDirectory + "/PointBlankOld.log");
+=======
+            if (File.Exists(_logDirectory + "/PointBlankOld.log"))
+                File.Delete(_logDirectory + "/PointBlankOld.log");
+            if (File.Exists(_logDirectory + "/PointBlank.log"))
+                File.Move(_logDirectory + "/PointBlank.log", _logDirectory + "/PointBlankOld.log");
+>>>>>>> master
         }
 
         /// <summary>
@@ -32,7 +43,11 @@ namespace PointBlank.API
 			string asm = GetAsm();
 
 			log = prefix + " " + asm + " >> " + log;
+<<<<<<< HEAD
             File.AppendAllText(LogDirectory + "/PointBlank.log", log + Environment.NewLine);
+=======
+            File.AppendAllText(_logDirectory + "/PointBlank.log", log + Environment.NewLine);
+>>>>>>> master
             if (inConsole)
                 PointBlankConsole.WriteLine(log, color);
         }

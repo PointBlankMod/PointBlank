@@ -12,7 +12,7 @@ namespace PointBlank.Framework.Permissions.Ring
     internal class RingPermissionAttribute : CodeAccessSecurityAttribute
     {
         #region Properties
-        public RingPermissionRing ring { get; set; }
+        public RingPermissionRing Ring { get; set; }
         #endregion
 
         public RingPermissionAttribute(SecurityAction action) : base(action)
@@ -22,7 +22,7 @@ namespace PointBlank.Framework.Permissions.Ring
         #region CodeAccessSecurityAttribute Functions
         public override IPermission CreatePermission()
         {
-            return Unrestricted ? new RingPermission(PermissionState.Unrestricted) : new RingPermission(ring);
+            return Unrestricted ? new RingPermission(PermissionState.Unrestricted) : new RingPermission(Ring);
         }
         #endregion
     }

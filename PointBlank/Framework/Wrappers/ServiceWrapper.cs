@@ -17,7 +17,7 @@ namespace PointBlank.Framework.Wrappers
             this.ServiceClass = ServiceClass;
 
             // Setup data
-            Enviroment.services.Add(ServiceClass.GetType().Name + "." + ServiceClass.Name, this); // Add the service
+            PointBlankEnvironment.Services.Add(ServiceClass.GetType().Name + "." + ServiceClass.Name, this); // Add the service
 
             // Run functions
             if (ServiceClass.AutoStart)

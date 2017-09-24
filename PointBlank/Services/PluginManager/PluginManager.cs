@@ -28,7 +28,7 @@ namespace PointBlank.Services.PluginManager
         public static Assembly[] Libraries => _libraries.ToArray(); // Returns the libraries
 
         public UniversalData UniConfig { get; private set; } // The universal config data
-        public JsonData JSONConfig { get; private set; } // The JSON config data
+        public JsonData JsonConfig { get; private set; } // The Json config data
 
         public override int LaunchIndex => 3;
         #endregion
@@ -46,7 +46,11 @@ namespace PointBlank.Services.PluginManager
 
             // Setup the config
             UniConfig = new UniversalData(ServiceManager.ConfigurationPath + "\\PluginManager");
+<<<<<<< HEAD
             JSONConfig = UniConfig.GetData(EDataType.JSON) as JsonData;
+=======
+            JsonConfig = UniConfig.GetData(EDataType.Json) as JsonData;
+>>>>>>> master
             LoadConfig();
 
             foreach (string library in Directory.GetFiles(PointBlankServer.LibrariesPath, "*.dll")) // Get all the dll files in libraries directory
@@ -122,15 +126,15 @@ namespace PointBlank.Services.PluginManager
                 PluginConfiguration.NotifyUpdates = true;
                 PluginConfiguration.CheckUpdateTimeSeconds = 1800;
 
-                JSONConfig.Document.Add("AutoUpdate", (PluginConfiguration.AutoUpdate ? "true" : "false"));
-                JSONConfig.Document.Add("ContinueOnError", (PluginConfiguration.ContinueOnError ? "true" : "false"));
-                JSONConfig.Document.Add("NotifyUpdates", (PluginConfiguration.NotifyUpdates ? "true" : "false"));
-                JSONConfig.Document.Add("CheckUpdateTimeSeconds", PluginConfiguration.CheckUpdateTimeSeconds.ToString());
+                JsonConfig.Document.Add("AutoUpdate", (PluginConfiguration.AutoUpdate ? "true" : "false"));
+                JsonConfig.Document.Add("ContinueOnError", (PluginConfiguration.ContinueOnError ? "true" : "false"));
+                JsonConfig.Document.Add("NotifyUpdates", (PluginConfiguration.NotifyUpdates ? "true" : "false"));
+                JsonConfig.Document.Add("CheckUpdateTimeSeconds", PluginConfiguration.CheckUpdateTimeSeconds.ToString());
                 UniConfig.Save();
             }
             else
             {
-                JSONConfig.Verify(new Dictionary<string, Newtonsoft.Json.Linq.JToken>()
+                JsonConfig.Verify(new Dictionary<string, Newtonsoft.Json.Linq.JToken>()
                 {
                     { "AutoUpdate", "false" },
                     { "ContinueOnError", "true" },
@@ -138,10 +142,10 @@ namespace PointBlank.Services.PluginManager
                     { "CheckUpdateTimeSeconds", "1800" }
                 });
 
-                PluginConfiguration.AutoUpdate = ((string)JSONConfig.Document["AutoUpdate"] == "true");
-                PluginConfiguration.ContinueOnError = ((string)JSONConfig.Document["ContinueOnError"] == "true");
-                PluginConfiguration.NotifyUpdates = ((string)JSONConfig.Document["NotifyUpdates"] == "true");
-                PluginConfiguration.CheckUpdateTimeSeconds = int.Parse((string)JSONConfig.Document["CheckUpdateTimeSeconds"]);
+                PluginConfiguration.AutoUpdate = ((string)JsonConfig.Document["AutoUpdate"] == "true");
+                PluginConfiguration.ContinueOnError = ((string)JsonConfig.Document["ContinueOnError"] == "true");
+                PluginConfiguration.NotifyUpdates = ((string)JsonConfig.Document["NotifyUpdates"] == "true");
+                PluginConfiguration.CheckUpdateTimeSeconds = int.Parse((string)JsonConfig.Document["CheckUpdateTimeSeconds"]);
             }
         }
 
