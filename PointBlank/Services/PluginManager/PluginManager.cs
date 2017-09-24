@@ -46,11 +46,7 @@ namespace PointBlank.Services.PluginManager
 
             // Setup the config
             UniConfig = new UniversalData(ServiceManager.ConfigurationPath + "\\PluginManager");
-<<<<<<< HEAD
-            JSONConfig = UniConfig.GetData(EDataType.JSON) as JsonData;
-=======
             JsonConfig = UniConfig.GetData(EDataType.Json) as JsonData;
->>>>>>> master
             LoadConfig();
 
             foreach (string library in Directory.GetFiles(PointBlankServer.LibrariesPath, "*.dll")) // Get all the dll files in libraries directory

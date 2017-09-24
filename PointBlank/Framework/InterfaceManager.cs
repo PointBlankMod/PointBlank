@@ -190,13 +190,8 @@ namespace PointBlank.Framework
                 return;
 
             foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies().Where(a => Attribute.GetCustomAttribute(a, typeof(PointBlankExtensionAttribute)) != null))
-<<<<<<< HEAD
-                foreach (Type class_type in asm.GetTypes())
-                    SaveInterface(class_type);
-=======
                 foreach (Type classType in asm.GetTypes())
                     SaveInterface(classType);
->>>>>>> master
 
             // Set the variables
             Initialized = false;
@@ -208,15 +203,9 @@ namespace PointBlank.Framework
             if (!_interface.IsClass)
                 return;
 
-<<<<<<< HEAD
-            if (typeof(IConfigurable).IsAssignableFrom(_interface) && _interface != typeof(IConfigurable))
-                LoadConfigurable(_interface);
-            if (typeof(ITranslatable).IsAssignableFrom(_interface) && _interface != typeof(ITranslatable))
-=======
             if (typeof(Configurable).IsAssignableFrom(_interface) && _interface != typeof(Configurable))
                 LoadConfigurable(_interface);
             if (typeof(Translatable).IsAssignableFrom(_interface) && _interface != typeof(Translatable))
->>>>>>> master
                 LoadTranslatable(_interface);
         }
 
@@ -225,15 +214,9 @@ namespace PointBlank.Framework
             if (!_interface.IsClass)
                 return;
 
-<<<<<<< HEAD
-            if (typeof(IConfigurable).IsAssignableFrom(_interface) && _interface != typeof(IConfigurable))
-                SaveConfigurable(_interface);
-            if (typeof(ITranslatable).IsAssignableFrom(_interface) && _interface != typeof(ITranslatable))
-=======
             if (typeof(Configurable).IsAssignableFrom(_interface) && _interface != typeof(Configurable))
                 SaveConfigurable(_interface);
             if (typeof(Translatable).IsAssignableFrom(_interface) && _interface != typeof(Translatable))
->>>>>>> master
                 SaveTranslatable(_interface);
         }
         #endregion

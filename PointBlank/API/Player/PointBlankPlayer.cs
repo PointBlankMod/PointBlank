@@ -14,13 +14,8 @@ namespace PointBlank.API.Player
     public abstract class PointBlankPlayer : IPermitable
     {
         #region Variables
-<<<<<<< HEAD
-        private List<PointBlankGroup> _Groups = new List<PointBlankGroup>();
-        private List<PointBlankPermission> _Permissions = new List<PointBlankPermission>();
-=======
         private List<PointBlankGroup> _groups = new List<PointBlankGroup>();
         private List<PointBlankPermission> _permissions = new List<PointBlankPermission>();
->>>>>>> master
         #endregion
 
         #region Properties
@@ -46,11 +41,7 @@ namespace PointBlank.API.Player
         /// <summary>
         /// The permissions this player has(groups not included)
         /// </summary>
-<<<<<<< HEAD
-        public virtual PointBlankPermission[] Permissions => _Permissions.ToArray();
-=======
         public virtual PointBlankPermission[] Permissions => _permissions.ToArray();
->>>>>>> master
         /// <summary>
         /// Is the player loaded or not(used for event triggers)
         /// </summary>

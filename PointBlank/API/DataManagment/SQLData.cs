@@ -10,11 +10,7 @@ namespace PointBlank.API.DataManagment
     /// <summary>
     /// Easy SQL manager
     /// </summary>
-<<<<<<< HEAD
-    public class SQLData
-=======
     public class SqlData
->>>>>>> master
     {
         #region Variables
         private static Thread _tAsync = new Thread(new ThreadStart(RunAsync));

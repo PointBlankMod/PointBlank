@@ -15,15 +15,9 @@ namespace PointBlank.Services.CommandManager
     internal class CommandWrapper
     {
         #region Variables
-<<<<<<< HEAD
-        private TranslationList Translations;
-
-        private CommandManager cmd = (CommandManager)Enviroment.services["CommandManager.CommandManager"].ServiceClass;
-=======
         private TranslationList _translations;
 
         private CommandManager _cmd = (CommandManager)PointBlankEnvironment.Services["CommandManager.CommandManager"].ServiceClass;
->>>>>>> master
         #endregion
 
         #region Properties
@@ -44,13 +38,8 @@ namespace PointBlank.Services.CommandManager
 
             // Setup the variables
             CommandClass = (PointBlankCommand)Activator.CreateInstance(Class);
-<<<<<<< HEAD
-            Translations = Enviroment.ServiceTranslations[typeof(ServiceTranslations)].Translations;
-            Config = ((JArray)cmd.JSONConfig.Document["Commands"]).FirstOrDefault(a => (string)a["Name"] == Class.Assembly.GetName().Name + "." + CommandClass.Name) as JObject;
-=======
             _translations = PointBlankEnvironment.ServiceTranslations[typeof(ServiceTranslations)].Translations;
             Config = ((JArray)_cmd.JsonConfig.Document["Commands"]).FirstOrDefault(a => (string)a["Name"] == Class.Assembly.GetName().Name + "." + CommandClass.Name) as JObject;
->>>>>>> master
 
             // Run the code
             Reload();
@@ -61,19 +50,11 @@ namespace PointBlank.Services.CommandManager
             // Set the variables
             Class = command.GetType();
             CommandClass = command;
-<<<<<<< HEAD
-
-            // Setup the variables
-            Translations = Enviroment.ServiceTranslations[typeof(ServiceTranslations)].Translations;
-            Config = ((JArray)cmd.JSONConfig.Document["Commands"]).FirstOrDefault(a => (string)a["Name"] == Class.Assembly.GetName().Name + "." + CommandClass.Name) as JObject;
-
-=======
 
             // Setup the variables
             _translations = PointBlankEnvironment.ServiceTranslations[typeof(ServiceTranslations)].Translations;
             Config = ((JArray)_cmd.JsonConfig.Document["Commands"]).FirstOrDefault(a => (string)a["Name"] == Class.Assembly.GetName().Name + "." + CommandClass.Name) as JObject;
 
->>>>>>> master
             // Run the code
             Reload();
             PointBlankLogging.Log("Loaded command: " + Commands[0]);
@@ -97,11 +78,7 @@ namespace PointBlank.Services.CommandManager
             if (Config == null)
             {
                 Config = new JObject();
-<<<<<<< HEAD
-                ((JArray)cmd.JSONConfig.Document["Commands"]).Add(Config);
-=======
                 ((JArray)_cmd.JsonConfig.Document["Commands"]).Add(Config);
->>>>>>> master
             }
             string name = Class.Assembly.GetName().Name + "." + CommandClass.Name;
             if (Config["Name"] == null)
@@ -162,11 +139,7 @@ namespace PointBlank.Services.CommandManager
                 bool shouldExecute = true;
 
                 PointBlankCommandEvents.RunCommandExecute(CommandClass, args, executor, ref shouldExecute);
-<<<<<<< HEAD
-                if (!shouldExecute) return ECommandRunError.NO_EXECUTE;
-=======
                 if (!shouldExecute) return ECommandRunError.NoExecute;
->>>>>>> master
                 executor?.AddCooldown(CommandClass.Permission);
                 CommandClass.Execute(executor, args);
                 return ECommandRunError.None;

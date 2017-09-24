@@ -41,11 +41,7 @@ namespace PointBlank.Services.GroupManager
             PointBlankGroupManager.Loaded = false;
             foreach (JProperty obj in GroupConfig.Document.Properties())
             {
-<<<<<<< HEAD
-                if (PointBlankGroupManager.Groups.Count(a => a.ID == obj.Name) > 0)
-=======
                 if (PointBlankGroupManager.Groups.Count(a => a.Id == obj.Name) > 0)
->>>>>>> master
                     continue;
 
                 PointBlankGroup g = new PointBlankGroup(obj.Name);
@@ -74,11 +70,7 @@ namespace PointBlank.Services.GroupManager
                 {
                     foreach (JToken token in (JArray)obj["Inherits"])
                     {
-<<<<<<< HEAD
-                        PointBlankGroup i = PointBlankGroupManager.Groups.FirstOrDefault(a => a.ID == (string)token);
-=======
                         PointBlankGroup i = PointBlankGroupManager.Groups.FirstOrDefault(a => a.Id == (string)token);
->>>>>>> master
 
                         if (i == null || g.Inherits.Contains(i) || g == i)
                             continue;
@@ -87,11 +79,7 @@ namespace PointBlank.Services.GroupManager
                 }
                 else
                 {
-<<<<<<< HEAD
-                    PointBlankGroup i = PointBlankGroupManager.Groups.FirstOrDefault(a => a.ID == (string)obj["Inherits"]);
-=======
                     PointBlankGroup i = PointBlankGroupManager.Groups.FirstOrDefault(a => a.Id == (string)obj["Inherits"]);
->>>>>>> master
 
                     if (i == null || g.Inherits.Contains(i) || g == i)
                         continue;
@@ -186,11 +174,7 @@ namespace PointBlank.Services.GroupManager
                     obj["Permissions"] = JToken.FromObject(g.Permissions);
                     obj["Prefixes"] = JToken.FromObject(g.Prefixes);
                     obj["Suffixes"] = JToken.FromObject(g.Suffixes);
-<<<<<<< HEAD
-                    obj["Inherits"] = JToken.FromObject(g.Inherits.Select(a => a.ID));
-=======
                     obj["Inherits"] = JToken.FromObject(g.Inherits.Select(a => a.Id));
->>>>>>> master
                     obj["Color"] = (g.Color == Color.clear ? "none" : "#" + ColorUtility.ToHtmlStringRGB(g.Color));
                 }
                 else
@@ -202,11 +186,7 @@ namespace PointBlank.Services.GroupManager
                         {"Permissions", JToken.FromObject(g.Permissions)},
                         {"Prefixes", JToken.FromObject(g.Prefixes)},
                         {"Suffixes", JToken.FromObject(g.Suffixes)},
-<<<<<<< HEAD
-                        {"Inherits", JToken.FromObject(g.Inherits.Select(a => a.ID))},
-=======
                         {"Inherits", JToken.FromObject(g.Inherits.Select(a => a.Id))},
->>>>>>> master
                         {"Color", (g.Color == Color.clear ? "none" : "#" + ColorUtility.ToHtmlStringRGB(g.Color))}
                     };
 

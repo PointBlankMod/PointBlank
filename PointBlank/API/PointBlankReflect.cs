@@ -102,11 +102,7 @@ namespace PointBlank.API
         /// <param name="name">The name of the method</param>
         /// <param name="save">Should the method be saved into a buffer for later use</param>
         /// <returns>The MethodInfo of the method</returns>
-<<<<<<< HEAD
-        public static MethodInfo GetMethod(Type type, string name, bool save = true, int index = 0) => GetMethod(type, name, STATIC_INSTANCE_FLAG, save, index);
-=======
         public static MethodInfo GetMethod(Type type, string name, bool save = true, int index = 0) => GetMethod(type, name, StaticInstanceFlag, save, index);
->>>>>>> master
         /// <summary>
         /// Gets a method by using reflection
         /// </summary>
@@ -124,11 +120,7 @@ namespace PointBlank.API
         /// <param name="flags">The flags of the method</param>
         /// <param name="save">Should the method be saved into a buffer for later use</param>
         /// <returns>The MethodInfo of the method</returns>
-<<<<<<< HEAD
-        public static MethodInfo GetMethod<T>(string name, bool save = true, int index = 0) => GetMethod<T>(name, STATIC_INSTANCE_FLAG, save, index);
-=======
         public static MethodInfo GetMethod<T>(string name, bool save = true, int index = 0) => GetMethod<T>(name, StaticInstanceFlag, save, index);
->>>>>>> master
 
         /// <summary>
         /// Gets a field by using reflection
@@ -159,11 +151,7 @@ namespace PointBlank.API
         /// <param name="flags">The field flags</param>
         /// <param name="save">Should the field be saved into a buffer for later use</param>
         /// <returns>The FieldInfo of the field</returns>
-<<<<<<< HEAD
-        public static FieldInfo GetField(Type type, string name, bool save = true, int index = 0) => GetField(type, name, STATIC_INSTANCE_FLAG, save, index);
-=======
         public static FieldInfo GetField(Type type, string name, bool save = true, int index = 0) => GetField(type, name, StaticInstanceFlag, save, index);
->>>>>>> master
         /// <summary>
         /// Gets a field by using reflection
         /// </summary>
@@ -181,11 +169,7 @@ namespace PointBlank.API
         /// <param name="flags">The flags of the field</param>
         /// <param name="save">Should the field be saved into a buffer for later use</param>
         /// <returns>The FieldInfo of the field</returns>
-<<<<<<< HEAD
-        public static FieldInfo GetField<T>(string name, bool save = true, int index = 0) => GetField<T>(name, STATIC_INSTANCE_FLAG, save, index);
-=======
         public static FieldInfo GetField<T>(string name, bool save = true, int index = 0) => GetField<T>(name, StaticInstanceFlag, save, index);
->>>>>>> master
         #endregion
     }
 }

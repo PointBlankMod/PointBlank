@@ -196,19 +196,11 @@ namespace PointBlank.Services.CommandManager
 
             PointBlankCommandEvents.RunCommandParse(info[0], args.ToArray(), executor, ref allowExecute);
             if (!allowExecute)
-<<<<<<< HEAD
-                return ECommandRunError.NO_EXECUTE;
-            if (wrapper == null)
-            {
-                PointBlankPlayer.SendMessage(executor, Enviroment.ServiceTranslations[typeof(ServiceTranslations)].Translations["CommandManager_Invalid"], ConsoleColor.Red);
-                return ECommandRunError.COMMAND_NOT_EXIST;
-=======
                 return ECommandRunError.NoExecute;
             if (wrapper == null)
             {
                 PointBlankPlayer.SendMessage(executor, PointBlankEnvironment.ServiceTranslations[typeof(ServiceTranslations)].Translations["CommandManager_Invalid"], ConsoleColor.Red);
                 return ECommandRunError.CommandNotExist;
->>>>>>> master
             }
             permission = wrapper.Permission.Duplicate();
             if (args.Count > 0)

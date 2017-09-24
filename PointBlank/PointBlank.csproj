@@ -116,11 +116,7 @@
     <Compile Include="API\Storage\ECompression.cs" />
     <Compile Include="API\Storage\PointBlankStorage.cs" />
     <Compile Include="API\Tasks\PointBlankTask.cs" />
-<<<<<<< HEAD
-    <Compile Include="Enviroment.cs" />
-=======
     <Compile Include="PointBlankEnvironment.cs" />
->>>>>>> master
     <Compile Include="Framework\Configurations\PointBlankConfigurations.cs" />
     <Compile Include="Framework\ExtensionManager.cs" />
     <Compile Include="Framework\InterfaceManager.cs" />

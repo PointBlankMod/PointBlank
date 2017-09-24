@@ -26,11 +26,7 @@ namespace PointBlank.API
                 ClearLine();
             Console.WriteLine(text);
 			PointBlankConsoleEvents.RunConsoleLineWritten(text, color);
-<<<<<<< HEAD
-            Console.ForegroundColor = SavedColor;
-=======
             Console.ForegroundColor = _savedColor;
->>>>>>> master
         }
 
         /// <summary>
