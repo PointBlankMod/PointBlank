@@ -59,7 +59,11 @@ namespace PointBlank.API.Commands
         /// <param name="_class">The command class type</param>
         public static void LoadCommand(Type _class)
         {
+<<<<<<< HEAD
             CommandManager cmd = (CommandManager)Enviroment.services["CommandManager.CommandManager"].ServiceClass;
+=======
+            CommandManager cmd = (CommandManager)PointBlankEnvironment.Services["CommandManager.CommandManager"].ServiceClass;
+>>>>>>> master
 
             cmd.LoadCommand(_class);
         }
@@ -69,7 +73,11 @@ namespace PointBlank.API.Commands
         /// <param name="command">The command to load</param>
         public static void LoadCommand(PointBlankCommand command)
         {
+<<<<<<< HEAD
             CommandManager cmd = (CommandManager)Enviroment.services["CommandManager.CommandManager"].ServiceClass;
+=======
+            CommandManager cmd = (CommandManager)PointBlankEnvironment.Services["CommandManager.CommandManager"].ServiceClass;
+>>>>>>> master
 
             cmd.LoadCommand(command);
         }
@@ -80,7 +88,11 @@ namespace PointBlank.API.Commands
         /// <param name="_class">The command class type to unload</param>
         public static void UnloadCommand(Type _class)
         {
+<<<<<<< HEAD
             CommandManager cmd = (CommandManager)Enviroment.services["CommandManager.CommandManager"].ServiceClass;
+=======
+            CommandManager cmd = (CommandManager)PointBlankEnvironment.Services["CommandManager.CommandManager"].ServiceClass;
+>>>>>>> master
 
             cmd.UnloadCommand(_class);
         }
@@ -90,7 +102,11 @@ namespace PointBlank.API.Commands
         /// <param name="command">The command to unload</param>
         public static void UnloadCommand(PointBlankCommand command)
         {
+<<<<<<< HEAD
             CommandManager cmd = (CommandManager)Enviroment.services["CommandManager.CommandManager"].ServiceClass;
+=======
+            CommandManager cmd = (CommandManager)PointBlankEnvironment.Services["CommandManager.CommandManager"].ServiceClass;
+>>>>>>> master
 
             cmd.UnloadCommand(command);
         }
@@ -101,7 +117,11 @@ namespace PointBlank.API.Commands
         /// <param name="command">The command to execute</param>
         public static ECommandRunError ExecuteCommand(string command, Player.PointBlankPlayer executor)
         {
+<<<<<<< HEAD
             CommandManager cmd = (CommandManager)Enviroment.services["CommandManager.CommandManager"].ServiceClass;
+=======
+            CommandManager cmd = (CommandManager)PointBlankEnvironment.Services["CommandManager.CommandManager"].ServiceClass;
+>>>>>>> master
 
             return cmd.ExecuteCommand(command, executor);
         }

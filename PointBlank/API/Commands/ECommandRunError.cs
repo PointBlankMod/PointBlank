@@ -5,16 +5,16 @@
     /// </summary>
     public enum ECommandRunError
     {
-        NONE,
-        COMMAND_NOT_EXIST,
-        NO_PERMISSION,
-        SERVER_RUNNING,
-        SERVER_LOADING,
-        NOT_CONSOLE,
-        NOT_PLAYER,
-        ARGUMENT_COUNT,
-        COOLDOWN,
-        NO_EXECUTE,
-        EXCEPTION
+        None,
+        CommandNotExist,
+        NoPermission,
+        ServerRunning,
+        ServerLoading,
+        NotConsole,
+        NotPlayer,
+        ArgumentCount,
+        Cooldown,
+        NoExecute,
+        Exception
     }
 }

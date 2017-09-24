@@ -6,6 +6,10 @@ using Newtonsoft.Json;
 
 namespace PointBlank.API.Permissions
 {
+<<<<<<< HEAD
+=======
+    /// <inheritdoc />
+>>>>>>> master
     /// <summary>
     /// The permission instance of PointBlank
     /// </summary>

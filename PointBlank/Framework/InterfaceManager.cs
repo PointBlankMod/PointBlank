@@ -18,8 +18,8 @@ namespace PointBlank.Framework
     internal class InterfaceManager : MonoBehaviour, ILoadable
     {
         #region Variables
-        private static Dictionary<IConfigurable, UniversalData> _SavedConfigs = new Dictionary<IConfigurable, UniversalData>();
-        private static Dictionary<ITranslatable, UniversalData> _SavedTranslations = new Dictionary<ITranslatable, UniversalData>();
+        private static Dictionary<Configurable, UniversalData> _savedConfigs = new Dictionary<Configurable, UniversalData>();
+        private static Dictionary<Translatable, UniversalData> _savedTranslations = new Dictionary<Translatable, UniversalData>();
         #endregion
 
         #region Properties
@@ -31,8 +31,8 @@ namespace PointBlank.Framework
         {
             string path = null;
             ConfigurationList configurations = null;
-            Dictionary<Type, IConfigurable> dictionary = null;
-            IConfigurable cfg = (IConfigurable)Activator.CreateInstance(configurable);
+            Dictionary<Type, Configurable> dictionary = null;
+            Configurable cfg = (Configurable)Activator.CreateInstance(configurable);
 
             path = cfg.ConfigurationDirectory;
             configurations = cfg.Configurations;
@@ -40,28 +40,28 @@ namespace PointBlank.Framework
             if (dictionary != null)
                 dictionary.Add(configurable, cfg);
 
-            UniversalData UniData;
-            if (_SavedConfigs.ContainsKey(cfg))
-                UniData = _SavedConfigs[cfg];
+            UniversalData uniData;
+            if (_savedConfigs.ContainsKey(cfg))
+                uniData = _savedConfigs[cfg];
             else
-                UniData = new UniversalData(PointBlankServer.ConfigurationsPath + "/" + (string.IsNullOrEmpty(path) ? "" : path + "/") + configurable.Name);
-            JsonData JSON = UniData.GetData(EDataType.JSON) as JsonData;
+                uniData = new UniversalData(PointBlankServer.ConfigurationsPath + "/" + (string.IsNullOrEmpty(path) ? "" : path + "/") + configurable.Name);
+            JsonData Json = uniData.GetData(EDataType.Json) as JsonData;
 
-            if (!_SavedConfigs.ContainsKey(cfg))
-                _SavedConfigs.Add(cfg, UniData);
-            if(UniData.CreatedNew)
+            if (!_savedConfigs.ContainsKey(cfg))
+                _savedConfigs.Add(cfg, uniData);
+            if(uniData.CreatedNew)
             {
                 foreach(KeyValuePair<string, object> kvp in configurations)
                 {
-                    if (JSON.CheckKey(kvp.Key))
-                        JSON.Document[kvp.Key] = JToken.FromObject(kvp.Value);
+                    if (Json.CheckKey(kvp.Key))
+                        Json.Document[kvp.Key] = JToken.FromObject(kvp.Value);
                     else
-                        JSON.Document.Add(kvp.Key, JToken.FromObject(kvp.Value));
+                        Json.Document.Add(kvp.Key, JToken.FromObject(kvp.Value));
                 }
             }
             else
             {
-                foreach(JProperty property in JSON.Document.Properties())
+                foreach(JProperty property in Json.Document.Properties())
                 {
                     if (configurations[property.Name] == null)
                         continue;
@@ -69,25 +69,25 @@ namespace PointBlank.Framework
                     configurations[property.Name] = property.Value.ToObject(configurations[property.Name].GetType());
                 }
             }
-            UniData.Save();
+            uniData.Save();
         }
 
         private void SaveConfigurable(Type configurable)
         {
-            foreach(IConfigurable cfg in _SavedConfigs.Keys)
+            foreach(Configurable cfg in _savedConfigs.Keys)
             {
                 if(cfg.GetType() == configurable)
                 {
                     foreach(KeyValuePair<string, object> conf in cfg.Configurations)
                     {
-                        JsonData JSON  = _SavedConfigs[cfg].GetData(EDataType.JSON) as JsonData;
+                        JsonData Json  = _savedConfigs[cfg].GetData(EDataType.Json) as JsonData;
 
-                        if (JSON.Document[conf.Key] != null)
-                            JSON.Document[conf.Key] = JToken.FromObject(conf.Value);
+                        if (Json.Document[conf.Key] != null)
+                            Json.Document[conf.Key] = JToken.FromObject(conf.Value);
                         else
-                            JSON.Document.Add(conf.Key, JToken.FromObject(conf.Value));
+                            Json.Document.Add(conf.Key, JToken.FromObject(conf.Value));
                     }
-                    _SavedConfigs[cfg].Save();
+                    _savedConfigs[cfg].Save();
                     break;
                 }
             }
@@ -97,8 +97,8 @@ namespace PointBlank.Framework
         {
             string path = null;
             TranslationList translations = null;
-            Dictionary<Type, ITranslatable> dictionary = null;
-            ITranslatable translater = (ITranslatable)Activator.CreateInstance(translatable);
+            Dictionary<Type, Translatable> dictionary = null;
+            Translatable translater = (Translatable)Activator.CreateInstance(translatable);
 
             path = translater.TranslationDirectory;
             translations = translater.Translations;
@@ -106,28 +106,28 @@ namespace PointBlank.Framework
             if (dictionary != null)
                 dictionary.Add(translatable, translater);
 
-            UniversalData UniData;
-            if (_SavedTranslations.ContainsKey(translater))
-                UniData = _SavedTranslations[translater];
+            UniversalData uniData;
+            if (_savedTranslations.ContainsKey(translater))
+                uniData = _savedTranslations[translater];
             else
-                UniData = new UniversalData(PointBlankServer.TranslationsPath + "/" + (string.IsNullOrEmpty(path) ? "" : path + "/") + translatable.Name);
-            JsonData JSON = UniData.GetData(EDataType.JSON) as JsonData;
+                uniData = new UniversalData(PointBlankServer.TranslationsPath + "/" + (string.IsNullOrEmpty(path) ? "" : path + "/") + translatable.Name);
+            JsonData Json = uniData.GetData(EDataType.Json) as JsonData;
 
-            if (!_SavedTranslations.ContainsKey(translater))
-                _SavedTranslations.Add(translater, UniData);
-            if (UniData.CreatedNew)
+            if (!_savedTranslations.ContainsKey(translater))
+                _savedTranslations.Add(translater, uniData);
+            if (uniData.CreatedNew)
             {
                 foreach (KeyValuePair<string, string> kvp in translations)
                 {
-                    if (JSON.CheckKey(kvp.Key))
-                        JSON.Document[kvp.Key] = kvp.Value;
+                    if (Json.CheckKey(kvp.Key))
+                        Json.Document[kvp.Key] = kvp.Value;
                     else
-                        JSON.Document.Add(kvp.Key, kvp.Value);
+                        Json.Document.Add(kvp.Key, kvp.Value);
                 }
             }
             else
             {
-                foreach (JProperty property in JSON.Document.Properties())
+                foreach (JProperty property in Json.Document.Properties())
                 {
                     if (translations[property.Name] == null)
                         continue;
@@ -135,25 +135,25 @@ namespace PointBlank.Framework
                     translations[property.Name] = (string)property.Value;
                 }
             }
-            UniData.Save();
+            uniData.Save();
         }
 
         private void SaveTranslatable(Type translatable)
         {
-            foreach (ITranslatable translator in _SavedTranslations.Keys)
+            foreach (Translatable translator in _savedTranslations.Keys)
             {
                 if (translator.GetType() == translatable)
                 {
                     foreach (KeyValuePair<string, string> translation in translator.Translations)
                     {
-                        JsonData JSON = _SavedTranslations[translator].GetData(EDataType.JSON) as JsonData;
+                        JsonData Json = _savedTranslations[translator].GetData(EDataType.Json) as JsonData;
 
-                        if (JSON.Document[translation.Key] != null)
-                            JSON.Document[translation.Key] = translation.Value;
+                        if (Json.Document[translation.Key] != null)
+                            Json.Document[translation.Key] = translation.Value;
                         else
-                            JSON.Document.Add(translation.Key, translation.Value);
+                            Json.Document.Add(translation.Key, translation.Value);
                     }
-                    _SavedTranslations[translator].Save();
+                    _savedTranslations[translator].Save();
                     break;
                 }
             }
@@ -173,8 +173,8 @@ namespace PointBlank.Framework
                 Directory.CreateDirectory(PointBlankServer.DataPath); // Create data directory
 
             foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies().Where(a => Attribute.GetCustomAttribute(a, typeof(PointBlankExtensionAttribute)) != null))
-                foreach (Type class_type in asm.GetTypes())
-                    LoadInterface(class_type);
+                foreach (Type classType in asm.GetTypes())
+                    LoadInterface(classType);
 
             // Setup the events
             PointBlankPluginEvents.OnPluginLoaded += new PointBlankPluginEvents.PluginEventHandler(OnPluginLoaded);
@@ -190,8 +190,13 @@ namespace PointBlank.Framework
                 return;
 
             foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies().Where(a => Attribute.GetCustomAttribute(a, typeof(PointBlankExtensionAttribute)) != null))
+<<<<<<< HEAD
                 foreach (Type class_type in asm.GetTypes())
                     SaveInterface(class_type);
+=======
+                foreach (Type classType in asm.GetTypes())
+                    SaveInterface(classType);
+>>>>>>> master
 
             // Set the variables
             Initialized = false;
@@ -203,9 +208,15 @@ namespace PointBlank.Framework
             if (!_interface.IsClass)
                 return;
 
+<<<<<<< HEAD
             if (typeof(IConfigurable).IsAssignableFrom(_interface) && _interface != typeof(IConfigurable))
                 LoadConfigurable(_interface);
             if (typeof(ITranslatable).IsAssignableFrom(_interface) && _interface != typeof(ITranslatable))
+=======
+            if (typeof(Configurable).IsAssignableFrom(_interface) && _interface != typeof(Configurable))
+                LoadConfigurable(_interface);
+            if (typeof(Translatable).IsAssignableFrom(_interface) && _interface != typeof(Translatable))
+>>>>>>> master
                 LoadTranslatable(_interface);
         }
 
@@ -214,9 +225,15 @@ namespace PointBlank.Framework
             if (!_interface.IsClass)
                 return;
 
+<<<<<<< HEAD
             if (typeof(IConfigurable).IsAssignableFrom(_interface) && _interface != typeof(IConfigurable))
                 SaveConfigurable(_interface);
             if (typeof(ITranslatable).IsAssignableFrom(_interface) && _interface != typeof(ITranslatable))
+=======
+            if (typeof(Configurable).IsAssignableFrom(_interface) && _interface != typeof(Configurable))
+                SaveConfigurable(_interface);
+            if (typeof(Translatable).IsAssignableFrom(_interface) && _interface != typeof(Translatable))
+>>>>>>> master
                 SaveTranslatable(_interface);
         }
         #endregion

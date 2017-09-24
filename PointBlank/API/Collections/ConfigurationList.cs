@@ -21,17 +21,17 @@ namespace PointBlank.API.Collections
         /// <summary>
         /// Gets/Sets the configuration object with the configuration name provided
         /// </summary>
-        /// <param name="configuration_name">The configuration name</param>
+        /// <param name="configurationName">The configuration name</param>
         /// <returns>The configuration object</returns>
-        public object this[string configuration_name]
+        public object this[string configurationName]
         {
-            get => !Configurations.ContainsKey(configuration_name) ? null : Configurations[configuration_name];
+            get => !Configurations.ContainsKey(configurationName) ? null : Configurations[configurationName];
             set
             {
-                if (Configurations.ContainsKey(configuration_name))
-                    Configurations[configuration_name] = value;
+                if (Configurations.ContainsKey(configurationName))
+                    Configurations[configurationName] = value;
                 else
-                    Configurations.Add(configuration_name, value);
+                    Configurations.Add(configurationName, value);
             }
         }
 
@@ -66,12 +66,12 @@ namespace PointBlank.API.Collections
         /// <summary>
         /// Adds a configuration entry using the configuration name and configuration object
         /// </summary>
-        /// <param name="configuration_name">Configuration name</param>
+        /// <param name="configurationName">Configuration name</param>
         /// <param name="configuration">Configuration object</param>
-        public void Add(string configuration_name, object configuration)
+        public void Add(string configurationName, object configuration)
         {
-            if (!Configurations.ContainsKey(configuration_name))
-                Configurations.Add(configuration_name, configuration);
+            if (!Configurations.ContainsKey(configurationName))
+                Configurations.Add(configurationName, configuration);
         }
         /// <summary>
         /// Adds a configuration entry using the KeyValuePair
@@ -82,11 +82,11 @@ namespace PointBlank.API.Collections
         /// <summary>
         /// Removes a configuration entry using the configuration name
         /// </summary>
-        /// <param name="configuration_name">Configuration name</param>
-        public void Remove(string configuration_name)
+        /// <param name="configurationName">Configuration name</param>
+        public void Remove(string configurationName)
         {
-            if (Configurations.ContainsKey(configuration_name))
-                Configurations.Remove(configuration_name);
+            if (Configurations.ContainsKey(configurationName))
+                Configurations.Remove(configurationName);
         }
         /// <summary>
         /// Removes a configuration entry using the index

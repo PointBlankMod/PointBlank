@@ -5,8 +5,8 @@
     /// </summary>
     public enum EAllowedServerState
     {
-        RUNNING,
-        LOADING,
-        BOTH
+        Running,
+        Loading,
+        Both
     }
 }

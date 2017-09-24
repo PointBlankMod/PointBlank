@@ -1,6 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using PointBlank.API.Permissions;
+<<<<<<< HEAD
+=======
+using PointBlank.API.Services;
+using PointBlank.Services.GroupManager;
+>>>>>>> master
 using UnityEngine;
 
 namespace PointBlank.API.Groups
@@ -11,6 +16,7 @@ namespace PointBlank.API.Groups
     public class PointBlankGroup : IPermitable
     {
         #region Variables
+<<<<<<< HEAD
         private List<PointBlankPermission> _Permissions = new List<PointBlankPermission>();
         private List<PointBlankGroup> _Inherits = new List<PointBlankGroup>();
 
@@ -23,24 +29,42 @@ namespace PointBlank.API.Groups
         /// The ID of the group
         /// </summary>
         public string ID { get; private set; }
+=======
+        private List<PointBlankPermission> _permissions = new List<PointBlankPermission>();
+        private List<PointBlankGroup> _inherits = new List<PointBlankGroup>();
+
+        private List<string> _prefixes = new List<string>();
+        private List<string> _suffixes = new List<string>();
+		#endregion
+
+		#region Properties
+		/// <summary>
+		/// The ID of the group
+		/// </summary>
+		public string Id { get; private set; }
+>>>>>>> master
 
         /// <summary>
         /// The list of permissions this group has
         /// </summary>
+<<<<<<< HEAD
         public PointBlankPermission[] Permissions => _Permissions.ToArray();
+=======
+        public PointBlankPermission[] Permissions => _permissions.ToArray();
+>>>>>>> master
         /// <summary>
         /// List of permission inherits this group has
         /// </summary>
-        public PointBlankGroup[] Inherits => _Inherits.ToArray();
+        public PointBlankGroup[] Inherits => _inherits.ToArray();
 
         /// <summary>
         /// List of prefixes the group has
         /// </summary>
-        public string[] Prefixes => _Prefixes.ToArray();
+        public string[] Prefixes => _prefixes.ToArray();
         /// <summary>
         /// List of suffixes the group has
         /// </summary>
-        public string[] Suffixes => _Suffixes.ToArray();
+        public string[] Suffixes => _suffixes.ToArray();
 
         /// <summary>
         /// The color of the group(visible in chat)
@@ -67,7 +91,7 @@ namespace PointBlank.API.Groups
         public PointBlankGroup(string id, string name, bool isDefault, Color color)
         {
             // Set the variables
-            this.ID = id;
+            this.Id = id;
             this.Name = name;
             this.Default = isDefault;
             this.Color = color;
@@ -79,31 +103,31 @@ namespace PointBlank.API.Groups
         public PointBlankGroup(string id)
         {
             // Set the variables
-            this.ID = id;
+            this.Id = id;
         }
 
         #region Static Functions
         /// <summary>
         /// Finds and returns the instance of a group by ID
         /// </summary>
-        /// <param name="ID">The ID to query</param>
+        /// <param name="id">The ID to query</param>
         /// <returns>The instance of the group the ID belongs to or null if not found</returns>
-        public static PointBlankGroup Find(string ID) => PointBlankGroupManager.Find(ID);
+        public static PointBlankGroup Find(string id) => PointBlankGroupManager.Find(id);
 
         /// <summary>
         /// Tries to find the group by ID and returns it
         /// </summary>
-        /// <param name="ID">The group ID to look for</param>
+        /// <param name="id">The group ID to look for</param>
         /// <param name="group">The group instance</param>
         /// <returns>If the group was found</returns>
-        public static bool TryFindGroup(string ID, out PointBlankGroup group) => PointBlankGroup.TryFindGroup(ID, out group);
+        public static bool TryFindGroup(string id, out PointBlankGroup group) => PointBlankGroupManager.TryFindGroup(id, out group);
 
         /// <summary>
         /// Checks if the specified group ID is already in use
         /// </summary>
-        /// <param name="ID">The group ID to check for</param>
+        /// <param name="id">The group ID to check for</param>
         /// <returns>If the group ID is already in use</returns>
-        public static bool Exists(string ID) => (Find(ID) != null);
+        public static bool Exists(string id) => (Find(id) != null);
         #endregion
 
         #region Public Functions
@@ -117,20 +141,29 @@ namespace PointBlank.API.Groups
 
             if (perm == null)
                 return;
+<<<<<<< HEAD
             AddPermission(perm);
         }
+=======
+            AddPermission(perm);
+		}
+>>>>>>> master
         /// <summary>
         /// Add a permission to the group
         /// </summary>
         /// <param name="permission">The permission to add</param>
         public void AddPermission(PointBlankPermission permission)
         {
+<<<<<<< HEAD
             if (_Permissions.Contains(permission))
+=======
+            if (_permissions.Contains(permission))
+>>>>>>> master
                 return;
 
-            _Permissions.Add(permission);
+            _permissions.Add(permission);
             PointBlankGroupEvents.RunPermissionAdded(this, permission);
-        }
+		}
 
         /// <summary>
         /// Removes a permission from the group
@@ -142,20 +175,29 @@ namespace PointBlank.API.Groups
 
             if (perm == null)
                 return;
+<<<<<<< HEAD
             RemovePermission(perm);
         }
+=======
+            RemovePermission(perm);
+		}
+>>>>>>> master
         /// <summary>
         /// Removes a permission from the group
         /// </summary>
         /// <param name="permission">The permission to remove</param>
         public void RemovePermission(PointBlankPermission permission)
         {
+<<<<<<< HEAD
             if (!_Permissions.Contains(permission))
+=======
+            if (!_permissions.Contains(permission))
+>>>>>>> master
                 return;
 
-            _Permissions.Remove(permission);
+            _permissions.Remove(permission);
             PointBlankGroupEvents.RunPermissionRemoved(this, permission);
-        }
+		}
 
         /// <summary>
         /// Adds a prefix to the group
@@ -163,12 +205,12 @@ namespace PointBlank.API.Groups
         /// <param name="prefix">The prefix to add</param>
         public void AddPrefix(string prefix)
         {
-            if (_Prefixes.Contains(prefix))
+            if (_prefixes.Contains(prefix))
                 return;
 
-            _Prefixes.Add(prefix);
+            _prefixes.Add(prefix);
             PointBlankGroupEvents.RunPrefixAdded(this, prefix);
-        }
+		}
 
         /// <summary>
         /// Removes a prefix from the group
@@ -176,12 +218,12 @@ namespace PointBlank.API.Groups
         /// <param name="prefix">The prefix to remove</param>
         public void RemovePrefix(string prefix)
         {
-            if (!_Prefixes.Contains(prefix))
+            if (!_prefixes.Contains(prefix))
                 return;
 
-            _Prefixes.Remove(prefix);
+            _prefixes.Remove(prefix);
             PointBlankGroupEvents.RunPrefixRemoved(this, prefix);
-        }
+		}
 
         /// <summary>
         /// Adds a suffix to the group
@@ -189,12 +231,12 @@ namespace PointBlank.API.Groups
         /// <param name="suffix">The suffix to add</param>
         public void AddSuffix(string suffix)
         {
-            if (_Suffixes.Contains(suffix))
+            if (_suffixes.Contains(suffix))
                 return;
 
-            _Suffixes.Add(suffix);
+            _suffixes.Add(suffix);
             PointBlankGroupEvents.RunSuffixAdded(this, suffix);
-        }
+		}
 
         /// <summary>
         /// Removes a suffix from the group
@@ -202,12 +244,12 @@ namespace PointBlank.API.Groups
         /// <param name="suffix">The suffix to remove</param>
         public void RemoveSuffix(string suffix)
         {
-            if (!_Suffixes.Contains(suffix))
+            if (!_suffixes.Contains(suffix))
                 return;
 
-            _Suffixes.Remove(suffix);
+            _suffixes.Remove(suffix);
             PointBlankGroupEvents.RunSuffixRemoved(this, suffix);
-        }
+		}
 
         /// <summary>
         /// Adds a group inherit to the group
@@ -215,14 +257,14 @@ namespace PointBlank.API.Groups
         /// <param name="group">The group to inherit from</param>
         public void AddInherit(PointBlankGroup group)
         {
-            if (_Inherits.Contains(group))
+            if (_inherits.Contains(group))
                 return;
-            if (_Inherits.Count(a => a.ID == group.ID) > 0)
+            if (_inherits.Count(a => a.Id == group.Id) > 0)
                 return;
 
-            _Inherits.Add(group);
+            _inherits.Add(group);
             PointBlankGroupEvents.RunInheritAdded(this, group);
-        }
+		}
 
         /// <summary>
         /// Removes a group inherit from the group
@@ -230,12 +272,12 @@ namespace PointBlank.API.Groups
         /// <param name="group">The group inherit to remove</param>
         public void RemoveInherit(PointBlankGroup group)
         {
-            if (!_Inherits.Contains(group))
+            if (!_inherits.Contains(group))
                 return;
 
-            _Inherits.Remove(group);
+            _inherits.Remove(group);
             PointBlankGroupEvents.RunInheritRemoved(this, group);
-        }
+		}
 
         /// <summary>
         /// Gets the list of all permissions including inheritences

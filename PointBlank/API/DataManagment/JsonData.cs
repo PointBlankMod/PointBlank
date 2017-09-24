@@ -7,17 +7,17 @@ using Newtonsoft.Json.Linq;
 namespace PointBlank.API.DataManagment
 {
     /// <summary>
-    /// JSON data managment
+    /// Json data managment
     /// </summary>
     public class JsonData
     {
         #region Properties
         /// <summary>
-        /// Path to JSON file
+        /// Path to Json file
         /// </summary>
         public string Path { get; private set; }
         /// <summary>
-        /// JSON document
+        /// Json document
         /// </summary>
         public JObject Document { get; private set; }
         /// <summary>
@@ -26,15 +26,15 @@ namespace PointBlank.API.DataManagment
         //public JArray RootNode { get; private set; }
 
         /// <summary>
-        /// Was the JSON just created
+        /// Was the Json just created
         /// </summary>
         public bool CreatedNew { get; private set; }
         #endregion
 
         /// <summary>
-        /// JSON data managment
+        /// Json data managment
         /// </summary>
-        /// <param name="path">The path to json file</param>
+        /// <param name="path">The path to Json file</param>
         internal JsonData(string path)
         {
             this.Path = path; // Set the path
@@ -44,9 +44,9 @@ namespace PointBlank.API.DataManagment
         }
 
         /// <summary>
-        /// JSON data managment
+        /// Json data managment
         /// </summary>
-        /// <param name="doc">The json document</param>
+        /// <param name="doc">The Json document</param>
         internal JsonData(JObject doc, string path)
         {
             this.Path = path; // Set the path
@@ -56,10 +56,10 @@ namespace PointBlank.API.DataManagment
 
         #region Static Functions
         /// <summary>
-        /// Checks if the file is JSON
+        /// Checks if the file is Json
         /// </summary>
         /// <param name="filepath">The path to the file</param>
-        /// <returns>If the file is JSON</returns>
+        /// <returns>If the file is Json</returns>
         public static bool CheckFile(string filepath)
         {
             if (!File.Exists(filepath))
@@ -80,47 +80,47 @@ namespace PointBlank.API.DataManagment
         }
 
         /// <summary>
-        /// Serializes a class instance into a JSON
+        /// Serializes a class instance into a Json
         /// </summary>
         /// <param name="instance">The instance of the class</param>
-        /// <returns>The JSON string</returns>
+        /// <returns>The Json string</returns>
         public static string Serialize(object instance) => JsonConvert.SerializeObject(instance); // Serialize the object
 
         /// <summary>
-        /// Serializes a class into a JSON
+        /// Serializes a class into a Json
         /// </summary>
         /// <typeparam name="T">The class to serialize</typeparam>
-        /// <returns>The JSON string</returns>
+        /// <returns>The Json string</returns>
         public static string Serialize<T>()
         {
             return JsonConvert.SerializeObject(Activator.CreateInstance<T>()); // Instentate the class and serialize the instance
         }
 
         /// <summary>
-        /// Deserializes JSON into an instance of a class
+        /// Deserializes Json into an instance of a class
         /// </summary>
-        /// <param name="json">The JSON</param>
+        /// <param name="Json">The Json</param>
         /// <param name="type">The type to deserialize to</param>
         /// <returns>Instance of the deserialized file</returns>
-        public static object Deserialize(string json, Type type) => JsonConvert.DeserializeObject(json, type); // Deserialize the file
+        public static object Deserialize(string Json, Type type) => JsonConvert.DeserializeObject(Json, type); // Deserialize the file
 
         /// <summary>
-        /// Deserialize JSON into an instance of a class
+        /// Deserialize Json into an instance of a class
         /// </summary>
         /// <typeparam name="T">The class</typeparam>
-        /// <param name="json">The JSON</param>
-        /// <returns>Instance of the class deserialized from JSON</returns>
-        public static T Deserialize<T>(string json) => JsonConvert.DeserializeObject<T>(json); // Deserialize the JSON
+        /// <param name="Json">The Json</param>
+        /// <returns>Instance of the class deserialized from Json</returns>
+        public static T Deserialize<T>(string Json) => JsonConvert.DeserializeObject<T>(Json); // Deserialize the Json
         #endregion
 
         #region Public Functions
         /// <summary>
-        /// Reloads the JSON file
+        /// Reloads the Json file
         /// </summary>
         public void Reload() => Document = CreatedNew ? new JObject() : JObject.Parse(File.ReadAllText(Path));
 
         /// <summary>
-        /// Saves the JSON file
+        /// Saves the Json file
         /// </summary>
         internal void Save() => File.WriteAllText(Path, Document.ToString(Formatting.Indented)); // Write the file
 
