@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace PointBlank.API.IPC
+﻿namespace PointBlank.API.IPC
 {
     /// <summary>
     /// The types of IPC you can use
     /// </summary>
-    public enum EIPCType
+    public enum EipcType
     {
-        FILE,
-        CONSOLE
+        File,
+        Console
     }
 }

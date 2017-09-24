@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using PointBlank.Services.CommandManager;
-using CM = PointBlank.Services.CommandManager.CommandManager;
 
 namespace PointBlank.API.Commands
 {
@@ -16,7 +13,7 @@ namespace PointBlank.API.Commands
         /// <summary>
         /// List of commands
         /// </summary>
-        public static PointBlankCommand[] Commands => CM.Commands.Select(a => a.CommandClass).ToArray();
+        public static PointBlankCommand[] Commands => CommandManager.Commands.Select(a => a.CommandClass).ToArray();
         #endregion
 
         #region Functions
@@ -40,7 +37,7 @@ namespace PointBlank.API.Commands
         /// <param name="command">The command to enable</param>
         public static void EnableCommand(PointBlankCommand command)
         {
-            CommandWrapper wrapper = CM.Commands.FirstOrDefault(a => a.CommandClass == command);
+            CommandWrapper wrapper = CommandManager.Commands.FirstOrDefault(a => a.CommandClass == command);
 
             wrapper?.Enable();
         }
@@ -51,9 +48,51 @@ namespace PointBlank.API.Commands
         /// <param name="command">The command to disable</param>
         public static void DisableCommand(PointBlankCommand command)
         {
-            CommandWrapper wrapper = CM.Commands.FirstOrDefault(a => a.CommandClass == command);
+            CommandWrapper wrapper = CommandManager.Commands.FirstOrDefault(a => a.CommandClass == command);
 
             wrapper?.Disable();
+        }
+
+        /// <summary>
+        /// Loads a command into the commands list
+        /// </summary>
+        /// <param name="_class">The command class type</param>
+        public static void LoadCommand(Type _class)
+        {
+            CommandManager cmd = (CommandManager)PointBlankEnvironment.Services["CommandManager.CommandManager"].ServiceClass;
+
+            cmd.LoadCommand(_class);
+        }
+        /// <summary>
+        /// Loads a command into the commands list
+        /// </summary>
+        /// <param name="command">The command to load</param>
+        public static void LoadCommand(PointBlankCommand command)
+        {
+            CommandManager cmd = (CommandManager)PointBlankEnvironment.Services["CommandManager.CommandManager"].ServiceClass;
+
+            cmd.LoadCommand(command);
+        }
+
+        /// <summary>
+        /// Unloads a command from the commands list
+        /// </summary>
+        /// <param name="_class">The command class type to unload</param>
+        public static void UnloadCommand(Type _class)
+        {
+            CommandManager cmd = (CommandManager)PointBlankEnvironment.Services["CommandManager.CommandManager"].ServiceClass;
+
+            cmd.UnloadCommand(_class);
+        }
+        /// <summary>
+        /// Unloads a command from the commands list
+        /// </summary>
+        /// <param name="command">The command to unload</param>
+        public static void UnloadCommand(PointBlankCommand command)
+        {
+            CommandManager cmd = (CommandManager)PointBlankEnvironment.Services["CommandManager.CommandManager"].ServiceClass;
+
+            cmd.UnloadCommand(command);
         }
 
         /// <summary>
@@ -62,7 +101,7 @@ namespace PointBlank.API.Commands
         /// <param name="command">The command to execute</param>
         public static ECommandRunError ExecuteCommand(string command, Player.PointBlankPlayer executor)
         {
-            CM cmd = (CM)Enviroment.services["CommandManager.CommandManager"].ServiceClass;
+            CommandManager cmd = (CommandManager)PointBlankEnvironment.Services["CommandManager.CommandManager"].ServiceClass;
 
             return cmd.ExecuteCommand(command, executor);
         }

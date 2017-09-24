@@ -1,51 +1,62 @@
 ﻿using System;
-using System.Reflection;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using PointBlank.API;
 using PointBlank.API.Commands;
-using CMD = PointBlank.API.Commands.PointBlankCommand;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 using PointBlank.Framework.Translations;
 using PointBlank.API.Collections;
 using PointBlank.API.Player;
 using PointBlank.API.Server;
+using PointBlank.API.Permissions;
 
 namespace PointBlank.Services.CommandManager
 {
     internal class CommandWrapper
     {
         #region Variables
-        private TranslationList Translations;
+        private TranslationList _translations;
+
+        private CommandManager _cmd = (CommandManager)PointBlankEnvironment.Services["CommandManager.CommandManager"].ServiceClass;
         #endregion
 
         #region Properties
         public Type Class { get; private set; }
         public JObject Config { get; private set; }
 
-        public CMD CommandClass { get; private set; }
+        public PointBlankCommand CommandClass { get; private set; }
 
         public string[] Commands { get; private set; }
-        public string Permission { get; private set; }
-        public int Cooldown { get; private set; }
+        public PointBlankPermission Permission { get; private set; }
         public bool Enabled { get; private set; }
         #endregion
 
-        public CommandWrapper(Type _class, JObject config)
+        public CommandWrapper(Type _class)
         {
             // Set the variables
             this.Class = _class;
-            this.Config = config;
 
             // Setup the variables
-            CommandClass = (CMD)Activator.CreateInstance(Class);
-            Translations = Enviroment.ServiceTranslations[typeof(ServiceTranslations)].Translations;
+            CommandClass = (PointBlankCommand)Activator.CreateInstance(Class);
+            _translations = PointBlankEnvironment.ServiceTranslations[typeof(ServiceTranslations)].Translations;
+            Config = ((JArray)_cmd.JsonConfig.Document["Commands"]).FirstOrDefault(a => (string)a["Name"] == Class.Assembly.GetName().Name + "." + CommandClass.Name) as JObject;
 
             // Run the code
             Reload();
+            PointBlankLogging.Log("Loaded command: " + Commands[0]);
+        }
+        public CommandWrapper(PointBlankCommand command)
+        {
+            // Set the variables
+            Class = command.GetType();
+            CommandClass = command;
 
+            // Setup the variables
+            _translations = PointBlankEnvironment.ServiceTranslations[typeof(ServiceTranslations)].Translations;
+            Config = ((JArray)_cmd.JsonConfig.Document["Commands"]).FirstOrDefault(a => (string)a["Name"] == Class.Assembly.GetName().Name + "." + CommandClass.Name) as JObject;
+
+            // Run the code
+            Reload();
             PointBlankLogging.Log("Loaded command: " + Commands[0]);
         }
 
@@ -64,25 +75,27 @@ namespace PointBlank.Services.CommandManager
 
         public void Reload()
         {
-            string name = Class.Assembly.GetName().Name + "." + Class.Name;
+            if (Config == null)
+            {
+                Config = new JObject();
+                ((JArray)_cmd.JsonConfig.Document["Commands"]).Add(Config);
+            }
+            string name = Class.Assembly.GetName().Name + "." + CommandClass.Name;
             if (Config["Name"] == null)
             {
                 Config["Name"] = name;
                 Config["Commands"] = JToken.FromObject(CommandClass.DefaultCommands);
                 Config["Permission"] = CommandClass.DefaultPermission;
-                Config["Cooldown"] = CommandClass.DefaultCooldown;
                 Config["Enabled"] = Enabled;
 
                 Commands = CommandClass.DefaultCommands;
-                Permission = CommandClass.DefaultPermission;
-                Cooldown = CommandClass.DefaultCooldown;
+                Permission = new PointBlankPermission(CommandClass.DefaultPermission);
                 Enabled = true;
             }
             else
             {
                 Commands = Config["Commands"].ToObject<string[]>();
-                Permission = (string)Config["Permission"];
-                Cooldown = (int)Config["Cooldown"];
+                Permission = new PointBlankPermission((string)Config["Permission"]);
                 Enabled = (bool)Config["Enabled"];
             }
         }
@@ -93,48 +106,48 @@ namespace PointBlank.Services.CommandManager
         {
             try
             {
-                if (CommandClass.AllowedServerState == EAllowedServerState.LOADING && PointBlankServer.IsRunning)
+                if (CommandClass.AllowedServerState == EAllowedServerState.Loading && PointBlankServer.IsRunning)
                 {
-                    PointBlankPlayer.SendMessage(executor, Translations["CommandWrapper_Running"], ConsoleColor.Red);
-                    return ECommandRunError.SERVER_RUNNING;
+                    PointBlankPlayer.SendMessage(executor, _translations["CommandWrapper_Running"], ConsoleColor.Red);
+                    return ECommandRunError.ServerRunning;
                 }
-                if (CommandClass.AllowedServerState == EAllowedServerState.RUNNING && !PointBlankServer.IsRunning)
+                if (CommandClass.AllowedServerState == EAllowedServerState.Running && !PointBlankServer.IsRunning)
                 {
-                    PointBlankPlayer.SendMessage(executor, Translations["CommandWrapper_NotRunning"], ConsoleColor.Red);
-                    return ECommandRunError.SERVER_LOADING;
+                    PointBlankPlayer.SendMessage(executor, _translations["CommandWrapper_NotRunning"], ConsoleColor.Red);
+                    return ECommandRunError.ServerLoading;
                 }
-                if (CommandClass.AllowedCaller == EAllowedCaller.SERVER && executor != null)
+                if (CommandClass.AllowedCaller == EAllowedCaller.Server && executor != null)
                 {
-                    executor.SendMessage(Translations["CommandWrapper_NotConsole"], Color.red);
-                    return ECommandRunError.NOT_CONSOLE;
+                    executor.SendMessage(_translations["CommandWrapper_NotConsole"], Color.red);
+                    return ECommandRunError.NotConsole;
                 }
-                if (CommandClass.AllowedCaller == EAllowedCaller.PLAYER && executor == null)
+                if (CommandClass.AllowedCaller == EAllowedCaller.Player && executor == null)
                 {
-                    executor.SendMessage(Translations["CommandWrapper_NotPlayer"], Color.red);
-                    return ECommandRunError.NOT_PLAYER;
+                    executor.SendMessage(_translations["CommandWrapper_NotPlayer"], Color.red);
+                    return ECommandRunError.NotPlayer;
                 }
                 if (CommandClass.MinimumParams > args.Length)
                 {
-                    PointBlankPlayer.SendMessage(executor, Translations["CommandWrapper_Arguments"], ConsoleColor.Red);
-                    return ECommandRunError.ARGUMENT_COUNT;
+                    PointBlankPlayer.SendMessage(executor, _translations["CommandWrapper_Arguments"], ConsoleColor.Red);
+                    return ECommandRunError.ArgumentCount;
                 }
-                if(executor != null && executor.HasCooldown(CommandClass))
+                if(executor != null && executor.HasCooldown(CommandClass.Permission))
                 {
-                    executor.SendMessage(Translations["CommandWrapper_Cooldown"], Color.red);
-                    return ECommandRunError.COOLDOWN;
+                    executor.SendMessage(_translations["CommandWrapper_Cooldown"], Color.red);
+                    return ECommandRunError.Cooldown;
                 }
                 bool shouldExecute = true;
 
                 PointBlankCommandEvents.RunCommandExecute(CommandClass, args, executor, ref shouldExecute);
-                if (!shouldExecute) return ECommandRunError.NO_EXECUTE;
-                executor?.SetCooldown(CommandClass, DateTime.Now);
+                if (!shouldExecute) return ECommandRunError.NoExecute;
+                executor?.AddCooldown(CommandClass.Permission);
                 CommandClass.Execute(executor, args);
-                return ECommandRunError.NONE;
+                return ECommandRunError.None;
             }
             catch (Exception ex)
             {
                 PointBlankLogging.LogError("Error when running command: " + Class.Name, ex);
-                return ECommandRunError.EXCEPTION;
+                return ECommandRunError.Exception;
             }
         }
         #endregion

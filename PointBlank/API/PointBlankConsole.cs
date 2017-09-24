@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
 
 namespace PointBlank.API
@@ -12,7 +9,7 @@ namespace PointBlank.API
     public static class PointBlankConsole
     {
         #region Variables
-        private static ConsoleColor SavedColor = ConsoleColor.White;
+        private static ConsoleColor _savedColor = ConsoleColor.White;
         #endregion
 
         /// <summary>
@@ -22,13 +19,14 @@ namespace PointBlank.API
         /// <param name="color">The color to use</param>
         public static void WriteLine(object text, ConsoleColor color = ConsoleColor.White)
         {
-            SavedColor = Console.ForegroundColor;
+            _savedColor = Console.ForegroundColor;
             Console.ForegroundColor = color;
 
             if (Console.CursorLeft != 0)
                 ClearLine();
             Console.WriteLine(text);
-            Console.ForegroundColor = SavedColor;
+			PointBlankConsoleEvents.RunConsoleLineWritten(text, color);
+            Console.ForegroundColor = _savedColor;
         }
 
         /// <summary>

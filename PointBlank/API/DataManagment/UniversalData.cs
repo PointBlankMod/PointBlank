@@ -1,14 +1,6 @@
-﻿using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Security.Permissions;
-using PointBlank.Framework.Permissions.Ring;
+﻿using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using PointBlank.API;
-using PointBlank.Framework;
 using PT = System.IO.Path;
 
 namespace PointBlank.API.DataManagment
@@ -16,7 +8,6 @@ namespace PointBlank.API.DataManagment
     /// <summary>
     /// Universal data managment
     /// </summary>
-    [RingPermission(SecurityAction.Demand, ring = RingPermissionRing.None)]
     public class UniversalData
     {
         #region Properties
@@ -25,18 +16,18 @@ namespace PointBlank.API.DataManagment
         /// </summary>
         public string Path { get; private set; }
         /// <summary>
-        /// The type of data that was inputted(SQL, XML, JSON)
+        /// The type of data that was inputted(SQL, XML, Json)
         /// </summary>
         public EDataType DataType { get; private set; }
 
         /// <summary>
         /// The XML data(if the file is a XML)
         /// </summary>
-        public XMLData XML { get; private set; }
+        public XmlData Xml { get; private set; }
         /// <summary>
-        /// The JSON data(if the file is a JSON)
+        /// The Json data(if the file is a Json)
         /// </summary>
-        public JsonData JSON { get; private set; }
+        public JsonData Json { get; private set; }
         /// <summary>
         /// The CONF data(if the file is a CONF)
         /// </summary>
@@ -52,7 +43,7 @@ namespace PointBlank.API.DataManagment
         /// Universal data managment
         /// </summary>
         /// <param name="path">The path to the data file</param>
-        public UniversalData(string path, EDataType DefaultDataType = EDataType.JSON)
+        public UniversalData(string path, EDataType defaultDataType = EDataType.Json)
         {
             this.Path = path + ".dat"; // Set the path
             this.CreatedNew = !File.Exists(Path); // Check if the file has to be created
@@ -61,34 +52,34 @@ namespace PointBlank.API.DataManagment
                 Directory.CreateDirectory(PT.GetDirectoryName(Path));
             if (CreatedNew)
             {
-                DataType = DefaultDataType; // Set the data type
+                DataType = defaultDataType; // Set the data type
 
-                switch (DefaultDataType)
+                switch (defaultDataType)
                 {
-                    case EDataType.JSON:
-                        JSON = new JsonData(Path); // Create the JSON file
+                    case EDataType.Json:
+                        Json = new JsonData(Path); // Create the Json file
                         break;
-                    case EDataType.XML:
-                        XML = new XMLData(Path); // Create the XML file
+                    case EDataType.Xml:
+                        Xml = new XmlData(Path); // Create the XML file
                         break;
                 }
 
                 return; // No need to continue
             }
 
-            if (XMLData.CheckFile(Path))
+            if (XmlData.CheckFile(Path))
             {
-                DataType = EDataType.XML; // An XML file
-                XML = new XMLData(Path);
+                DataType = EDataType.Xml; // An XML file
+                Xml = new XmlData(Path);
             }
             else if (JsonData.CheckFile(Path))
             {
-                DataType = EDataType.JSON; // A JSON file
-                JSON = new JsonData(Path);
+                DataType = EDataType.Json; // A Json file
+                Json = new JsonData(Path);
             }
             else
             {
-                DataType = EDataType.UNKNOWN; // Unknown type/corrupted file
+                DataType = EDataType.Unknown; // Unknown type/corrupted file
             }
         }
 
@@ -96,23 +87,23 @@ namespace PointBlank.API.DataManagment
         /// <summary>
         /// Gets the data in the format of your choosing
         /// </summary>
-        /// <param name="ExtractType">The format of the data</param>
+        /// <param name="extractType">The format of the data</param>
         /// <returns>The data in the format you chose</returns>
-        public object GetData(EDataType ExtractType)
+        public object GetData(EDataType extractType)
         {
-            if (DataType == EDataType.UNKNOWN || ExtractType == EDataType.UNKNOWN) // Unknown data type error
+            if (DataType == EDataType.Unknown || extractType == EDataType.Unknown) // Unknown data type error
                 return null;
 
             switch (DataType)
             {
-                case EDataType.JSON:
-                    if (ExtractType == EDataType.XML)
-                        return JSONToXML(); // Convert the JSON to XML
-                    return JSON; // Return the JSON
-                case EDataType.XML:
-                    if (ExtractType == EDataType.JSON)
-                        return XMLToJSON(); // Convert the XML to JSON
-                    return XML; // Return the XML
+                case EDataType.Json:
+                    if (extractType == EDataType.Xml)
+                        return JsontoXml(); // Convert the Json to XML
+                    return Json; // Return the Json
+                case EDataType.Xml:
+                    if (extractType == EDataType.Json)
+                        return XmltoJson(); // Convert the XML to Json
+                    return Xml; // Return the XML
             }
 
             return null;
@@ -123,59 +114,59 @@ namespace PointBlank.API.DataManagment
         /// </summary>
         public void Save()
         {
-            /*switch ((EDataType)Enviroment.FrameworkConfig[typeof(PointBlank)].Configurations["ConfigFormat"])
+            /*switch ((EDataType)PointBlankEnvironment.FrameworkConfig[typeof(PointBlank)].Configurations["ConfigFormat"])
             {
-                case EDataType.JSON:
+                case EDataType.Json:
                     if (DataType == EDataType.XML || XML != null)
-                        XMLToJSON(); // Convert to JSON
+                        XMLToJson(); // Convert to Json
 
-                    JSON.Save(); // Save the JSON
+                    Json.Save(); // Save the Json
                     break;
                 case EDataType.XML:
-                    if (DataType == EDataType.JSON || JSON != null)
-                        JSONToXML(); // Convert to XML
+                    if (DataType == EDataType.Json || Json != null)
+                        JsonToXML(); // Convert to XML
 
                     XML.Save(); // Save the XML
                     break;
             }*/
-            JSON.Save();
+            Json.Save();
         }
         #endregion
 
         #region Converter Functions
-        private XMLData JSONToXML()
+        private XmlData JsontoXml()
         {
-            XMLData tmpXML = new XMLData(JsonConvert.DeserializeXmlNode(JSON.Document.ToString(), "Data"), Path); // Deserialize the JSON to XML
+            XmlData tmpXml = new XmlData(JsonConvert.DeserializeXmlNode(Json.Document.ToString(), "Data"), Path); // Deserialize the Json to XML
 
-            if(XML == null)
+            if(Xml == null)
             {
-                XML = tmpXML; // If the XML is null just set the tmpXML to it
-                return XML;
+                Xml = tmpXml; // If the XML is null just set the tmpXML to it
+                return Xml;
             }
 
-            XML.Merge(tmpXML.Document); // Merge the XMLs
+            Xml.Merge(tmpXml.Document); // Merge the XMLs
 
-            return XML;
+            return Xml;
         }
 
-        private JsonData XMLToJSON()
+        private JsonData XmltoJson()
         {
-            string sJson = JsonConvert.SerializeXmlNode(XML.Document, Formatting.None, true); // Deserialize the XML to JSON
-            JsonData tmpJSON = null;
+            string sJson = JsonConvert.SerializeXmlNode(Xml.Document, Formatting.None, true); // Deserialize the XML to Json
+            JsonData tmpJson = null;
 
             if (!string.IsNullOrEmpty(sJson) && sJson != "null")
-                tmpJSON = new JsonData(JObject.Parse(sJson), Path); // Parse the JSON
+                tmpJson = new JsonData(JObject.Parse(sJson), Path); // Parse the Json
             else
-                tmpJSON = new JsonData(Path); // Create a new JSON
-            if(JSON == null)
+                tmpJson = new JsonData(Path); // Create a new Json
+            if(Json == null)
             {
-                JSON = tmpJSON; // If the JSON is null just set the tmpJSON to it
-                return JSON;
+                Json = tmpJson; // If the Json is null just set the tmpJson to it
+                return Json;
             }
 
-            JSON.Document.Merge(tmpJSON); // Merge both JSONs
+            Json.Document.Merge(tmpJson); // Merge both Jsons
 
-            return JSON;
+            return Json;
         }
         #endregion
     }

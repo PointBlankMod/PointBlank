@@ -1,10 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Security.Permissions;
-using PointBlank.Framework.Permissions.Ring;
 using UnityEngine;
 
 namespace PointBlank.API
@@ -12,7 +8,6 @@ namespace PointBlank.API
     /// <summary>
     /// Contains methods that you need but aren't available by default
     /// </summary>
-    [RingPermission(SecurityAction.Demand, ring = RingPermissionRing.None)]
     public static class PointBlankTools
     {
         #region Public Functions

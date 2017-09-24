@@ -5,6 +5,7 @@ using System.Text;
 
 namespace PointBlank.API.Storage.Compressions
 {
+#if DEBUG
     internal static class Huffman
     {
         #region Public Functions
@@ -67,21 +68,22 @@ namespace PointBlank.API.Storage.Compressions
             public bool Used { get; set; } = false;
             #endregion
 
-            public Node(char Character, int Frequency)
+            public Node(char character, int frequency)
             {
                 // Set the variables
-                this.Character = Character;
-                this.Frequency = Frequency;
+                this.Character = character;
+                this.Frequency = frequency;
             }
 
-            public Node(int Frequency, Node Left, Node Right)
+            public Node(int frequency, Node left, Node right)
             {
                 // Set the variables
-                this.Frequency = Frequency;
-                this.Left = Left;
-                this.Right = Right;
+                this.Frequency = frequency;
+                this.Left = left;
+                this.Right = right;
             }
         }
         #endregion
     }
+#endif
 }

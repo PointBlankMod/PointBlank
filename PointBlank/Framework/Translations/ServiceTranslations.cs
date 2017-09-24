@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using PointBlank.API.Collections;
 using PointBlank.API.Interfaces;
 
 namespace PointBlank.Framework.Translations
 {
-    internal class ServiceTranslations : ITranslatable
+    internal class ServiceTranslations : Translatable
     {
-        public string TranslationDirectory => "";
+        public override string TranslationDirectory => "";
 
-        public TranslationList Translations => new TranslationList()
+        public override TranslationList DefaultTranslations => new TranslationList()
         {
             // CommandManager
             { "CommandManager_Invalid", "Invalid command! Use the help command to get the list of commands!" },
@@ -26,6 +24,6 @@ namespace PointBlank.Framework.Translations
             { "CommandWrapper_Running", "This command can only be executed while the server is loading!" }
         };
 
-        public Dictionary<Type, ITranslatable> TranslationDictionary => Enviroment.ServiceTranslations;
+        public override Dictionary<Type, Translatable> TranslationDictionary => PointBlankEnvironment.ServiceTranslations;
     }
 }

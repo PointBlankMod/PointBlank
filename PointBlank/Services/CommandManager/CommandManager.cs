@@ -8,25 +8,23 @@ using PointBlank.API.Services;
 using PointBlank.API.Commands;
 using PointBlank.API.DataManagment;
 using PointBlank.API.Player;
+using PointBlank.API.Permissions;
 using Newtonsoft.Json.Linq;
 using PointBlank.Framework.Translations;
 using PointBlank.API.Server;
 using PointBlank.API.Extension;
-using CMD = PointBlank.API.Commands.PointBlankCommand;
 
 namespace PointBlank.Services.CommandManager
 {
     internal class CommandManager : PointBlankService
     {
-        #region Info
-        public static readonly string ConfigurationPath = PointBlankServer.ConfigurationsPath + "//Commands";
-        #endregion
-
         #region Properties
+        public static string ConfigurationPath => PointBlankServer.ConfigurationsPath + "//Commands";
+
         public static List<CommandWrapper> Commands { get; private set; }
 
         public UniversalData UniConfig { get; private set; }
-        public JsonData JSONConfig { get; private set; }
+        public JsonData JsonConfig { get; private set; }
 
         public override int LaunchIndex => 2;
         #endregion
@@ -36,7 +34,7 @@ namespace PointBlank.Services.CommandManager
             // Setup variables
             Commands = new List<CommandWrapper>();
             UniConfig = new UniversalData(ConfigurationPath);
-            JSONConfig = UniConfig.GetData(EDataType.JSON) as JsonData;
+            JsonConfig = UniConfig.GetData(EDataType.Json) as JsonData;
 
             // Setup events
             PointBlankPluginEvents.OnPluginLoaded += OnPluginLoaded;
@@ -66,7 +64,7 @@ namespace PointBlank.Services.CommandManager
             if (!UniConfig.CreatedNew)
                 return;
 
-            JSONConfig.Document.Add("Commands", new JArray());
+            JsonConfig.Document.Add("Commands", new JArray());
             SaveConfig();
         }
 
@@ -82,30 +80,59 @@ namespace PointBlank.Services.CommandManager
         #region Public Functions
         public void LoadCommand(Type _class)
         {
-            if (!typeof(CMD).IsAssignableFrom(_class))
+            if (!typeof(PointBlankCommand).IsAssignableFrom(_class))
                 return;
-            if (_class == typeof(CMD))
-                return;
-            if (Commands.Count(a => a.GetType().Name == _class.Name && a.GetType().Assembly == _class.Assembly) > 0)
+            if (_class == typeof(PointBlankCommand))
                 return;
 
             try
             {
-                string name = _class.Assembly.GetName().Name + "." + _class.Name;
-                JObject objConfig = ((JArray)JSONConfig.Document["Commands"]).FirstOrDefault(a => (string)a["Name"] == name) as JObject;
-                if(objConfig == null)
-                {
-                    objConfig = new JObject();
-                    ((JArray)JSONConfig.Document["Commands"]).Add(objConfig);
-                }
-                CommandWrapper wrapper = new CommandWrapper(_class, objConfig);
+                CommandWrapper wrapper = new CommandWrapper(_class);
 
+                if (Commands.Count(a => a.CommandClass.Name == wrapper.CommandClass.Name && a.Class.Assembly == _class.Assembly) > 0)
+                    return;
                 Commands.Add(wrapper);
             }
             catch (Exception ex)
             {
                 PointBlankLogging.LogError("Error loading command: " + _class.Name, ex);
             }
+        }
+        public void LoadCommand(PointBlankCommand command)
+        {
+            Type _class = command.GetType();
+
+            try
+            {
+                CommandWrapper wrapper = new CommandWrapper(command);
+
+                if (Commands.Count(a => a.CommandClass.Name == command.Name && a.Class.Assembly == _class.Assembly) > 0)
+                    return;
+                Commands.Add(wrapper);
+            }
+            catch (Exception ex)
+            {
+                PointBlankLogging.LogError("Error loading command: " + _class.Name, ex);
+            }
+        }
+
+        public void UnloadCommand(Type _class)
+        {
+            CommandWrapper wrapper = Commands.FirstOrDefault(a => a.Class == _class);
+
+            if (wrapper == null)
+                return;
+            wrapper.Save();
+            Commands.Remove(wrapper);
+        }
+        public void UnloadCommand(PointBlankCommand command)
+        {
+            CommandWrapper wrapper = Commands.FirstOrDefault(a => a.CommandClass == command);
+
+            if (wrapper == null)
+                return;
+            wrapper.Save();
+            Commands.Remove(wrapper);
         }
 
         public string[] ParseCommand(string command)
@@ -160,23 +187,28 @@ namespace PointBlank.Services.CommandManager
             string[] info = ParseCommand(text);
             List<string> args = new List<string>();
             CommandWrapper wrapper = Commands.FirstOrDefault(a => a.Commands.FirstOrDefault(b => b.ToLower() == info[0].ToLower()) != null && a.Enabled);
-            string permission = "";
+            PointBlankPermission permission = null;
 
-            if (wrapper == null)
-            {
-                PointBlankPlayer.SendMessage(executor, Enviroment.ServiceTranslations[typeof(ServiceTranslations)].Translations["CommandManager_Invalid"], ConsoleColor.Red);
-                return ECommandRunError.COMMAND_NOT_EXIST;
-            }
-            permission = wrapper.Permission;
             if (info.Length > 1)
                 for (int i = 1; i < info.Length; i++)
                     args.Add(info[i]);
+            bool allowExecute = true;
+
+            PointBlankCommandEvents.RunCommandParse(info[0], args.ToArray(), executor, ref allowExecute);
+            if (!allowExecute)
+                return ECommandRunError.NoExecute;
+            if (wrapper == null)
+            {
+                PointBlankPlayer.SendMessage(executor, PointBlankEnvironment.ServiceTranslations[typeof(ServiceTranslations)].Translations["CommandManager_Invalid"], ConsoleColor.Red);
+                return ECommandRunError.CommandNotExist;
+            }
+            permission = wrapper.Permission.Duplicate();
             if (args.Count > 0)
-                permission += "." + string.Join(".", args.ToArray());
+                permission.Permission += "." + string.Join(".", args.ToArray());
             if (!PointBlankPlayer.IsServer(executor) && !executor.HasPermission(permission))
             {
-                PointBlankPlayer.SendMessage(executor, Enviroment.ServiceTranslations[typeof(ServiceTranslations)].Translations["CommandManager_NotEnoughPermissions"], ConsoleColor.Red);
-                return ECommandRunError.NO_PERMISSION;
+                PointBlankPlayer.SendMessage(executor, PointBlankEnvironment.ServiceTranslations[typeof(ServiceTranslations)].Translations["CommandManager_NotEnoughPermissions"], ConsoleColor.Red);
+                return ECommandRunError.NoPermission;
             }
 
             return wrapper.Execute(executor, args.ToArray());

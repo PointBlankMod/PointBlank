@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using PointBlank.API.Commands;
-
-namespace PointBlank.API.Server
+﻿namespace PointBlank.API.Server
 {
     /// <summary>
     /// All information about the server

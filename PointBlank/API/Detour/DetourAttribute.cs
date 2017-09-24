@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Reflection;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace PointBlank.API.Detour
 {
@@ -35,6 +33,7 @@ namespace PointBlank.API.Detour
         public bool MethodFound { get; private set; }
         #endregion
 
+        /// <inheritdoc />
         /// <summary>
         /// Used to detour a specific function
         /// </summary>

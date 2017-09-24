@@ -3,7 +3,6 @@ using System.IO;
 using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 using Newtonsoft.Json.Linq;
 using PointBlank.API;
@@ -12,22 +11,21 @@ using PointBlank.API.Plugins;
 using PointBlank.API.DataManagment;
 using PointBlank.API.Server;
 using PointBlank.API.Extension;
+using PointBlank.API.Interfaces;
 using PointBlank.Framework.Wrappers;
 
 namespace PointBlank.Framework
 {
-    internal class ServiceManager : MonoBehaviour
+    internal class ServiceManager : MonoBehaviour, ILoadable
     {
-        #region Info
-        public static readonly string ConfigurationPath = PointBlankServer.ConfigurationsPath + "/Services";
-        #endregion
-
         #region Variables
         private List<PointBlankService> _tempServices = new List<PointBlankService>();
         private List<ServiceWrapper> _tempWrappers = new List<ServiceWrapper>();
         #endregion
 
         #region Properties
+        public static string ConfigurationPath => PointBlankServer.ConfigurationsPath + "/Services";
+
         public bool Initialized { get; private set; } = false; // Is the service manager initialized
 
         public UniversalData UniServicesData { get; private set; } // The universal data for services
@@ -40,10 +38,10 @@ namespace PointBlank.Framework
             try
             {
                 if (service.Replace)
-                    foreach (ServiceWrapper wrapper in Enviroment.services.Where(a => a.Value.ServiceClass.FullName == service.FullName && a.Value.ServiceClass.Replacable).Select(a => a.Value))
+                    foreach (ServiceWrapper wrapper in PointBlankEnvironment.Services.Where(a => a.Value.ServiceClass.FullName == service.FullName && a.Value.ServiceClass.Replacable).Select(a => a.Value))
                         wrapper.Stop(); // Stop all services with the same name
                 else
-                    if (Enviroment.services.Count(a => a.Key == service.FullName) > 0)
+                    if (PointBlankEnvironment.Services.Count(a => a.Key == service.FullName) > 0)
                         return; // Make sure that the services with the same name aren't ran
 
                 new ServiceWrapper(service); // Create the service wrapper
@@ -60,7 +58,7 @@ namespace PointBlank.Framework
             {
                 wrapper.Stop(); // Stop the service
 
-                Enviroment.runtimeObjects["Services"].RemoveCodeObject(wrapper.ServiceClass.GetType().Name);
+                PointBlankEnvironment.RuntimeObjects["Services"].RemoveCodeObject(wrapper.ServiceClass.GetType().Name);
             }
             catch (Exception ex)
             {
@@ -69,6 +67,46 @@ namespace PointBlank.Framework
         }
         #endregion
 
+        public void Load()
+        {
+            if (Initialized) // Don't bother initializing if it already is initialized
+                return;
+            if (!Directory.Exists(ConfigurationPath))
+                Directory.CreateDirectory(ConfigurationPath); // Create the services configuration
+
+            UniServicesData = new UniversalData(PointBlankServer.ConfigurationsPath + "/Services"); // Open the file
+            ServicesData = UniServicesData.GetData(EDataType.Json) as JsonData; // Get the Json
+
+            foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies().Where(a => Attribute.GetCustomAttribute(a, typeof(PointBlankExtensionAttribute)) != null))
+                foreach (Type class_type in asm.GetTypes())
+                    LoadService(class_type);
+            foreach (PointBlankService ser in _tempServices.OrderBy(a => a.LaunchIndex))
+                RunService(ser);
+            _tempServices.Clear();
+
+            // Setup the events
+            PointBlankPluginEvents.OnPluginLoaded += new PointBlankPluginEvents.PluginEventHandler(OnPluginLoaded);
+
+            // Set the variables
+            Initialized = true;
+        }
+
+        public void Unload()
+        {
+            if (!Initialized) // Don't bother shutting down if the service manager isn't initialized
+                return;
+
+            UniServicesData.Save(); // Save the services data
+            foreach (ServiceWrapper wrapper in PointBlankEnvironment.Services.Select(a => a.Value)) // Stop the services
+                _tempWrappers.Add(wrapper);
+            foreach (ServiceWrapper wrapper in _tempWrappers.OrderByDescending(a => a.ServiceClass.LaunchIndex))
+                StopService(wrapper);
+            _tempWrappers.Clear();
+
+            // Set the variables
+            Initialized = false;
+        }
+
         #region Public Functions
         public void LoadService(Type service) // Load the service using the type
         {
@@ -76,7 +114,7 @@ namespace PointBlank.Framework
                 return;
             if (service == typeof(PointBlankService)) // Prevents the actual service API from being loaded
                 return;
-            PointBlankService ser = (PointBlankService)Enviroment.runtimeObjects["Services"].AddCodeObject(service);
+            PointBlankService ser = (PointBlankService)PointBlankEnvironment.RuntimeObjects["Services"].AddCodeObject(service);
 
             if (ServicesData.CheckKey(ser.Name))
             {
@@ -98,49 +136,9 @@ namespace PointBlank.Framework
             _tempServices.Add(ser);
         }
 
-        public void UnloadService(string name) => StopService(Enviroment.services[name]); // Unload the service using the name
+        public void UnloadService(string name) => StopService(PointBlankEnvironment.Services[name]); // Unload the service using the name
 
         public void UnloadService(ServiceWrapper wrapper) => StopService(wrapper); // Unload the service using the wrapper
-
-        public void Init() // Initializes the service manager
-        {
-            if (Initialized) // Don't bother initializing if it already is initialized
-                return;
-            if (!Directory.Exists(ConfigurationPath))
-                Directory.CreateDirectory(ConfigurationPath); // Create the services configuration
-
-            UniServicesData = new UniversalData(PointBlankServer.ConfigurationsPath + "/Services"); // Open the file
-            ServicesData = UniServicesData.GetData(EDataType.JSON) as JsonData; // Get the JSON
-
-            foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies().Where(a => Attribute.GetCustomAttribute(a, typeof(PointBlankExtensionAttribute)) != null))
-                foreach (Type class_type in asm.GetTypes())
-                    LoadService(class_type);
-            foreach (PointBlankService ser in _tempServices.OrderBy(a => a.LaunchIndex))
-                RunService(ser);
-            _tempServices.Clear();
-
-            // Setup the events
-            PointBlankPluginEvents.OnPluginLoaded += new PointBlankPluginEvents.PluginEventHandler(OnPluginLoaded);
-
-            // Set the variables
-            Initialized = true;
-        }
-
-        public void Shutdown() // The service manager is getting shut down
-        {
-            if (!Initialized) // Don't bother shutting down if the service manager isn't initialized
-                return;
-
-            UniServicesData.Save(); // Save the services data
-            foreach (ServiceWrapper wrapper in Enviroment.services.Select(a => a.Value)) // Stop the services
-                _tempWrappers.Add(wrapper);
-            foreach (ServiceWrapper wrapper in _tempWrappers.OrderByDescending(a => a.ServiceClass.LaunchIndex))
-                StopService(wrapper);
-            _tempWrappers.Clear();
-
-            // Set the variables
-            Initialized = false;
-        }
         #endregion
 
         #region Event Functions

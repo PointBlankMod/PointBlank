@@ -16,7 +16,7 @@ namespace PointBlank.Framework.Permissions.Ring
         #endregion
 
         #region Properties
-        public RingPermissionRing ring
+        public RingPermissionRing Ring
         {
             get => _ring;
             set
@@ -64,7 +64,7 @@ namespace PointBlank.Framework.Permissions.Ring
             else if (IsUnrestricted())
                 return false;
             else
-                return isAllowed(ringPermissions);
+                return IsAllowed(ringPermissions);
         }
 
         public override IPermission Intersect(IPermission target)
@@ -73,7 +73,7 @@ namespace PointBlank.Framework.Permissions.Ring
                 return null;
 
             RingPermission ringPermissions = (RingPermission)target;
-            RingPermissionRing ringPermissionsRing = (_ring < ringPermissions.ring ? _ring : ringPermissions.ring);
+            RingPermissionRing ringPermissionsRing = (_ring < ringPermissions.Ring ? _ring : ringPermissions.Ring);
 
             return ringPermissionsRing == RingPermissionRing.None ? null : new RingPermission(ringPermissionsRing);
         }
@@ -84,7 +84,7 @@ namespace PointBlank.Framework.Permissions.Ring
                 return Copy();
 
             RingPermission ringPermissions = (RingPermission)target;
-            RingPermissionRing ringPermissionsRing = (_ring < ringPermissions.ring ? _ring : ringPermissions.ring);
+            RingPermissionRing ringPermissionsRing = (_ring < ringPermissions.Ring ? _ring : ringPermissions.Ring);
 
             return ringPermissionsRing == RingPermissionRing.None ? null : new RingPermission(ringPermissionsRing);
         }
@@ -128,7 +128,7 @@ namespace PointBlank.Framework.Permissions.Ring
         private void SetUnrestricted(bool unrestricted)
         {
             if(unrestricted)
-                ring = RingPermissionRing.Framework;
+                Ring = RingPermissionRing.Framework;
         }
 
         private void VerifyRing(RingPermissionRing ring)
@@ -137,11 +137,11 @@ namespace PointBlank.Framework.Permissions.Ring
                 throw new ArgumentException("Invalid ring!");
         }
 
-        private bool isAllowed(RingPermission rp)
+        private bool IsAllowed(RingPermission rp)
         {
             if (_ring == RingPermissionRing.None)
                 return true;
-            return rp.ring != RingPermissionRing.None && rp.ring.HasFlag(_ring);
+            return rp.Ring != RingPermissionRing.None && rp.Ring.HasFlag(_ring);
         }
         #endregion
     }

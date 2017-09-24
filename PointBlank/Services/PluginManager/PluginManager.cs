@@ -3,35 +3,32 @@ using System.IO;
 using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using PointBlank.API;
 using PointBlank.API.Server;
 using PointBlank.API.Plugins;
 using PointBlank.API.Services;
 using PointBlank.API.DataManagment;
-using SM = PointBlank.Framework.ServiceManager;
+using PointBlank.Framework;
 
 namespace PointBlank.Services.PluginManager
 {
     internal class PluginManager : PointBlankService
     {
-        #region Info
-        public static readonly string ConfigurationPath = PointBlankServer.ConfigurationsPath + "/Plugins"; // Set the plugins configuration path
-        public static readonly string TranslationPath = PointBlankServer.TranslationsPath + "/Plugins";
-        #endregion
-
         #region Variables
         private static List<PluginWrapper> _plugins = new List<PluginWrapper>(); // List of plugins
         private static List<Assembly> _libraries = new List<Assembly>(); // List of libraries
         #endregion
 
         #region Properties
+        public static string ConfigurationPath => PointBlankServer.ConfigurationsPath + "/Plugins";
+        public static string TranslationPath => PointBlankServer.TranslationsPath + "/Plugins";
+
         public static PluginWrapper[] Plugins => _plugins.ToArray(); // Returns the plugins
 
         public static Assembly[] Libraries => _libraries.ToArray(); // Returns the libraries
 
         public UniversalData UniConfig { get; private set; } // The universal config data
-        public JsonData JSONConfig { get; private set; } // The JSON config data
+        public JsonData JsonConfig { get; private set; } // The Json config data
 
         public override int LaunchIndex => 3;
         #endregion
@@ -48,8 +45,8 @@ namespace PointBlank.Services.PluginManager
                 Directory.CreateDirectory(TranslationPath); // Create plugins directory
 
             // Setup the config
-            UniConfig = new UniversalData(SM.ConfigurationPath + "\\PluginManager");
-            JSONConfig = UniConfig.GetData(EDataType.JSON) as JsonData;
+            UniConfig = new UniversalData(ServiceManager.ConfigurationPath + "\\PluginManager");
+            JsonConfig = UniConfig.GetData(EDataType.Json) as JsonData;
             LoadConfig();
 
             foreach (string library in Directory.GetFiles(PointBlankServer.LibrariesPath, "*.dll")) // Get all the dll files in libraries directory
@@ -58,10 +55,7 @@ namespace PointBlank.Services.PluginManager
             {
                 try
                 {
-                    PluginWrapper wrapper = new PluginWrapper(plugin); // Create the plugin wrapper
-
-                    _plugins.Add(wrapper); // Add the wrapper
-                    if (!wrapper.Load() && !PluginConfiguration.ContinueOnError)
+                    if (!LoadPlugin(plugin))
                         break;
                 }
                 catch (Exception ex)
@@ -82,6 +76,38 @@ namespace PointBlank.Services.PluginManager
             SaveConfig();
         }
 
+        #region Static Functions
+        public static bool LoadPlugin(string plugin)
+        {
+            PluginWrapper wrapper = new PluginWrapper(plugin); // Create the plugin wrapper
+
+            _plugins.Add(wrapper); // Add the wrapper
+            if (!wrapper.Load() && !PluginConfiguration.ContinueOnError)
+                return false;
+            return true;
+        }
+        public static bool LoadPlugin(Type plugin)
+        {
+            PluginWrapper wrapper = new PluginWrapper(plugin); // Create the plugin wrapper
+
+            _plugins.Add(wrapper); // Add the wrapper
+            if (!wrapper.Load() && !PluginConfiguration.ContinueOnError)
+                return false;
+            return true;
+        }
+        public static bool LoadPlugin(PointBlankPlugin plugin)
+        {
+            PluginWrapper wrapper = new PluginWrapper(plugin); // Create the plugin wrapper
+
+            _plugins.Add(wrapper); // Add the wrapper
+            if (!wrapper.Load() && !PluginConfiguration.ContinueOnError)
+                return false;
+            return true;
+        }
+
+        public static void RemovePlugin(PluginWrapper wrapper) => _plugins.Remove(wrapper);
+        #endregion
+
         #region Public Functions
         public PluginWrapper GetWrapper(PointBlankPlugin plugin) => Plugins.First(a => a.PluginClass == plugin);
         #endregion
@@ -96,15 +122,15 @@ namespace PointBlank.Services.PluginManager
                 PluginConfiguration.NotifyUpdates = true;
                 PluginConfiguration.CheckUpdateTimeSeconds = 1800;
 
-                JSONConfig.Document.Add("AutoUpdate", (PluginConfiguration.AutoUpdate ? "true" : "false"));
-                JSONConfig.Document.Add("ContinueOnError", (PluginConfiguration.ContinueOnError ? "true" : "false"));
-                JSONConfig.Document.Add("NotifyUpdates", (PluginConfiguration.NotifyUpdates ? "true" : "false"));
-                JSONConfig.Document.Add("CheckUpdateTimeSeconds", PluginConfiguration.CheckUpdateTimeSeconds.ToString());
+                JsonConfig.Document.Add("AutoUpdate", (PluginConfiguration.AutoUpdate ? "true" : "false"));
+                JsonConfig.Document.Add("ContinueOnError", (PluginConfiguration.ContinueOnError ? "true" : "false"));
+                JsonConfig.Document.Add("NotifyUpdates", (PluginConfiguration.NotifyUpdates ? "true" : "false"));
+                JsonConfig.Document.Add("CheckUpdateTimeSeconds", PluginConfiguration.CheckUpdateTimeSeconds.ToString());
                 UniConfig.Save();
             }
             else
             {
-                JSONConfig.Verify(new Dictionary<string, Newtonsoft.Json.Linq.JToken>()
+                JsonConfig.Verify(new Dictionary<string, Newtonsoft.Json.Linq.JToken>()
                 {
                     { "AutoUpdate", "false" },
                     { "ContinueOnError", "true" },
@@ -112,10 +138,10 @@ namespace PointBlank.Services.PluginManager
                     { "CheckUpdateTimeSeconds", "1800" }
                 });
 
-                PluginConfiguration.AutoUpdate = ((string)JSONConfig.Document["AutoUpdate"] == "true");
-                PluginConfiguration.ContinueOnError = ((string)JSONConfig.Document["ContinueOnError"] == "true");
-                PluginConfiguration.NotifyUpdates = ((string)JSONConfig.Document["NotifyUpdates"] == "true");
-                PluginConfiguration.CheckUpdateTimeSeconds = int.Parse((string)JSONConfig.Document["CheckUpdateTimeSeconds"]);
+                PluginConfiguration.AutoUpdate = ((string)JsonConfig.Document["AutoUpdate"] == "true");
+                PluginConfiguration.ContinueOnError = ((string)JsonConfig.Document["ContinueOnError"] == "true");
+                PluginConfiguration.NotifyUpdates = ((string)JsonConfig.Document["NotifyUpdates"] == "true");
+                PluginConfiguration.CheckUpdateTimeSeconds = int.Parse((string)JsonConfig.Document["CheckUpdateTimeSeconds"]);
             }
         }
 

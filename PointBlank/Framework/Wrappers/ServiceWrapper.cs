@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using PointBlank.API.Services;
 using PointBlank.API;
 
@@ -20,7 +17,7 @@ namespace PointBlank.Framework.Wrappers
             this.ServiceClass = ServiceClass;
 
             // Setup data
-            Enviroment.services.Add(ServiceClass.GetType().Name + "." + ServiceClass.Name, this); // Add the service
+            PointBlankEnvironment.Services.Add(ServiceClass.GetType().Name + "." + ServiceClass.Name, this); // Add the service
 
             // Run functions
             if (ServiceClass.AutoStart)

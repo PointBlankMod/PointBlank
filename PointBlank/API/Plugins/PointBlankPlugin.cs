@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Reflection;
-using System.Diagnostics;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using PointBlank.API;
 using PointBlank.API.Collections;
 using PointBlank.Services.PluginManager;
 using UnityEngine;
@@ -16,17 +11,40 @@ namespace PointBlank.API.Plugins
     /// </summary>
     public abstract class PointBlankPlugin : MonoBehaviour
     {
-        #region Abstract Properties
+        #region Variables
+        private TranslationList _translations = null;
+        private ConfigurationList _configurations = null;
+        #endregion
+
+        #region Properties
         /// <summary>
         /// The translations for the plugin
         /// </summary>
-        public abstract TranslationList Translations { get; }
+        public TranslationList Translations
+        {
+            get
+            {
+                if (_translations == null)
+                    _translations = DefaultTranslations;
+                return _translations;
+            }
+        }
 
         /// <summary>
         /// The configurations for the plugin
         /// </summary>
-        public abstract ConfigurationList Configurations { get; }
+        public ConfigurationList Configurations
+        {
+            get
+            {
+                if (_configurations == null)
+                    _configurations = DefaultConfigurations;
+                return _configurations;
+            }
+        }
+        #endregion
 
+        #region Abstract Properties
         /// <summary>
         /// The current version of the plugin
         /// </summary>
@@ -35,14 +53,24 @@ namespace PointBlank.API.Plugins
 
         #region Virtual Properties
         /// <summary>
+        /// The translations for the plugin
+        /// </summary>
+        public virtual TranslationList DefaultTranslations => new TranslationList();
+
+        /// <summary>
+        /// The configurations for the plugin
+        /// </summary>
+        public virtual ConfigurationList DefaultConfigurations => new ConfigurationList();
+
+        /// <summary>
         /// The latest version of the plugin(for auto-update)(Leave null if you don't want a version check)
         /// </summary>
-        public virtual string VersionURL => null;
+        public virtual string VersionUrl => null;
 
         /// <summary>
         /// The latest build of the plugin(for auto-update)(Leave null if you don't want an auto-update system)
         /// </summary>
-        public virtual string BuildURL => null;
+        public virtual string BuildUrl => null;
         #endregion
 
         #region Abstract Functions

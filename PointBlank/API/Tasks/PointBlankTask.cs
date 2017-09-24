@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Reflection;
-using System.Diagnostics;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using PointBlank.Services.TaskManager;
 
 namespace PointBlank.API.Tasks
@@ -179,13 +174,13 @@ namespace PointBlank.API.Tasks
             /// <summary>
             /// Build the task and return it's instance
             /// </summary>
-            /// <param name="AutoStart">Should the task be ran on build</param>
+            /// <param name="autoStart">Should the task be ran on build</param>
             /// <returns>The task instance</returns>
-            public PointBlankTask Build(bool AutoStart = false)
+            public PointBlankTask Build(bool autoStart = false)
             {
                 TaskManager.Tasks.Add(Task);
 
-                if (AutoStart)
+                if (autoStart)
                     Task.Start();
                 return Task;
             }

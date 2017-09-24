@@ -22,6 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <NoWarn>CS0168</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -68,7 +69,7 @@
     <Compile Include="API\DataManagment\WebsiteData.cs" />
     <Compile Include="API\DataManagment\XMLData.cs" />
     <Compile Include="API\Detour\DetourAttribute.cs" />
-    <Compile Include="API\Detour\DetourManager.cs" />
+    <Compile Include="API\Detour\PointBlankDetourManager.cs" />
     <Compile Include="API\Discord\DiscordAPI.cs" />
     <Compile Include="API\Discord\DiscordClient.cs">
       <SubType>Component</SubType>
@@ -76,12 +77,19 @@
     <Compile Include="API\Discord\DiscordWebhook.cs" />
     <Compile Include="API\Discord\EDiscordHttpCodes.cs" />
     <Compile Include="API\Discord\EDiscordJsonCodes.cs" />
+    <Compile Include="API\Extension\ExtensionEvents.cs" />
     <Compile Include="API\Extension\PointBlankExtensionAttribute.cs" />
     <Compile Include="API\Implements\PointBlank.cs" />
     <Compile Include="API\Implements\UnityEngine.cs" />
+    <Compile Include="API\Interfaces\ILoadable.cs" />
     <Compile Include="API\IPC\EIPCType.cs" />
     <Compile Include="API\IPC\IPCEvents.cs" />
-    <Compile Include="API\IPC\IPCManager.cs" />
+    <Compile Include="API\IPC\PointBlankIPCManager.cs" />
+    <Compile Include="API\Linq\LinqToSql.cs" />
+    <Compile Include="API\Permissions\IPermitable.cs" />
+    <Compile Include="API\Permissions\PointBlankCooldown.cs" />
+    <Compile Include="API\Permissions\PointBlankPermission.cs" />
+    <Compile Include="API\Permissions\PointBlankPermissionManager.cs" />
     <Compile Include="API\Player\PointBlankPlayer.cs" />
     <Compile Include="API\Groups\PointBlankGroup.cs" />
     <Compile Include="API\Groups\PointBlankGroupEvents.cs" />
@@ -90,6 +98,7 @@
     <Compile Include="API\Interfaces\IConfigurable.cs" />
     <Compile Include="API\Interfaces\ITranslatable.cs" />
     <Compile Include="API\Player\PointBlankPlayerComponent.cs" />
+    <Compile Include="API\PointBlankConsoleEvents.cs" />
     <Compile Include="API\PointBlankLogging.cs" />
     <Compile Include="API\Player\PointBlankPlayerEvents.cs" />
     <Compile Include="API\Plugins\PointBlankPlugin.cs" />
@@ -107,8 +116,9 @@
     <Compile Include="API\Storage\ECompression.cs" />
     <Compile Include="API\Storage\PointBlankStorage.cs" />
     <Compile Include="API\Tasks\PointBlankTask.cs" />
-    <Compile Include="Enviroment.cs" />
+    <Compile Include="PointBlankEnvironment.cs" />
     <Compile Include="Framework\Configurations\PointBlankConfigurations.cs" />
+    <Compile Include="Framework\ExtensionManager.cs" />
     <Compile Include="Framework\InterfaceManager.cs" />
     <Compile Include="Framework\Objects\RuntimeObject.cs" />
     <Compile Include="Framework\Permissions\Ring\RingPermission.cs" />
@@ -131,7 +141,6 @@
     <Compile Include="Services\PluginManager\PluginWrapper.cs" />
     <Compile Include="Services\PluginManager\PluginManager.cs" />
     <Compile Include="Services\TaskManager\TaskManager.cs" />
-    <Compile Include="Services\UpdateChecker\UpdateChecker.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

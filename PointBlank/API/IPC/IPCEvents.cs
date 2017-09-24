@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace PointBlank.API.IPC
+﻿namespace PointBlank.API.IPC
 {
     /// <summary>
     /// Events for the inter-process communication library
     /// </summary>
-    public static class IPCEvents
+    public static class IpcEvents
     {
         #region Handlers
         /// <summary>

@@ -3,23 +3,19 @@ using System.Data;
 using System.Threading;
 using System.Data.SqlClient;
 using System.Collections.Generic;
-using System.Security.Permissions;
 using System.Linq;
-using System.Text;
-using PointBlank.Framework.Permissions.Ring;
 
 namespace PointBlank.API.DataManagment
 {
     /// <summary>
     /// Easy SQL manager
     /// </summary>
-    [RingPermission(SecurityAction.Demand, ring = RingPermissionRing.None)]
-    public class SQLData
+    public class SqlData
     {
         #region Variables
         private static Thread _tAsync = new Thread(new ThreadStart(RunAsync));
 
-        private static Queue<AsyncCommand> _AsyncCommands = new Queue<AsyncCommand>();
+        private static Queue<AsyncCommand> _asyncCommands = new Queue<AsyncCommand>();
         #endregion
 
         #region Properties
@@ -68,7 +64,7 @@ namespace PointBlank.API.DataManagment
         /// <param name="password">The password of the SQL</param>
         /// <param name="timeout">The timeout of the connection</param>
         /// <param name="trusted">Is the connection trusted</param>
-        public SQLData(string server, string database, string username, string password, int timeout = 30, bool trusted = true)
+        public SqlData(string server, string database, string username, string password, int timeout = 30, bool trusted = true)
         {
             if (_tAsync.ThreadState != ThreadState.Running)
                 _tAsync.Start();
@@ -83,7 +79,7 @@ namespace PointBlank.API.DataManagment
                 $"user id={username};password={password};server={server};Trusted_Connection={(trusted ? "yes" : "no")};database={database};connection timeout={timeout.ToString()}");
             Command.Connection = Connection; // Set the connection
 
-            Enviroment.SQLConnections.Add(this); // Add to the list
+            PointBlankEnvironment.SqlConnections.Add(this); // Add to the list
         }
 
         #region Static Functions
@@ -92,217 +88,217 @@ namespace PointBlank.API.DataManagment
         /// </summary>
         /// <param name="dataType">The datatype to convert</param>
         /// <returns>Converted string</returns>
-        public static string DataTypeToString(ESQLDataType dataType)
+        public static string DataTypeToString(EsqlDataType dataType)
         {
             switch (dataType)
             {
-                case ESQLDataType.BIGINT:
+                case EsqlDataType.Bigint:
                     return "BIGINT";
-                case ESQLDataType.CHAR_128:
+                case EsqlDataType.Char128:
                     return "CHAR(128)";
-                case ESQLDataType.CHAR_16:
+                case EsqlDataType.Char16:
                     return "CHAR(16)";
-                case ESQLDataType.CHAR_255:
+                case EsqlDataType.Char255:
                     return "CHAR(255)";
-                case ESQLDataType.CHAR_32:
+                case EsqlDataType.Char32:
                     return "CHAR(32)";
-                case ESQLDataType.CHAR_64:
+                case EsqlDataType.Char64:
                     return "CHAR(64)";
-                case ESQLDataType.DATE:
+                case EsqlDataType.Date:
                     return "DATE";
-                case ESQLDataType.DATETIME:
+                case EsqlDataType.Datetime:
                     return "DATETIME";
-                case ESQLDataType.DECIMAL_128_128:
+                case EsqlDataType.Decimal128128:
                     return "DECIMAL(128,128)";
-                case ESQLDataType.DECIMAL_128_16:
+                case EsqlDataType.Decimal12816:
                     return "DECIMAL(128,16)";
-                case ESQLDataType.DECIMAL_128_255:
+                case EsqlDataType.Decimal128255:
                     return "DECIMAL(128,255)";
-                case ESQLDataType.DECIMAL_128_32:
+                case EsqlDataType.Decimal12832:
                     return "DECIMAL(128,32)";
-                case ESQLDataType.DECIMAL_128_64:
+                case EsqlDataType.Decimal12864:
                     return "DECIMAL(128,64)";
-                case ESQLDataType.DECIMAL_16_128:
+                case EsqlDataType.Decimal16128:
                     return "DECIMAL(16,128)";
-                case ESQLDataType.DECIMAL_16_16:
+                case EsqlDataType.Decimal1616:
                     return "DECIMAL(16,16)";
-                case ESQLDataType.DECIMAL_16_255:
+                case EsqlDataType.Decimal16255:
                     return "DECIMAL(16,255)";
-                case ESQLDataType.DECIMAL_16_32:
+                case EsqlDataType.Decimal1632:
                     return "DECIMAL(16,32)";
-                case ESQLDataType.DECIMAL_16_64:
+                case EsqlDataType.Decimal1664:
                     return "DECIMAL(16,64)";
-                case ESQLDataType.DECIMAL_255_128:
+                case EsqlDataType.Decimal255128:
                     return "DECIMAL(255,128)";
-                case ESQLDataType.DECIMAL_255_16:
+                case EsqlDataType.Decimal25516:
                     return "DECIMAL(255,16)";
-                case ESQLDataType.DECIMAL_255_255:
+                case EsqlDataType.Decimal255255:
                     return "DECIMAL(255,255)";
-                case ESQLDataType.DECIMAL_255_32:
+                case EsqlDataType.Decimal25532:
                     return "DECIMAL(255,32)";
-                case ESQLDataType.DECIMAL_255_64:
+                case EsqlDataType.Decimal25564:
                     return "DECIMAL(255,64)";
-                case ESQLDataType.DECIMAL_32_128:
+                case EsqlDataType.Decimal32128:
                     return "DECIMAL(32,128)";
-                case ESQLDataType.DECIMAL_32_16:
+                case EsqlDataType.Decimal3216:
                     return "DECIMAL(32,16)";
-                case ESQLDataType.DECIMAL_32_255:
+                case EsqlDataType.Decimal32255:
                     return "DECIMAL(32,255)";
-                case ESQLDataType.DECIMAL_32_32:
+                case EsqlDataType.Decimal3232:
                     return "DECIMAL(32,32)";
-                case ESQLDataType.DECIMAL_32_64:
+                case EsqlDataType.Decimal3264:
                     return "DECIMAL(32,64)";
-                case ESQLDataType.DECIMAL_64_128:
+                case EsqlDataType.Decimal64128:
                     return "DECIMAL(64,128)";
-                case ESQLDataType.DECIMAL_64_16:
+                case EsqlDataType.Decimal6416:
                     return "DECIMAL(64,16)";
-                case ESQLDataType.DECIMAL_64_255:
+                case EsqlDataType.Decimal64255:
                     return "DECIMAL(64,255)";
-                case ESQLDataType.DECIMAL_64_32:
+                case EsqlDataType.Decimal6432:
                     return "DECIMAL(64,32)";
-                case ESQLDataType.DECIMAL_64_64:
+                case EsqlDataType.Decimal6464:
                     return "DECIMAL(64,64)";
-                case ESQLDataType.DOUBLE_128_10:
+                case EsqlDataType.Double12810:
                     return "DOUBLE(128,10)";
-                case ESQLDataType.DOUBLE_128_20:
+                case EsqlDataType.Double12820:
                     return "DOUBLE(128,20)";
-                case ESQLDataType.DOUBLE_128_30:
+                case EsqlDataType.Double12830:
                     return "DOUBLE(128,30)";
-                case ESQLDataType.DOUBLE_128_4:
+                case EsqlDataType.Double1284:
                     return "DOUBLE(128,4)";
-                case ESQLDataType.DOUBLE_128_40:
+                case EsqlDataType.Double12840:
                     return "DOUBLE(128,40)";
-                case ESQLDataType.DOUBLE_128_50:
+                case EsqlDataType.Double12850:
                     return "DOUBLE(128,50)";
-                case ESQLDataType.DOUBLE_128_53:
+                case EsqlDataType.Double12853:
                     return "DOUBLE(128,53)";
-                case ESQLDataType.DOUBLE_16_10:
+                case EsqlDataType.Double1610:
                     return "DOUBLE(16,10)";
-                case ESQLDataType.DOUBLE_16_20:
+                case EsqlDataType.Double1620:
                     return "DOUBLE(16,20)";
-                case ESQLDataType.DOUBLE_16_30:
+                case EsqlDataType.Double1630:
                     return "DOUBLE(16,30)";
-                case ESQLDataType.DOUBLE_16_4:
+                case EsqlDataType.Double164:
                     return "DOUBLE(16,4)";
-                case ESQLDataType.DOUBLE_16_40:
+                case EsqlDataType.Double1640:
                     return "DOUBLE(16,40)";
-                case ESQLDataType.DOUBLE_16_50:
+                case EsqlDataType.Double1650:
                     return "DOUBLE(16,50)";
-                case ESQLDataType.DOUBLE_16_53:
+                case EsqlDataType.Double1653:
                     return "DOUBLE(16,53)";
-                case ESQLDataType.DOUBLE_255_10:
+                case EsqlDataType.Double25510:
                     return "DOUBLE(255,10)";
-                case ESQLDataType.DOUBLE_255_20:
+                case EsqlDataType.Double25520:
                     return "DOUBLE(255,20)";
-                case ESQLDataType.DOUBLE_255_30:
+                case EsqlDataType.Double25530:
                     return "DOUBLE(255,30)";
-                case ESQLDataType.DOUBLE_255_4:
+                case EsqlDataType.Double2554:
                     return "DOUBLE(255,4)";
-                case ESQLDataType.DOUBLE_255_40:
+                case EsqlDataType.Double25540:
                     return "DOUBLE(255,40)";
-                case ESQLDataType.DOUBLE_255_50:
+                case EsqlDataType.Double25550:
                     return "DOUBLE(255,50)";
-                case ESQLDataType.DOUBLE_255_53:
+                case EsqlDataType.Double25553:
                     return "DOUBLE(255,53)";
-                case ESQLDataType.DOUBLE_32_10:
+                case EsqlDataType.Double3210:
                     return "DOUBLE(32,10)";
-                case ESQLDataType.DOUBLE_32_20:
+                case EsqlDataType.Double3220:
                     return "DOUBLE(32,20)";
-                case ESQLDataType.DOUBLE_32_30:
+                case EsqlDataType.Double3230:
                     return "DOUBLE(32,30)";
-                case ESQLDataType.DOUBLE_32_4:
+                case EsqlDataType.Double324:
                     return "DOUBLE(32,4)";
-                case ESQLDataType.DOUBLE_32_40:
+                case EsqlDataType.Double3240:
                     return "DOUBLE(32,40)";
-                case ESQLDataType.DOUBLE_32_50:
+                case EsqlDataType.Double3250:
                     return "DOUBLE(32,50)";
-                case ESQLDataType.DOUBLE_32_53:
+                case EsqlDataType.Double3253:
                     return "DOUBLE(32,53)";
-                case ESQLDataType.DOUBLE_64_10:
+                case EsqlDataType.Double6410:
                     return "DOUBLE(64,10)";
-                case ESQLDataType.DOUBLE_64_20:
+                case EsqlDataType.Double6420:
                     return "DOUBLE(64,20)";
-                case ESQLDataType.DOUBLE_64_30:
+                case EsqlDataType.Double6430:
                     return "DOUBLE(64,30)";
-                case ESQLDataType.DOUBLE_64_4:
+                case EsqlDataType.Double644:
                     return "DOUBLE(64,4)";
-                case ESQLDataType.DOUBLE_64_40:
+                case EsqlDataType.Double6440:
                     return "DOUBLE(64,40)";
-                case ESQLDataType.DOUBLE_64_50:
+                case EsqlDataType.Double6450:
                     return "DOUBLE(64,50)";
-                case ESQLDataType.DOUBLE_64_53:
+                case EsqlDataType.Double6453:
                     return "DOUBLE(64,53)";
-                case ESQLDataType.ENUM:
+                case EsqlDataType.Enum:
                     return "ENUM";
-                case ESQLDataType.FLOAT_10_10:
+                case EsqlDataType.Float1010:
                     return "FLOAT(10,10)";
-                case ESQLDataType.FLOAT_10_2:
+                case EsqlDataType.Float102:
                     return "FLOAT(10,2)";
-                case ESQLDataType.FLOAT_10_20:
+                case EsqlDataType.Float1020:
                     return "FLOAT(10,20)";
-                case ESQLDataType.FLOAT_10_24:
+                case EsqlDataType.Float1024:
                     return "FLOAT(10,24)";
-                case ESQLDataType.FLOAT_128_10:
+                case EsqlDataType.Float12810:
                     return "FLOAT(128,10)";
-                case ESQLDataType.FLOAT_128_2:
+                case EsqlDataType.Float1282:
                     return "FLOAT(128,2)";
-                case ESQLDataType.FLOAT_128_20:
+                case EsqlDataType.Float12820:
                     return "FLOAT(128,20)";
-                case ESQLDataType.FLOAT_128_24:
+                case EsqlDataType.Float12824:
                     return "FLOAT(128,24)";
-                case ESQLDataType.FLOAT_255_10:
+                case EsqlDataType.Float25510:
                     return "FLOAT(255,10)";
-                case ESQLDataType.FLOAT_255_2:
+                case EsqlDataType.Float2552:
                     return "FLOAT(255,2)";
-                case ESQLDataType.FLOAT_255_20:
+                case EsqlDataType.Float25520:
                     return "FLOAT(255,20)";
-                case ESQLDataType.FLOAT_255_24:
+                case EsqlDataType.Float25524:
                     return "FLOAT(255,24)";
-                case ESQLDataType.FLOAT_32_10:
+                case EsqlDataType.Float3210:
                     return "FLOAT(32,10)";
-                case ESQLDataType.FLOAT_32_2:
+                case EsqlDataType.Float322:
                     return "FLOAT(32,2)";
-                case ESQLDataType.FLOAT_32_20:
+                case EsqlDataType.Float3220:
                     return "FLOAT(32,20)";
-                case ESQLDataType.FLOAT_32_24:
+                case EsqlDataType.Float3224:
                     return "FLOAT(32,24)";
-                case ESQLDataType.FLOAT_64_10:
+                case EsqlDataType.Float6410:
                     return "FLOAT(64,10)";
-                case ESQLDataType.FLOAT_64_2:
+                case EsqlDataType.Float642:
                     return "FLOAT(64,2)";
-                case ESQLDataType.FLOAT_64_20:
+                case EsqlDataType.Float6420:
                     return "FLOAT(64,20)";
-                case ESQLDataType.FLOAT_64_24:
+                case EsqlDataType.Float6424:
                     return "FLOAT(64,24)";
-                case ESQLDataType.INT:
+                case EsqlDataType.Int:
                     return "INT";
-                case ESQLDataType.LONGTEXT:
+                case EsqlDataType.Longtext:
                     return "LONGTEXT";
-                case ESQLDataType.MEDIUMINT:
+                case EsqlDataType.Mediumint:
                     return "MEDIUMINT";
-                case ESQLDataType.MEDIUMTEXT:
+                case EsqlDataType.Mediumtext:
                     return "MEDIUMTEXT";
-                case ESQLDataType.SMALLINT:
+                case EsqlDataType.Smallint:
                     return "SMALLINT";
-                case ESQLDataType.TEXT:
+                case EsqlDataType.Text:
                     return "TEXT";
-                case ESQLDataType.TIME:
+                case EsqlDataType.Time:
                     return "TIME";
-                case ESQLDataType.TIMESTAMP:
+                case EsqlDataType.Timestamp:
                     return "TIMESTAMP";
-                case ESQLDataType.TINYINT:
+                case EsqlDataType.Tinyint:
                     return "TINYINT";
-                case ESQLDataType.TINYTEXT:
+                case EsqlDataType.Tinytext:
                     return "TINYTEXT";
-                case ESQLDataType.VARCHAR_128:
+                case EsqlDataType.Varchar128:
                     return "VARCHAR(128)";
-                case ESQLDataType.VARCHAR_16:
+                case EsqlDataType.Varchar16:
                     return "VARCHAR(16)";
-                case ESQLDataType.VARCHAR_255:
+                case EsqlDataType.Varchar255:
                     return "VARCHAR(255)";
-                case ESQLDataType.VARCHAR_32:
+                case EsqlDataType.Varchar32:
                     return "VARCHAR(32)";
-                case ESQLDataType.VARCHAR_64:
+                case EsqlDataType.Varchar64:
                     return "VARCHAR(64)";
                 default:
                     return "TEXT";
@@ -311,11 +307,11 @@ namespace PointBlank.API.DataManagment
 
         private static void RunAsync()
         {
-            while (Enviroment.Running)
+            while (PointBlankEnvironment.Running)
             {
-                while (_AsyncCommands.Count > 0)
+                while (_asyncCommands.Count > 0)
                 {
-                    AsyncCommand command = _AsyncCommands.Dequeue();
+                    AsyncCommand command = _asyncCommands.Dequeue();
 
                     try
                     {
@@ -425,7 +421,7 @@ namespace PointBlank.API.DataManagment
                     foreach (KeyValuePair<string, string> kvp in paramaters)
                         Command.Parameters.AddWithValue(kvp.Key, kvp.Value); // Add the paramater
 
-                _AsyncCommands.Enqueue(new AsyncCommand(Command));
+                _asyncCommands.Enqueue(new AsyncCommand(Command));
             }
             catch (Exception ex)
             {
@@ -483,7 +479,7 @@ namespace PointBlank.API.DataManagment
                     foreach (KeyValuePair<string, string> kvp in paramaters)
                         Command.Parameters.AddWithValue(kvp.Key, kvp.Value); // Add the paramater
 
-                _AsyncCommands.Enqueue(new AsyncCommand(Command, callback, behaviour));
+                _asyncCommands.Enqueue(new AsyncCommand(Command, callback, behaviour));
             }
             catch (Exception ex)
             {
@@ -497,11 +493,11 @@ namespace PointBlank.API.DataManagment
         /// <param name="tableName">The name of the table</param>
         /// <param name="columns">The columns of the table</param>
         /// <returns>If the table was successfully created</returns>
-        public bool CreateTable(string tableName, Dictionary<string, ESQLDataType> columns)
+        public bool CreateTable(string tableName, Dictionary<string, EsqlDataType> columns)
         {
             string cols = "id INT(16) UNSIGNED AUTO_INCREMENT PRIMARY KEY";
 
-            foreach (KeyValuePair<string, ESQLDataType> kvp in columns)
+            foreach (KeyValuePair<string, EsqlDataType> kvp in columns)
                 cols += "," + kvp.Key + DataTypeToString(kvp.Value);
 
             return SendCommand("CREATE TABLE " + tableName + " (" + cols + ");");
@@ -512,11 +508,11 @@ namespace PointBlank.API.DataManagment
         /// </summary>
         /// <param name="tableName">The name of the table</param>
         /// <param name="columns">The columns of the table</param>
-        public void CreateTableAsync(string tableName, Dictionary<string, ESQLDataType> columns)
+        public void CreateTableAsync(string tableName, Dictionary<string, EsqlDataType> columns)
         {
             string cols = "id INT(16) UNSIGNED AUTO_INCREMENT PRIMARY KEY";
 
-            foreach (KeyValuePair<string, ESQLDataType> kvp in columns)
+            foreach (KeyValuePair<string, EsqlDataType> kvp in columns)
                 cols += "," + kvp.Key + DataTypeToString(kvp.Value);
 
             SendCommandAsync("CREATE TABLE " + tableName + " (" + cols + ");");
@@ -683,11 +679,11 @@ namespace PointBlank.API.DataManagment
             public Action<SqlDataReader> CallBack;
             public CommandBehavior Behaviour;
 
-            public AsyncCommand(SqlCommand Command, Action<SqlDataReader> CallBack = null, CommandBehavior Behaviour = CommandBehavior.Default)
+            public AsyncCommand(SqlCommand command, Action<SqlDataReader> callBack = null, CommandBehavior behaviour = CommandBehavior.Default)
             {
-                this.Command = Command;
-                this.CallBack = CallBack;
-                this.Behaviour = Behaviour;
+                this.Command = command;
+                this.CallBack = callBack;
+                this.Behaviour = behaviour;
             }
         }
         #endregion

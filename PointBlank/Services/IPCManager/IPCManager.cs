@@ -2,29 +2,25 @@
 using System.IO;
 using System.Threading;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using PointBlank.API;
 using PointBlank.API.Services;
 using PointBlank.API.IPC;
-using IPCM = PointBlank.API.IPC.IPCManager;
+using PointBlank.API.Extension;
 
 namespace PointBlank.Services.IPCManager
 {
-    internal class IPCManager : PointBlankService
+    internal class IpcManager : PointBlankService
     {
         #region Info
         public static readonly string FileLocation = Directory.GetCurrentDirectory() + "/IPC.ipc";
         #endregion
 
         #region Variables
-        private bool _Update = false;
-        private bool _Running = true;
-        private Thread _FileUpdaterThread;
+        private bool _update = false;
         #endregion
 
         #region Properties
-        public static Dictionary<string, string> IPC { get; } = new Dictionary<string, string>();
+        public static Dictionary<string, string> Ipc { get; } = new Dictionary<string, string>();
 
         public override int LaunchIndex => 1;
         #endregion
@@ -35,45 +31,41 @@ namespace PointBlank.Services.IPCManager
                 File.Delete(FileLocation);
 
             // Setup the thread
-            _FileUpdaterThread = new Thread(new ThreadStart(UpdateFile));
-            _FileUpdaterThread.Start();
+            ExtensionEvents.OnFrameworkTick += UpdateFile;
 
             // Setup the events
-            IPCEvents.OnKeyValueChanged += new IPCEvents.KeyValueChangedHandler(OnKeySet);
-            IPCEvents.OnKeyRemoved += new IPCEvents.KeyListChangedHandler(OnKeyUpdated);
-            IPCEvents.OnKeyAdded += new IPCEvents.KeyListChangedHandler(OnKeyUpdated);
+            IpcEvents.OnKeyValueChanged += new IpcEvents.KeyValueChangedHandler(OnKeySet);
+            IpcEvents.OnKeyRemoved += new IpcEvents.KeyListChangedHandler(OnKeyUpdated);
+            IpcEvents.OnKeyAdded += new IpcEvents.KeyListChangedHandler(OnKeyUpdated);
         }
 
         public override void Unload()
         {
-            _Running = false;
-            _FileUpdaterThread.Abort();
+            ExtensionEvents.OnFrameworkTick -= UpdateFile;
+
             File.Delete(FileLocation);
         }
 
         #region Private Functions
         private void UpdateFile()
         {
-            while(_Running)
+            if (!_update || PointBlankIpcManager.IpcType != EipcType.File)
+                return;
+            List<string> contents = new List<string>();
+
+            foreach (string key in Ipc.Keys)
+                contents.Add(key + ":" + Ipc[key]);
+
+            try
             {
-                if (!_Update || IPCM.IPCType != EIPCType.FILE)
-                    continue;
-                List<string> contents = new List<string>();
-
-                foreach (string key in IPC.Keys)
-                    contents.Add(key + ":" + IPC[key]);
-
-                try
-                {
-                    File.WriteAllLines(FileLocation, contents.ToArray());
-                    _Update = false;
-                }
+                File.WriteAllLines(FileLocation, contents.ToArray());
+                _update = false;
+            }
 #pragma warning disable CS0168 // Variable is declared but never used
-                catch (Exception ex)
+            catch (Exception ex)
 #pragma warning restore CS0168 // Variable is declared but never used
-                {
-                    Thread.Sleep(1);
-                }
+            {
+                Thread.Sleep(1);
             }
         }
         #endregion
@@ -81,24 +73,24 @@ namespace PointBlank.Services.IPCManager
         #region Event Functions
         public static void OnOutput(string text)
         {
-            if (IPCM.IPCType == EIPCType.CONSOLE)
+            if (PointBlankIpcManager.IpcType == EipcType.Console)
                 PointBlankConsole.WriteLine("0x0:" + text);
         }
 
         private void OnKeySet(string key, string value)
         {
-            if (IPCM.IPCType == EIPCType.CONSOLE)
+            if (PointBlankIpcManager.IpcType == EipcType.Console)
                 PointBlankConsole.WriteLine("0x1:" + key + ":" + value);
-            else if (IPCM.IPCType == EIPCType.FILE)
-                _Update = true;
+            else if (PointBlankIpcManager.IpcType == EipcType.File)
+                _update = true;
         }
 
         private void OnKeyUpdated(string key)
         {
-            if (IPCM.IPCType == EIPCType.CONSOLE)
-                PointBlankConsole.WriteLine("0x1:" + key + ":" + IPC[key]);
-            else if (IPCM.IPCType == EIPCType.FILE)
-                _Update = true;
+            if (PointBlankIpcManager.IpcType == EipcType.Console)
+                PointBlankConsole.WriteLine("0x1:" + key + ":" + Ipc[key]);
+            else if (PointBlankIpcManager.IpcType == EipcType.File)
+                _update = true;
         }
         #endregion
     }

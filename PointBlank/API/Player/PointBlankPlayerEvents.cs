@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using PointBlank.API.Groups;
+﻿using PointBlank.API.Groups;
+using PointBlank.API.Permissions;
 
 namespace PointBlank.API.Player
 {
@@ -14,7 +11,7 @@ namespace PointBlank.API.Player
         /// </summary>
         /// <param name="player">The affected player</param>
         /// <param name="permission">The changed permission</param>
-        public delegate void PermissionsChangedHandler(PointBlankPlayer player, string permission);
+        public delegate void PermissionsChangedHandler(PointBlankPlayer player, PointBlankPermission permission);
         /// <summary>
         /// Handles group changes of the player
         /// </summary>
@@ -44,8 +41,8 @@ namespace PointBlank.API.Player
         #endregion
 
         #region Functions
-        internal static void RunPermissionAdd(PointBlankPlayer player, string permission) => OnPermissionAdded?.Invoke(player, permission);
-        internal static void RunPermissionRemove(PointBlankPlayer player, string permission) => OnPermissionRemoved?.Invoke(player, permission);
+        internal static void RunPermissionAdd(PointBlankPlayer player, PointBlankPermission permission) => OnPermissionAdded?.Invoke(player, permission);
+        internal static void RunPermissionRemove(PointBlankPlayer player, PointBlankPermission permission) => OnPermissionRemoved?.Invoke(player, permission);
 
         internal static void RunGroupAdd(PointBlankPlayer player, PointBlankGroup group) => OnGroupAdded?.Invoke(player, group);
         internal static void RunGroupRemove(PointBlankPlayer player, PointBlankGroup group) => OnGroupRemoved?.Invoke(player, group);

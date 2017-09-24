@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Reflection;
-using System.Diagnostics;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Runtime.CompilerServices;
 using PointBlank.API;
 using PointBlank.API.Detour;
 
@@ -15,8 +12,8 @@ namespace PointBlank.Services.DetourManager
         public MethodInfo Original { get; private set; }
         public MethodInfo Modified { get; private set; }
 
-        public IntPtr ptrOriginal { get; private set; }
-        public IntPtr ptrModified { get; private set; }
+        public IntPtr PtrOriginal { get; private set; }
+        public IntPtr PtrModified { get; private set; }
 
         public RedirectionHelper.OffsetBackup OffsetBackup { get; private set; }
         public DetourAttribute Attribute { get; private set; }
@@ -35,10 +32,12 @@ namespace PointBlank.Services.DetourManager
             Attribute = attribute;
             Local = (Modified.DeclaringType.Assembly == Assembly.GetExecutingAssembly());
 
-            ptrOriginal = Original.MethodHandle.GetFunctionPointer();
-            ptrModified = Modified.MethodHandle.GetFunctionPointer();
+            RuntimeHelpers.PrepareMethod(original.MethodHandle);
+            RuntimeHelpers.PrepareMethod(modified.MethodHandle);
+            PtrOriginal = Original.MethodHandle.GetFunctionPointer();
+            PtrModified = Modified.MethodHandle.GetFunctionPointer();
 
-            OffsetBackup = new RedirectionHelper.OffsetBackup(ptrOriginal);
+            OffsetBackup = new RedirectionHelper.OffsetBackup(PtrOriginal);
             Detoured = false;
         }
 
@@ -47,7 +46,7 @@ namespace PointBlank.Services.DetourManager
         {
             if (Detoured)
                 return true;
-            bool result = RedirectionHelper.DetourFunction(ptrOriginal, ptrModified);
+            bool result = RedirectionHelper.DetourFunction(PtrOriginal, PtrModified);
 
             if(result)
                 Detoured = true;
@@ -77,7 +76,7 @@ namespace PointBlank.Services.DetourManager
             }
             catch (Exception ex)
             {
-                PointBlankLogging.LogError("Error when attempting to run original method!", ex);
+                PointBlankLogging.LogError("Error when attempting to run original method " + Original.Name + "!", ex);
             }
 
             Detour();

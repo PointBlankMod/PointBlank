@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 
 namespace PointBlank.Framework.Objects
@@ -91,7 +90,6 @@ namespace PointBlank.Framework.Objects
             CodeObjects.Add(comp.GetType().Name, comp);
             return comp;
         }
-
         public MonoBehaviour AddCodeObject(Type t) // For adding the code object
         {
             MonoBehaviour comp = (MonoBehaviour)GameObject.AddComponent(t);
@@ -102,20 +100,22 @@ namespace PointBlank.Framework.Objects
 
         public void RemoveCodeObject(string name) // For removing code objects
         {
+            if (!CodeObjects.ContainsKey(name))
+                return;
             GameObject.Destroy(CodeObjects[name]);
             CodeObjects.Remove(name);
         }
-
         public void RemoveCodeObject<T>() where T : MonoBehaviour // For removing code objects
         {
             MonoBehaviour comp = GetCodeObject<T>();
 
+            if (comp == null)
+                return;
             GameObject.Destroy(comp);
             CodeObjects.Remove(comp.GetType().Name);
         }
 
-        public T GetCodeObject<T>() where T : MonoBehaviour => (T)CodeObjects.First(a => a.Value.GetType() == typeof(T)).Value; // Returns code object
-
+        public T GetCodeObject<T>() where T : MonoBehaviour => (T)CodeObjects.FirstOrDefault(a => a.Value.GetType() == typeof(T)).Value; // Returns code object
         public MonoBehaviour GetCodeObject(string name) => CodeObjects[name]; // Returns code object
         #endregion
     }

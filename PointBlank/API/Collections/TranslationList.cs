@@ -4,23 +4,19 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 using System.Linq;
-using System.Text;
-using System.Security.Permissions;
-using PointBlank.Framework.Permissions.Ring;
 
 namespace PointBlank.API.Collections
 {
     /// <summary>
     /// Custom collection for tranlsations
     /// </summary>
-    [RingPermission(SecurityAction.Demand, ring = RingPermissionRing.None)]
     public class TranslationList : ICollection
     {
         #region Properties
         /// <summary>
         /// The list of transaltions
         /// </summary>
-        protected Dictionary<string, string> Translations { get; private set; }
+        public Dictionary<string, string> Translations { get; protected set; }
 
         /// <summary>
         /// Gets/Sets the translation text using the key provided
@@ -57,24 +53,8 @@ namespace PointBlank.API.Collections
         /// <summary>
         /// Custom collection for tranlsations
         /// </summary>
-        public TranslationList()
-        {
-            StackTrace stack = new StackTrace(false);
-            if (stack.FrameCount <= 0)
-            {
-                Translations = new Dictionary<string, string>();
-                return;
-            }
-            MethodBase jumpMethod = stack.GetFrame(1).GetMethod();
-
-            if (!Memory.TranslationCollection.ContainsKey(jumpMethod))
-            {
-                Translations = new Dictionary<string, string>();
-                Memory.TranslationCollection.Add(jumpMethod, this);
-                return;
-            }
-            Translations = Memory.TranslationCollection[jumpMethod].Translations;
-        }
+        public TranslationList() =>
+            Translations = new Dictionary<string, string>();
 
         #region Collection Functions
         /// <summary>
@@ -150,13 +130,14 @@ namespace PointBlank.API.Collections
             for (int i = 0; i < (this.Count - index); i++)
                 array.SetValue(this[index + i], i);
         }
-        #endregion
 
-        #region SubClasses
-        private static class Memory
-        {
-            public static Dictionary<MethodBase, TranslationList> TranslationCollection = new Dictionary<MethodBase, TranslationList>();
-        }
+        /// <summary>
+        /// Translates text based on the key and values
+        /// </summary>
+        /// <param name="key">The key to find the text</param>
+        /// <param name="values">The values to insert into the text</param>
+        /// <returns>The translated text</returns>
+        public string Translate(string key, params object[] values) => string.Format(this[key], values);
         #endregion
     }
 }
