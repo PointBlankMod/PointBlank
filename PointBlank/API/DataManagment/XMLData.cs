@@ -10,7 +10,11 @@ namespace PointBlank.API.DataManagment
     /// <summary>
     /// XML data managment
     /// </summary>
+<<<<<<< HEAD
+    public class XMLData
+=======
     public class XmlData
+>>>>>>> master
     {
         #region Properties
         /// <summary>

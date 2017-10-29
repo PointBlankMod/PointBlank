@@ -1,6 +1,10 @@
 ﻿namespace PointBlank.API.DataManagment
 {
+<<<<<<< HEAD
+    public enum ESQLDataType
+=======
     public enum EsqlDataType
+>>>>>>> master
     {
         Int,
         Tinyint,

@@ -9,7 +9,11 @@ namespace PointBlank.Services.TaskManager
     internal class TaskManager : PointBlankService
     {
         #region Variables
+<<<<<<< HEAD
+        private Queue<PointBlankTask> _Remove = new Queue<PointBlankTask>();
+=======
         private Queue<PointBlankTask> _remove = new Queue<PointBlankTask>();
+>>>>>>> master
 
         private bool _running = false;
         #endregion
@@ -24,19 +28,33 @@ namespace PointBlank.Services.TaskManager
         {
             // Set the variables
             Tasks = new List<PointBlankTask>();
+<<<<<<< HEAD
+            _Running = true;
+
+            // Set the events
+            ExtensionEvents.OnAPITick += Tasker;
+=======
             _running = true;
 
             // Set the events
             ExtensionEvents.OnApiTick += Tasker;
+>>>>>>> master
         }
 
         public override void Unload()
         {
             // Set the variables
+<<<<<<< HEAD
+            _Running = false;
+
+            // Remove the events
+            ExtensionEvents.OnAPITick -= Tasker;
+=======
             _running = false;
 
             // Remove the events
             ExtensionEvents.OnApiTick -= Tasker;
+>>>>>>> master
         }
 
         #region Threads
@@ -47,9 +65,15 @@ namespace PointBlank.Services.TaskManager
             foreach (PointBlankTask task in Tasks)
             {
                 if (!task.Running)
+<<<<<<< HEAD
                     continue;
                 if (!task.IsThreaded)
                     continue;
+=======
+                    continue;
+                if (!task.IsThreaded)
+                    continue;
+>>>>>>> master
                 if (task.NextExecution == null)
                     continue;
 
@@ -58,7 +82,11 @@ namespace PointBlank.Services.TaskManager
                     task.Run();
 
                     if (!task.Loop)
+<<<<<<< HEAD
+                        _Remove.Enqueue(task);
+=======
                         _remove.Enqueue(task);
+>>>>>>> master
                 }
             }
         }

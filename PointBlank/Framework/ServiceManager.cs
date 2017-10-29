@@ -114,7 +114,11 @@ namespace PointBlank.Framework
                 return;
             if (service == typeof(PointBlankService)) // Prevents the actual service API from being loaded
                 return;
+<<<<<<< HEAD
+            PointBlankService ser = (PointBlankService)Enviroment.runtimeObjects["Services"].AddCodeObject(service);
+=======
             PointBlankService ser = (PointBlankService)PointBlankEnvironment.RuntimeObjects["Services"].AddCodeObject(service);
+>>>>>>> master
 
             if (ServicesData.CheckKey(ser.Name))
             {
@@ -136,7 +140,11 @@ namespace PointBlank.Framework
             _tempServices.Add(ser);
         }
 
+<<<<<<< HEAD
+        public void UnloadService(string name) => StopService(Enviroment.services[name]); // Unload the service using the name
+=======
         public void UnloadService(string name) => StopService(PointBlankEnvironment.Services[name]); // Unload the service using the name
+>>>>>>> master
 
         public void UnloadService(ServiceWrapper wrapper) => StopService(wrapper); // Unload the service using the wrapper
         #endregion

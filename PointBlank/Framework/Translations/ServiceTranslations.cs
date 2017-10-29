@@ -24,6 +24,10 @@ namespace PointBlank.Framework.Translations
             { "CommandWrapper_Running", "This command can only be executed while the server is loading!" }
         };
 
+<<<<<<< HEAD
+        public override Dictionary<Type, ITranslatable> TranslationDictionary => Enviroment.ServiceTranslations;
+=======
         public override Dictionary<Type, Translatable> TranslationDictionary => PointBlankEnvironment.ServiceTranslations;
+>>>>>>> master
     }
 }

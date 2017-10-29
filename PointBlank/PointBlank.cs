@@ -32,6 +32,22 @@ namespace PointBlank
             ApplyPatches();
 
             // Setup the runtime objects
+<<<<<<< HEAD
+            Enviroment.runtimeObjects.Add("Framework", new RuntimeObject(new GameObject("Framework")));
+            Enviroment.runtimeObjects.Add("Extensions", new RuntimeObject(new GameObject("Extensions")));
+            Enviroment.runtimeObjects.Add("Services", new RuntimeObject(new GameObject("Services")));
+            Enviroment.runtimeObjects.Add("Plugins", new RuntimeObject(new GameObject("Plugins")));
+
+            // Add the code objects
+            Enviroment.runtimeObjects["Framework"].AddCodeObject<InterfaceManager>(); // Both the service manager and interface manager are important without them
+            Enviroment.runtimeObjects["Framework"].AddCodeObject<ServiceManager>(); // the mod loader won't be able to function properly making it as useful as Rocket
+            Enviroment.runtimeObjects["Framework"].AddCodeObject<ExtensionManager>(); // This one isn't as important but useful for extensions of the mod loader
+
+            // Run the inits
+            Enviroment.runtimeObjects["Framework"].GetCodeObject<InterfaceManager>().Load();
+            Enviroment.runtimeObjects["Framework"].GetCodeObject<ServiceManager>().Load();
+            Enviroment.runtimeObjects["Framework"].GetCodeObject<ExtensionManager>().Load();
+=======
             PointBlankEnvironment.RuntimeObjects.Add("Framework", new RuntimeObject(new GameObject("Framework")));
             PointBlankEnvironment.RuntimeObjects.Add("Extensions", new RuntimeObject(new GameObject("Extensions")));
             PointBlankEnvironment.RuntimeObjects.Add("Services", new RuntimeObject(new GameObject("Services")));
@@ -46,6 +62,7 @@ namespace PointBlank
             PointBlankEnvironment.RuntimeObjects["Framework"].GetCodeObject<InterfaceManager>().Load();
             PointBlankEnvironment.RuntimeObjects["Framework"].GetCodeObject<ServiceManager>().Load();
             PointBlankEnvironment.RuntimeObjects["Framework"].GetCodeObject<ExtensionManager>().Load();
+>>>>>>> master
 
             // Run required methods
             RunRequirements();
@@ -71,6 +88,22 @@ namespace PointBlank
             Instance = null;
 
             // Run the shutdowns
+<<<<<<< HEAD
+            Enviroment.runtimeObjects["Framework"].GetCodeObject<ExtensionManager>().Unload();
+            Enviroment.runtimeObjects["Framework"].GetCodeObject<ServiceManager>().Unload();
+            Enviroment.runtimeObjects["Framework"].GetCodeObject<InterfaceManager>().Unload();
+
+            // Remove the runtime objects
+            Enviroment.runtimeObjects["Framework"].RemoveCodeObject<InterfaceManager>();
+            Enviroment.runtimeObjects["Framework"].RemoveCodeObject<ServiceManager>();
+            Enviroment.runtimeObjects["Framework"].RemoveCodeObject<InterfaceManager>();
+
+            // Remove the runtime objects
+            Enviroment.runtimeObjects.Remove("Plugins");
+            Enviroment.runtimeObjects.Remove("Services");
+            Enviroment.runtimeObjects.Remove("Extensions");
+            Enviroment.runtimeObjects.Remove("Framework");
+=======
             PointBlankEnvironment.RuntimeObjects["Framework"].GetCodeObject<ExtensionManager>().Unload();
             PointBlankEnvironment.RuntimeObjects["Framework"].GetCodeObject<ServiceManager>().Unload();
             PointBlankEnvironment.RuntimeObjects["Framework"].GetCodeObject<InterfaceManager>().Unload();
@@ -85,6 +118,7 @@ namespace PointBlank
             PointBlankEnvironment.RuntimeObjects.Remove("Services");
             PointBlankEnvironment.RuntimeObjects.Remove("Extensions");
             PointBlankEnvironment.RuntimeObjects.Remove("Framework");
+>>>>>>> master
 
             // Run the required functions
             RunRequirementsShutdown();
@@ -103,8 +137,13 @@ namespace PointBlank
 
         private void RunRequirementsShutdown()
         {
+<<<<<<< HEAD
+            Enviroment.Running = false;
+            foreach(SQLData sql in Enviroment.SQLConnections.Where(a => a.Connected))
+=======
             PointBlankEnvironment.Running = false;
             foreach(SqlData sql in PointBlankEnvironment.SqlConnections.Where(a => a.Connected))
+>>>>>>> master
                 sql.Disconnect();
         }
         #endregion

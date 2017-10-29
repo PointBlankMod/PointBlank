@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using PointBlank.API.Permissions;
+<<<<<<< HEAD
+=======
 using PointBlank.API.Services;
 using PointBlank.Services.GroupManager;
+>>>>>>> master
 using UnityEngine;
 
 namespace PointBlank.API.Groups
@@ -13,6 +16,20 @@ namespace PointBlank.API.Groups
     public class PointBlankGroup : IPermitable
     {
         #region Variables
+<<<<<<< HEAD
+        private List<PointBlankPermission> _Permissions = new List<PointBlankPermission>();
+        private List<PointBlankGroup> _Inherits = new List<PointBlankGroup>();
+
+        private List<string> _Prefixes = new List<string>();
+        private List<string> _Suffixes = new List<string>();
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// The ID of the group
+        /// </summary>
+        public string ID { get; private set; }
+=======
         private List<PointBlankPermission> _permissions = new List<PointBlankPermission>();
         private List<PointBlankGroup> _inherits = new List<PointBlankGroup>();
 
@@ -25,11 +42,16 @@ namespace PointBlank.API.Groups
 		/// The ID of the group
 		/// </summary>
 		public string Id { get; private set; }
+>>>>>>> master
 
         /// <summary>
         /// The list of permissions this group has
         /// </summary>
+<<<<<<< HEAD
+        public PointBlankPermission[] Permissions => _Permissions.ToArray();
+=======
         public PointBlankPermission[] Permissions => _permissions.ToArray();
+>>>>>>> master
         /// <summary>
         /// List of permission inherits this group has
         /// </summary>
@@ -119,15 +141,24 @@ namespace PointBlank.API.Groups
 
             if (perm == null)
                 return;
+<<<<<<< HEAD
+            AddPermission(perm);
+        }
+=======
             AddPermission(perm);
 		}
+>>>>>>> master
         /// <summary>
         /// Add a permission to the group
         /// </summary>
         /// <param name="permission">The permission to add</param>
         public void AddPermission(PointBlankPermission permission)
         {
+<<<<<<< HEAD
+            if (_Permissions.Contains(permission))
+=======
             if (_permissions.Contains(permission))
+>>>>>>> master
                 return;
 
             _permissions.Add(permission);
@@ -144,15 +175,24 @@ namespace PointBlank.API.Groups
 
             if (perm == null)
                 return;
+<<<<<<< HEAD
+            RemovePermission(perm);
+        }
+=======
             RemovePermission(perm);
 		}
+>>>>>>> master
         /// <summary>
         /// Removes a permission from the group
         /// </summary>
         /// <param name="permission">The permission to remove</param>
         public void RemovePermission(PointBlankPermission permission)
         {
+<<<<<<< HEAD
+            if (!_Permissions.Contains(permission))
+=======
             if (!_permissions.Contains(permission))
+>>>>>>> master
                 return;
 
             _permissions.Remove(permission);

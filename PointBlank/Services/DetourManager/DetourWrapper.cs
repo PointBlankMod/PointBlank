@@ -34,8 +34,13 @@ namespace PointBlank.Services.DetourManager
 
             RuntimeHelpers.PrepareMethod(original.MethodHandle);
             RuntimeHelpers.PrepareMethod(modified.MethodHandle);
+<<<<<<< HEAD
+            ptrOriginal = Original.MethodHandle.GetFunctionPointer();
+            ptrModified = Modified.MethodHandle.GetFunctionPointer();
+=======
             PtrOriginal = Original.MethodHandle.GetFunctionPointer();
             PtrModified = Modified.MethodHandle.GetFunctionPointer();
+>>>>>>> master
 
             OffsetBackup = new RedirectionHelper.OffsetBackup(PtrOriginal);
             Detoured = false;

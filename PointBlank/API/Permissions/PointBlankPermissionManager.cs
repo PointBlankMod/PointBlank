@@ -11,14 +11,22 @@ namespace PointBlank.API.Permissions
     public static class PointBlankPermissionManager
     {
         #region Variables
+<<<<<<< HEAD
+        private static List<PointBlankCooldown> _Cooldowns = new List<PointBlankCooldown>();
+=======
         private static List<PointBlankCooldown> _cooldowns = new List<PointBlankCooldown>();
+>>>>>>> master
         #endregion
 
         #region Properties
         /// <summary>
         /// The list of all cooldowns
         /// </summary>
+<<<<<<< HEAD
+        public static PointBlankCooldown[] Cooldowns => _Cooldowns.ToArray();
+=======
         public static PointBlankCooldown[] Cooldowns => _cooldowns.ToArray();
+>>>>>>> master
         #endregion
 
         #region Functions
@@ -84,7 +92,11 @@ namespace PointBlank.API.Permissions
 
             if (cooldown == null)
                 return;
+<<<<<<< HEAD
+            _Cooldowns.Remove(cooldown);
+=======
             _cooldowns.Remove(cooldown);
+>>>>>>> master
         }
 
         /// <summary>

@@ -27,7 +27,11 @@ namespace PointBlank.API.Discord
         public EDiscordJsonCodes LastJsonCode { get; private set; }
         #endregion
 
+<<<<<<< HEAD
+        public DiscordClient() => base.Headers[HttpRequestHeader.ContentType] = "application/json";
+=======
         public DiscordClient() => base.Headers[HttpRequestHeader.ContentType] = "application/Json";
+>>>>>>> master
 
         #region Private Functions
         private void ParseJsonCode(string response)

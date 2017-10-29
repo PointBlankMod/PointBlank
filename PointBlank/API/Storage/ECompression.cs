@@ -17,7 +17,11 @@ namespace PointBlank.API.Storage
         /// <summary>
         /// Use GZIP for compressing the file
         /// </summary>
+<<<<<<< HEAD
+        GZIP,
+=======
         Gzip,
+>>>>>>> master
 #if DEBUG
         /// <summary>
         /// Use the huffman algorithm to compress the file
@@ -30,7 +34,11 @@ namespace PointBlank.API.Storage
         /// <summary>
         /// Use both Huffman and Similarity compressions
         /// </summary>
+<<<<<<< HEAD
+        DUAL
+=======
         Dual
+>>>>>>> master
 #endif
     }
 }
