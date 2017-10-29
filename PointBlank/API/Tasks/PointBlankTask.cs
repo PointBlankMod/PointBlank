@@ -174,13 +174,13 @@ namespace PointBlank.API.Tasks
             /// <summary>
             /// Build the task and return it's instance
             /// </summary>
-            /// <param name="autoStart">Should the task be ran on build</param>
+            /// <param name="AutoStart">Should the task be ran on build</param>
             /// <returns>The task instance</returns>
-            public PointBlankTask Build(bool autoStart = false)
+            public PointBlankTask Build(bool AutoStart = false)
             {
                 TaskManager.Tasks.Add(Task);
 
-                if (autoStart)
+                if (AutoStart)
                     Task.Start();
                 return Task;
             }

@@ -11,31 +11,31 @@ namespace PointBlank
     public static class PointBlankInfo
     {
         #region Private Info
-        private static Assembly _pbAssembly = Assembly.GetExecutingAssembly();
-        private static FileVersionInfo _pbFileVersionInfo = FileVersionInfo.GetVersionInfo(_pbAssembly.Location);
+        private static Assembly pbAssembly = Assembly.GetExecutingAssembly();
+        private static FileVersionInfo pbFileVersionInfo = FileVersionInfo.GetVersionInfo(pbAssembly.Location);
         #endregion
 
         #region Public Info
         /// <summary>
         /// The name of the program
         /// </summary>
-        public static readonly string Name = _pbFileVersionInfo.ProductName;
+        public static readonly string Name = pbFileVersionInfo.ProductName;
         /// <summary>
         /// The creator of the program
         /// </summary>
-        public static readonly string Creator = _pbFileVersionInfo.CompanyName;
+        public static readonly string Creator = pbFileVersionInfo.CompanyName;
         /// <summary>
         /// The version of the program
         /// </summary>
-        public static readonly string Version = _pbFileVersionInfo.ProductVersion;
+        public static readonly string Version = pbFileVersionInfo.ProductVersion;
         /// <summary>
         /// The description of the program
         /// </summary>
-        public static readonly string Description = _pbFileVersionInfo.FileDescription;
+        public static readonly string Description = pbFileVersionInfo.FileDescription;
         /// <summary>
         /// Is the program in debug release
         /// </summary>
-        public static readonly bool IsDebug = _pbFileVersionInfo.IsDebug;
+        public static readonly bool IsDebug = pbFileVersionInfo.IsDebug;
         /// <summary>
         /// The directory of pointblank
         /// </summary>

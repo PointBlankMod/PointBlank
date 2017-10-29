@@ -38,10 +38,10 @@ namespace PointBlank.Framework
             try
             {
                 if (service.Replace)
-                    foreach (ServiceWrapper wrapper in PointBlankEnvironment.Services.Where(a => a.Value.ServiceClass.FullName == service.FullName && a.Value.ServiceClass.Replacable).Select(a => a.Value))
+                    foreach (ServiceWrapper wrapper in Enviroment.services.Where(a => a.Value.ServiceClass.FullName == service.FullName && a.Value.ServiceClass.Replacable).Select(a => a.Value))
                         wrapper.Stop(); // Stop all services with the same name
                 else
-                    if (PointBlankEnvironment.Services.Count(a => a.Key == service.FullName) > 0)
+                    if (Enviroment.services.Count(a => a.Key == service.FullName) > 0)
                         return; // Make sure that the services with the same name aren't ran
 
                 new ServiceWrapper(service); // Create the service wrapper
@@ -58,7 +58,7 @@ namespace PointBlank.Framework
             {
                 wrapper.Stop(); // Stop the service
 
-                PointBlankEnvironment.RuntimeObjects["Services"].RemoveCodeObject(wrapper.ServiceClass.GetType().Name);
+                Enviroment.runtimeObjects["Services"].RemoveCodeObject(wrapper.ServiceClass.GetType().Name);
             }
             catch (Exception ex)
             {
@@ -75,7 +75,7 @@ namespace PointBlank.Framework
                 Directory.CreateDirectory(ConfigurationPath); // Create the services configuration
 
             UniServicesData = new UniversalData(PointBlankServer.ConfigurationsPath + "/Services"); // Open the file
-            ServicesData = UniServicesData.GetData(EDataType.Json) as JsonData; // Get the Json
+            ServicesData = UniServicesData.GetData(EDataType.JSON) as JsonData; // Get the JSON
 
             foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies().Where(a => Attribute.GetCustomAttribute(a, typeof(PointBlankExtensionAttribute)) != null))
                 foreach (Type class_type in asm.GetTypes())
@@ -97,7 +97,7 @@ namespace PointBlank.Framework
                 return;
 
             UniServicesData.Save(); // Save the services data
-            foreach (ServiceWrapper wrapper in PointBlankEnvironment.Services.Select(a => a.Value)) // Stop the services
+            foreach (ServiceWrapper wrapper in Enviroment.services.Select(a => a.Value)) // Stop the services
                 _tempWrappers.Add(wrapper);
             foreach (ServiceWrapper wrapper in _tempWrappers.OrderByDescending(a => a.ServiceClass.LaunchIndex))
                 StopService(wrapper);
@@ -114,11 +114,7 @@ namespace PointBlank.Framework
                 return;
             if (service == typeof(PointBlankService)) // Prevents the actual service API from being loaded
                 return;
-<<<<<<< HEAD
             PointBlankService ser = (PointBlankService)Enviroment.runtimeObjects["Services"].AddCodeObject(service);
-=======
-            PointBlankService ser = (PointBlankService)PointBlankEnvironment.RuntimeObjects["Services"].AddCodeObject(service);
->>>>>>> master
 
             if (ServicesData.CheckKey(ser.Name))
             {
@@ -140,11 +136,7 @@ namespace PointBlank.Framework
             _tempServices.Add(ser);
         }
 
-<<<<<<< HEAD
         public void UnloadService(string name) => StopService(Enviroment.services[name]); // Unload the service using the name
-=======
-        public void UnloadService(string name) => StopService(PointBlankEnvironment.Services[name]); // Unload the service using the name
->>>>>>> master
 
         public void UnloadService(ServiceWrapper wrapper) => StopService(wrapper); // Unload the service using the wrapper
         #endregion

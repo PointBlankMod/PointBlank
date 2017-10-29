@@ -15,15 +15,9 @@ namespace PointBlank.Services.CommandManager
     internal class CommandWrapper
     {
         #region Variables
-<<<<<<< HEAD
         private TranslationList Translations;
 
         private CommandManager cmd = (CommandManager)Enviroment.services["CommandManager.CommandManager"].ServiceClass;
-=======
-        private TranslationList _translations;
-
-        private CommandManager _cmd = (CommandManager)PointBlankEnvironment.Services["CommandManager.CommandManager"].ServiceClass;
->>>>>>> master
         #endregion
 
         #region Properties
@@ -44,13 +38,8 @@ namespace PointBlank.Services.CommandManager
 
             // Setup the variables
             CommandClass = (PointBlankCommand)Activator.CreateInstance(Class);
-<<<<<<< HEAD
             Translations = Enviroment.ServiceTranslations[typeof(ServiceTranslations)].Translations;
             Config = ((JArray)cmd.JSONConfig.Document["Commands"]).FirstOrDefault(a => (string)a["Name"] == Class.Assembly.GetName().Name + "." + CommandClass.Name) as JObject;
-=======
-            _translations = PointBlankEnvironment.ServiceTranslations[typeof(ServiceTranslations)].Translations;
-            Config = ((JArray)_cmd.JsonConfig.Document["Commands"]).FirstOrDefault(a => (string)a["Name"] == Class.Assembly.GetName().Name + "." + CommandClass.Name) as JObject;
->>>>>>> master
 
             // Run the code
             Reload();
@@ -61,19 +50,11 @@ namespace PointBlank.Services.CommandManager
             // Set the variables
             Class = command.GetType();
             CommandClass = command;
-<<<<<<< HEAD
 
             // Setup the variables
             Translations = Enviroment.ServiceTranslations[typeof(ServiceTranslations)].Translations;
             Config = ((JArray)cmd.JSONConfig.Document["Commands"]).FirstOrDefault(a => (string)a["Name"] == Class.Assembly.GetName().Name + "." + CommandClass.Name) as JObject;
 
-=======
-
-            // Setup the variables
-            _translations = PointBlankEnvironment.ServiceTranslations[typeof(ServiceTranslations)].Translations;
-            Config = ((JArray)_cmd.JsonConfig.Document["Commands"]).FirstOrDefault(a => (string)a["Name"] == Class.Assembly.GetName().Name + "." + CommandClass.Name) as JObject;
-
->>>>>>> master
             // Run the code
             Reload();
             PointBlankLogging.Log("Loaded command: " + Commands[0]);
@@ -97,11 +78,7 @@ namespace PointBlank.Services.CommandManager
             if (Config == null)
             {
                 Config = new JObject();
-<<<<<<< HEAD
                 ((JArray)cmd.JSONConfig.Document["Commands"]).Add(Config);
-=======
-                ((JArray)_cmd.JsonConfig.Document["Commands"]).Add(Config);
->>>>>>> master
             }
             string name = Class.Assembly.GetName().Name + "." + CommandClass.Name;
             if (Config["Name"] == null)
@@ -129,52 +106,48 @@ namespace PointBlank.Services.CommandManager
         {
             try
             {
-                if (CommandClass.AllowedServerState == EAllowedServerState.Loading && PointBlankServer.IsRunning)
+                if (CommandClass.AllowedServerState == EAllowedServerState.LOADING && PointBlankServer.IsRunning)
                 {
-                    PointBlankPlayer.SendMessage(executor, _translations["CommandWrapper_Running"], ConsoleColor.Red);
-                    return ECommandRunError.ServerRunning;
+                    PointBlankPlayer.SendMessage(executor, Translations["CommandWrapper_Running"], ConsoleColor.Red);
+                    return ECommandRunError.SERVER_RUNNING;
                 }
-                if (CommandClass.AllowedServerState == EAllowedServerState.Running && !PointBlankServer.IsRunning)
+                if (CommandClass.AllowedServerState == EAllowedServerState.RUNNING && !PointBlankServer.IsRunning)
                 {
-                    PointBlankPlayer.SendMessage(executor, _translations["CommandWrapper_NotRunning"], ConsoleColor.Red);
-                    return ECommandRunError.ServerLoading;
+                    PointBlankPlayer.SendMessage(executor, Translations["CommandWrapper_NotRunning"], ConsoleColor.Red);
+                    return ECommandRunError.SERVER_LOADING;
                 }
-                if (CommandClass.AllowedCaller == EAllowedCaller.Server && executor != null)
+                if (CommandClass.AllowedCaller == EAllowedCaller.SERVER && executor != null)
                 {
-                    executor.SendMessage(_translations["CommandWrapper_NotConsole"], Color.red);
-                    return ECommandRunError.NotConsole;
+                    executor.SendMessage(Translations["CommandWrapper_NotConsole"], Color.red);
+                    return ECommandRunError.NOT_CONSOLE;
                 }
-                if (CommandClass.AllowedCaller == EAllowedCaller.Player && executor == null)
+                if (CommandClass.AllowedCaller == EAllowedCaller.PLAYER && executor == null)
                 {
-                    executor.SendMessage(_translations["CommandWrapper_NotPlayer"], Color.red);
-                    return ECommandRunError.NotPlayer;
+                    executor.SendMessage(Translations["CommandWrapper_NotPlayer"], Color.red);
+                    return ECommandRunError.NOT_PLAYER;
                 }
                 if (CommandClass.MinimumParams > args.Length)
                 {
-                    PointBlankPlayer.SendMessage(executor, _translations["CommandWrapper_Arguments"], ConsoleColor.Red);
-                    return ECommandRunError.ArgumentCount;
+                    PointBlankPlayer.SendMessage(executor, Translations["CommandWrapper_Arguments"], ConsoleColor.Red);
+                    return ECommandRunError.ARGUMENT_COUNT;
                 }
                 if(executor != null && executor.HasCooldown(CommandClass.Permission))
                 {
-                    executor.SendMessage(_translations["CommandWrapper_Cooldown"], Color.red);
-                    return ECommandRunError.Cooldown;
+                    executor.SendMessage(Translations["CommandWrapper_Cooldown"], Color.red);
+                    return ECommandRunError.COOLDOWN;
                 }
                 bool shouldExecute = true;
 
                 PointBlankCommandEvents.RunCommandExecute(CommandClass, args, executor, ref shouldExecute);
-<<<<<<< HEAD
                 if (!shouldExecute) return ECommandRunError.NO_EXECUTE;
-=======
-                if (!shouldExecute) return ECommandRunError.NoExecute;
->>>>>>> master
                 executor?.AddCooldown(CommandClass.Permission);
                 CommandClass.Execute(executor, args);
-                return ECommandRunError.None;
+                return ECommandRunError.NONE;
             }
             catch (Exception ex)
             {
                 PointBlankLogging.LogError("Error when running command: " + Class.Name, ex);
-                return ECommandRunError.Exception;
+                return ECommandRunError.EXCEPTION;
             }
         }
         #endregion

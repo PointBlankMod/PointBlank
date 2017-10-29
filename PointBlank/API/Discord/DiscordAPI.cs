@@ -3,9 +3,9 @@
 namespace PointBlank.API.Discord
 {
     /// <summary>
-    /// Used for generating Json messages to send to discord for interaction
+    /// Used for generating JSON messages to send to discord for interaction
     /// </summary>
-    public static class DiscordApi
+    public static class DiscordAPI
     {
         /// <summary>
         /// Creates a rich embed for the message to send
@@ -64,10 +64,10 @@ namespace PointBlank.API.Discord
         /// Creates a footer for the rich emebed
         /// </summary>
         /// <param name="message">The message/text of the footer</param>
-        /// <param name="iconUrl">The icon of the footer</param>
-        /// <param name="altIconUrl">The alternative icon of the footer</param>
+        /// <param name="icon_url">The icon of the footer</param>
+        /// <param name="alt_icon_url">The alternative icon of the footer</param>
         /// <returns>The footer object</returns>
-        public static JObject CreateFooter(string message = "", string iconUrl = "", string altIconUrl = "")
+        public static JObject CreateFooter(string message = "", string icon_url = "", string alt_icon_url = "")
         {
             // Setup the variables
             JObject obj = new JObject();
@@ -75,10 +75,10 @@ namespace PointBlank.API.Discord
             // Set the data
             if (!string.IsNullOrEmpty(message))
                 obj.Add("text", message);
-            if (!string.IsNullOrEmpty(iconUrl))
-                obj.Add("icon_url", iconUrl);
-            if (!string.IsNullOrEmpty(altIconUrl))
-                obj.Add("proxy_icon_url", altIconUrl);
+            if (!string.IsNullOrEmpty(icon_url))
+                obj.Add("icon_url", icon_url);
+            if (!string.IsNullOrEmpty(alt_icon_url))
+                obj.Add("proxy_icon_url", alt_icon_url);
 
             // Return the data
             return obj;
@@ -89,10 +89,10 @@ namespace PointBlank.API.Discord
         /// </summary>
         /// <param name="name">The name of the author</param>
         /// <param name="url">The URL of the author(clickable name)</param>
-        /// <param name="iconUrl">The icon of the author</param>
-        /// <param name="altIconUrl">The alternative icon of the author</param>
+        /// <param name="icon_url">The icon of the author</param>
+        /// <param name="alt_icon_url">The alternative icon of the author</param>
         /// <returns>The author object</returns>
-        public static JObject CreateAuthor(string name = "", string url = "", string iconUrl = "", string altIconUrl = "")
+        public static JObject CreateAuthor(string name = "", string url = "", string icon_url = "", string alt_icon_url = "")
         {
             // Setup the variables
             JObject obj = new JObject();
@@ -102,10 +102,10 @@ namespace PointBlank.API.Discord
                 obj.Add("name", name);
             if (!string.IsNullOrEmpty(url))
                 obj.Add("url", url);
-            if (!string.IsNullOrEmpty(iconUrl))
-                obj.Add("icon_url", iconUrl);
-            if (!string.IsNullOrEmpty(altIconUrl))
-                obj.Add("proxy_icon_url", altIconUrl);
+            if (!string.IsNullOrEmpty(icon_url))
+                obj.Add("icon_url", icon_url);
+            if (!string.IsNullOrEmpty(alt_icon_url))
+                obj.Add("proxy_icon_url", alt_icon_url);
 
             // Return the data
             return obj;
@@ -138,11 +138,11 @@ namespace PointBlank.API.Discord
         /// Creates an image for the rich embed
         /// </summary>
         /// <param name="url">The URL to the image</param>
-        /// <param name="altUrl">The alternative URL to the image</param>
+        /// <param name="alt_url">The alternative URL to the image</param>
         /// <param name="width">The width of the image</param>
         /// <param name="height">The height of the image</param>
         /// <returns>The image object</returns>
-        public static JObject CreateImage(string url = "", string altUrl = "", int width = -1, int height = -1)
+        public static JObject CreateImage(string url = "", string alt_url = "", int width = -1, int height = -1)
         {
             // Setup the variables
             JObject obj = new JObject();
@@ -150,8 +150,8 @@ namespace PointBlank.API.Discord
             // Set the data
             if (!string.IsNullOrEmpty(url))
                 obj.Add("url", url);
-            if (!string.IsNullOrEmpty(altUrl))
-                obj.Add("proxy_url", altUrl);
+            if (!string.IsNullOrEmpty(alt_url))
+                obj.Add("proxy_url", alt_url);
             if (width > -1)
                 obj.Add("width", width);
             if (height > -1)
@@ -165,11 +165,11 @@ namespace PointBlank.API.Discord
         /// Creates a thumbnail for the rich embed
         /// </summary>
         /// <param name="url">The URL to the thumbnail</param>
-        /// <param name="altUrl">The alternative URL to the thumbnail</param>
+        /// <param name="alt_url">The alternative URL to the thumbnail</param>
         /// <param name="width">The width of the thumbnail</param>
         /// <param name="height">The height of the thumbnail</param>
         /// <returns>The thumbnail object</returns>
-        public static JObject CreateThumbnail(string url = "", string altUrl = "", int width = -1, int height = -1)
+        public static JObject CreateThumbnail(string url = "", string alt_url = "", int width = -1, int height = -1)
         {
             // Setup the variables
             JObject obj = new JObject();
@@ -177,8 +177,8 @@ namespace PointBlank.API.Discord
             // Set the data
             if (!string.IsNullOrEmpty(url))
                 obj.Add("url", url);
-            if (!string.IsNullOrEmpty(altUrl))
-                obj.Add("proxy_url", altUrl);
+            if (!string.IsNullOrEmpty(alt_url))
+                obj.Add("proxy_url", alt_url);
             if (width > -1)
                 obj.Add("width", width);
             if (height > -1)

@@ -68,19 +68,19 @@ namespace PointBlank.API.Storage.Compressions
             public bool Used { get; set; } = false;
             #endregion
 
-            public Node(char character, int frequency)
+            public Node(char Character, int Frequency)
             {
                 // Set the variables
-                this.Character = character;
-                this.Frequency = frequency;
+                this.Character = Character;
+                this.Frequency = Frequency;
             }
 
-            public Node(int frequency, Node left, Node right)
+            public Node(int Frequency, Node Left, Node Right)
             {
                 // Set the variables
-                this.Frequency = frequency;
-                this.Left = left;
-                this.Right = right;
+                this.Frequency = Frequency;
+                this.Left = Left;
+                this.Right = Right;
             }
         }
         #endregion

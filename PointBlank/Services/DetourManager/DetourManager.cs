@@ -13,11 +13,11 @@ namespace PointBlank.Services.DetourManager
     internal class DetourManager : PointBlankService
     {
         #region Variables
-        private static Dictionary<DetourAttribute, DetourWrapper> _detours = new Dictionary<DetourAttribute, DetourWrapper>(); // Dictionary of detours
+        private static Dictionary<DetourAttribute, DetourWrapper> _Detours = new Dictionary<DetourAttribute, DetourWrapper>(); // Dictionary of detours
         #endregion
 
         #region Properties
-        public static Dictionary<DetourAttribute, DetourWrapper> Detours => _detours; // The public detours
+        public static Dictionary<DetourAttribute, DetourWrapper> Detours => _Detours; // The public detours
 
         public bool Initialized { get; private set; } = false; // Is the detour manager initialized
 

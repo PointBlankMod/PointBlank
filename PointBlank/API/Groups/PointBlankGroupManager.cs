@@ -12,17 +12,14 @@ namespace PointBlank.API.Groups
     public static class PointBlankGroupManager
     {
         #region Variables
-        private static Dictionary<string, PointBlankGroup> _groups = new Dictionary<string, PointBlankGroup>();
+        private static Dictionary<string, PointBlankGroup> _Groups = new Dictionary<string, PointBlankGroup>();
+        #endregion
 
-	    private static GroupManager _groupManager =
-		    (GroupManager) PointBlankServiceManager.GetService("GroupManager.GroupManager");
-		#endregion
-
-		#region Properties
-		/// <summary>
-		/// Array of groups in the server
-		/// </summary>
-		public static PointBlankGroup[] Groups => _groups.Values.ToArray();
+        #region Properties
+        /// <summary>
+        /// Array of groups in the server
+        /// </summary>
+        public static PointBlankGroup[] Groups => _Groups.Values.ToArray();
 
         /// <summary>
         /// Is the group manager loaded(this is for events)
@@ -37,38 +34,29 @@ namespace PointBlank.API.Groups
         /// <param name="group">The group instance to add</param>
         public static void AddGroup(PointBlankGroup group)
         {
-            if (_groups.ContainsKey(group.Id))
+            if (_Groups.ContainsKey(group.ID))
                 return;
-            _groups.Add(group.Id, group);
+            _Groups.Add(group.ID, group);
             
             if (Loaded)
                 PointBlankGroupEvents.RunGroupAdded(group);
-
-			_groupManager.SaveGroups();
         }
         /// <summary>
         /// Creates and adds a group to the server group
         /// </summary>
-        /// <param name="id">The group ID</param>
-        /// <param name="name">The group name</param>
+        /// <param name="ID">The group ID</param>
+        /// <param name="Name">The group name</param>
         /// <param name="Cooldown">The command cooldown for the group</param>
-<<<<<<< HEAD
         public static void AddGroup(string ID, string Name, bool isDefault, Color color)
-=======
-        public static void AddGroup(string id, string name, bool isDefault, Color color)
->>>>>>> master
         {
-            if (_groups.ContainsKey(id))
+            if (_Groups.ContainsKey(ID))
                 return;
-<<<<<<< HEAD
             PointBlankGroup group = new PointBlankGroup(ID, Name, isDefault, color);
 
             _Groups.Add(ID, group);
-=======
-            PointBlankGroup group = new PointBlankGroup(id, name, isDefault, color);
->>>>>>> master
 
-           AddGroup(group);
+            if (Loaded)
+                PointBlankGroupEvents.RunGroupAdded(group);
         }
 
         /// <summary>
@@ -77,44 +65,45 @@ namespace PointBlank.API.Groups
         /// <param name="group">The group to remove</param>
         public static void RemoveGroup(PointBlankGroup group)
         {
-            if (!_groups.ContainsValue(group))
+            if (!_Groups.ContainsValue(group))
                 return;
-            _groups.Remove(group.Id);
+            _Groups.Remove(group.ID);
 
             if (Loaded)
                 PointBlankGroupEvents.RunGroupRemoved(group);
-
-			_groupManager.SaveGroups();
-		}
+        }
         /// <summary>
         /// Removes a group from the server
         /// </summary>
-        /// <param name="id">The ID of the group</param>
-        public static void RemoveGroup(string id)
+        /// <param name="ID">The ID of the group</param>
+        public static void RemoveGroup(string ID)
         {
-            if (!_groups.ContainsKey(id))
+            if (!_Groups.ContainsKey(ID))
                 return;
-            PointBlankGroup group = _groups[id];
+            PointBlankGroup group = _Groups[ID];
 
-            RemoveGroup(group);
+            _Groups.Remove(ID);
+
+            if (Loaded)
+                PointBlankGroupEvents.RunGroupRemoved(group);
         }
 
         /// <summary>
         /// Find a server group and returns it
         /// </summary>
-        /// <param name="id">The ID of the group</param>
+        /// <param name="ID">The ID of the group</param>
         /// <returns>The group instance</returns>
-        public static PointBlankGroup Find(string id) => Groups.FirstOrDefault(a => a.Id == id);
+        public static PointBlankGroup Find(string ID) => Groups.FirstOrDefault(a => a.ID == ID);
 
         /// <summary>
         /// Tries to find the group by ID and returns it
         /// </summary>
-        /// <param name="id">The group ID to look for</param>
+        /// <param name="ID">The group ID to look for</param>
         /// <param name="group">The group instance</param>
         /// <returns>If the group was found</returns>
-        public static bool TryFindGroup(string id, out PointBlankGroup group)
+        public static bool TryFindGroup(string ID, out PointBlankGroup group)
         {
-            PointBlankGroup g = Find(id);
+            PointBlankGroup g = Find(ID);
 
             group = g;
             return g != null;

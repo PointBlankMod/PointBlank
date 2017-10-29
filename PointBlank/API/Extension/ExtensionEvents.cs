@@ -18,20 +18,12 @@ namespace PointBlank.API.Extension
         /// <summary>
         /// Called when an API tick happens
         /// </summary>
-<<<<<<< HEAD
         public static event VoidHandler OnAPITick;
-=======
-        public static event VoidHandler OnApiTick;
->>>>>>> master
         #endregion
 
         #region Functions
         internal static void RunFrameworkTick() => OnFrameworkTick?.Invoke();
-<<<<<<< HEAD
         internal static void RunAPITick() => OnAPITick?.Invoke();
-=======
-        internal static void RunApiTick() => OnApiTick?.Invoke();
->>>>>>> master
         #endregion
     }
 }

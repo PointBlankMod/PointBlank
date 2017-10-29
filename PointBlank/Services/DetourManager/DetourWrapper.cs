@@ -12,8 +12,8 @@ namespace PointBlank.Services.DetourManager
         public MethodInfo Original { get; private set; }
         public MethodInfo Modified { get; private set; }
 
-        public IntPtr PtrOriginal { get; private set; }
-        public IntPtr PtrModified { get; private set; }
+        public IntPtr ptrOriginal { get; private set; }
+        public IntPtr ptrModified { get; private set; }
 
         public RedirectionHelper.OffsetBackup OffsetBackup { get; private set; }
         public DetourAttribute Attribute { get; private set; }
@@ -34,15 +34,10 @@ namespace PointBlank.Services.DetourManager
 
             RuntimeHelpers.PrepareMethod(original.MethodHandle);
             RuntimeHelpers.PrepareMethod(modified.MethodHandle);
-<<<<<<< HEAD
             ptrOriginal = Original.MethodHandle.GetFunctionPointer();
             ptrModified = Modified.MethodHandle.GetFunctionPointer();
-=======
-            PtrOriginal = Original.MethodHandle.GetFunctionPointer();
-            PtrModified = Modified.MethodHandle.GetFunctionPointer();
->>>>>>> master
 
-            OffsetBackup = new RedirectionHelper.OffsetBackup(PtrOriginal);
+            OffsetBackup = new RedirectionHelper.OffsetBackup(ptrOriginal);
             Detoured = false;
         }
 
@@ -51,7 +46,7 @@ namespace PointBlank.Services.DetourManager
         {
             if (Detoured)
                 return true;
-            bool result = RedirectionHelper.DetourFunction(PtrOriginal, PtrModified);
+            bool result = RedirectionHelper.DetourFunction(ptrOriginal, ptrModified);
 
             if(result)
                 Detoured = true;

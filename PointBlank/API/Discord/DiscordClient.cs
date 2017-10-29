@@ -15,23 +15,19 @@ namespace PointBlank.API.Discord
         /// <summary>
         /// The current URL of the website
         /// </summary>
-        public Uri Url { get; private set; }
+        public Uri URL { get; private set; }
 
         /// <summary>
         /// The last http code received
         /// </summary>
-        public EDiscordHttpCodes LastHttpCode { get; private set; }
+        public EDiscordHttpCodes LastHTTPCode { get; private set; }
         /// <summary>
-        /// The last Json code received
+        /// The last json code received
         /// </summary>
-        public EDiscordJsonCodes LastJsonCode { get; private set; }
+        public EDiscordJsonCodes LastJSONCode { get; private set; }
         #endregion
 
-<<<<<<< HEAD
         public DiscordClient() => base.Headers[HttpRequestHeader.ContentType] = "application/json";
-=======
-        public DiscordClient() => base.Headers[HttpRequestHeader.ContentType] = "application/Json";
->>>>>>> master
 
         #region Private Functions
         private void ParseJsonCode(string response)
@@ -40,10 +36,10 @@ namespace PointBlank.API.Discord
 
             if(obj["code"] != null)
             {
-                LastJsonCode = (EDiscordJsonCodes)(int)(obj["code"]);
+                LastJSONCode = (EDiscordJsonCodes)(int)(obj["code"]);
                 return;
             }
-            LastJsonCode = 0;
+            LastJSONCode = 0;
         }
         #endregion
 
@@ -65,19 +61,19 @@ namespace PointBlank.API.Discord
             {
                 response = base.GetWebResponse(request);
 
-                LastHttpCode = (EDiscordHttpCodes)((HttpWebResponse)response).StatusCode;
-                if(LastHttpCode != EDiscordHttpCodes.NoContent)
+                LastHTTPCode = (EDiscordHttpCodes)((HttpWebResponse)response).StatusCode;
+                if(LastHTTPCode != EDiscordHttpCodes.NO_CONTENT)
                     using (StreamReader reader = new StreamReader(((HttpWebResponse)response).GetResponseStream()))
                         ParseJsonCode(reader.ReadToEnd());
             }
             catch (WebException ex)
             {
-                LastHttpCode = (EDiscordHttpCodes)((HttpWebResponse)ex.Response).StatusCode;
-                if (LastHttpCode != EDiscordHttpCodes.NoContent)
+                LastHTTPCode = (EDiscordHttpCodes)((HttpWebResponse)ex.Response).StatusCode;
+                if (LastHTTPCode != EDiscordHttpCodes.NO_CONTENT)
                     using (StreamReader reader = new StreamReader(((HttpWebResponse)response).GetResponseStream()))
                         ParseJsonCode(reader.ReadToEnd());
             }
-            Url = response.ResponseUri;
+            URL = response.ResponseUri;
 
             return response;
         }
@@ -87,8 +83,8 @@ namespace PointBlank.API.Discord
             if(e.Error != null)
             {
 
-                LastHttpCode = (EDiscordHttpCodes)((HttpWebResponse)((WebException)e.Error).Response).StatusCode;
-                if (LastHttpCode == EDiscordHttpCodes.NoContent) return;
+                LastHTTPCode = (EDiscordHttpCodes)((HttpWebResponse)((WebException)e.Error).Response).StatusCode;
+                if (LastHTTPCode == EDiscordHttpCodes.NO_CONTENT) return;
                 using (StreamReader reader = new StreamReader(((HttpWebResponse)((WebException)e.Error).Response).GetResponseStream()))
                     ParseJsonCode(reader.ReadToEnd());
                 return;

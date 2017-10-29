@@ -14,13 +14,8 @@ namespace PointBlank.API.Player
     public abstract class PointBlankPlayer : IPermitable
     {
         #region Variables
-<<<<<<< HEAD
         private List<PointBlankGroup> _Groups = new List<PointBlankGroup>();
         private List<PointBlankPermission> _Permissions = new List<PointBlankPermission>();
-=======
-        private List<PointBlankGroup> _groups = new List<PointBlankGroup>();
-        private List<PointBlankPermission> _permissions = new List<PointBlankPermission>();
->>>>>>> master
         #endregion
 
         #region Properties
@@ -42,15 +37,11 @@ namespace PointBlank.API.Player
         /// <summary>
         /// The groups this player is part of
         /// </summary>
-        public virtual PointBlankGroup[] Groups => _groups.ToArray();
+        public virtual PointBlankGroup[] Groups => _Groups.ToArray();
         /// <summary>
         /// The permissions this player has(groups not included)
         /// </summary>
-<<<<<<< HEAD
         public virtual PointBlankPermission[] Permissions => _Permissions.ToArray();
-=======
-        public virtual PointBlankPermission[] Permissions => _permissions.ToArray();
->>>>>>> master
         /// <summary>
         /// Is the player loaded or not(used for event triggers)
         /// </summary>
@@ -90,7 +81,7 @@ namespace PointBlank.API.Player
             if (Groups.Contains(group))
                 return;
 
-            _groups.Add(group);
+            _Groups.Add(group);
             if (Loaded)
                 PointBlankPlayerEvents.RunGroupAdd(this, group);
         }
@@ -103,7 +94,7 @@ namespace PointBlank.API.Player
             if (!Groups.Contains(group))
                 return;
 
-            _groups.Remove(group);
+            _Groups.Remove(group);
             if (Loaded)
                 PointBlankPlayerEvents.RunGroupRemove(this, group);
         }
@@ -129,7 +120,7 @@ namespace PointBlank.API.Player
             if (Permissions.Contains(permission))
                 return;
 
-            _permissions.Add(permission);
+            _Permissions.Add(permission);
             if (Loaded)
                 PointBlankPlayerEvents.RunPermissionAdd(this, permission);
         }
@@ -154,7 +145,7 @@ namespace PointBlank.API.Player
             if (!Permissions.Contains(permission))
                 return;
 
-            _permissions.Remove(permission);
+            _Permissions.Remove(permission);
             if (Loaded)
                 PointBlankPlayerEvents.RunPermissionRemove(this, permission);
         }

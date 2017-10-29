@@ -64,12 +64,12 @@ namespace PointBlank.API.Commands
         /// <summary>
         /// At what state is the command allowed to be executed
         /// </summary>
-        public virtual EAllowedServerState AllowedServerState => EAllowedServerState.Both;
+        public virtual EAllowedServerState AllowedServerState => EAllowedServerState.BOTH;
 
         /// <summary>
         /// Who can execute the command
         /// </summary>
-        public virtual EAllowedCaller AllowedCaller => EAllowedCaller.Both;
+        public virtual EAllowedCaller AllowedCaller => EAllowedCaller.BOTH;
         #endregion
 
         #region Abstract Functions
