@@ -15,6 +15,6 @@ namespace PointBlank.Framework.Configurations
             //{ "ConfigFormat", EDataType.JSON }
         };
 
-        public Dictionary<Type, IConfigurable> ConfigurationDictionary => Enviroment.FrameworkConfig;
+        public Dictionary<Type, IConfigurable> ConfigurationDictionary => PBEnvironment.FrameworkConfig;
     }
 }

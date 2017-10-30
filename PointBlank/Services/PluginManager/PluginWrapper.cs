@@ -210,7 +210,7 @@ namespace PointBlank.Services.PluginManager
                         return true;
                     }
 
-                    PluginClass = Enviroment.runtimeObjects["Plugins"].AddCodeObject(_class) as PointBlankPlugin; // Instentate the plugin class
+                    PluginClass = PBEnvironment.runtimeObjects["Plugins"].AddCodeObject(_class) as PointBlankPlugin; // Instentate the plugin class
                 }
                 
                 Name = PluginClass.GetType().Name; // Change the name
@@ -258,7 +258,7 @@ namespace PointBlank.Services.PluginManager
                 PluginClass.Unload(); // Run the unload function
                 PointBlankPluginEvents.RunPluginUnloaded(PluginClass); // Run the unloaded event
 
-                Enviroment.runtimeObjects["Plugins"].RemoveCodeObject(PluginClass.GetType().Name); // Remove the plugin from gameobject
+                PBEnvironment.runtimeObjects["Plugins"].RemoveCodeObject(PluginClass.GetType().Name); // Remove the plugin from gameobject
 
                 Enabled = false; // Set the enabled to false
                 ExtensionEvents.OnFrameworkTick -= ExecuteCheck;

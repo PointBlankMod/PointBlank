@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Linq;
@@ -8,6 +7,7 @@ using UnityEngine;
 using PointBlank.Framework.Objects;
 using PointBlank.Framework;
 using PointBlank.API.DataManagment;
+using PointBlank.API.Console;
 
 namespace PointBlank
 {
@@ -26,26 +26,32 @@ namespace PointBlank
 			if (Instance != null && Enabled) // Don't run if already running
                 return;
 
+            if (LinuxConsoleUtils.IsLinux)
+            {
+                LinuxConsoleInput.Init();
+                LinuxConsoleOutput.Init();
+            }
+
             PointBlankLogging.LogImportant("Loading " + PointBlankInfo.Name + " v" + PointBlankInfo.Version + "...");
 
             // Run required methods
             ApplyPatches();
 
             // Setup the runtime objects
-            Enviroment.runtimeObjects.Add("Framework", new RuntimeObject(new GameObject("Framework")));
-            Enviroment.runtimeObjects.Add("Extensions", new RuntimeObject(new GameObject("Extensions")));
-            Enviroment.runtimeObjects.Add("Services", new RuntimeObject(new GameObject("Services")));
-            Enviroment.runtimeObjects.Add("Plugins", new RuntimeObject(new GameObject("Plugins")));
+            PBEnvironment.runtimeObjects.Add("Framework", new RuntimeObject(new GameObject("Framework")));
+            PBEnvironment.runtimeObjects.Add("Extensions", new RuntimeObject(new GameObject("Extensions")));
+            PBEnvironment.runtimeObjects.Add("Services", new RuntimeObject(new GameObject("Services")));
+            PBEnvironment.runtimeObjects.Add("Plugins", new RuntimeObject(new GameObject("Plugins")));
 
             // Add the code objects
-            Enviroment.runtimeObjects["Framework"].AddCodeObject<InterfaceManager>(); // Both the service manager and interface manager are important without them
-            Enviroment.runtimeObjects["Framework"].AddCodeObject<ServiceManager>(); // the mod loader won't be able to function properly making it as useful as Rocket
-            Enviroment.runtimeObjects["Framework"].AddCodeObject<ExtensionManager>(); // This one isn't as important but useful for extensions of the mod loader
+            PBEnvironment.runtimeObjects["Framework"].AddCodeObject<InterfaceManager>(); // Both the service manager and interface manager are important without them
+            PBEnvironment.runtimeObjects["Framework"].AddCodeObject<ServiceManager>(); // the mod loader won't be able to function properly making it as useful as Rocket
+            PBEnvironment.runtimeObjects["Framework"].AddCodeObject<ExtensionManager>(); // This one isn't as important but useful for extensions of the mod loader
 
             // Run the inits
-            Enviroment.runtimeObjects["Framework"].GetCodeObject<InterfaceManager>().Load();
-            Enviroment.runtimeObjects["Framework"].GetCodeObject<ServiceManager>().Load();
-            Enviroment.runtimeObjects["Framework"].GetCodeObject<ExtensionManager>().Load();
+            PBEnvironment.runtimeObjects["Framework"].GetCodeObject<InterfaceManager>().Load();
+            PBEnvironment.runtimeObjects["Framework"].GetCodeObject<ServiceManager>().Load();
+            PBEnvironment.runtimeObjects["Framework"].GetCodeObject<ExtensionManager>().Load();
 
             // Run required methods
             RunRequirements();
@@ -71,20 +77,20 @@ namespace PointBlank
             Instance = null;
 
             // Run the shutdowns
-            Enviroment.runtimeObjects["Framework"].GetCodeObject<ExtensionManager>().Unload();
-            Enviroment.runtimeObjects["Framework"].GetCodeObject<ServiceManager>().Unload();
-            Enviroment.runtimeObjects["Framework"].GetCodeObject<InterfaceManager>().Unload();
+            PBEnvironment.runtimeObjects["Framework"].GetCodeObject<ExtensionManager>().Unload();
+            PBEnvironment.runtimeObjects["Framework"].GetCodeObject<ServiceManager>().Unload();
+            PBEnvironment.runtimeObjects["Framework"].GetCodeObject<InterfaceManager>().Unload();
 
             // Remove the runtime objects
-            Enviroment.runtimeObjects["Framework"].RemoveCodeObject<InterfaceManager>();
-            Enviroment.runtimeObjects["Framework"].RemoveCodeObject<ServiceManager>();
-            Enviroment.runtimeObjects["Framework"].RemoveCodeObject<InterfaceManager>();
+            PBEnvironment.runtimeObjects["Framework"].RemoveCodeObject<InterfaceManager>();
+            PBEnvironment.runtimeObjects["Framework"].RemoveCodeObject<ServiceManager>();
+            PBEnvironment.runtimeObjects["Framework"].RemoveCodeObject<InterfaceManager>();
 
             // Remove the runtime objects
-            Enviroment.runtimeObjects.Remove("Plugins");
-            Enviroment.runtimeObjects.Remove("Services");
-            Enviroment.runtimeObjects.Remove("Extensions");
-            Enviroment.runtimeObjects.Remove("Framework");
+            PBEnvironment.runtimeObjects.Remove("Plugins");
+            PBEnvironment.runtimeObjects.Remove("Services");
+            PBEnvironment.runtimeObjects.Remove("Extensions");
+            PBEnvironment.runtimeObjects.Remove("Framework");
 
             // Run the required functions
             RunRequirementsShutdown();
@@ -98,13 +104,14 @@ namespace PointBlank
 
         private void RunRequirements()
         {
-            // Need to add something here
+            if (LinuxConsoleUtils.IsLinux)
+                LinuxConsoleOutput.PostInit();
         }
 
         private void RunRequirementsShutdown()
         {
-            Enviroment.Running = false;
-            foreach(SQLData sql in Enviroment.SQLConnections.Where(a => a.Connected))
+            PBEnvironment.Running = false;
+            foreach(SQLData sql in PBEnvironment.SQLConnections.Where(a => a.Connected))
                 sql.Disconnect();
         }
         #endregion

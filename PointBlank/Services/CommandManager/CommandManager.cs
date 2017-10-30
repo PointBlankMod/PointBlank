@@ -199,7 +199,7 @@ namespace PointBlank.Services.CommandManager
                 return ECommandRunError.NO_EXECUTE;
             if (wrapper == null)
             {
-                PointBlankPlayer.SendMessage(executor, Enviroment.ServiceTranslations[typeof(ServiceTranslations)].Translations["CommandManager_Invalid"], ConsoleColor.Red);
+                PointBlankPlayer.SendMessage(executor, PBEnvironment.ServiceTranslations[typeof(ServiceTranslations)].Translations["CommandManager_Invalid"], ConsoleColor.Red);
                 return ECommandRunError.COMMAND_NOT_EXIST;
             }
             permission = wrapper.Permission.Duplicate();
@@ -207,7 +207,7 @@ namespace PointBlank.Services.CommandManager
                 permission.Permission += "." + string.Join(".", args.ToArray());
             if (!PointBlankPlayer.IsServer(executor) && !executor.HasPermission(permission))
             {
-                PointBlankPlayer.SendMessage(executor, Enviroment.ServiceTranslations[typeof(ServiceTranslations)].Translations["CommandManager_NotEnoughPermissions"], ConsoleColor.Red);
+                PointBlankPlayer.SendMessage(executor, PBEnvironment.ServiceTranslations[typeof(ServiceTranslations)].Translations["CommandManager_NotEnoughPermissions"], ConsoleColor.Red);
                 return ECommandRunError.NO_PERMISSION;
             }
 

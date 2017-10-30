@@ -4,6 +4,7 @@ using System.Linq;
 using PointBlank.API.Groups;
 using PointBlank.API.Commands;
 using PointBlank.API.Permissions;
+using PointBlank.API.Console;
 using UnityEngine;
 
 namespace PointBlank.API.Player

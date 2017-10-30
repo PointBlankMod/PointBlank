@@ -1,7 +1,8 @@
 ﻿using System;
 using UnityEngine;
+using Con = System.Console;
 
-namespace PointBlank.API
+namespace PointBlank.API.Console
 {
     /// <summary>
     /// The server console functions for easier use of the console
@@ -19,14 +20,14 @@ namespace PointBlank.API
         /// <param name="color">The color to use</param>
         public static void WriteLine(object text, ConsoleColor color = ConsoleColor.White)
         {
-            SavedColor = Console.ForegroundColor;
-            Console.ForegroundColor = color;
+            SavedColor = Con.ForegroundColor;
+            Con.ForegroundColor = color;
 
-            if (Console.CursorLeft != 0)
+            if (Con.CursorLeft != 0)
                 ClearLine();
-            Console.WriteLine(text);
+            Con.WriteLine(text);
 			PointBlankConsoleEvents.RunConsoleLineWritten(text, color);
-            Console.ForegroundColor = SavedColor;
+            Con.ForegroundColor = SavedColor;
         }
 
         /// <summary>
@@ -34,10 +35,10 @@ namespace PointBlank.API
         /// </summary>
         public static void ClearLine()
         {
-            Console.CursorLeft = 0;
-            Console.Write(new string(' ', Console.BufferWidth));
-            Console.CursorTop--;
-            Console.CursorLeft = 0;
+            Con.CursorLeft = 0;
+            Con.Write(new string(' ', Con.BufferWidth));
+            Con.CursorTop--;
+            Con.CursorLeft = 0;
         }
 
         /// <summary>

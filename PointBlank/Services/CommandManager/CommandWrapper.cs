@@ -17,7 +17,7 @@ namespace PointBlank.Services.CommandManager
         #region Variables
         private TranslationList Translations;
 
-        private CommandManager cmd = (CommandManager)Enviroment.services["CommandManager.CommandManager"].ServiceClass;
+        private CommandManager cmd = (CommandManager)PBEnvironment.services["CommandManager.CommandManager"].ServiceClass;
         #endregion
 
         #region Properties
@@ -38,7 +38,7 @@ namespace PointBlank.Services.CommandManager
 
             // Setup the variables
             CommandClass = (PointBlankCommand)Activator.CreateInstance(Class);
-            Translations = Enviroment.ServiceTranslations[typeof(ServiceTranslations)].Translations;
+            Translations = PBEnvironment.ServiceTranslations[typeof(ServiceTranslations)].Translations;
             Config = ((JArray)cmd.JSONConfig.Document["Commands"]).FirstOrDefault(a => (string)a["Name"] == Class.Assembly.GetName().Name + "." + CommandClass.Name) as JObject;
 
             // Run the code
@@ -52,7 +52,7 @@ namespace PointBlank.Services.CommandManager
             CommandClass = command;
 
             // Setup the variables
-            Translations = Enviroment.ServiceTranslations[typeof(ServiceTranslations)].Translations;
+            Translations = PBEnvironment.ServiceTranslations[typeof(ServiceTranslations)].Translations;
             Config = ((JArray)cmd.JSONConfig.Document["Commands"]).FirstOrDefault(a => (string)a["Name"] == Class.Assembly.GetName().Name + "." + CommandClass.Name) as JObject;
 
             // Run the code
