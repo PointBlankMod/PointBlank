@@ -28,7 +28,7 @@ namespace PointBlank.API.Permissions
         /// <param name="permission">The permission string used to find the permission instance</param>
         /// <param name="target">The targeted class containing the permission list</param>
         /// <returns>The permission instance</returns>
-        public static PointBlankPermission GetPermission(IPermitable target, string permission) => target.Permissions.FirstOrDefault(a => a.Permission == permission);
+        public static PointBlankPermission GetPermission(IPermitable target, string permission) => target.Permissions.FirstOrDefault(a => a.IsOverlappingPermission(permission));
 
         /// <summary>
         /// Gets the current cooldown of a targeted object and permission
@@ -37,7 +37,7 @@ namespace PointBlank.API.Permissions
         /// <param name="permission">The permission that the cooldown is applied to</param>
         /// <returns>The cooldown that is applied to the target object and permission or null if no cooldown is applied</returns>
         public static PointBlankCooldown GetCooldown(IPermitable target, PointBlankPermission permission) =>
-            Cooldowns.FirstOrDefault(a => a.Target == target && a.Permission == permission);
+            Cooldowns.FirstOrDefault(a => a.Target == target && a.Permission.IsOverlappingPermission(permission));
 
         /// <summary>
         /// Checks to see if a target has a cooldown on a permission
@@ -98,7 +98,10 @@ namespace PointBlank.API.Permissions
             PointBlankCooldown cooldown = GetCooldown(target, permission);
 
             if (cooldown == null)
+            {
                 cooldown = new PointBlankCooldown(permission, DateTime.Now, target);
+                _Cooldowns.Add(cooldown);
+            }
 
             return cooldown;
         }

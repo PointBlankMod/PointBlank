@@ -162,7 +162,7 @@ namespace PointBlank.API.Player
             {
                 foreach (PointBlankPermission perm in Groups[i].GetPermissions())
                 {
-                    PointBlankPermission cPerm = permissions.FirstOrDefault(a => a == perm);
+                    PointBlankPermission cPerm = permissions.FirstOrDefault(a => a.Permission == perm.Permission);
 
                     if (cPerm != null && cPerm.Cooldown != null && perm.Cooldown != null)
                         if (cPerm.Cooldown > perm.Cooldown)
@@ -179,7 +179,7 @@ namespace PointBlank.API.Player
         /// </summary>
         /// <param name="permission">The permission string used for the conversion</param>
         /// <returns>The permission object or null if not found</returns>
-        public virtual PointBlankPermission GetPermission(string permission) => GetPermissions().FirstOrDefault(a => a.Permission == permission);
+        public virtual PointBlankPermission GetPermission(string permission) => GetPermissions().FirstOrDefault(a => a.IsOverlappingPermission(permission));
         /// <summary>
         /// Checks if the player has the permissions specified
         /// </summary>

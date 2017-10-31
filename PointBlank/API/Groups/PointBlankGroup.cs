@@ -96,7 +96,7 @@ namespace PointBlank.API.Groups
         /// <param name="ID">The group ID to look for</param>
         /// <param name="group">The group instance</param>
         /// <returns>If the group was found</returns>
-        public static bool TryFindGroup(string ID, out PointBlankGroup group) => PointBlankGroup.TryFindGroup(ID, out group);
+        public static bool TryFindGroup(string ID, out PointBlankGroup group) => PointBlankGroupManager.TryFindGroup(ID, out group);
 
         /// <summary>
         /// Checks if the specified group ID is already in use
