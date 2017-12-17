@@ -54,6 +54,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\Interfaces\ILoadable.cs" />
+    <Compile Include="API\Logging\PointBlankConsole.cs" />
+    <Compile Include="API\Logging\PointBlankLogging.cs" />
     <Compile Include="PBEnvironment.cs" />
     <Compile Include="PointBlank.cs" />
     <Compile Include="PointBlankInfo.cs" />

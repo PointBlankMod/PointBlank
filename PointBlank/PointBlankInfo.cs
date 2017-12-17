@@ -41,5 +41,17 @@ namespace PointBlank
         /// </summary>
         public static readonly string Location = Path.GetDirectoryName(Uri.UnescapeDataString((new UriBuilder(Assembly.GetExecutingAssembly().CodeBase).Path)));
         #endregion
+
+        #region Extra Info
+        /// <summary>
+        /// The current log file path for PointBlank
+        /// </summary>
+        public static string Current_Log = Directory.GetCurrentDirectory() + "/PointBlank.log";
+
+        /// <summary>
+        /// The previous log file path for PointBlank
+        /// </summary>
+        public static string Previous_Log = Directory.GetCurrentDirectory() + "/PointBlank.old.log";
+        #endregion
     }
 }

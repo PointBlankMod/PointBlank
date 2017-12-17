@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using PointBlank.API.Interfaces;
 
 namespace PointBlank
 {
@@ -17,11 +18,13 @@ namespace PointBlank
         {
             #region Properties
             public GameObject GameObject { get; private set; }
+            public ILoadable LoaderObject { get; private set; }
             #endregion
 
-            public ModLoaderObject(GameObject gameobject)
+            public ModLoaderObject(GameObject gameobject, ILoadable loaderobject)
             {
                 GameObject = gameobject;
+                LoaderObject = loaderobject;
             }
         }
         #endregion
