@@ -1,4 +1,4 @@
-﻿namespace PointBlank.API.Interfaces
+﻿namespace PointBlank.API.Extension.Loader
 {
     /// <summary>
     /// Makes a class loadable
