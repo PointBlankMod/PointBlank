@@ -14,10 +14,5 @@
         /// Called when a class is unloading
         /// </summary>
         void Unload();
-
-        /// <summary>
-        /// Called when a class is reloading
-        /// </summary>
-        void Reload();
     }
 }

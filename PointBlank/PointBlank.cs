@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using PointBlank.API.Logging;
+using PointBlank.API.Extension.Loader;
 
 namespace PointBlank
 {
@@ -27,6 +28,9 @@ namespace PointBlank
             new I18N.West.CP1250();
 
             PointBlankLogging.LogImportant("Loading " + PointBlankInfo.Name + " v" + PointBlankInfo.Version + "...");
+
+            // Load important systems
+            InternalLoader.LoadAssembly(Assembly.GetExecutingAssembly());
         }
 
         /// <summary>
@@ -39,6 +43,11 @@ namespace PointBlank
                 return;
             if (!PointBlankEnvironment.Enabled)
                 return;
+
+            PointBlankLogging.LogImportant("Unloading " + PointBlankInfo.Name + " v" + PointBlankInfo.Version + "...");
+
+            // Unload important systems
+            InternalLoader.UnloadAssembly(Assembly.GetExecutingAssembly());
         }
 
         /// <summary>
@@ -51,6 +60,11 @@ namespace PointBlank
                 return;
             if (!PointBlankEnvironment.Enabled)
                 return;
+
+            PointBlankLogging.LogImportant("Reloading " + PointBlankInfo.Name + " v" + PointBlankInfo.Version + "...");
+
+            // Reload important systems
+            InternalLoader.ReloadAssembly(Assembly.GetExecutingAssembly());
         }
         #endregion
 

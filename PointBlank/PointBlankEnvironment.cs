@@ -14,7 +14,7 @@ namespace PointBlank
         #endregion
 
         #region ModLoader Variables
-        public static Dictionary<string, InternalObject> ModLoaderInternals = new Dictionary<string, InternalObject>();
+        public static Dictionary<Type, InternalObject> ModLoaderInternals = new Dictionary<Type, InternalObject>();
         #endregion
 
         #region Classes
