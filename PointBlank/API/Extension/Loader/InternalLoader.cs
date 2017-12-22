@@ -12,6 +12,19 @@ namespace PointBlank.API.Extension.Loader
     /// </summary>
     public static class InternalLoader
     {
+        #region Public Properties
+        public static List<Type> Blacklist { get; private set; }
+        #endregion
+
+        static InternalLoader()
+        {
+            // Add properties/variables
+            Blacklist = new List<Type>
+            {
+                typeof(InternalObject)
+            };
+        }
+
         #region Public Functions
         /// <summary>
         /// Load all types that extend InternalObject inside the specified Assembly
@@ -43,7 +56,7 @@ namespace PointBlank.API.Extension.Loader
         {
             if (!type.IsClass || !typeof(InternalObject).IsAssignableFrom(type))
                 return false;
-            if (type == typeof(InternalObject))
+            if (Blacklist.Contains(type))
                 return false;
             if (PointBlankEnvironment.ModLoaderInternals.ContainsKey(type))
                 return false;
@@ -95,7 +108,7 @@ namespace PointBlank.API.Extension.Loader
         {
             if (!type.IsClass || !typeof(InternalObject).IsAssignableFrom(type))
                 return false;
-            if (type == typeof(InternalObject))
+            if (Blacklist.Contains(type))
                 return false;
             if (!PointBlankEnvironment.ModLoaderInternals.ContainsKey(type))
                 return false;
