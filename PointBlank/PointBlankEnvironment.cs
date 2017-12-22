@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,7 @@ namespace PointBlank
 
         #region ModLoader Variables
         public static Dictionary<Type, InternalObject> ModLoaderInternals = new Dictionary<Type, InternalObject>();
+        public static List<Assembly> ModLoaderExtensions = new List<Assembly>();
         #endregion
 
         #region Classes

@@ -31,6 +31,9 @@ namespace PointBlank
 
             // Load important systems
             InternalLoader.LoadAssembly(Assembly.GetExecutingAssembly());
+
+            // Set the variables
+            PointBlankEnvironment.Enabled = true;
         }
 
         /// <summary>
@@ -48,6 +51,9 @@ namespace PointBlank
 
             // Unload important systems
             InternalLoader.UnloadAssembly(Assembly.GetExecutingAssembly());
+
+            // Set the variables
+            PointBlankEnvironment.Enabled = false;
         }
 
         /// <summary>
@@ -63,8 +69,14 @@ namespace PointBlank
 
             PointBlankLogging.LogImportant("Reloading " + PointBlankInfo.Name + " v" + PointBlankInfo.Version + "...");
 
+            // Set the variables
+            PointBlankEnvironment.Enabled = false;
+
             // Reload important systems
             InternalLoader.ReloadAssembly(Assembly.GetExecutingAssembly());
+
+            // Set the variables
+            PointBlankEnvironment.Enabled = true;
         }
         #endregion
 

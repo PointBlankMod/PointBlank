@@ -53,7 +53,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\Extension\ExtensionLoader.cs" />
     <Compile Include="API\Extension\Loader\ILoadable.cs" />
+    <Compile Include="API\Extension\PointBlankExtension.cs" />
+    <Compile Include="API\Extension\PointBlankExtensionAttribute.cs" />
     <Compile Include="API\Logging\ELinuxConsoleColorScheme.cs" />
     <Compile Include="API\Logging\PointBlankConsole.cs" />
     <Compile Include="API\Logging\PointBlankLogging.cs" />
