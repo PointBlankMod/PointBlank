@@ -13,6 +13,9 @@ namespace PointBlank.API.Extension.Loader
     public static class InternalLoader
     {
         #region Public Properties
+        /// <summary>
+        /// A blacklist of types that the InternalLoader ignores when loading InternalObject types
+        /// </summary>
         public static List<Type> Blacklist { get; private set; }
         #endregion
 

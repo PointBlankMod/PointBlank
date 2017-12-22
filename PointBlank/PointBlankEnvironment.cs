@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using PointBlank.API.Extension;
 using PointBlank.API.Extension.Loader;
 
 namespace PointBlank
@@ -16,7 +17,7 @@ namespace PointBlank
 
         #region ModLoader Variables
         public static Dictionary<Type, InternalObject> ModLoaderInternals = new Dictionary<Type, InternalObject>();
-        public static List<Assembly> ModLoaderExtensions = new List<Assembly>();
+        public static Dictionary<Assembly, PointBlankExtension> ModLoaderExtensions = new Dictionary<Assembly, PointBlankExtension>();
         #endregion
 
         #region Classes

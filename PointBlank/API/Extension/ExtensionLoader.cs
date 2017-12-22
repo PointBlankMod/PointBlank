@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using PointBlank.API.Logging;
+using PointBlank.API.Extension.Loader;
 
 namespace PointBlank.API.Extension
 {
@@ -27,38 +28,63 @@ namespace PointBlank.API.Extension
         {
             try
             {
-                foreach (Type t in assembly.GetTypes())
-                    LoadType(t);
+                PointBlankExtensionAttribute att = (PointBlankExtensionAttribute)Attribute.GetCustomAttribute(assembly, typeof(PointBlankExtensionAttribute));
+                PointBlankExtension ext = null;
 
-                PointBlankLogging.Log("Loaded assembly: " + assembly.GetName().Name, false);
+                if (!att.RawExtension)
+                {
+                    Type t = assembly.GetTypes().FirstOrDefault(a => a != typeof(PointBlankExtension) && typeof(PointBlankExtension).IsAssignableFrom(a));
+
+                    if(t != null)
+                    {
+                        ext = (PointBlankExtension)Activator.CreateInstance(t);
+
+                        ext.Load();
+                    }
+                }
+                if (att.LoadInternals)
+                    InternalLoader.LoadAssembly(assembly);
+
+                PointBlankEnvironment.ModLoaderExtensions.Add(assembly, ext);
+
+                PointBlankLogging.Log("Loaded extension: " + assembly.GetName().Name, false);
                 return true;
             }
             catch (Exception ex)
             {
-                PointBlankLogging.LogError("Unable to load assembly: " + assembly.GetName().Name, ex, false, false);
+                PointBlankLogging.LogError("Unable to load extension: " + assembly.GetName().Name, ex, false, false);
                 return false;
             }
         }
 
         public static bool UnloadExtension(Assembly assembly)
         {
+            if (!PointBlankEnvironment.ModLoaderExtensions.ContainsKey(assembly))
+                return false;
+
             try
             {
-                foreach (Type t in assembly.GetTypes())
-                    UnloadType(t);
+                PointBlankExtensionAttribute att = (PointBlankExtensionAttribute)Attribute.GetCustomAttribute(assembly, typeof(PointBlankExtensionAttribute));
 
-                PointBlankLogging.Log("Unloaded assembly: " + assembly.GetName().Name, false);
+                if (!att.RawExtension)
+                    PointBlankEnvironment.ModLoaderExtensions[assembly].Unload();
+                if (att.LoadInternals)
+                    InternalLoader.UnloadAssembly(assembly);
+
+                PointBlankEnvironment.ModLoaderExtensions.Remove(assembly);
+
+                PointBlankLogging.Log("Unloaded extension: " + assembly.GetName().Name, false);
                 return true;
             }
             catch (Exception ex)
             {
-                PointBlankLogging.LogError("Unable to unload assembly: " + assembly.GetName().Name, ex, false, false);
+                PointBlankLogging.LogError("Unable to unload extension: " + assembly.GetName().Name, ex, false, false);
                 return false;
             }
         }
 
         public static bool ReloadExtension(Assembly assembly) =>
-            UnloadAssembly(assembly) && LoadAssembly(assembly);
+            UnloadExtension(assembly) && LoadExtension(assembly);
         #endregion
     }
 }
