@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
@@ -15,15 +17,16 @@ namespace PointBlank.API.Logging
                 File.Delete(PointBlankInfo.Previous_Log);
             if (File.Exists(PointBlankInfo.Current_Log))
                 File.Move(PointBlankInfo.Current_Log, PointBlankInfo.Previous_Log);
-            File.Create(PointBlankInfo.Current_Log);
             PointBlankConsole.Initialize();
         }
 
         #region Private Functions
+        [MethodImpl(MethodImplOptions.NoInlining)]
         private static string GetAsm()
         {
-            return "PointBlank";
-            StackTrace stack = new StackTrace(false);
+            string name = Assembly.GetCallingAssembly().GetName().Name;
+            return name;
+            /*StackTrace stack = new StackTrace(false);
             string asm = "";
 
             try
@@ -39,11 +42,12 @@ namespace PointBlank.API.Logging
             {
                 asm = "Mono";
             }
-            return asm;
+            return asm;*/
         }
         #endregion
 
         #region Public Functions
+        [MethodImpl(MethodImplOptions.NoInlining)]
         /// <summary>
         /// Logs an object/text to the PointBlank log file and console
         /// </summary>
@@ -61,6 +65,7 @@ namespace PointBlank.API.Logging
                 PointBlankConsole.WriteLine(log, color);
         }
 
+        [MethodImpl(MethodImplOptions.NoInlining)]
         /// <summary>
         /// Logs an error into the logs file and console
         /// </summary>
@@ -74,6 +79,7 @@ namespace PointBlank.API.Logging
             Log(ex, exInConsole, ConsoleColor.DarkRed);
         }
 
+        [MethodImpl(MethodImplOptions.NoInlining)]
         /// <summary>
         /// Logs a warning into the logs file and console
         /// </summary>
@@ -82,6 +88,7 @@ namespace PointBlank.API.Logging
         public static void LogWarning(object log, bool inConsole = true) =>
             Log(log, inConsole, ConsoleColor.Yellow, "[WARNING]");
 
+        [MethodImpl(MethodImplOptions.NoInlining)]
         /// <summary>
         /// Logs important text into the logs file and console
         /// </summary>

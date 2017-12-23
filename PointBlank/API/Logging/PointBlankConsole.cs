@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using PointBlank.API.NetExtensions;
 
 namespace PointBlank.API.Logging
 {
@@ -238,7 +239,7 @@ namespace PointBlank.API.Logging
             Console.WriteLine(text);
             if (IsLinux)
                 LinuxWriteLine(text.ToString(), color);
-            OnWriteLine(text, color);
+            OnWriteLine.RunEvent(text, color);
             Console.ForegroundColor = _SavedColor;
         }
 
@@ -293,7 +294,7 @@ namespace PointBlank.API.Logging
                 return;
 
             LinuxWriteLine("> " + newline, ConsoleColor.Magenta);
-            OnInput(newline);
+            OnInput.RunEvent(newline);
         }
         #endregion
     }
