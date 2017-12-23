@@ -22,6 +22,7 @@ namespace PointBlank.API.Logging
         #region Private Functions
         private static string GetAsm()
         {
+            return "PointBlank";
             StackTrace stack = new StackTrace(false);
             string asm = "";
 
