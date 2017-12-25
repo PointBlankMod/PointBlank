@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using PointBlank.API.Logging;
 
-namespace PointBlank.API.NetExtensions
+namespace PointBlank.API.NetImplements
 {
     /// <summary>
     /// The .NET extension for events

@@ -30,7 +30,7 @@ namespace PointBlank
             PointBlankLogging.LogImportant("Loading " + PointBlankInfo.Name + " v" + PointBlankInfo.Version + "...");
 
             // Load important systems
-            //InternalLoader.LoadAssembly(Assembly.GetExecutingAssembly());
+            InternalLoader.LoadAssembly(Assembly.GetExecutingAssembly());
 
             // Set the variables
             PointBlankEnvironment.Enabled = true;
@@ -50,7 +50,7 @@ namespace PointBlank
             PointBlankLogging.LogImportant("Unloading " + PointBlankInfo.Name + " v" + PointBlankInfo.Version + "...");
 
             // Unload important systems
-            //InternalLoader.UnloadAssembly(Assembly.GetExecutingAssembly());
+            InternalLoader.UnloadAssembly(Assembly.GetExecutingAssembly());
 
             // Set the variables
             PointBlankEnvironment.Enabled = false;
@@ -73,7 +73,7 @@ namespace PointBlank
             PointBlankEnvironment.Enabled = false;
 
             // Reload important systems
-            //InternalLoader.ReloadAssembly(Assembly.GetExecutingAssembly());
+            InternalLoader.ReloadAssembly(Assembly.GetExecutingAssembly());
 
             // Set the variables
             PointBlankEnvironment.Enabled = true;

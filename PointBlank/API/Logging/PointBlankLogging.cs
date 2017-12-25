@@ -21,51 +21,26 @@ namespace PointBlank.API.Logging
         }
 
         #region Private Functions
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        private static string GetAsm()
+        private static void Log(object log, string asm, bool inConsole = true, ConsoleColor color = ConsoleColor.White, string prefix = "[LOG]")
         {
-            string name = Assembly.GetCallingAssembly().GetName().Name;
-            return name;
-            /*StackTrace stack = new StackTrace(false);
-            string asm = "";
-
-            try
-            {
-                asm = stack.FrameCount > 0 ? stack.GetFrame(1).GetMethod().DeclaringType.Assembly.GetName().Name : "Not Found";
-
-                if (stack.FrameCount > 1 && (asm == "PointBlank" || asm == "Assembly-CSharp" || asm == "UnityEngine"))
-                    asm = stack.GetFrame(2).GetMethod().DeclaringType.Assembly.GetName().Name;
-                if (asm == "Assembly-CSharp" || asm == "UnityEngine")
-                    asm = "Game";
-            }
-            catch (Exception ex)
-            {
-                asm = "Mono";
-            }
-            return asm;*/
-        }
-        #endregion
-
-        #region Public Functions
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        /// <summary>
-        /// Logs an object/text to the PointBlank log file and console
-        /// </summary>
-        /// <param name="log">Object/Text to place into the file/console</param>
-        /// <param name="inConsole">Should it be printed into the console</param>
-        /// <param name="color">The color of the logged object/text(console only)</param>
-        /// <param name="prefix">The prefix of the log</param>
-        public static void Log(object log, bool inConsole = true, ConsoleColor color = ConsoleColor.White, string prefix = "[LOG]")
-        {
-            string asm = GetAsm();
-
             log = prefix + " " + asm + " >> " + log;
             File.AppendAllText(PointBlankInfo.Current_Log, log + Environment.NewLine);
             if (inConsole)
                 PointBlankConsole.WriteLine(log, color);
         }
+        #endregion
 
-        [MethodImpl(MethodImplOptions.NoInlining)]
+        #region Public Functions
+        /// <summary>
+        /// Logs an object/text to the PointBlank log file and console
+        /// </summary>
+        /// <param name="log">Object/Text to place into the file/console</param>
+        /// <param name="inConsole">Should it be printed into the console</param>
+        public static void Log(object log, bool inConsole = true)
+        {
+            Log(log.ToString(), Assembly.GetCallingAssembly().GetName().Name, inConsole, ConsoleColor.White);
+        }
+
         /// <summary>
         /// Logs an error into the logs file and console
         /// </summary>
@@ -75,27 +50,25 @@ namespace PointBlank.API.Logging
         /// <param name="inConsole">Should the text be printed into the console</param>
         public static void LogError(object log, Exception ex, bool exInConsole = false, bool inConsole = true)
         {
-            Log(log, inConsole, ConsoleColor.Red, "[ERROR]");
-            Log(ex, exInConsole, ConsoleColor.DarkRed);
+            Log(log, Assembly.GetCallingAssembly().GetName().Name, inConsole, ConsoleColor.Red, "[ERROR]");
+            Log(ex, Assembly.GetCallingAssembly().GetName().Name, exInConsole, ConsoleColor.DarkRed);
         }
 
-        [MethodImpl(MethodImplOptions.NoInlining)]
         /// <summary>
         /// Logs a warning into the logs file and console
         /// </summary>
         /// <param name="log">Object/Text to log</param>
         /// <param name="inConsole">Should the text be printed into the console</param>
         public static void LogWarning(object log, bool inConsole = true) =>
-            Log(log, inConsole, ConsoleColor.Yellow, "[WARNING]");
+            Log(log, Assembly.GetCallingAssembly().GetName().Name, inConsole, ConsoleColor.Yellow, "[WARNING]");
 
-        [MethodImpl(MethodImplOptions.NoInlining)]
         /// <summary>
         /// Logs important text into the logs file and console
         /// </summary>
         /// <param name="log">Object/Text to log</param>
         /// <param name="inConsole">Should the text be printed into the console</param>
         public static void LogImportant(object log, bool inConsole = true) =>
-            Log(log, inConsole, ConsoleColor.Cyan, "[IMPORTANT]");
+            Log(log, Assembly.GetCallingAssembly().GetName().Name, inConsole, ConsoleColor.Cyan, "[IMPORTANT]");
         #endregion
     }
 }

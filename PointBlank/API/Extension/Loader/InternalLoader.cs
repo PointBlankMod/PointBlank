@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using PointBlank.API.Logging;
+using PointBlank.API.PointBlankImplements;
 
 namespace PointBlank.API.Extension.Loader
 {
@@ -12,30 +13,42 @@ namespace PointBlank.API.Extension.Loader
     /// </summary>
     public static class InternalLoader
     {
+        #region Private Variables
+        private static List<Type> _Blacklist = new List<Type>()
+        {
+            typeof(InternalObject)
+        };
+        #endregion
+
         #region Public Properties
         /// <summary>
         /// A blacklist of types that the InternalLoader ignores when loading InternalObject types
+        /// This should only be used in extensions!
         /// </summary>
-        public static List<Type> Blacklist { get; private set; }
-        #endregion
-
-        static InternalLoader()
+        public static List<Type> Blacklist
         {
-            // Add properties/variables
-            Blacklist = new List<Type>
+            get
             {
-                typeof(InternalObject)
-            };
+                if (!Assembly.GetCallingAssembly().IsExtension())
+                    return null;
+
+                return _Blacklist;
+            }
         }
+        #endregion
 
         #region Public Functions
         /// <summary>
         /// Load all types that extend InternalObject inside the specified Assembly
+        /// This should only be used in extensions!
         /// </summary>
         /// <param name="assembly">The assembly to search in</param>
         /// <returns>Was the loading successful or not</returns>
         public static bool LoadAssembly(Assembly assembly)
         {
+            if (!Assembly.GetCallingAssembly().IsExtension())
+                return false;
+
             try
             {
                 foreach(Type t in assembly.GetTypes())
@@ -52,11 +65,14 @@ namespace PointBlank.API.Extension.Loader
         }
         /// <summary>
         /// Load a specific type that extends InternalObject
+        /// This should only be used in extensions!
         /// </summary>
         /// <param name="type">The type to load</param>
         /// <returns>Was the type loaded successfully</returns>
         public static bool LoadType(Type type)
         {
+            if (!Assembly.GetCallingAssembly().IsExtension())
+                return false;
             if (!type.IsClass || !typeof(InternalObject).IsAssignableFrom(type))
                 return false;
             if (Blacklist.Contains(type))
@@ -83,11 +99,15 @@ namespace PointBlank.API.Extension.Loader
 
         /// <summary>
         /// Unload all types that extend InternalObject inside the specified Assembly
+        /// This should only be used in extensions!
         /// </summary>
         /// <param name="assembly">The assembly to search in</param>
         /// <returns>Was the unloading successful or not</returns>
         public static bool UnloadAssembly(Assembly assembly)
         {
+            if (!Assembly.GetCallingAssembly().IsExtension())
+                return false;
+
             try
             {
                 foreach (Type t in assembly.GetTypes())
@@ -104,11 +124,14 @@ namespace PointBlank.API.Extension.Loader
         }
         /// <summary>
         /// Unload a specific type that extends InternalObject
+        /// This should only be used in extensions!
         /// </summary>
         /// <param name="type">The type to unload</param>
         /// <returns>Was the type unloaded successfully</returns>
         public static bool UnloadType(Type type)
         {
+            if (!Assembly.GetCallingAssembly().IsExtension())
+                return false;
             if (!type.IsClass || !typeof(InternalObject).IsAssignableFrom(type))
                 return false;
             if (Blacklist.Contains(type))
@@ -137,6 +160,7 @@ namespace PointBlank.API.Extension.Loader
 
         /// <summary>
         /// Reload all types that extend InternalObject inside the specified Assembly
+        /// This should only be used in extensions!
         /// </summary>
         /// <param name="assembly">The assembly to search in</param>
         /// <returns>Was the reloading successful or not</returns>
@@ -144,6 +168,7 @@ namespace PointBlank.API.Extension.Loader
             UnloadAssembly(assembly) && LoadAssembly(assembly);
         /// <summary>
         /// Reload a specific type that extends InternalObject
+        /// This should only be used in extensions!
         /// </summary>
         /// <param name="type">The type to reload</param>
         /// <returns>Was the type reloaded successfully</returns>

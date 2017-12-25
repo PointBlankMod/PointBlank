@@ -62,7 +62,8 @@
     <Compile Include="API\Logging\PointBlankLogging.cs" />
     <Compile Include="API\Extension\Loader\InternalLoader.cs" />
     <Compile Include="API\Extension\Loader\InternalObject.cs" />
-    <Compile Include="API\NetExtensions\Events.cs" />
+    <Compile Include="API\NetImplements\Events.cs" />
+    <Compile Include="API\PointBlankImplements\Assemblies.cs" />
     <Compile Include="PointBlankEnvironment.cs" />
     <Compile Include="PointBlank.cs" />
     <Compile Include="PointBlankInfo.cs" />

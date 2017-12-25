@@ -5,27 +5,38 @@ using System.Linq;
 using System.Text;
 using PointBlank.API.Logging;
 using PointBlank.API.Extension.Loader;
+using PointBlank.API.PointBlankImplements;
 
 namespace PointBlank.API.Extension
 {
     public static class ExtensionLoader
     {
-        #region Public Properties
-        public static List<Type> Blacklist { get; private set; }
+        #region Private Variables
+        private static List<Type> _Blacklist = new List<Type>()
+        {
+            typeof(PointBlankExtension)
+        };
         #endregion
 
-        static ExtensionLoader()
+        #region Public Properties
+        public static List<Type> Blacklist
         {
-            // Add properties/variables
-            Blacklist = new List<Type>
+            get
             {
-                typeof(PointBlankExtension)
-            };
+                if (!Assembly.GetCallingAssembly().IsExtension())
+                    return null;
+
+                return _Blacklist;
+            }
         }
+        #endregion
 
         #region Public Functions
         public static bool LoadExtension(Assembly assembly)
         {
+            if (!Assembly.GetCallingAssembly().IsExtension())
+                return false;
+
             try
             {
                 PointBlankExtensionAttribute att = (PointBlankExtensionAttribute)Attribute.GetCustomAttribute(assembly, typeof(PointBlankExtensionAttribute));
@@ -59,6 +70,8 @@ namespace PointBlank.API.Extension
 
         public static bool UnloadExtension(Assembly assembly)
         {
+            if (!Assembly.GetCallingAssembly().IsExtension())
+                return false;
             if (!PointBlankEnvironment.ModLoaderExtensions.ContainsKey(assembly))
                 return false;
 
