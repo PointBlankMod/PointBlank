@@ -9,6 +9,9 @@ using PointBlank.API.PointBlankImplements;
 
 namespace PointBlank.API.Extension
 {
+    /// <summary>
+    /// ExtensionLoader manages loading, unloading and reloading of extensions for the mod loader
+    /// </summary>
     public static class ExtensionLoader
     {
         #region Private Variables
@@ -19,6 +22,10 @@ namespace PointBlank.API.Extension
         #endregion
 
         #region Public Properties
+        /// <summary>
+        /// A blacklist of types that the ExtensionLoader ignores when loading extension types
+        /// This should only be used in extensions!
+        /// </summary>
         public static List<Type> Blacklist
         {
             get
@@ -32,6 +39,11 @@ namespace PointBlank.API.Extension
         #endregion
 
         #region Public Functions
+        /// <summary>
+        /// Loads the extension dll and processes the extension
+        /// </summary>
+        /// <param name="assembly">The assembly/dll to load</param>
+        /// <returns>If the extension was loaded successfully</returns>
         public static bool LoadExtension(Assembly assembly)
         {
             if (!Assembly.GetCallingAssembly().IsExtension())
@@ -68,6 +80,11 @@ namespace PointBlank.API.Extension
             }
         }
 
+        /// <summary>
+        /// Unloads the extension
+        /// </summary>
+        /// <param name="assembly">The assembly/dll of the extension to unload</param>
+        /// <returns>If the extension was unloaded successfully</returns>
         public static bool UnloadExtension(Assembly assembly)
         {
             if (!Assembly.GetCallingAssembly().IsExtension())
@@ -96,6 +113,11 @@ namespace PointBlank.API.Extension
             }
         }
 
+        /// <summary>
+        /// Reloads the extension
+        /// </summary>
+        /// <param name="assembly">The assembly/dll of the extension to reload</param>
+        /// <returns>If the extension reloaded successfully</returns>
         public static bool ReloadExtension(Assembly assembly) =>
             UnloadExtension(assembly) && LoadExtension(assembly);
         #endregion

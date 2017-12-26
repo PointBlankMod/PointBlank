@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using PointBlank.API.Logging;
+using PointBlank.API.Extension;
 using PointBlank.API.Extension.Loader;
 
 namespace PointBlank
@@ -26,6 +27,7 @@ namespace PointBlank
             // Initialize system
             PointBlankLogging.Initialize();
             new I18N.West.CP1250();
+            PointBlankEnvironment.ModLoaderExtensions.Add(Assembly.GetExecutingAssembly(), null);
 
             PointBlankLogging.LogImportant("Loading " + PointBlankInfo.Name + " v" + PointBlankInfo.Version + "...");
 

@@ -6,6 +6,9 @@ using PointBlank.API.Extension.Loader;
 
 namespace PointBlank.API.Extension
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public abstract class PointBlankExtension : ILoadable
     {
         #region Abstract Functions
